@@ -6,10 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Iterator;
-import java.util.List;
 
-import de.hampelratte.svdrp.commands.LSTE;
 import de.hampelratte.svdrp.commands.QUIT;
 import de.hampelratte.svdrp.responses.AccessDenied;
 import de.hampelratte.svdrp.responses.R214;
@@ -24,8 +21,6 @@ import de.hampelratte.svdrp.responses.R501;
 import de.hampelratte.svdrp.responses.R502;
 import de.hampelratte.svdrp.responses.R550;
 import de.hampelratte.svdrp.responses.R554;
-import de.hampelratte.svdrp.responses.highlevel.EPGEntry;
-import de.hampelratte.svdrp.util.EPGParser;
 
 
 /**
@@ -97,6 +92,7 @@ public class Connection {
         if(DEBUG)
           System.out.println("<--"+response.getCode()+" "+response.getMessage());
         
+        /*
         // TODO parse the response and create an adequate object
         if(cmd instanceof LSTE) {
           List epgdata = EPGParser.parse(response.getMessage());
@@ -104,7 +100,7 @@ public class Connection {
             EPGEntry element = (EPGEntry) iter.next();
             System.out.println(element);
           }
-        }
+        }*/
         
         // return the response 
         return response;
