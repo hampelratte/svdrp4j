@@ -1,7 +1,6 @@
 /* $Id$
  * 
- * Copyright (c) 2005, Henriimport de.hampelratte.svdrp.Command;
- eam
+ * Copyright (c) 2005, Henrik Niehaus & Lazy Bones development team
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
