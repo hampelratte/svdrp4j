@@ -248,16 +248,16 @@ public class VDRTimer implements Serializable, Comparable {
             sb.append(createRepeatingString());
             if (hasFirstTime()) {
                 sb.append('@');
-                sb.append(createDateString(firstTime));
+                sb.append(createDateString(firstTime, true));
             }
         } else {
-            sb.append(createDateString(startTime));
+            sb.append(createDateString(startTime, false));
         }
 
         return sb.toString();
     }
 
-    private String createDateString(Calendar cal) {
+    private String createDateString(Calendar cal, boolean repeating) {
         // shall we use the new format?
         // if no connection is available, we have to use a dummy version
         VDRVersion v = Connection.getVersion();
@@ -269,7 +269,8 @@ public class VDRTimer implements Serializable, Comparable {
         int major = v.getMinor();
         int minor = v.getRevision();
 
-        boolean newFormat = (version == 1 && major >= 3 && minor >= 23);
+		//FIXME which format for which version (repeating timers)
+        boolean newFormat = (version == 1 && major >= 3 && minor >= 23) | isRepeating();
 
         String date = "";
         if (newFormat) {
