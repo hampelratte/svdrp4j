@@ -60,6 +60,9 @@ public class TimerParser {
             String desc = "";
             while (st.hasMoreTokens()) {
                 desc += st.nextToken();
+                if(st.hasMoreTokens()) {
+                    desc += ":";
+                }
             }
             desc = desc.replaceAll("\\|", "\n");
             timer.setID(Integer.parseInt(id));
