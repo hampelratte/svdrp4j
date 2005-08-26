@@ -37,7 +37,18 @@ import java.util.regex.Pattern;
 
 import de.hampelratte.svdrp.responses.highlevel.VDRTimer;
 
+/**
+ * Parses a list of timers received from VDR by the LSTT command
+ * 
+ * @author <a href="hampelratte@users.sf.net>hampelratte@users.sf.net</a>
+ *
+ */
 public class TimerParser {
+    /**
+     * Parses a list of timers received from VDR by the LSTT command
+     * @param timerData A list of timers received from VDR by LSTT command
+     * @return A list of VDRTimer objects
+     */
     public static ArrayList parse(String timerData) {
         ArrayList list = new ArrayList();
         StringTokenizer st1 = new StringTokenizer(timerData, "\n");
@@ -85,8 +96,9 @@ public class TimerParser {
     }
 
     /**
-     * Parse the day of a timer. this can have the following formats: 19 (1-31)
+     * Parses the day of a timer. this can have the following formats: 19 (1-31)
      * 2005-03-19 MTWTFSS MTWTFSS@19 MTWTFSS@2005-03-19
+     * The results will be stored in the passed timer object
      */
     private static void parseDay(VDRTimer timer, String day,
             String startString, String endString) {

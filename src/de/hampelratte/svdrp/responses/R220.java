@@ -40,7 +40,6 @@ import de.hampelratte.svdrp.Response;
 public class R220 extends Response {
 
     /**
-     * @param code
      * @param message
      */
     public R220(String message) {
