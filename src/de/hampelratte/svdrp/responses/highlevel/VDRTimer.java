@@ -53,6 +53,11 @@ public class VDRTimer implements Serializable, Comparable {
 
     // start date for repeating timers
     private Calendar firstTime = GregorianCalendar.getInstance();
+    
+    /**
+     * If this is a repeating timer, progTime stores the time of the according TVBrowser Program
+     */
+    private Calendar progTime = GregorianCalendar.getInstance();
 
     private boolean active;
 
@@ -358,5 +363,13 @@ public class VDRTimer implements Serializable, Comparable {
         // so cal.get(Calendar.DAY_OF_WEEK) + 5) % 7 matches the right day in
         // days
         return days[(cal.get(Calendar.DAY_OF_WEEK) + 5) % 7];
+    }
+
+    public Calendar getProgTime() {
+        return progTime;
+    }
+
+    public void setProgTime(Calendar progTime) {
+        this.progTime = progTime;
     }
 }
