@@ -41,7 +41,7 @@ import de.hampelratte.svdrp.VDRVersion;
  * 
  * Represents a timer of the VDR software
  */
-public class VDRTimer implements Serializable, Comparable {
+public class VDRTimer implements Serializable, Comparable, Cloneable {
 
     private static final long serialVersionUID = 3865636821582767283L;
 
@@ -371,5 +371,26 @@ public class VDRTimer implements Serializable, Comparable {
 
     public void setProgTime(Calendar progTime) {
         this.progTime = progTime;
+    }
+    
+    public Object clone() {
+        VDRTimer timer = new VDRTimer();
+        timer.setActive(isActive());
+        timer.setChannel(getChannel());
+        timer.setDescription(getDescription());
+        timer.setEndTime((Calendar)getEndTime().clone());
+        timer.setFile(getFile());
+        timer.setFirstTime((Calendar)getFirstTime().clone());
+        timer.setHasFirstTime(hasFirstTime());
+        timer.setID(getID());
+        timer.setLifetime(getLifetime());
+        timer.setPath(getPath());
+        timer.setPriority(getPriority());
+        timer.setProgTime((Calendar)getProgTime().clone());
+        timer.setRepeatingDays(getRepeatingDays());
+        timer.setStartTime((Calendar)getStartTime().clone());
+        timer.setTitle(getTitle());
+        timer.setTvBrowserProgID(getTvBrowserProgID());
+        return timer;
     }
 }
