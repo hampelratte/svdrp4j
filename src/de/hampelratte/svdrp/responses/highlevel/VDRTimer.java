@@ -188,7 +188,12 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
         sb.append(':');
         sb.append(getFile());
         sb.append(':');
-        sb.append(description.replaceAll("\n", "\\|"));
+        
+        String desc = description.replaceAll("\n", "\\|");
+        if(desc.length() > 15) {
+            desc = desc.substring(0,15) + "...";
+        }
+        sb.append(desc);
 
         return sb.toString();
     }
