@@ -188,18 +188,58 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
         sb.append(':');
         sb.append(getFile());
         sb.append(':');
-        
-        String desc = description.replaceAll("\n", "\\|");
-        if(desc.length() > 15) {
-            desc = desc.substring(0,15) + "...";
-        }
-        sb.append(desc);
+        sb.append(description.replaceAll("\n", "\\|"));
 
         return sb.toString();
     }
 
     public String toString() {
-        return toNEWT();
+            String start = Integer.toString(startTime.get(Calendar.HOUR_OF_DAY));
+            if (start.length() < 2) {
+                start = "0" + start;
+            }
+            String minute = Integer.toString(startTime.get(Calendar.MINUTE));
+            if (minute.length() < 2) {
+                minute = "0" + minute;
+            }
+            start += minute;
+
+            String end = Integer.toString(endTime.get(Calendar.HOUR_OF_DAY));
+            if (end.length() < 2) {
+                end = "0" + end;
+            }
+            minute = Integer.toString(endTime.get(Calendar.MINUTE));
+            if (minute.length() < 2) {
+                minute = "0" + minute;
+            }
+            end += minute;
+
+            StringBuffer sb = new StringBuffer();
+            sb.append(1);
+            sb.append(':');
+            sb.append(channel);
+            sb.append(':');
+            sb.append(getDayString());
+            sb.append(':');
+            sb.append(start);
+            sb.append(':');
+            sb.append(end);
+            sb.append(':');
+            sb.append(priority);
+            sb.append(':');
+            sb.append(lifetime);
+            sb.append(':');
+            sb.append(getFile());
+            sb.append(':');
+            
+            String desc = description.replaceAll("\n", "\\|");
+            if(desc.length() > 15) {
+                desc = desc.substring(0,15) + "...";
+            }
+            sb.append(desc);
+
+            return sb.toString();
+        
     }
 
     public boolean equals(Object o) {
