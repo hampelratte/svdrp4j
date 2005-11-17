@@ -36,6 +36,8 @@ import java.io.PrintStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.hampelratte.svdrp.commands.QUIT;
 import de.hampelratte.svdrp.responses.*;
@@ -89,11 +91,18 @@ public class Connection {
         // read the welcome message
         Response res = readResponse();
         if (res.getCode() == 220) {
-            String msg = res.getMessage();
-            int start = msg.indexOf("VideoDiskRecorder") + 17;
-            int stop = msg.indexOf(";");
-            String vers = msg.substring(start, stop).trim();
-            version = new VDRVersion(vers);
+            try {
+                String msg = res.getMessage().trim();
+                Pattern pattern = Pattern.compile(".*((?:\\d)+\\.(?:\\d)+\\.(?:\\d)+).*");
+                Matcher m = pattern.matcher(msg);
+                if(m.matches()) {
+                    version = new VDRVersion(m.group(1));
+                } else {
+                    throw new Exception("No Version String found in welcome message");
+                }
+            } catch(Exception e) {
+                version = new VDRVersion("1.0.0");
+            }
         } else {
             throw new IOException(res.getMessage());
         }
