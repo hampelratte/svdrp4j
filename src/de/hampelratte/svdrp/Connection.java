@@ -36,6 +36,7 @@ import java.io.PrintStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.charset.Charset;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -85,8 +86,8 @@ public class Connection {
         socket = new Socket();
         InetSocketAddress sa = new InetSocketAddress(host, port);
         socket.connect(sa, timeout);
-        out = new PrintStream(socket.getOutputStream());
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        out = new PrintStream(socket.getOutputStream(), true, "ISO-8859-1");
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream(), "ISO-8859-1"));
 
         // read the welcome message
         Response res = readResponse();
