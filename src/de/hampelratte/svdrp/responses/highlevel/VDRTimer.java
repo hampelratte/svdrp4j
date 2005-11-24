@@ -78,6 +78,11 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
     private String path = "";
 
     private String description = "";
+    
+    /**
+     * is this timer assigned to a Program ? 
+     */
+    private boolean assigned = false;
 
     public VDRTimer() {
     }
@@ -437,5 +442,21 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
         timer.setTitle(getTitle());
         timer.setTvBrowserProgID(getTvBrowserProgID());
         return timer;
+    }
+
+    /**
+     * @see VDRTimer#assigned
+     * @return assigned
+     */
+    public boolean isAssigned() {
+        return assigned;
+    }
+
+    /**
+     * @see VDRTimer#assigned
+     * @param assigned
+     */
+    public void setAssigned(boolean assigned) {
+        this.assigned = assigned;
     }
 }
