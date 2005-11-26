@@ -30,7 +30,9 @@
 package de.hampelratte.svdrp.responses.highlevel;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.hampelratte.svdrp.Connection;
@@ -54,11 +56,6 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
     // start date for repeating timers
     private Calendar firstTime = GregorianCalendar.getInstance();
     
-    /**
-     * If this is a repeating timer, progTime stores the time of the according TVBrowser Program
-     */
-    private Calendar progTime = GregorianCalendar.getInstance();
-
     private boolean active;
 
     private boolean hasFirstTime;
@@ -66,8 +63,6 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
     private boolean[] repeatingDays = new boolean[7];
 
     private int channel;
-
-    private String tvBrowserProgID;
 
     private int priority;
 
@@ -79,11 +74,6 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
 
     private String description = "";
     
-    /**
-     * is this timer assigned to a Program ? 
-     */
-    private boolean assigned = false;
-
     public VDRTimer() {
     }
 
@@ -147,6 +137,24 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
         this.title = title;
     }
 
+    /**
+     * Returns a unique key, which consits of the channel, the day, the start time and the end time
+     * @return a String which identifies this Timer
+     */
+    public String getUniqueKey() {
+        String start = createTimeString(getStartTime());
+        String end = createTimeString(getEndTime());
+        StringBuffer sb = new StringBuffer();
+        sb.append(getChannel());
+        sb.append(':');
+        sb.append(getDayString());
+        sb.append(':');
+        sb.append(start);
+        sb.append(':');
+        sb.append(end);
+        return sb.toString();
+    }
+    
     public int getID() {
         return ID;
     }
@@ -156,25 +164,8 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
     }
 
     public String toNEWT() {
-        String start = Integer.toString(startTime.get(Calendar.HOUR_OF_DAY));
-        if (start.length() < 2) {
-            start = "0" + start;
-        }
-        String minute = Integer.toString(startTime.get(Calendar.MINUTE));
-        if (minute.length() < 2) {
-            minute = "0" + minute;
-        }
-        start += minute;
-
-        String end = Integer.toString(endTime.get(Calendar.HOUR_OF_DAY));
-        if (end.length() < 2) {
-            end = "0" + end;
-        }
-        minute = Integer.toString(endTime.get(Calendar.MINUTE));
-        if (minute.length() < 2) {
-            minute = "0" + minute;
-        }
-        end += minute;
+        String start = createTimeString(getStartTime());
+        String end = createTimeString(getEndTime());
 
         StringBuffer sb = new StringBuffer();
         sb.append(1);
@@ -199,32 +190,18 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
     }
 
     public String toString() {
-            String start = Integer.toString(startTime.get(Calendar.HOUR_OF_DAY));
-            if (start.length() < 2) {
-                start = "0" + start;
-            }
-            String minute = Integer.toString(startTime.get(Calendar.MINUTE));
-            if (minute.length() < 2) {
-                minute = "0" + minute;
-            }
-            start += minute;
-
-            String end = Integer.toString(endTime.get(Calendar.HOUR_OF_DAY));
-            if (end.length() < 2) {
-                end = "0" + end;
-            }
-            minute = Integer.toString(endTime.get(Calendar.MINUTE));
-            if (minute.length() < 2) {
-                minute = "0" + minute;
-            }
-            end += minute;
-
+            String start = createTimeString(getStartTime());
+            String end = createTimeString(getEndTime());
+            
             StringBuffer sb = new StringBuffer();
             sb.append(1);
             sb.append(':');
             sb.append(channel);
             sb.append(':');
             sb.append(getDayString());
+            if(isRepeating()) {
+                sb.append(" [instance:"+createDateString(startTime, false)+"]");
+            }
             sb.append(':');
             sb.append(start);
             sb.append(':');
@@ -341,6 +318,12 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
 
         return date;
     }
+    
+    private String createTimeString(Calendar time) {
+        SimpleDateFormat df = new SimpleDateFormat("HHmm");
+        Date date = new Date(time.getTimeInMillis());
+        return df.format(date);
+    }
 
     private String createRepeatingString() {
         StringBuffer day = new StringBuffer();
@@ -364,14 +347,6 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
         return day.toString();
     }
 
-    public String getTvBrowserProgID() {
-        return tvBrowserProgID;
-    }
-
-    public void setTvBrowserProgID(String tvBrowserProgID) {
-        this.tvBrowserProgID = tvBrowserProgID;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -386,7 +361,7 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
 
     public void setPath(String path) {
         this.path = path;
-        if (!this.path.endsWith("~")) {
+        if (!this.path.endsWith("~") && !path.equals("")) {
             this.path += "~";
         }
     }
@@ -415,14 +390,6 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
         return days[(cal.get(Calendar.DAY_OF_WEEK) + 5) % 7];
     }
 
-    public Calendar getProgTime() {
-        return progTime;
-    }
-
-    public void setProgTime(Calendar progTime) {
-        this.progTime = progTime;
-    }
-    
     public Object clone() {
         VDRTimer timer = new VDRTimer();
         timer.setActive(isActive());
@@ -436,27 +403,9 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
         timer.setLifetime(getLifetime());
         timer.setPath(getPath());
         timer.setPriority(getPriority());
-        timer.setProgTime((Calendar)getProgTime().clone());
         timer.setRepeatingDays(getRepeatingDays());
         timer.setStartTime((Calendar)getStartTime().clone());
         timer.setTitle(getTitle());
-        timer.setTvBrowserProgID(getTvBrowserProgID());
         return timer;
-    }
-
-    /**
-     * @see VDRTimer#assigned
-     * @return assigned
-     */
-    public boolean isAssigned() {
-        return assigned;
-    }
-
-    /**
-     * @see VDRTimer#assigned
-     * @param assigned
-     */
-    public void setAssigned(boolean assigned) {
-        this.assigned = assigned;
     }
 }
