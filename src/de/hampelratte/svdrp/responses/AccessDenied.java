@@ -32,7 +32,7 @@ package de.hampelratte.svdrp.responses;
 import de.hampelratte.svdrp.Response;
 
 /**
- * VDR Response: Help text
+ * VDR Response: Access denied
  * 
  * @author <a href="hampelratte@users.sf.net>hampelratte@users.sf.net</a>
  */
