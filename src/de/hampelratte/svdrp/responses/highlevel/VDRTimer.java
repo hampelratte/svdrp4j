@@ -142,16 +142,17 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
      * @return a String which identifies this Timer
      */
     public String getUniqueKey() {
-        String start = createTimeString(getStartTime());
-        String end = createTimeString(getEndTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        String startTime = sdf.format(new Date(getStartTime().getTimeInMillis()));
+        String endTime = sdf.format(new Date(getEndTime().getTimeInMillis()));
         StringBuffer sb = new StringBuffer();
         sb.append(getChannel());
         sb.append(':');
         sb.append(getDayString());
         sb.append(':');
-        sb.append(start);
+        sb.append(startTime);
         sb.append(':');
-        sb.append(end);
+        sb.append(endTime);
         return sb.toString();
     }
     
