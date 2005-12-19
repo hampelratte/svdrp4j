@@ -39,6 +39,7 @@ import java.net.UnknownHostException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import de.hampelratte.svdrp.commands.PUTE;
 import de.hampelratte.svdrp.commands.QUIT;
 import de.hampelratte.svdrp.responses.*;
 
@@ -134,6 +135,14 @@ public class Connection {
      */
     public synchronized Response send(Command cmd) throws IOException {
         // send the command
+        if(cmd instanceof PUTE) {
+            out.println("PUTE");
+            Response res = readResponse();
+            if(res.getCode() != 354) {
+                return res;
+            }
+        }
+        
         out.println(cmd.getCommand());
         if (DEBUG)
             System.out.println("-->" + cmd.getCommand());

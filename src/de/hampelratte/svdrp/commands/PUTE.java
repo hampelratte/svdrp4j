@@ -54,7 +54,7 @@ public class PUTE extends Command {
     }
 
     public String getCommand() {
-        String cmd = "PUTE " + data + "\n.";
+        String cmd = data + "\n.\n";
         return cmd.trim();
     }
 
