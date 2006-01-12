@@ -201,6 +201,9 @@ public class Connection {
                     case 215:
                         response = new R215(msg.toString());
                         break;
+                    case 216:
+                        response = new R216(msg.toString());
+                        break;
                     case 220:
                         response = new R220(msg.toString());
                         break;
