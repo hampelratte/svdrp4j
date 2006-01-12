@@ -234,6 +234,9 @@ public class Connection {
                     case 554:
                         response = new R554(msg.toString());
                         break;
+                    default:
+                        response = new NotImplementedBySVDRP4J(code, msg.toString());
+                        break;
                     }
                     line = "";
                     msg = new StringBuffer();
