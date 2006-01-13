@@ -47,6 +47,9 @@ public class GRAB extends Command {
 
     private String filename = "/tmp/screen.jpg";
 
+    
+    public GRAB() {}
+    
     /**
      * Command to grab a screenshot of the current channel
      * 
@@ -126,5 +129,13 @@ public class GRAB extends Command {
      */
     public void setResolution(String resolution) {
         this.resolution = resolution;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 }
