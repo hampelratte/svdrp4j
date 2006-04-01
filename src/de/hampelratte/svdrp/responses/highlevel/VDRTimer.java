@@ -298,12 +298,12 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
             v = new VDRVersion("1.0.0");
         }
 
-        int version = v.getMajor();
-        int major = v.getMinor();
-        int minor = v.getRevision();
+        int major = v.getMajor();
+        int minor = v.getMinor();
+        int rev = v.getRevision();
 
 		//FIXME which format for which version (repeating timers)
-        boolean newFormat = (version == 1 && major >= 3 && minor >= 23) | isRepeating();
+        boolean newFormat = (major == 1 && minor >= 3 && rev >= 23) | isRepeating();
 
         String date = "";
         if (newFormat) {
