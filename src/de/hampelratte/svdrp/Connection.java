@@ -70,7 +70,7 @@ public class Connection {
     public static boolean DEBUG = false;
 
     /**
-     * Creates a new new connection to host:port with timeout
+     * Creates a new connection to host:port with timeout
      * 
      * @param host
      *            The host name or IP-address of the VDR
