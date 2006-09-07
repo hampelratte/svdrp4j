@@ -40,7 +40,7 @@ import de.hampelratte.svdrp.responses.highlevel.EPGEntry;
 public class EPGParser {
 
     public static List parse(String epgData) {
-        ArrayList list = new ArrayList();
+        ArrayList<EPGEntry> list = new ArrayList<EPGEntry>();
         StringTokenizer st = new StringTokenizer(epgData, "\n");
         EPGEntry epg = null;
         String currentChannelID = null, currentChannelName = null;

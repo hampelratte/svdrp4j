@@ -51,7 +51,7 @@ public class TimerParser {
      * @return A list of VDRTimer objects
      */
     public static ArrayList parse(String timerData) {
-        ArrayList list = new ArrayList();
+        ArrayList<VDRTimer> list = new ArrayList<VDRTimer>();
         StringTokenizer st1 = new StringTokenizer(timerData, "\n");
         while (st1.hasMoreTokens()) {
             VDRTimer timer = new VDRTimer();
