@@ -29,6 +29,8 @@
  */
 package de.hampelratte.svdrp.responses.highlevel;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author <a href="hampelratte@users.sf.net>hampelratte@users.sf.net</a>
@@ -36,7 +38,7 @@ package de.hampelratte.svdrp.responses.highlevel;
  * Represents a channel of vdr
  * @see man 5 vdr for details
  */
-public class Channel {
+public class Channel implements Serializable {
     public static final int AUTOMATIC = 999;
 
     private int channelNumber = -1;
@@ -190,11 +192,11 @@ public class Channel {
         VPID = vpid;
     }
     
-    private String getShortName() {
+    public String getShortName() {
         return shortName;
     }
     
-    private String getServiceProviderName() {
+    public String getServiceProviderName() {
         return serviceProviderName;
     }
     
@@ -450,5 +452,17 @@ public class Channel {
 
     public void setChannelNumber(int channelNumber) {
         this.channelNumber = channelNumber;
+    }
+    
+    public String getChannelID() {
+        return getSource()+"-"+getNID()+"-"+getTID()+"-"+getSID()+"-"+getRID();
+    }
+    
+    public boolean equals(Object o) {
+        if (o instanceof Channel) {
+            Channel c = (Channel) o;
+            return c.getChannelID().equals(getChannelID());
+        }
+        return false;
     }
 }
