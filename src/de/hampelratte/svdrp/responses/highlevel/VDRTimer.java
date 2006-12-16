@@ -47,7 +47,7 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
 
     private static final long serialVersionUID = 3865636821582767283L;
 
-    private int ID;
+    private int channelNumber;
 
     private Calendar startTime = GregorianCalendar.getInstance();
 
@@ -156,12 +156,12 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
         return sb.toString();
     }
     
-    public int getID() {
-        return ID;
+    public int getChannelNumber() {
+        return channelNumber;
     }
 
-    public void setID(int id) {
-        ID = id;
+    public void setChannelNumber(int id) {
+        channelNumber = id;
     }
 
     public String toNEWT() {
@@ -400,7 +400,7 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
         timer.setFile(getFile());
         timer.setFirstTime((Calendar)getFirstTime().clone());
         timer.setHasFirstTime(hasFirstTime());
-        timer.setID(getID());
+        timer.setChannelNumber(getChannelNumber());
         timer.setLifetime(getLifetime());
         timer.setPath(getPath());
         timer.setPriority(getPriority());
