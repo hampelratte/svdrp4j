@@ -32,10 +32,9 @@ package de.hampelratte.svdrp.responses.highlevel;
 import java.io.Serializable;
 
 /**
+ * Represents a channel of vdr 
  * 
  * @author <a href="hampelratte@users.sf.net>hampelratte@users.sf.net</a>
- *
- * Represents a channel of vdr
  * @see man 5 vdr for details
  */
 public class Channel implements Serializable {

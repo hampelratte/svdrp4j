@@ -77,9 +77,9 @@ public class TimerParser {
                 }
             }
             desc = desc.replaceAll("\\|", "\n");
-            timer.setChannelNumber(Integer.parseInt(id));
+            timer.setID(Integer.parseInt(id));
             timer.setActive(Integer.parseInt(active) != 0);
-            timer.setChannel(Integer.parseInt(channel));
+            timer.setChannelNumber(Integer.parseInt(channel));
             timer.setPriority(Integer.parseInt(priority));
             timer.setLifetime(Integer.parseInt(lifetime));
             timer.setFile(file);

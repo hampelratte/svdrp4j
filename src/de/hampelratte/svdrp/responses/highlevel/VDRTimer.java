@@ -47,8 +47,6 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
 
     private static final long serialVersionUID = 3865636821582767283L;
 
-    private int channelNumber;
-
     private Calendar startTime = GregorianCalendar.getInstance();
 
     private Calendar endTime = GregorianCalendar.getInstance();
@@ -62,7 +60,9 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
 
     private boolean[] repeatingDays = new boolean[7];
 
-    private int channel;
+    private int channelNumber;
+    
+    private int ID;
 
     private int priority;
 
@@ -85,12 +85,12 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
         this.active = active;
     }
 
-    public int getChannel() {
-        return channel;
+    public int getChannelNumber() {
+        return channelNumber;
     }
 
-    public void setChannel(int channel) {
-        this.channel = channel;
+    public void setChannelNumber(int channel) {
+        this.channelNumber = channel;
     }
 
     public int getLifetime() {
@@ -146,7 +146,7 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
         String startTime = sdf.format(new Date(getStartTime().getTimeInMillis()));
         String endTime = sdf.format(new Date(getEndTime().getTimeInMillis()));
         StringBuffer sb = new StringBuffer();
-        sb.append(getChannel());
+        sb.append(getChannelNumber());
         sb.append(':');
         sb.append(getDayString());
         sb.append(':');
@@ -156,14 +156,6 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
         return sb.toString();
     }
     
-    public int getChannelNumber() {
-        return channelNumber;
-    }
-
-    public void setChannelNumber(int id) {
-        channelNumber = id;
-    }
-
     public String toNEWT() {
         String start = createTimeString(getStartTime());
         String end = createTimeString(getEndTime());
@@ -171,7 +163,7 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
         StringBuffer sb = new StringBuffer();
         sb.append(1);
         sb.append(':');
-        sb.append(channel);
+        sb.append(channelNumber);
         sb.append(':');
         sb.append(getDayString());
         sb.append(':');
@@ -197,7 +189,7 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
             StringBuffer sb = new StringBuffer();
             sb.append(1);
             sb.append(':');
-            sb.append(channel);
+            sb.append(channelNumber);
             sb.append(':');
             sb.append(getDayString());
             if(isRepeating()) {
@@ -393,8 +385,9 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
 
     public Object clone() {
         VDRTimer timer = new VDRTimer();
+        timer.setID(getID());
         timer.setActive(isActive());
-        timer.setChannel(getChannel());
+        timer.setChannelNumber(getChannelNumber());
         timer.setDescription(getDescription());
         timer.setEndTime((Calendar)getEndTime().clone());
         timer.setFile(getFile());
@@ -408,5 +401,13 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
         timer.setStartTime((Calendar)getStartTime().clone());
         timer.setTitle(getTitle());
         return timer;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int id) {
+        ID = id;
     }
 }
