@@ -83,21 +83,21 @@ public class ChannelParser {
                 channel.setBandwidth(Integer.parseInt(Character.toString(string.charAt(i+1))));
                 break;
             case 'C':
-                if(Character.isDigit(string.charAt(i+2))) {
+                if(i <= string.length() - 3 && Character.isDigit(string.charAt(i+2))) {
                     channel.setCodeRateHP(Integer.parseInt(string.substring(i+1, i+3)));
                 } else {
                     channel.setCodeRateHP(Integer.parseInt(Character.toString(string.charAt(i+1))));
                 }
                 break;
             case 'D':
-                if(Character.isDigit(string.charAt(i+2))) {
+                if(i <= string.length() - 3 && Character.isDigit(string.charAt(i+2))) {
                     channel.setCodeRateLP(Integer.parseInt(string.substring(i+1, i+3)));
                 } else {
                     channel.setCodeRateLP(Integer.parseInt(Character.toString(string.charAt(i+1))));
                 }
                 break;
             case 'G':
-                if(Character.isDigit(string.charAt(i+2))) {
+                if(i <= string.length() - 3 && Character.isDigit(string.charAt(i+2))) {
                     channel.setGuardInterval(Integer.parseInt(string.substring(i+1, i+3)));
                 } else {
                     channel.setGuardInterval(Integer.parseInt(Character.toString(string.charAt(i+1))));
@@ -113,7 +113,7 @@ public class ChannelParser {
                 channel.setLeftCircularPolarization(true);
                 break;
             case 'M':
-                if(Character.isDigit(string.charAt(i+3))) {
+                if(i <= string.length() - 4 && Character.isDigit(string.charAt(i+3))) {
                     channel.setModulation(Integer.parseInt(string.substring(i+1, i+4)));
                 } else if(Character.isDigit(string.charAt(i+2))) { 
                     channel.setModulation(Integer.parseInt(string.substring(i+1, i+3)));
