@@ -78,7 +78,7 @@ public class TimerParser {
             }
             desc = desc.replaceAll("\\|", "\n");
             timer.setID(Integer.parseInt(id));
-            timer.setActive(Integer.parseInt(active) != 0);
+            timer.setState(Integer.parseInt(active));
             timer.setChannelNumber(Integer.parseInt(channel));
             timer.setPriority(Integer.parseInt(priority));
             timer.setLifetime(Integer.parseInt(lifetime));
