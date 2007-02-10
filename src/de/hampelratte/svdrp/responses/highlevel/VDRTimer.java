@@ -81,7 +81,9 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
     public VDRTimer() {
     }
 
-
+    public boolean isActive() {
+        return state > INACTIVE;
+    }
 
     public int getChannelNumber() {
         return channelNumber;
