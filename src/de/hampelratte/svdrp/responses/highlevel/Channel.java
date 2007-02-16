@@ -29,6 +29,10 @@
  */
 package de.hampelratte.svdrp.responses.highlevel;
 
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -37,7 +41,7 @@ import java.io.Serializable;
  * @author <a href="hampelratte@users.sf.net>hampelratte@users.sf.net</a>
  * @see man 5 vdr for details
  */
-public class Channel implements Serializable {
+public class Channel implements Serializable, Transferable {
     public static final int AUTOMATIC = 999;
 
     private int channelNumber = -1;
@@ -463,5 +467,21 @@ public class Channel implements Serializable {
             return c.getChannelID().equals(getChannelID());
         }
         return false;
+    }
+    
+    public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+        return this;
+    }
+
+    public DataFlavor[] getTransferDataFlavors() {
+        return new DataFlavor[] {new DataFlavor(Channel.class, "VDR Channel")};
+    }
+
+    public boolean isDataFlavorSupported(DataFlavor flavor) {
+        if(flavor.getDefaultRepresentationClass() == Channel.class) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
