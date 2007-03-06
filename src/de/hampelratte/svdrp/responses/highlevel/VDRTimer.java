@@ -294,7 +294,6 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
         int minor = v.getMinor();
         int rev = v.getRevision();
 
-		//FIXME which format for which version (repeating timers)
         boolean newFormat = (major == 1 && minor >= 3 && rev >= 23) | isRepeating();
 
         String date = "";
