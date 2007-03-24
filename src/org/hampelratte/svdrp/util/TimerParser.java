@@ -31,6 +31,7 @@ package org.hampelratte.svdrp.util;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -51,7 +52,7 @@ public class TimerParser {
      * @param timerData A list of timers received from VDR by LSTT command
      * @return A list of VDRTimer objects
      */
-    public static ArrayList parse(String timerData) {
+    public static List<VDRTimer> parse(String timerData) {
         ArrayList<VDRTimer> list = new ArrayList<VDRTimer>();
         StringTokenizer st1 = new StringTokenizer(timerData, "\n");
         while (st1.hasMoreTokens()) {
