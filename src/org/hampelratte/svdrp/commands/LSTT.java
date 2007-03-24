@@ -50,7 +50,7 @@ public class LSTT extends Command {
     /**
      * Command to get details of a given timer
      * 
-     * @param number
+     * @param number - The number/id of this timer
      */
     public LSTT(String number) {
         this.number = number;

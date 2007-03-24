@@ -29,6 +29,8 @@
  */
 package org.hampelratte.svdrp.commands;
 
+import lazybones.Timer;
+
 import org.hampelratte.svdrp.Command;
 
 /**
@@ -52,6 +54,10 @@ public class UPDT extends Command {
      */
     public UPDT(String settings) {
         this.settings = settings;
+    }
+
+    public UPDT(Timer timer) {
+        this(timer.toNEWT());
     }
 
     public String getCommand() {

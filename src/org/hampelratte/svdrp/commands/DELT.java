@@ -29,6 +29,8 @@
  */
 package org.hampelratte.svdrp.commands;
 
+import lazybones.Timer;
+
 import org.hampelratte.svdrp.Command;
 
 /**
@@ -47,11 +49,20 @@ public class DELT extends Command {
     /**
      * Command to delete a timer
      * 
-     * @param parameter
+     * @param number
      *            The number of the timer, which should be deleted
      */
-    public DELT(String parameter) {
-        this.number = parameter;
+    public DELT(String number) {
+        this.number = number;
+    }
+    
+    /**
+     * Command to delete a timer
+     * 
+     * @param timer The timer, which should be deleted
+     */
+    public DELT(Timer timer) {
+        this(Integer.toString(timer.getID()));
     }
 
     public String getCommand() {
