@@ -83,7 +83,21 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
     }
 
     public boolean isActive() {
-        return state > INACTIVE;
+        return hasState(ACTIVE);
+    }
+    
+    /**
+     * Returns, if a timer has a specific state
+     * @param STATE One of INACTIVE, ACTIVE, INSTANT_TIMER, VPS, RECORDING
+     * @return true, if the timer has the state
+     * @see VDRTimer#ACTIVE
+     * @see VDRTimer#INACTIVE
+     * @see VDRTimer#INSTANT_TIMER
+     * @see VDRTimer#VPS
+     * @see VDRTimer#RECORDING
+     */
+    public boolean hasState(int STATE) {
+        return (state & STATE) == STATE;
     }
 
     public int getChannelNumber() {
@@ -418,8 +432,26 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
     public int getState() {
         return state;
     }
-
+    
+    /**
+     * Sets the state of a timer. To change a single part of the state, 
+     * e.g. VPS or ACTIVE, please use {@link VDRTimer#changeStateTo(int, boolean)}
+     * @param state The new state for the timer. 
+     *          Bitwise OR of multiple states is possible. 
+     *          E.g. setState(ACTIVE | VPS) sets the timer to ACTIVE and enables VPS
+     */
     public void setState(int state) {
         this.state = state;
+    }
+    
+    public void changeStateTo(int STATE, boolean enabled) {
+        if(enabled && hasState(STATE) || !enabled && !hasState(STATE)) {
+            // we don't have to change anything, because the timer already 
+            // has the requested state 
+            return;
+        }
+        
+        int sign = enabled ? 1 : -1;
+        state += sign * STATE;
     }
 }
