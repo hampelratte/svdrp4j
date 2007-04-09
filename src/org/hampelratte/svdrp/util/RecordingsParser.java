@@ -55,7 +55,7 @@ public class RecordingsParser {
      * @param getInfo if true, RecordingsParser will do a LSTR <number> for each recording to retrieve the EPG info of the recording, too
      * @return a List of Recordings 
      */
-    public static List parse(String response, boolean getInfo) {
+    public static List<Recording> parse(String response, boolean getInfo) {
         ArrayList<Recording> list = new ArrayList<Recording>();
         StringTokenizer st = new StringTokenizer(response, "\n");
         while(st.hasMoreTokens()) {
