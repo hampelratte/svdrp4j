@@ -40,7 +40,7 @@ import org.hampelratte.svdrp.responses.highlevel.EPGEntry;
 
 public class EPGParser {
 
-    public static List parse(String epgData) {
+    public static List<EPGEntry> parse(String epgData) {
         ArrayList<EPGEntry> list = new ArrayList<EPGEntry>();
         StringTokenizer st = new StringTokenizer(epgData, "\n");
         EPGEntry epg = null;
@@ -56,7 +56,9 @@ public class EPGParser {
                 /* Channel */
                 parts = line.split(" ", 3);
                 currentChannelID = parts[1];
-                currentChannelName = parts[2];
+                if(parts.length > 2) {
+                    currentChannelName = parts[2];
+                }
                 break;
 
             case 'E':
@@ -95,6 +97,7 @@ public class EPGParser {
             case 'e':
                 /* end of Entry */
                 list.add(epg);
+                epg = null;
                 break;
             case 'c':
                 /* end of Channel (multiple entries) */
