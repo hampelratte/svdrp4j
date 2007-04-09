@@ -56,6 +56,16 @@ public class LSTR extends Command {
     public LSTR(String number) {
         this.number = number;
     }
+    
+    /**
+     * Command to get details of a given recording
+     * 
+     * @param number
+     *            The number of the recording
+     */
+    public LSTR(int number) {
+        this.number = Integer.toString(number);
+    }
 
     public String getCommand() {
         String cmd = "LSTR " + number;

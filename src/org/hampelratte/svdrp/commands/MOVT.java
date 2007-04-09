@@ -51,11 +51,23 @@ public class MOVT extends Command {
      * @param to
      *            The new postion of the timer
      */
+    public MOVT(String timer, int to) {
+        this(timer, Integer.toString(to));
+    }
+
+    /**
+     * Command to move a timer to a new position
+     * 
+     * @param timer
+     *            The timer number
+     * @param to
+     *            The new postion of the timer
+     */
     public MOVT(String timer, String to) {
         this.timer = timer;
         this.position = to;
     }
-
+    
     /**
      * Returns the timer number
      * 
