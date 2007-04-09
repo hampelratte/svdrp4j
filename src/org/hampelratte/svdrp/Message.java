@@ -29,12 +29,14 @@
  */
 package org.hampelratte.svdrp;
 
+import java.io.Serializable;
+
 /**
  * Represents a Message of the SVDRP. Either a command or a response.
  * 
  * @author <a href="mailto:henrik.niehaus@gmx.de">Henrik Niehaus</a>
  */
-public abstract class Message {
+public abstract class Message implements Serializable {
 
     /**
      * Returns a String representation for debug purposes
