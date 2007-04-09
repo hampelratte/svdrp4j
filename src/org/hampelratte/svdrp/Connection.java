@@ -154,14 +154,6 @@ public class Connection {
             System.out.println("<--" + response.getCode() + " "
                     + response.getMessage());
 
-        /*
-         * // TODO parse the response and create an adequate object if(cmd
-         * instanceof LSTE) { List epgdata =
-         * EPGParser.parse(response.getMessage()); for (Iterator iter =
-         * epgdata.iterator(); iter.hasNext();) { EPGEntry element = (EPGEntry)
-         * iter.next(); System.out.println(element); } }
-         */
-
         // return the response
         return response;
     }
@@ -172,82 +164,78 @@ public class Connection {
      * @return A Response object
      * @see Response
      */
-    private Response readResponse() {
+    private Response readResponse() throws IOException {
         Response response = null;
-        try {
-            String line = "";
-            StringBuffer msg = new StringBuffer();
-            boolean running = true;
-            while (running && (line = in.readLine()) != null) {
-                char fourthChar = line.charAt(3);
-                int code = -1;
-                try {
-                    code = Integer.parseInt(line.substring(0, 3));
-                    line = line.substring(4);
-                } catch (Exception e) {
-                    code = -1;
-                }
-
-                if (fourthChar != '-') {
-                    running = false;
-                    msg.append(line);
-                    msg.append("\n");
-                    switch (code) {
-                    case -1:
-                        response = new AccessDenied(line);
-                        break;
-                    case 214:
-                        response = new R214(msg.toString());
-                        break;
-                    case 215:
-                        response = new R215(msg.toString());
-                        break;
-                    case 216:
-                        response = new R216(msg.toString());
-                        break;
-                    case 220:
-                        response = new R220(msg.toString());
-                        break;
-                    case 221:
-                        response = new R221(msg.toString());
-                        break;
-                    case 250:
-                        response = new R250(msg.toString());
-                        break;
-                    case 354:
-                        response = new R354(msg.toString());
-                        break;
-                    case 451:
-                        response = new R451(msg.toString());
-                        break;
-                    case 500:
-                        response = new R500(msg.toString());
-                        break;
-                    case 501:
-                        response = new R501(msg.toString());
-                        break;
-                    case 502:
-                        response = new R502(msg.toString());
-                        break;
-                    case 550:
-                        response = new R550(msg.toString());
-                        break;
-                    case 554:
-                        response = new R554(msg.toString());
-                        break;
-                    default:
-                        response = new NotImplementedBySVDRP4J(code, msg.toString());
-                        break;
-                    }
-                    line = "";
-                    msg = new StringBuffer();
-                } else {
-                    msg.append(line);
-                    msg.append("\n");
-                }
+        String line = "";
+        StringBuffer msg = new StringBuffer();
+        boolean running = true;
+        while (running && (line = in.readLine()) != null) {
+            char fourthChar = line.charAt(3);
+            int code = -1;
+            try {
+                code = Integer.parseInt(line.substring(0, 3));
+                line = line.substring(4);
+            } catch (Exception e) {
+                code = -1;
             }
-        } catch (Exception e) {
-            System.err.println(e);
+
+            if (fourthChar != '-') {
+                running = false;
+                msg.append(line);
+                msg.append("\n");
+                switch (code) {
+                case -1:
+                    response = new AccessDenied(line);
+                    break;
+                case 214:
+                    response = new R214(msg.toString());
+                    break;
+                case 215:
+                    response = new R215(msg.toString());
+                    break;
+                case 216:
+                    response = new R216(msg.toString());
+                    break;
+                case 220:
+                    response = new R220(msg.toString());
+                    break;
+                case 221:
+                    response = new R221(msg.toString());
+                    break;
+                case 250:
+                    response = new R250(msg.toString());
+                    break;
+                case 354:
+                    response = new R354(msg.toString());
+                    break;
+                case 451:
+                    response = new R451(msg.toString());
+                    break;
+                case 500:
+                    response = new R500(msg.toString());
+                    break;
+                case 501:
+                    response = new R501(msg.toString());
+                    break;
+                case 502:
+                    response = new R502(msg.toString());
+                    break;
+                case 550:
+                    response = new R550(msg.toString());
+                    break;
+                case 554:
+                    response = new R554(msg.toString());
+                    break;
+                default:
+                    response = new NotImplementedBySVDRP4J(code, msg.toString());
+                    break;
+                }
+                line = "";
+                msg = new StringBuffer();
+            } else {
+                msg.append(line);
+                msg.append("\n");
+            }
         }
         return response;
     }
