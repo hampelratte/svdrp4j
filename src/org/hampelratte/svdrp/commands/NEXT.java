@@ -39,6 +39,9 @@ import org.hampelratte.svdrp.Command;
  */
 public class NEXT extends Command {
 
+    public static final String ABS = "abs";
+    public static final String REL = "rel";
+    
     private String mode = "";
 
     /**
@@ -51,13 +54,10 @@ public class NEXT extends Command {
     /**
      * Command to show the next timer event
      * 
-     * @param mode
-     *            "abs" or "rel" <br>
-     *            "abs" queries the time in absolute time "rel" queries the time
-     *            relative to the actual time
+     * @see #setMode(String)
      */
     public NEXT(String mode) {
-        this.mode = mode;
+        setMode(mode);
     }
 
     public String getCommand() {
@@ -82,11 +82,16 @@ public class NEXT extends Command {
      * Sets the mode
      * 
      * @param mode
-     *            "abs" or "rel" <br>
-     *            "abs" queries the time in absolute time "rel" queries the time
-     *            relative to the actual time
+     *            {@link #ABS} or {@link #REL} <br>
+     *            <ul>
+     *            <li>{@link #ABS} queries the time in seconds since unix epoche </li>
+     *            <li>{@link #REL} queries the time in seconds until the next event relative to the actual time</li>
+     *            </ul>
      */
     public void setMode(String mode) {
+        if(!(ABS.equals(mode) || REL.equals(mode))) {
+            throw new IllegalArgumentException("Mode has to be one of abs or rel");
+        }
         this.mode = mode;
     }
 }
