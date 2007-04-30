@@ -32,16 +32,11 @@ package org.hampelratte.svdrp.util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
 import lazybones.Logger;
-import lazybones.VDRConnection;
 
-import org.hampelratte.svdrp.Response;
-import org.hampelratte.svdrp.commands.LSTR;
-import org.hampelratte.svdrp.responses.highlevel.EPGEntry;
 import org.hampelratte.svdrp.responses.highlevel.Recording;
 
 
@@ -52,10 +47,9 @@ public class RecordingsParser {
     /**
      * Parses a list of recordings and returns a List of Recordings
      * @param response the response String of a LSTR
-     * @param getInfo if true, RecordingsParser will do a LSTR <number> for each recording to retrieve the EPG info of the recording, too
      * @return a List of Recordings 
      */
-    public static List<Recording> parse(String response, boolean getInfo) {
+    public static List<Recording> parse(String response) {
         ArrayList<Recording> list = new ArrayList<Recording>();
         StringTokenizer st = new StringTokenizer(response, "\n");
         while(st.hasMoreTokens()) {
@@ -92,34 +86,6 @@ public class RecordingsParser {
             list.add(recording);
         }
         
-        if(getInfo) {
-            getRecordingInfos(list);
-        }
-        
         return list;
-    }
-
-    private static void getRecordingInfos(List<Recording> recordings) {
-        for (Iterator<Recording> iter = recordings.iterator(); iter.hasNext();) {
-            Recording rec = iter.next();
-            Response res = VDRConnection.send(new LSTR(rec.getNumber()));
-            if(res != null && res.getCode() == 215) {
-                // workaround for the epg parser, because LSTR does not send an 'e' as entry terminator
-                String[] lines = res.getMessage().split("\n");
-                StringBuffer mesg = new StringBuffer();
-                for (int i = 0; i < lines.length; i++) {
-                    if(i == lines.length -1) {
-                        mesg.append("e\n");
-                    }
-                    mesg.append(lines[i]+"\n");
-                }
-                
-                // parse epg information
-                List<EPGEntry> epg = EPGParser.parse(mesg.toString());
-                if(epg.size() > 0) {
-                    rec.setEpgInfo(epg.get(0));
-                }
-            }
-        }
     }
 }
