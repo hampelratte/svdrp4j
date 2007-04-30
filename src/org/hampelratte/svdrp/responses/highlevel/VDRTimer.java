@@ -454,4 +454,17 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
         int sign = enabled ? 1 : -1;
         state += sign * STATE;
     }
+    
+    public boolean isRecording() {
+        if(getState() == RECORDING) {
+            return true;
+        }
+        
+        Calendar now = Calendar.getInstance();
+        if(now.after(getStartTime()) && now.before(getEndTime())) {
+            return true;
+        }
+        
+        return false;
+    }
 }
