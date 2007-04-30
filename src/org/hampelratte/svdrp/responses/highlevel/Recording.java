@@ -32,6 +32,13 @@ package org.hampelratte.svdrp.responses.highlevel;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+
+import lazybones.VDRConnection;
+
+import org.hampelratte.svdrp.Response;
+import org.hampelratte.svdrp.commands.LSTR;
+import org.hampelratte.svdrp.util.EPGParser;
 
 /**
  * 
@@ -51,6 +58,9 @@ public class Recording {
     private EPGEntry epgInfo;
 
     public EPGEntry getEpgInfo() {
+        if(epgInfo == null) {
+            lazyLoadInfos();
+        }
         return epgInfo;
     }
 
@@ -102,5 +112,26 @@ public class Recording {
                 (isNew() ? "*" : "") + " " + 
                 getTitle() + 
                 (getEpgInfo() != null ? " - " + getEpgInfo() : "");
+    }
+    
+    private void lazyLoadInfos() {
+        Response res = VDRConnection.send(new LSTR(getNumber()));
+        if(res != null && res.getCode() == 215) {
+            // workaround for the epg parser, because LSTR does not send an 'e' as entry terminator
+            String[] lines = res.getMessage().split("\n");
+            StringBuffer mesg = new StringBuffer();
+            for (int i = 0; i < lines.length; i++) {
+                if(i == lines.length -1) {
+                    mesg.append("e\n");
+                }
+                mesg.append(lines[i]+"\n");
+            }
+            
+            // parse epg information
+            List<EPGEntry> epg = EPGParser.parse(mesg.toString());
+            if(epg.size() > 0) {
+                setEpgInfo(epg.get(0));
+            }
+        }
     }
 }
