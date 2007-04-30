@@ -54,6 +54,8 @@ public class VDRVersion {
             major = Integer.parseInt(m.group(1));
             minor = Integer.parseInt(m.group(2));
             revision = Integer.parseInt(m.group(3));
+        } else {
+            throw new IllegalArgumentException("Not a valid version number");
         }
     }
 
