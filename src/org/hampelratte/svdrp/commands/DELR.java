@@ -42,7 +42,7 @@ public class DELR extends Command {
     /**
      * The number of the recording, which should be deleted
      */
-    private String number;
+    private int number;
 
     /**
      * Command to delete a recording
@@ -50,8 +50,8 @@ public class DELR extends Command {
      * @param parameter
      *            The number of the recording, which should be deleted
      */
-    public DELR(String parameter) {
-        this.number = parameter;
+    public DELR(int number) {
+        this.number = number;
     }
 
     public String getCommand() {
@@ -67,7 +67,7 @@ public class DELR extends Command {
      * 
      * @return The number of the recording, which should be deleted
      */
-    public String getNumber() {
+    public int getNumber() {
         return number;
     }
 
@@ -77,7 +77,7 @@ public class DELR extends Command {
      * @param parameter
      *            The number of the recording, which should be deleted
      */
-    public void setNumber(String parameter) {
-        this.number = parameter;
+    public void setNumber(int number) {
+        this.number = number;
     }
 }
