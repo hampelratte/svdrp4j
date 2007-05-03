@@ -281,8 +281,9 @@ public class Channel implements Serializable {
      * call the method with -1 as parameter.
      */
     public void setBandwidth(int bandwidth) throws IllegalArgumentException {
-        if(bandwidth != 6 & bandwidth != 7 & bandwidth != 8 & bandwidth != -1) {
-            throw new IllegalArgumentException("Valid values are 6,7,8");
+        if(bandwidth != 6 & bandwidth != 7 & bandwidth != 8 
+                & bandwidth != AUTOMATIC & bandwidth != -1) {
+            throw new IllegalArgumentException(bandwidth + " Valid values are 6,7,8 or Channel.AUTOMATIC (999)");
         }
         this.bandwidth = bandwidth;
     }
@@ -297,14 +298,14 @@ public class Channel implements Serializable {
      * To reset this parameter, call the method with -1 as parameter.
      */
     public void setCodeRateHP(int codeRateHP) throws IllegalArgumentException {
-        int[] validValues = {0, 12, 23, 34, 45, 56, 67, 78, 89};
+        int[] validValues = {0, 12, 23, 34, 45, 56, 67, 78, 89, AUTOMATIC};
         for (int i = 0; i < validValues.length; i++) {
             if(codeRateHP == validValues[i]) {
                 this.codeRateHP = codeRateHP;
                 return;
             }
         }
-        throw new IllegalArgumentException("Valid values are 0, 12, 23, 34, 45, 56, 67, 78, 89");
+        throw new IllegalArgumentException(codeRateHP +" Valid values are 0, 12, 23, 34, 45, 56, 67, 78, 89 or Channel.AUTOMATIC (999)");
     }
 
     public int getCodeRateLP() {
@@ -317,14 +318,14 @@ public class Channel implements Serializable {
      * To reset this parameter, call the method with -1 as parameter.
      */
     public void setCodeRateLP(int codeRateLP) throws IllegalArgumentException {
-        int[] validValues = {0, 12, 23, 34, 45, 56, 67, 78, 89};
+        int[] validValues = {0, 12, 23, 34, 45, 56, 67, 78, 89, AUTOMATIC};
         for (int i = 0; i < validValues.length; i++) {
             if(codeRateLP == validValues[i]) {
                 this.codeRateLP = codeRateLP;
                 return;
             }
         }
-        throw new IllegalArgumentException("Valid values are 0, 12, 23, 34, 45, 56, 67, 78, 89");
+        throw new IllegalArgumentException(codeRateLP + " Valid values are 0, 12, 23, 34, 45, 56, 67, 78, 89 or Channel.AUTOMATIC (999)");
     }
 
     public int getGuardInterval() {
@@ -338,8 +339,8 @@ public class Channel implements Serializable {
      */
     public void setGuardInterval(int guardInterval) throws IllegalArgumentException {
         if(guardInterval != 4 & guardInterval != 8 & guardInterval != 16 
-                & guardInterval != 32 & guardInterval != -1) {
-            throw new IllegalArgumentException("Valid values are 4, 8, 16, 32");
+                & guardInterval != 32 & guardInterval != AUTOMATIC & guardInterval != -1) {
+            throw new IllegalArgumentException(guardInterval + " Valid values are 4, 8, 16, 32 or Channel.AUTOMATIC (999)");
         }
         this.guardInterval = guardInterval;
     }
@@ -355,8 +356,8 @@ public class Channel implements Serializable {
      */
     public void setHierarchy(int hierarchy) throws IllegalArgumentException {
         if(hierarchy != 0 & hierarchy != 1 & hierarchy != 2 
-                & hierarchy != 4 & hierarchy != -1) {
-            throw new IllegalArgumentException("Valid values are 0, 1, 2, 4");
+                & hierarchy != 4 & hierarchy != AUTOMATIC & hierarchy != -1) {
+            throw new IllegalArgumentException(hierarchy + " Valid values are 0, 1, 2, 4 or Channel.AUTOMATIC (999)");
         }
         this.hierarchy = hierarchy;
     }
@@ -379,8 +380,8 @@ public class Channel implements Serializable {
      * To reset this parameter, call the method with -1 as parameter.
      */
     public void setInversion(int inversion) throws IllegalArgumentException {
-        if(inversion != 0 & inversion != 1 & inversion != -1) {
-            throw new IllegalArgumentException("Valid values are 0, 1");
+        if(inversion != 0 & inversion != 1 & inversion != AUTOMATIC & inversion != -1) {
+            throw new IllegalArgumentException(inversion + " Valid values are 0, 1 or Channel.AUTOMATIC (999)");
         }
         this.inversion = inversion;
     }
@@ -403,14 +404,14 @@ public class Channel implements Serializable {
      * To reset this parameter, call the method with -1 as parameter.
      */
     public void setModulation(int modulation) throws IllegalArgumentException {
-        int[] validValues = {0, 16, 32, 64, 128, 256};
+        int[] validValues = {0, 16, 32, 64, 128, 256, AUTOMATIC};
         for (int i = 0; i < validValues.length; i++) {
             if(modulation == validValues[i]) {
                 this.modulation = modulation;
                 return;
             }
         }
-        throw new IllegalArgumentException("Valid values are 0, 16, 32, 64, 128, 256");
+        throw new IllegalArgumentException(modulation + " Valid values are 0, 16, 32, 64, 128, 256 or Channel.AUTOMATIC (999)");
     }
 
     public boolean isRightCircularPolarization() {
@@ -431,8 +432,8 @@ public class Channel implements Serializable {
      * To reset this parameter, call the method with -1 as parameter.
      */
     public void setTransmissionMode(int transmissionMode) throws IllegalArgumentException {
-        if(transmissionMode != 2 & transmissionMode != 8 & transmissionMode != -1) {
-            throw new IllegalArgumentException("Valid values are 2, 8");
+        if(transmissionMode != 2 & transmissionMode != 8 & transmissionMode != AUTOMATIC & transmissionMode != -1) {
+            throw new IllegalArgumentException(transmissionMode + " Valid values are 2, 8 or Channel.AUTOMATIC (999)");
         }
         this.transmissionMode = transmissionMode;
     }
