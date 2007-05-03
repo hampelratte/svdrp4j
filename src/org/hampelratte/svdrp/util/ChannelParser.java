@@ -81,63 +81,57 @@ public class ChannelParser {
             char c = string.charAt(i);
             switch(c) {
             case 'B':
-                channel.setBandwidth(Integer.parseInt(Character.toString(string.charAt(i+1))));
+                channel.setBandwidth(parseNumberParam(string, i));
                 break;
             case 'C':
-                if(i <= string.length() - 3 && Character.isDigit(string.charAt(i+2))) {
-                    channel.setCodeRateHP(Integer.parseInt(string.substring(i+1, i+3)));
-                } else {
-                    channel.setCodeRateHP(Integer.parseInt(Character.toString(string.charAt(i+1))));
-                }
+                channel.setCodeRateHP(parseNumberParam(string, i));
                 break;
             case 'D':
-                if(i <= string.length() - 3 && Character.isDigit(string.charAt(i+2))) {
-                    channel.setCodeRateLP(Integer.parseInt(string.substring(i+1, i+3)));
-                } else {
-                    channel.setCodeRateLP(Integer.parseInt(Character.toString(string.charAt(i+1))));
-                }
+                channel.setCodeRateLP(parseNumberParam(string, i));
                 break;
             case 'G':
-                if(i <= string.length() - 3 && Character.isDigit(string.charAt(i+2))) {
-                    channel.setGuardInterval(Integer.parseInt(string.substring(i+1, i+3)));
-                } else {
-                    channel.setGuardInterval(Integer.parseInt(Character.toString(string.charAt(i+1))));
-                }
+                channel.setGuardInterval(parseNumberParam(string, i));
                 break;
             case 'h':
                 channel.setHorizontalPolarization(true);
                 break;
             case 'I':
-                channel.setInversion(Integer.parseInt(Character.toString(string.charAt(i+1))));
+                channel.setInversion(parseNumberParam(string, i));
                 break;
             case 'L':
                 channel.setLeftCircularPolarization(true);
                 break;
             case 'M':
-                if(i <= string.length() - 4 && Character.isDigit(string.charAt(i+3))) {
-                    channel.setModulation(Integer.parseInt(string.substring(i+1, i+4)));
-                } else if(Character.isDigit(string.charAt(i+2))) { 
-                    channel.setModulation(Integer.parseInt(string.substring(i+1, i+3)));
-                } else {
-                    channel.setModulation(Integer.parseInt(Character.toString(string.charAt(i+1))));
-                }
+                channel.setModulation(parseNumberParam(string, i));
                 break;
             case 'R':
                 channel.setRightCircularPolarization(true);
                 break;
             case 'T':
-                channel.setTransmissionMode(Integer.parseInt(Character.toString(string.charAt(i+1))));
+                channel.setTransmissionMode(parseNumberParam(string, i));
                 break;
             case 'v':
                 channel.setVerticalPolarization(true);
                 break;
             case 'Y':
-                channel.setHierarchy(Integer.parseInt(Character.toString(string.charAt(i+1))));
+                channel.setHierarchy(parseNumberParam(string, i));
                 break;
             default:
                 break;
             }
         }
+    }
+    
+    private static int parseNumberParam(String string, int startIndex) {
+        int endIndex = -1;
+        for(int j=startIndex+1; j<string.length(); j++) {
+            if(Character.isDigit(string.charAt(j))) {
+                endIndex = j+1;
+            } else {
+                break;
+            }
+        }
         
+        return Integer.parseInt(string.substring(startIndex+1, endIndex));
     }
 }
