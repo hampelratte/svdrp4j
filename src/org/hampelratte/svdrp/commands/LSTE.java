@@ -74,6 +74,20 @@ public class LSTE extends Command {
         this.channel = channel;
         this.time = time;
     }
+    
+    /**
+     * Command to list the data of one channel at a given time
+     * 
+     * @param number
+     *            The number of the channel
+     * @param time_t
+     *            The time in time_t format, which is equal to the unix time stamp
+     *            without the milliseconds -> unix time stamp / 1000, e.g.
+     *            1115484780
+     */
+    public LSTE(int number, long time_t) {
+        this(Integer.toString(number), "at " + time_t);
+    }
 
     public String getCommand() {
         String cmd = "LSTE " + channel + " " + time;
