@@ -30,6 +30,7 @@
 package org.hampelratte.svdrp.commands;
 
 import org.hampelratte.svdrp.Command;
+import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
 
 /**
  * Command to create a new timer
@@ -52,6 +53,10 @@ public class NEWT extends Command {
      */
     public NEWT(String settings) {
         this.settings = settings;
+    }
+    
+    public NEWT(VDRTimer timer) {
+        this(timer.toNEWT());
     }
 
     public String getCommand() {
