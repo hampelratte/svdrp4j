@@ -157,9 +157,15 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
      * @return a String which identifies this Timer
      */
     public String getUniqueKey() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-        String startTime = sdf.format(new Date(getStartTime().getTimeInMillis()));
-        String endTime = sdf.format(new Date(getEndTime().getTimeInMillis()));
+        SimpleDateFormat sdf;
+        if(isRepeating()) {
+            sdf = new SimpleDateFormat("HH:mm");
+        } else {
+            sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        }
+        
+        String startTime = sdf.format(getStartTime().getTime());
+        String endTime = sdf.format(getEndTime().getTime());
         StringBuffer sb = new StringBuffer();
         sb.append(getChannelNumber());
         sb.append(':');
