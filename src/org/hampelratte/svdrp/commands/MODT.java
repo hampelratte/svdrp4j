@@ -29,6 +29,8 @@
  */
 package org.hampelratte.svdrp.commands;
 
+import lazybones.Timer;
+
 import org.hampelratte.svdrp.Command;
 
 /**
@@ -57,6 +59,19 @@ public class MODT extends Command {
     public MODT(String number, String settings) {
         this.settings = settings;
         this.number = number;
+    }
+    
+    /**
+     * Command to modify a timer
+     * 
+     * @param number
+     *            The number of the timer
+     * @param timer
+     *            The timer with the new settings
+     */
+    public MODT(int number, Timer timer) {
+        this.settings = timer.toNEWT();
+        this.number = Integer.toString(number);
     }
 
     /**
