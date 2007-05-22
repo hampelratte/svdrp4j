@@ -29,9 +29,8 @@
  */
 package org.hampelratte.svdrp.commands;
 
-import lazybones.Timer;
-
 import org.hampelratte.svdrp.Command;
+import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
 
 /**
  * Command to update a timer
@@ -56,7 +55,7 @@ public class UPDT extends Command {
         this.settings = settings;
     }
 
-    public UPDT(Timer timer) {
+    public UPDT(VDRTimer timer) {
         this(timer.toNEWT());
     }
 

@@ -29,9 +29,8 @@
  */
 package org.hampelratte.svdrp.commands;
 
-import lazybones.Timer;
-
 import org.hampelratte.svdrp.Command;
+import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
 
 /**
  * Command to modify a timer
@@ -69,7 +68,7 @@ public class MODT extends Command {
      * @param timer
      *            The timer with the new settings
      */
-    public MODT(int number, Timer timer) {
+    public MODT(int number, VDRTimer timer) {
         this.settings = timer.toNEWT();
         this.number = Integer.toString(number);
     }

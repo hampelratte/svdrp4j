@@ -35,14 +35,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import lazybones.Logger;
-
 import org.hampelratte.svdrp.responses.highlevel.Recording;
 
 
 public class RecordingsParser {
-    
-    private static Logger logger = Logger.getLogger(); 
     
     /**
      * Parses a list of recordings and returns a List of Recordings
@@ -71,7 +67,7 @@ public class RecordingsParser {
             try {
                 recording.setStartTime(df.parse(date));
             } catch (ParseException e) {
-                logger.log("Couldn't parse recording datetime", Logger.OTHER, Logger.ERROR);
+                e.printStackTrace();
             }
             
             // parse title
