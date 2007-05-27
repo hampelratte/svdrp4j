@@ -39,7 +39,7 @@ import java.util.Date;
  *
  * Represents a recording of VDR
  */
-public class Recording {
+public class Recording implements Comparable {
     private int number;
 
     private Calendar startTime;
@@ -102,5 +102,18 @@ public class Recording {
                 (isNew() ? "*" : "") + " " + 
                 getTitle() + 
                 (getEpgInfo() != null ? " - " + getEpgInfo() : "");
+    }
+
+    public int compareTo(Object o) {
+        if(o instanceof Recording) {
+            Recording that = (Recording) o;
+            if(this.getEpgInfo() != null && that.getEpgInfo() != null) {
+                return this.getEpgInfo().getTitle().compareTo(that.getEpgInfo().getTitle());
+            } else {
+                return this.getTitle().compareTo(that.getTitle());
+            }
+        }
+        
+        return 0;
     }
 }
