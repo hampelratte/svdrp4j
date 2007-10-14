@@ -44,7 +44,7 @@ import org.hampelratte.svdrp.VDRVersion;
  * 
  * Represents a timer of the VDR software
  */
-public class VDRTimer implements Serializable, Comparable, Cloneable {
+public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
 
     public static final int INACTIVE = 0;
     public static final int ACTIVE = 1;
@@ -251,12 +251,8 @@ public class VDRTimer implements Serializable, Comparable, Cloneable {
         }
     }
 
-    public int compareTo(Object o) {
-        if (o instanceof VDRTimer) {
-            VDRTimer timer = (VDRTimer) o;
-            return timer.toNEWT().compareTo(this.toNEWT());
-        }
-        return -1;
+    public int compareTo(VDRTimer that) {
+        return that.toNEWT().compareTo(this.toNEWT());
     }
 
     public boolean[] getRepeatingDays() {

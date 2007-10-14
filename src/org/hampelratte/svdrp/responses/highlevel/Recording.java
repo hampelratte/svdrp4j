@@ -39,6 +39,7 @@ import java.util.Date;
  *
  * Represents a recording of VDR
  */
+@SuppressWarnings("unchecked")
 public class Recording implements Comparable {
     private int number;
 
@@ -113,7 +114,6 @@ public class Recording implements Comparable {
                 return this.getTitle().compareTo(that.getTitle());
             }
         }
-        
-        return 0;
+        return -1;
     }
 }
