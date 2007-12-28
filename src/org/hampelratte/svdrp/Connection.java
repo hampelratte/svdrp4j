@@ -55,7 +55,7 @@ public class Connection {
      * The socket used to talk to VDR
      */
     private Socket socket;
-
+    
     /**
      * The PrintStream to send commands to VDR
      */
@@ -69,6 +69,7 @@ public class Connection {
     private static VDRVersion version;
 
     public static boolean DEBUG = false;
+    
 
     /**
      * Creates a new connection to host:port with timeout
@@ -84,11 +85,30 @@ public class Connection {
      */
     public Connection(String host, int port, int timeout)
             throws UnknownHostException, IOException {
+        this(host, port, timeout, "ISO-8859-15");
+    }
+    
+    /**
+     * Creates a new connection to host:port with timeout
+     * 
+     * @param host
+     *            The host name or IP-address of the VDR
+     * @param port
+     *            The port of the SVDRP-server. Default is 2001
+     * @param timeout
+     *            The timeout for this connection
+     * @param encoding
+     *            The charset encoding used to talk to VDR
+     * @throws UnknownHostException
+     * @throws IOException
+     */
+    public Connection(String host, int port, int timeout, String encoding) 
+        throws UnknownHostException, IOException {
         socket = new Socket();
         InetSocketAddress sa = new InetSocketAddress(host, port);
         socket.connect(sa, timeout);
-        out = new PrintStream(socket.getOutputStream(), true, "ISO-8859-1");
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream(), "ISO-8859-1"));
+        out = new PrintStream(socket.getOutputStream(), true, encoding);
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream(), encoding));
 
         // read the welcome message
         Response res = readResponse();
@@ -97,12 +117,12 @@ public class Connection {
                 String msg = res.getMessage().trim();
                 Pattern pattern = Pattern.compile(".*((?:\\d)+\\.(?:\\d)+\\.(?:\\d)+).*");
                 Matcher m = pattern.matcher(msg);
-                if(m.matches()) {
+                if (m.matches()) {
                     version = new VDRVersion(m.group(1));
                 } else {
                     throw new Exception("No Version String found in welcome message");
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
                 version = new VDRVersion("1.0.0");
             }
         } else {
