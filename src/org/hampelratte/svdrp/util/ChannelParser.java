@@ -30,6 +30,7 @@
 package org.hampelratte.svdrp.util;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import org.hampelratte.svdrp.responses.highlevel.Channel;
@@ -47,7 +48,7 @@ public class ChannelParser {
      * @param channelData A list of channels received from VDR by LSTC command
      * @return A list of Channel objects
      */
-    public static ArrayList<Channel> parse(String channelData) {
+    public static List<Channel> parse(String channelData) {
         ArrayList<Channel> list = new ArrayList<Channel>();
         StringTokenizer st = new StringTokenizer(channelData, "\n");
         while (st.hasMoreTokens()) {
