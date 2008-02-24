@@ -51,7 +51,8 @@ public class VOLU extends Command {
     }
 
     public String getCommand() {
-        return "VOLU";
+        String cmd = "VOLU " + volume;
+        return cmd.trim();
     }
 
     public String toString() {
