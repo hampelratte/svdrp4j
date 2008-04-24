@@ -5,14 +5,14 @@ public class ChannelLineParserFactory {
 	
 	private static DVBChannelLineParser dvb;
 	
-	private static IPTVChannelLineParser iptv;
+	//private static IPTVChannelLineParser iptv;
 	
 	
 	public static ChannelLineParser createChannelParser(String chanConfLine) throws Exception {
-		if(chanConfLine.toLowerCase().contains("iptv")) {
+		/* TODO enable id IPTV is fully supported if(chanConfLine.toLowerCase().contains("iptv")) {
 			if(iptv == null) iptv = new IPTVChannelLineParser();
 			return iptv;
-		} else if(isDvbChannel(chanConfLine)) { 
+		} else*/ if(isDvbChannel(chanConfLine)) { 
 			if(dvb == null) dvb = new DVBChannelLineParser();
 			return dvb;
 		} else {

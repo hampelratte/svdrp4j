@@ -1,5 +1,6 @@
 package org.hampelratte.svdrp.responses.highlevel;
 
+// TODO implement class
 public class IPTVChannel extends Channel {
 
 	private int id;
