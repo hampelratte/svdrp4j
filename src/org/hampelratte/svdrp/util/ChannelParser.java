@@ -73,7 +73,7 @@ public class ChannelParser {
 	            list.add(channel);
 			} catch (Exception e) {
 				if(!ignoreErrors) {
-					throw new ParseException("Unknown line format for a channels.conf line", lineNumber);
+					throw new ParseException("Unknown channels.conf line format on line " + lineNumber, lineNumber);
 				}
 			}
 			lineNumber++;
