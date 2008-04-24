@@ -1,5 +1,8 @@
 package org.hampelratte.svdrp.responses.highlevel;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class ChannelLineParserFactory {
 	
@@ -21,8 +24,11 @@ public class ChannelLineParserFactory {
 	}
 
 
+	private static String parameterPattern = "(?:b[678])?(?:d\\d{1,2})?(?:d\\d{1,2})?(?:g\\d{1,2})?h?(?:i[01])?l?(?:m\\d{1,3})?r?(?:t[28])?v?(?:y[0124])?";
+    private static Pattern p = Pattern.compile("^.*:.*:"+parameterPattern+":.*$");
+    
 	private static boolean isDvbChannel(String chanConfLine) {
-		// TODO dvb channel erkennen
-		return true;
+	    Matcher m = p.matcher(chanConfLine.toLowerCase());
+	    return m.matches();
 	}
 }
