@@ -29,11 +29,14 @@
  */
 package org.hampelratte.svdrp.util;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
 import org.hampelratte.svdrp.responses.highlevel.Channel;
+import org.hampelratte.svdrp.responses.highlevel.ChannelLineParser;
+import org.hampelratte.svdrp.responses.highlevel.ChannelLineParserFactory;
 
 
 /**
@@ -44,95 +47,37 @@ import org.hampelratte.svdrp.responses.highlevel.Channel;
  */
 public class ChannelParser {
     /**
-     * Parses a list of channels received from VDR by the LSTC command
-     * @param channelData A list of channels received from VDR by LSTC command
-     * @return A list of Channel objects
-     */
-    public static List<Channel> parse(String channelData) {
+	 * Parses a list of channels received from VDR by the LSTC command
+	 * 
+	 * @param channelData
+	 *            A list of channels received from VDR by LSTC command
+	 * @param ignoreErrors
+	 *            If set to true, all exceptions, which occure during parsing
+	 *            will be ignored. The channels.conf line, which threw the
+	 *            exception will be lost. If set to false, the parsing will 
+	 *            stop immediately, if an exception occurs.
+	 * @return A list of Channel objects
+	 * @throws ParseException
+	 */
+    public static List<Channel> parse(String channelData, boolean ignoreErrors) throws ParseException {
         ArrayList<Channel> list = new ArrayList<Channel>();
         StringTokenizer st = new StringTokenizer(channelData, "\n");
+        int lineNumber = 1;
         while (st.hasMoreTokens()) {
-            Channel channel = new Channel();
             String line = st.nextToken();
-            // parse channelNumber
-            channel.setChannelNumber(Integer.parseInt(line.substring(0, line.indexOf(" "))));
-            // remove channelNumber
-            line = line.substring(line.indexOf(" ") + 1); 
-            String[] parts = line.split(":");
-            channel.setName(parts[0]);
-            channel.setFrequency(Integer.parseInt(parts[1]));
-            parseParameters(channel, parts[2]);
-            channel.setSource(parts[3]);
-            channel.setSymbolRate(Integer.parseInt(parts[4]));
-            channel.setVPID(parts[5]);
-            channel.setAPID(parts[6]);
-            channel.setTPID(parts[7]);
-            channel.setConditionalAccess(parts[8]);
-            channel.setSID(Integer.parseInt(parts[9]));
-            channel.setNID(Integer.parseInt(parts[10]));
-            channel.setTID(Integer.parseInt(parts[11]));
-            channel.setRID(Integer.parseInt(parts[12]));
-            list.add(channel);
+            
+            ChannelLineParser parser;
+			try {
+				parser = ChannelLineParserFactory.createChannelParser(line);
+				Channel channel = parser.parse(line);
+	            list.add(channel);
+			} catch (Exception e) {
+				if(!ignoreErrors) {
+					throw new ParseException("Unknown line format for a channels.conf line", lineNumber);
+				}
+			}
+			lineNumber++;
         }
         return list;
-    }
-
-    private static void parseParameters(Channel channel, String string) {
-        for (int i = 0; i < string.length(); i++) {
-            char c = string.charAt(i);
-            switch(c) {
-            case 'B':
-                channel.setBandwidth(parseNumberParam(string, i));
-                break;
-            case 'C':
-                channel.setCodeRateHP(parseNumberParam(string, i));
-                break;
-            case 'D':
-                channel.setCodeRateLP(parseNumberParam(string, i));
-                break;
-            case 'G':
-                channel.setGuardInterval(parseNumberParam(string, i));
-                break;
-            case 'h':
-                channel.setHorizontalPolarization(true);
-                break;
-            case 'I':
-                channel.setInversion(parseNumberParam(string, i));
-                break;
-            case 'L':
-                channel.setLeftCircularPolarization(true);
-                break;
-            case 'M':
-                channel.setModulation(parseNumberParam(string, i));
-                break;
-            case 'R':
-                channel.setRightCircularPolarization(true);
-                break;
-            case 'T':
-                channel.setTransmissionMode(parseNumberParam(string, i));
-                break;
-            case 'v':
-                channel.setVerticalPolarization(true);
-                break;
-            case 'Y':
-                channel.setHierarchy(parseNumberParam(string, i));
-                break;
-            default:
-                break;
-            }
-        }
-    }
-    
-    private static int parseNumberParam(String string, int startIndex) {
-        int endIndex = -1;
-        for(int j=startIndex+1; j<string.length(); j++) {
-            if(Character.isDigit(string.charAt(j))) {
-                endIndex = j+1;
-            } else {
-                break;
-            }
-        }
-        
-        return Integer.parseInt(string.substring(startIndex+1, endIndex));
     }
 }
