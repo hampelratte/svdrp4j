@@ -27,7 +27,7 @@ public class DVBChannelLineParser extends ChannelLineParser {
         return channel;
 	}
 	
-	private static void parseParameters(DVBChannel channel, String string) {
+	public static void parseParameters(DVBChannel channel, String string) {
         for (int i = 0; i < string.length(); i++) {
             char c = string.charAt(i);
             switch(c) {
