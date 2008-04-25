@@ -17,7 +17,6 @@ public class ChannelLineParserFactory {
 			if(dvb == null) dvb = new DVBChannelLineParser();
 			return dvb;
 		} else {
-		    System.err.println(chanConfLine);
 			throw new Exception("Unknown format for channels.conf lines: " + chanConfLine);
 		}
 	}
