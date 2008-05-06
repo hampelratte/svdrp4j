@@ -84,6 +84,14 @@ public class Recording implements Comparable {
     public String getTitle() {
         return title;
     }
+    
+    public String getDisplayTitle() {
+        String display = getTitle();
+        while(display.startsWith("%")) {
+            display = display.substring(1);
+        }
+        return display;
+    }
 
     public void setTitle(String title) {
         this.title = title;
@@ -95,6 +103,10 @@ public class Recording implements Comparable {
 
     public void setNew(boolean isNew) {
         this.isNew = isNew;
+    }
+    
+    public boolean isCut() {
+        return getTitle().startsWith("%");
     }
     
     public String toString() {
