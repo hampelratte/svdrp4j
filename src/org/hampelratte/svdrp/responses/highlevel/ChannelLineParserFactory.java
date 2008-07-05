@@ -10,7 +10,7 @@ public class ChannelLineParserFactory {
 	
 	
 	public static ChannelLineParser createChannelParser(String chanConfLine) throws Exception {
-		/* TODO enable id IPTV is fully supported if(chanConfLine.toLowerCase().contains("iptv")) {
+		/* TODO enable if IPTV is fully supported if(chanConfLine.toLowerCase().contains("iptv")) {
 			if(iptv == null) iptv = new IPTVChannelLineParser();
 			return iptv;
 		} else*/ if(isDvbChannel(chanConfLine)) { 
