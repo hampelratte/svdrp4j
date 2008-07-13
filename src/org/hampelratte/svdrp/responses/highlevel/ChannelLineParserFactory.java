@@ -3,6 +3,8 @@ package org.hampelratte.svdrp.responses.highlevel;
 
 
 public class ChannelLineParserFactory {
+    
+    
 	
 	private static DVBChannelLineParser dvb;
 	
@@ -24,12 +26,7 @@ public class ChannelLineParserFactory {
     private static DVBChannel nullChannel = new DVBChannel();
 	private static boolean isDvbChannel(String chanConfLine) {
 	    String[] parts = chanConfLine.split(":");
-        try {
-            DVBChannelLineParser.parseParameters(nullChannel, parts[2]);
-        } catch (RuntimeException e) {
-            return false;
-        }
-        
+        DVBChannelLineParser.parseParameters(nullChannel, parts[2]);
         return true;
 	}
 }
