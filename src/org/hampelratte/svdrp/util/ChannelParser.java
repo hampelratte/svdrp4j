@@ -37,6 +37,8 @@ import java.util.StringTokenizer;
 import org.hampelratte.svdrp.responses.highlevel.Channel;
 import org.hampelratte.svdrp.responses.highlevel.ChannelLineParser;
 import org.hampelratte.svdrp.responses.highlevel.ChannelLineParserFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -46,6 +48,8 @@ import org.hampelratte.svdrp.responses.highlevel.ChannelLineParserFactory;
  *
  */
 public class ChannelParser {
+    private static transient Logger logger = LoggerFactory.getLogger(ChannelParser.class);
+    
     /**
 	 * Parses a list of channels received from VDR by the LSTC command
 	 * 
@@ -72,8 +76,11 @@ public class ChannelParser {
 				Channel channel = parser.parse(line);
 	            list.add(channel);
 			} catch (Exception e) {
+			    ParseException pe = new ParseException("Unknown channels.conf line format on line " + lineNumber + ": [" + line + "]", lineNumber); 
 				if(!ignoreErrors) {
-					throw new ParseException("Unknown channels.conf line format on line " + lineNumber + ": [" + line + "]", lineNumber);
+					throw pe;
+				} else {
+				    logger.error("", pe);
 				}
 			}
 			lineNumber++;
