@@ -37,6 +37,7 @@ import java.util.StringTokenizer;
 import org.hampelratte.svdrp.responses.highlevel.Channel;
 import org.hampelratte.svdrp.responses.highlevel.ChannelLineParser;
 import org.hampelratte.svdrp.responses.highlevel.ChannelLineParserFactory;
+import org.hampelratte.svdrp.responses.highlevel.DVBChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,9 +75,19 @@ public class ChannelParser {
 			try {
 				parser = ChannelLineParserFactory.createChannelParser(line);
 				Channel channel = parser.parse(line);
+				
+				// validate dvb channels to detect invalid channels.conf lines
+				if(channel instanceof DVBChannel) {
+				    try {
+                        ((DVBChannel)channel).validate();
+                    } catch (Exception e) {
+                        logger.warn("DVB channel with invalid values on line " + lineNumber, e);
+                    }
+				}
 	            list.add(channel);
 			} catch (Exception e) {
-			    ParseException pe = new ParseException("Unknown channels.conf line format on line " + lineNumber + ": [" + line + "]", lineNumber); 
+			    ParseException pe = new ParseException("Unknown channels.conf line format on line " + lineNumber + ": [" + line + "]", lineNumber);
+			    pe.initCause(e);
 				if(!ignoreErrors) {
 					throw pe;
 				} else {
