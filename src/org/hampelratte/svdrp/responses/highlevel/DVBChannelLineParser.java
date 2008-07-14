@@ -31,6 +31,9 @@ public class DVBChannelLineParser extends ChannelLineParser {
         for (int i = 0; i < string.length(); i++) {
             char c = string.charAt(i);
             switch(c) {
+            case 'A':
+                channel.setAlpha(parseNumberParam(string, i));
+                break;
             case 'B':
                 channel.setBandwidth(parseNumberParam(string, i));
                 break;
@@ -43,6 +46,7 @@ public class DVBChannelLineParser extends ChannelLineParser {
             case 'G':
                 channel.setGuardInterval(parseNumberParam(string, i));
                 break;
+            case 'H':
             case 'h':
                 channel.setHorizontalPolarization(true);
                 break;
@@ -55,12 +59,19 @@ public class DVBChannelLineParser extends ChannelLineParser {
             case 'M':
                 channel.setModulation(parseNumberParam(string, i));
                 break;
+            case 'O':
+                channel.setRolloff(parseNumberParam(string, i));
+                break;
+            case 'P':
+                channel.setPriority(parseNumberParam(string, i));
+                break;
             case 'R':
                 channel.setRightCircularPolarization(true);
                 break;
             case 'T':
                 channel.setTransmissionMode(parseNumberParam(string, i));
                 break;
+            case 'V':
             case 'v':
                 channel.setVerticalPolarization(true);
                 break;
