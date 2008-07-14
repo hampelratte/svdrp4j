@@ -29,6 +29,8 @@
  */
 package org.hampelratte.svdrp.responses.highlevel;
 
+import java.util.Arrays;
+
 
 /**
  * Represents a channel of vdr 
@@ -42,6 +44,7 @@ public class DVBChannel extends Channel {
     private int frequency = 0;
 
     // Parameters
+    private int alpha = -1;
     private int bandwidth = -1;
     private int codeRateHP = -1;
     private int codeRateLP = -1;
@@ -54,6 +57,8 @@ public class DVBChannel extends Channel {
     private int modulation = -1;
     private int transmissionMode = -1;
     private int hierarchy = -1;
+    private int rolloff = -1;
+    private int priority = -1;
     
     private String source = "";
 
@@ -197,6 +202,9 @@ public class DVBChannel extends Channel {
 
     private String getParameterString() {
         StringBuffer sb = new StringBuffer();
+        if(getAlpha() > -1) {
+            sb.append('A'); sb.append(getAlpha());
+        }
         if(getBandwidth() > -1) {
             sb.append('B'); sb.append(getBandwidth());
         }
@@ -210,7 +218,7 @@ public class DVBChannel extends Channel {
             sb.append('G'); sb.append(getGuardInterval());
         }
         if(isHorizontalPolarization()) {
-            sb.append('h');
+            sb.append('H');
         }
         if(getInversion() > -1) {
             sb.append('I'); sb.append(getInversion());
@@ -221,6 +229,12 @@ public class DVBChannel extends Channel {
         if(getModulation() > -1) {
             sb.append('M'); sb.append(getModulation());
         }
+        if(getRolloff() > -1) {
+            sb.append('O'); sb.append(getRolloff());
+        }
+        if(getPriority() > -1) {
+            sb.append('P'); sb.append(getPriority());
+        }
         if(isRightCircularPolarization()) {
             sb.append('R');
         }
@@ -228,7 +242,7 @@ public class DVBChannel extends Channel {
             sb.append('T'); sb.append(getTransmissionMode());
         }
         if(isVerticalPolarization()) {
-            sb.append('v');
+            sb.append('V');
         }
         if(getHierarchy() > -1) {
             sb.append('Y'); sb.append(getHierarchy());
@@ -243,14 +257,10 @@ public class DVBChannel extends Channel {
 
     /**
      * Sets the bandwidth of this channel.
-     * @param bandwidth Valid values are 6,7,8. To reset this parameter,
+     * @param bandwidth Valid values are 5, 6, 7, 8. To reset this parameter,
      * call the method with -1 as parameter.
      */
-    public void setBandwidth(int bandwidth) throws IllegalArgumentException {
-        if(bandwidth != 6 & bandwidth != 7 & bandwidth != 8 
-                & bandwidth != AUTOMATIC & bandwidth != -1) {
-            throw new IllegalArgumentException(bandwidth + " Valid values are 6,7,8 or Channel.AUTOMATIC (999)");
-        }
+    public void setBandwidth(int bandwidth) {
         this.bandwidth = bandwidth;
     }
 
@@ -260,18 +270,11 @@ public class DVBChannel extends Channel {
 
     /**
      * Sets the code rate high priority value of this channel.
-     * @param codeRateHP Valid values are 0, 12, 23, 34, 45, 56, 67, 78, 89.
+     * @param codeRateHP Valid values are 0, 12, 13, 14, 23, 25, 34, 35, 45, 56, 67, 78, 89, 910.
      * To reset this parameter, call the method with -1 as parameter.
      */
-    public void setCodeRateHP(int codeRateHP) throws IllegalArgumentException {
-        int[] validValues = {0, 12, 23, 34, 45, 56, 67, 78, 89, AUTOMATIC};
-        for (int i = 0; i < validValues.length; i++) {
-            if(codeRateHP == validValues[i]) {
-                this.codeRateHP = codeRateHP;
-                return;
-            }
-        }
-        throw new IllegalArgumentException(codeRateHP +" Valid values are 0, 12, 23, 34, 45, 56, 67, 78, 89 or Channel.AUTOMATIC (999)");
+    public void setCodeRateHP(int codeRateHP) {
+        this.codeRateHP = codeRateHP;
     }
 
     public int getCodeRateLP() {
@@ -280,18 +283,11 @@ public class DVBChannel extends Channel {
 
     /**
      * Sets the code rate low priority value of this channel.
-     * @param codeRateLP Valid values are 0, 12, 23, 34, 45, 56, 67, 78, 89.
+     * @param codeRateLP Valid values are 0, 12, 13, 14, 23, 25, 34, 35, 45, 56, 67, 78, 89, 910.
      * To reset this parameter, call the method with -1 as parameter.
      */
-    public void setCodeRateLP(int codeRateLP) throws IllegalArgumentException {
-        int[] validValues = {0, 12, 23, 34, 45, 56, 67, 78, 89, AUTOMATIC};
-        for (int i = 0; i < validValues.length; i++) {
-            if(codeRateLP == validValues[i]) {
-                this.codeRateLP = codeRateLP;
-                return;
-            }
-        }
-        throw new IllegalArgumentException(codeRateLP + " Valid values are 0, 12, 23, 34, 45, 56, 67, 78, 89 or Channel.AUTOMATIC (999)");
+    public void setCodeRateLP(int codeRateLP) {
+        this.codeRateLP = codeRateLP;
     }
 
     public int getGuardInterval() {
@@ -303,11 +299,7 @@ public class DVBChannel extends Channel {
      * @param guardInterval Valid values are 4, 8, 16, 32.
      * To reset this parameter, call the method with -1 as parameter.
      */
-    public void setGuardInterval(int guardInterval) throws IllegalArgumentException {
-        if(guardInterval != 4 & guardInterval != 8 & guardInterval != 16 
-                & guardInterval != 32 & guardInterval != AUTOMATIC & guardInterval != -1) {
-            throw new IllegalArgumentException(guardInterval + " Valid values are 4, 8, 16, 32 or Channel.AUTOMATIC (999)");
-        }
+    public void setGuardInterval(int guardInterval) {
         this.guardInterval = guardInterval;
     }
 
@@ -320,11 +312,7 @@ public class DVBChannel extends Channel {
      * @param hierarchy Valid values are 0, 1, 2, 4.
      * To reset this parameter, call the method with -1 as parameter.
      */
-    public void setHierarchy(int hierarchy) throws IllegalArgumentException {
-        if(hierarchy != 0 & hierarchy != 1 & hierarchy != 2 
-                & hierarchy != 4 & hierarchy != AUTOMATIC & hierarchy != -1) {
-            throw new IllegalArgumentException(hierarchy + " Valid values are 0, 1, 2, 4 or Channel.AUTOMATIC (999)");
-        }
+    public void setHierarchy(int hierarchy) {
         this.hierarchy = hierarchy;
     }
 
@@ -345,10 +333,7 @@ public class DVBChannel extends Channel {
      * @param inversion Valid values are 0, 1.
      * To reset this parameter, call the method with -1 as parameter.
      */
-    public void setInversion(int inversion) throws IllegalArgumentException {
-        if(inversion != 0 & inversion != 1 & inversion != AUTOMATIC & inversion != -1) {
-            throw new IllegalArgumentException(inversion + " Valid values are 0, 1 or Channel.AUTOMATIC (999)");
-        }
+    public void setInversion(int inversion) {
         this.inversion = inversion;
     }
 
@@ -366,18 +351,11 @@ public class DVBChannel extends Channel {
 
     /**
      * Sets the modulation value of this channel.
-     * @param modulation Valid values are 0, 16, 32, 64, 128, 256.
+     * @param modulation Valid values are 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 16, 32, 64, 128, 256, 512, 998, 1024.
      * To reset this parameter, call the method with -1 as parameter.
      */
-    public void setModulation(int modulation) throws IllegalArgumentException {
-        int[] validValues = {0, 16, 32, 64, 128, 256, AUTOMATIC};
-        for (int i = 0; i < validValues.length; i++) {
-            if(modulation == validValues[i]) {
-                this.modulation = modulation;
-                return;
-            }
-        }
-        throw new IllegalArgumentException(modulation + " Valid values are 0, 16, 32, 64, 128, 256 or Channel.AUTOMATIC (999)");
+    public void setModulation(int modulation) {
+        this.modulation = modulation;
     }
 
     public boolean isRightCircularPolarization() {
@@ -394,13 +372,10 @@ public class DVBChannel extends Channel {
 
     /**
      * Sets the transmission mode value of this channel.
-     * @param transmissionMode Valid values are 2, 8.
+     * @param transmissionMode Valid values are 2, 4, 8.
      * To reset this parameter, call the method with -1 as parameter.
      */
-    public void setTransmissionMode(int transmissionMode) throws IllegalArgumentException {
-        if(transmissionMode != 2 & transmissionMode != 8 & transmissionMode != AUTOMATIC & transmissionMode != -1) {
-            throw new IllegalArgumentException(transmissionMode + " Valid values are 2, 8 or Channel.AUTOMATIC (999)");
-        }
+    public void setTransmissionMode(int transmissionMode)  {
         this.transmissionMode = transmissionMode;
     }
 
@@ -421,6 +396,150 @@ public class DVBChannel extends Channel {
             DVBChannel c = (DVBChannel) o;
             return c.getChannelID().equals(getChannelID());
         }
+        return false;
+    }
+
+    public int getAlpha() {
+        return alpha;
+    }
+
+    /**
+     * Sets the alpha value of this channel.
+     * @param alpha Valid values are 0, 1, 2, 4
+     * To reset this parameter, call the method with -1 as parameter.
+     */
+    public void setAlpha(int alpha) {
+        this.alpha = alpha;
+    }
+
+    public int getRolloff() {
+        return rolloff;
+    }
+
+    /**
+     * Sets the rolloff value of this channel.
+     * @param rolloff Valid values are 0, 20, 25, 35
+     * To reset this parameter, call the method with -1 as parameter.
+     */
+    public void setRolloff(int rolloff) {
+        this.rolloff = rolloff;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    /**
+     * Sets the priority value of this channel.
+     * @param priority Valid values are 0, 1
+     * To reset this parameter, call the method with -1 as parameter.
+     */
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+    
+    /**
+     * Validates the parameters of this channel.
+     * 
+     * @throws IllegalArgumentException
+     *             If one of the parameters is invalid.
+     */
+    public void validate() throws IllegalArgumentException {
+        // validate alpha
+        int[] validValues = {-1, 0, 1, 2, 4, AUTOMATIC};
+        boolean valid = validateArray(validValues, alpha);
+        if(!valid) {
+            throwIllegalArgumentException("Alpha", alpha, validValues);
+        }
+
+        // validate bandwidth
+        validValues = new int[] {-1, 5, 6, 7, 8, AUTOMATIC};
+        valid = validateArray(validValues, bandwidth);
+        if(!valid) {
+            throwIllegalArgumentException("Bandwidth", bandwidth, validValues);
+        }
+        
+        // validate codeRateHP
+        validValues = new int[] {-1, 0, 12, 13, 14, 23, 25, 34, 35, 45, 56, 67, 78, 89, 910, AUTOMATIC};
+        valid = validateArray(validValues, codeRateHP);
+        if(!valid) {
+            throwIllegalArgumentException("Code rate HP", codeRateHP, validValues);
+        }
+        
+        // validate codeRateLP
+        validValues = new int[] {-1, 0, 12, 13, 14, 23, 25, 34, 35, 45, 56, 67, 78, 89, 910, AUTOMATIC};
+        valid = validateArray(validValues, codeRateLP);
+        if(!valid) {
+            throwIllegalArgumentException("Code rate LP", codeRateLP, validValues);
+        }
+        
+        // validate guardInterval
+        validValues = new int[] {-1, 4, 8, 16, 32, AUTOMATIC};
+        valid = validateArray(validValues, guardInterval);
+        if(!valid) {
+            throwIllegalArgumentException("Guard interval", guardInterval, validValues);
+        }
+        
+        // validate hierarchy
+        validValues = new int[] {-1, 0, 1, 2, 4, AUTOMATIC};
+        valid = validateArray(validValues, hierarchy);
+        if(!valid) {
+            throwIllegalArgumentException("Hierarchy", hierarchy, validValues);
+        }
+        
+        // validate inversion
+        validValues = new int[] {-1, 0, 1, AUTOMATIC};
+        valid = validateArray(validValues, inversion);
+        if(!valid) {
+            throwIllegalArgumentException("Inversion", inversion, validValues);
+        }
+        
+        // validate modulation
+        validValues = new int[] {-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 16, 32, 64, 128, 256, 512, 998, 1024, AUTOMATIC};
+        valid = validateArray(validValues, modulation);
+        if(!valid) {
+            throwIllegalArgumentException("Modulation", modulation, validValues);
+        }
+        
+        // validate priority
+        validValues = new int[] {-1, 0, 1, AUTOMATIC};
+        valid = validateArray(validValues, priority);
+        if(!valid) {
+            throwIllegalArgumentException("Priority", priority, validValues);
+        }
+        
+        // validate rolloff
+        validValues = new int[] {-1, 0, 20, 25, 35, AUTOMATIC};
+        valid = validateArray(validValues, rolloff);
+        if(!valid) {
+            throwIllegalArgumentException("Rolloff", rolloff, validValues);
+        }
+        
+        // validate transmission mode
+        validValues = new int[] {-1, 2, 4, 8, AUTOMATIC};
+        valid = validateArray(validValues, transmissionMode);
+        if(!valid) {
+            throwIllegalArgumentException("Transmission mode", transmissionMode, validValues);
+        }
+    }
+    
+    private void throwIllegalArgumentException (String name, int value, int[] validValues) throws IllegalArgumentException {
+        throw new IllegalArgumentException(name + " value [" + value + "] is invalid. Valid values are " + Arrays.toString(validValues));
+    }
+    
+    /**
+     * 
+     * @param validValues an array with valid values
+     * @param value the value to validate
+     * @return true, if the value is valid
+     */
+    private boolean validateArray(int[] validValues, int value) {
+        for (int i = 0; i < validValues.length; i++) {
+            if(value == validValues[i]) {
+                return true;
+            }
+        }
+        
         return false;
     }
 }
