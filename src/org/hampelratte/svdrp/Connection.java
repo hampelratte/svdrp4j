@@ -250,6 +250,12 @@ public class Connection {
                     response = new NotImplementedBySVDRP4J(code, msg.toString());
                     break;
                 }
+                
+                // special case: plugin responses in the range between 900 and 999
+                if(code >= 900 && code <= 999) {
+                    response = new PluginResponse(code, msg.toString());
+                }
+                
                 line = "";
                 msg = new StringBuffer();
             } else {
