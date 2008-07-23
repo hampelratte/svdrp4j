@@ -39,7 +39,7 @@ import org.hampelratte.svdrp.Command;
  */
 public class GRAB extends Command {
 
-    private String format = "jpeg";
+    private String format = "";
 
     private String quality = "80";
 
@@ -74,6 +74,7 @@ public class GRAB extends Command {
      * Returns the format of the screenshot
      * 
      * @return The format of the screenshot ("jpeg" or "pnm")
+     * @deprecated
      */
     public String getFormat() {
         return format;
@@ -84,6 +85,10 @@ public class GRAB extends Command {
      * 
      * @param format
      *            The format of the screenshot ("jpeg" or "pnm")
+     * @deprecated format is determined from the filename suffix. If you want
+     *             the data to be sent to the SVDRP connection use the suffix
+     *             as filename, e.g. ".jpeg" or ".pnm"
+     * @see #setFilename(String)
      */
     public void setFormat(String format) {
         if ("jpeg".equals(format) || "pnm".equals(format)) {
@@ -135,6 +140,16 @@ public class GRAB extends Command {
         return filename;
     }
 
+    /**
+     * Determines, where the screenshot will be saved
+     * 
+     * @param filename
+     *            The name of the file the screenshot will be saved to. If the
+     *            file name is just an extension (.jpg, .jpeg or .pnm) the image
+     *            data will be sent to the SVDRP connection encoded in base64.
+     *            The same happens if '-' (a minus sign) is given as file name,
+     *            in which case the image format defaults to JPEG.
+     */
     public void setFilename(String filename) {
         this.filename = filename;
     }
