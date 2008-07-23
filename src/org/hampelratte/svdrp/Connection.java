@@ -148,11 +148,11 @@ public class Connection {
      * Sends a command to VDR and returns the response from VDR.
      * 
      * @param cmd
-     *            The Command, which should be sent to VDR
-     * @return A Response object
+     *            The {@link Command}, which should be sent to VDR
+     * @return A {@link Response} object
      * @throws IOException
-     * @see de.hampelratte.svdrp.Command
-     * @see de.hampelratte.svdrp.Response
+     * @see Command
+     * @see Response
      */
     public synchronized Response send(Command cmd) throws IOException {
         // send the command
