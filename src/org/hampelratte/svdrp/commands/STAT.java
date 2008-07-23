@@ -32,7 +32,7 @@ package org.hampelratte.svdrp.commands;
 import org.hampelratte.svdrp.Command;
 
 /**
- * Command to list system statistics like disc space
+ * Command to list system statistics like disk space
  * 
  * @author <a href="mailto:henrik.niehaus@gmx.de">Henrik Niehaus</a>
  */
