@@ -48,6 +48,8 @@ import org.hampelratte.svdrp.responses.*;
  * The connection to VDR. I recommend to use only one connection at a time,
  * since VDR just accepts one client.
  * 
+ * You may set Connection.DEBUG to true to get debug output on System.out
+ * 
  * @author <a href="mailto:henrik.niehaus@gmx.de">Henrik Niehaus</a>
  */
 public class Connection {
