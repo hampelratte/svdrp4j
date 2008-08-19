@@ -417,7 +417,7 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
         timer.setLifetime(getLifetime());
         timer.setPath(getPath());
         timer.setPriority(getPriority());
-        timer.setRepeatingDays(getRepeatingDays());
+        timer.setRepeatingDays(getRepeatingDays().clone());
         timer.setStartTime((Calendar)getStartTime().clone());
         timer.setTitle(getTitle());
         return timer;
