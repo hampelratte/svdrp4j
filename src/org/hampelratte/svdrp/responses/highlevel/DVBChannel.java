@@ -173,7 +173,7 @@ public class DVBChannel extends Channel {
     /**
      * @return The string representation of this channel in the channels.conf format
      */
-    public String toString() {
+    public String toChannelsConf() {
         StringBuffer sb = new StringBuffer();
         sb.append(getName());
         if(getShortName().length() > 0) {
@@ -198,6 +198,11 @@ public class DVBChannel extends Channel {
         sb.append(getRID());
         
         return sb.toString();
+    }
+    
+    @Override
+    public String toString() {
+        return getName();
     }
 
     private String getParameterString() {
