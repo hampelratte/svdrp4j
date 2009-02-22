@@ -30,9 +30,10 @@
 package org.hampelratte.svdrp;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.OutputStreamWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -41,7 +42,21 @@ import java.util.regex.Pattern;
 
 import org.hampelratte.svdrp.commands.PUTE;
 import org.hampelratte.svdrp.commands.QUIT;
-import org.hampelratte.svdrp.responses.*;
+import org.hampelratte.svdrp.responses.AccessDenied;
+import org.hampelratte.svdrp.responses.NotImplementedBySVDRP4J;
+import org.hampelratte.svdrp.responses.R214;
+import org.hampelratte.svdrp.responses.R215;
+import org.hampelratte.svdrp.responses.R216;
+import org.hampelratte.svdrp.responses.R220;
+import org.hampelratte.svdrp.responses.R221;
+import org.hampelratte.svdrp.responses.R250;
+import org.hampelratte.svdrp.responses.R354;
+import org.hampelratte.svdrp.responses.R451;
+import org.hampelratte.svdrp.responses.R500;
+import org.hampelratte.svdrp.responses.R501;
+import org.hampelratte.svdrp.responses.R502;
+import org.hampelratte.svdrp.responses.R550;
+import org.hampelratte.svdrp.responses.R554;
 
 
 /**
@@ -59,9 +74,9 @@ public class Connection {
     private Socket socket;
     
     /**
-     * The PrintStream to send commands to VDR
+     * The BufferedWriter to send commands to VDR
      */
-    private PrintStream out;
+    private BufferedWriter out;
 
     /**
      * The BufferedReader to read responses from VDR
@@ -109,7 +124,7 @@ public class Connection {
         socket = new Socket();
         InetSocketAddress sa = new InetSocketAddress(host, port);
         socket.connect(sa, timeout);
-        out = new PrintStream(socket.getOutputStream(), true, encoding);
+        out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), encoding));
         in = new BufferedReader(new InputStreamReader(socket.getInputStream(), encoding));
 
         // read the welcome message
@@ -159,14 +174,14 @@ public class Connection {
     public synchronized Response send(Command cmd) throws IOException {
         // send the command
         if(cmd instanceof PUTE) {
-            out.println("PUTE");
+            out.write("PUTE"); out.newLine(); out.flush();
             Response res = readResponse();
             if(res.getCode() != 354) {
                 return res;
             }
         }
         
-        out.println(cmd.getCommand());
+        out.write(cmd.getCommand()); out.newLine(); out.flush();
         if (DEBUG)
             System.out.println("-->" + cmd.getCommand());
 
