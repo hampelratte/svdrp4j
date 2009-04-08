@@ -85,6 +85,9 @@ public class Connection {
 
     private static VDRVersion version;
 
+    /**
+     * If set, debug output will be printed to stdout
+     */
     public static boolean DEBUG = false;
     
 
