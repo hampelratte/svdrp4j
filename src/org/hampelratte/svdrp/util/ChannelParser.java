@@ -33,13 +33,12 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.logging.Logger;
 
 import org.hampelratte.svdrp.responses.highlevel.Channel;
 import org.hampelratte.svdrp.responses.highlevel.ChannelLineParser;
 import org.hampelratte.svdrp.responses.highlevel.ChannelLineParserFactory;
 import org.hampelratte.svdrp.responses.highlevel.DVBChannel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
@@ -49,7 +48,7 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class ChannelParser {
-    private static transient Logger logger = LoggerFactory.getLogger(ChannelParser.class);
+    private static transient Logger logger = Logger.getLogger(ChannelParser.class.getName());
     
     /**
 	 * Parses a list of channels received from VDR by the LSTC command
@@ -81,7 +80,8 @@ public class ChannelParser {
 				    try {
                         ((DVBChannel)channel).validate();
                     } catch (Exception e) {
-                        logger.warn("DVB channel with invalid values on line " + lineNumber, e);
+                        logger.warning("DVB channel with invalid values on line " + lineNumber);
+                        e.printStackTrace();
                     }
 				}
 	            list.add(channel);
@@ -91,7 +91,7 @@ public class ChannelParser {
 				if(!ignoreErrors) {
 					throw pe;
 				} else {
-				    logger.error("", pe);
+				    pe.printStackTrace();
 				}
 			}
 			lineNumber++;
