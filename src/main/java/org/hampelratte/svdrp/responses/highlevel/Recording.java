@@ -106,7 +106,7 @@ public class Recording implements Comparable {
     }
     
     public boolean isCut() {
-        return getTitle().startsWith("%");
+        return getTitle().startsWith("%") || getTitle().contains("~%");
     }
     
     public String toString() {
