@@ -20,26 +20,12 @@
     <dependencies>
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-jdk14</artifactId>
-            <version>1.5.6</version>
-            <type>jar</type>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.5.6</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
     </dependencies>
-
-    <distributionManagement>
-        <repository>
-            <id>hampelratte</id>
-            <url>scp://hampelratte.org/var/www/htdocs/hampelratte.org/www/maven</url>
-        </repository>
-    </distributionManagement>
 
     <developers>
         <developer>
@@ -77,4 +63,17 @@
             </plugin>
         </plugins>
     </build>
+    
+    <distributionManagement>
+        <repository>
+            <id>hampelratte</id>
+            <name>JMP3Renamer Plugin Repository</name>
+            <url>http://www.hampelratte.org:8080/artifactory/hampelratte.org</url>
+        </repository>
+        <snapshotRepository>
+            <id>hampelratte</id>
+            <name>JMP3Renamer Plugin Repository</name>
+            <url>http://www.hampelratte.org:8080/artifactory/hampelratte.org</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
