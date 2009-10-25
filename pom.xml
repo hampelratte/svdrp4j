@@ -64,16 +64,32 @@
         </plugins>
     </build>
     
-    <distributionManagement>
-        <repository>
-            <id>hampelratte</id>
-            <name>JMP3Renamer Plugin Repository</name>
-            <url>http://www.hampelratte.org:8080/artifactory/hampelratte.org</url>
-        </repository>
-        <snapshotRepository>
-            <id>hampelratte</id>
-            <name>JMP3Renamer Plugin Repository</name>
-            <url>http://www.hampelratte.org:8080/artifactory/hampelratte.org</url>
-        </snapshotRepository>
-    </distributionManagement>
+    <profiles>
+        <profile>
+            <id>local</id>
+            <distributionManagement>
+                <repository>
+                    <id>hampelratte</id>
+                    <url>scp://hampelratte.org/var/www/htdocs/hampelratte.org/www/maven</url>
+                </repository>
+                <snapshotRepository>
+                    <id>hampelratte</id>
+                    <url>scp://hampelratte.org/var/www/htdocs/hampelratte.org/www/maven</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
+        <profile>
+            <id>ci</id>
+            <distributionManagement>
+                <repository>
+                    <id>hampelratte</id>
+                    <url>file://var/www/htdocs/hampelratte.org/www/maven</url>
+                </repository>
+                <snapshotRepository>
+                    <id>hampelratte</id>
+                    <url>file://var/www/htdocs/hampelratte.org/www/maven</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
+    </profiles>
 </project>
