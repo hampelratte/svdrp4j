@@ -83,11 +83,11 @@
             <distributionManagement>
                 <repository>
                     <id>hampelratte</id>
-                    <url>file://var/www/htdocs/hampelratte.org/www/maven</url>
+                    <url>file://var/www/hampelratte.org/htdocs/maven/</url>
                 </repository>
                 <snapshotRepository>
                     <id>hampelratte</id>
-                    <url>file://var/www/htdocs/hampelratte.org/www/maven</url>
+                    <url>file://var/www/hampelratte.org/htdocs/maven/</url>
                 </snapshotRepository>
             </distributionManagement>
         </profile>
