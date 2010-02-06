@@ -33,15 +33,13 @@ import java.util.Arrays;
 
 
 /**
- * Represents a channel of vdr 
+ * Represents a DVB channel of vdr 
  * 
  * @author <a href="hampelratte@users.sf.net>hampelratte@users.sf.net</a>
  * @see man 5 vdr for details
  */
-public class DVBChannel extends Channel {
+public class DVBChannel extends BroadcastChannel {
     public static final int AUTOMATIC = 999;
-
-    private int frequency = 0;
 
     // Parameters
     private int alpha = -1;
@@ -59,116 +57,6 @@ public class DVBChannel extends Channel {
     private int hierarchy = -1;
     private int rolloff = -1;
     private int priority = -1;
-    
-    private String source = "";
-
-    private int symbolRate = 0;
-
-    private String VPID = "";
-
-    private String APID = "";
-
-    private String TPID = "";
-
-    private String conditionalAccess = "";
-
-    private int SID = 0;
-
-    private int NID = 0;
-
-    private int TID = 0;
-
-    private int RID = 0;
-
-    public String getAPID() {
-        return APID;
-    }
-
-    public void setAPID(String apid) {
-        APID = apid;
-    }
-
-    public String getConditionalAccess() {
-        return conditionalAccess;
-    }
-
-    public void setConditionalAccess(String conditionalAccess) {
-        this.conditionalAccess = conditionalAccess;
-    }
-
-    public int getFrequency() {
-        return frequency;
-    }
-
-    public void setFrequency(int frequency) {
-        this.frequency = frequency;
-    }
-
-    public int getNID() {
-        return NID;
-    }
-
-    public void setNID(int nid) {
-        NID = nid;
-    }
-
-    public int getRID() {
-        return RID;
-    }
-
-    public void setRID(int rid) {
-        RID = rid;
-    }
-
-    public int getSID() {
-        return SID;
-    }
-
-    public void setSID(int sid) {
-        SID = sid;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public int getSymbolRate() {
-        return symbolRate;
-    }
-
-    public void setSymbolRate(int symbolRate) {
-        this.symbolRate = symbolRate;
-    }
-
-    public int getTID() {
-        return TID;
-    }
-
-    public void setTID(int tid) {
-        TID = tid;
-    }
-
-    public String getTPID() {
-        return TPID;
-    }
-
-    public void setTPID(String tpid) {
-        TPID = tpid;
-    }
-
-    public String getVPID() {
-        return VPID;
-    }
-
-    public void setVPID(String vpid) {
-        VPID = vpid;
-    }
-    
-    
     
     /**
      * @return The string representation of this channel in the channels.conf format

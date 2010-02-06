@@ -8,7 +8,7 @@
 	<modelVersion>4.0.0</modelVersion>
     <artifactId>svdrp4j</artifactId>
     <packaging>jar</packaging>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <name>SVDRP4J</name>
     <description>An implementation of the Simple VDR Protocol</description>
     <url>http://developer.berlios.de/projects/lazybones</url>
@@ -43,4 +43,17 @@
             </plugin>
         </plugins>
     </build>
+    
+    <repositories>
+        <repository>
+            <id>hampelratte.org</id>
+            <url>http://www.hampelratte.org:8080/nexus/content/groups/public</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>hampelratte.org</id>
+            <url>http://www.hampelratte.org:8080/nexus/content/groups/public</url>
+        </pluginRepository>
+    </pluginRepositories>
 </project>

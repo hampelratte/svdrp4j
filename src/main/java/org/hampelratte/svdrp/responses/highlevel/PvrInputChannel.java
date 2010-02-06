@@ -29,40 +29,52 @@
  */
 package org.hampelratte.svdrp.responses.highlevel;
 
-public class ChannelLineParserFactory {
-	
-	private static DVBChannelLineParser dvb;
-	
-	private static PvrInputChannelLineParser pvr;
-	
-	//private static IPTVChannelLineParser iptv;
-	
-	public static ChannelLineParser createChannelParser(String chanConfLine) throws Exception {
-		/* TODO enable if IPTV is fully supported if(chanConfLine.toLowerCase().contains("iptv")) {
-			if(iptv == null) iptv = new IPTVChannelLineParser();
-			return iptv;
-		} else*/ 
-	    if(isDvbChannel(chanConfLine)) { 
-			if(dvb == null) dvb = new DVBChannelLineParser();
-			return dvb;
-	    } else if(isPvrInputChannel(chanConfLine)) {
-	        if(pvr == null) pvr = new PvrInputChannelLineParser();
-            return pvr;
-	    } else {
-			throw new Exception("Unknown format for channels.conf lines: " + chanConfLine);
-		}
-	}
-
-	private static boolean isPvrInputChannel(String chanConfLine) {
-        return chanConfLine.contains("PVRINPUT");
+public class PvrInputChannel extends BroadcastChannel {
+    private String type;
+    
+    private String videoNorm;
+    
+    private String card;
+    
+    public PvrInputChannel() {}
+    
+    public PvrInputChannel(BroadcastChannel other) {
+        this.setAPID(other.getAPID());
+        this.setChannelNumber(other.getChannelNumber());
+        this.setConditionalAccess(other.getConditionalAccess());
+        this.setFrequency(other.getFrequency());
+        this.setName(other.getName());
+        this.setNID(other.getNID());
+        this.setRID(other.getRID());
+        this.setSID(other.getSID());
+        this.setSource(other.getSource());
+        this.setSymbolRate(other.getSymbolRate());
+        this.setTID(other.getTID());
+        this.setTPID(other.getTPID());
+        this.setVPID(other.getVPID());
     }
 
-    private static boolean isDvbChannel(String chanConfLine) {
-	    String[] parts = chanConfLine.split(":");
-        if (parts.length >= 4 && (parts[3].startsWith("S") || parts[3].startsWith("C") || parts[3].startsWith("T"))) {
-            return true;
-        }
-        
-        return false;
-	}
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getVideoNorm() {
+        return videoNorm;
+    }
+
+    public void setVideoNorm(String videoNorm) {
+        this.videoNorm = videoNorm;
+    }
+
+    public String getCard() {
+        return card;
+    }
+
+    public void setCard(String card) {
+        this.card = card;
+    }
 }

@@ -29,40 +29,34 @@
  */
 package org.hampelratte.svdrp.responses.highlevel;
 
-public class ChannelLineParserFactory {
-	
-	private static DVBChannelLineParser dvb;
-	
-	private static PvrInputChannelLineParser pvr;
-	
-	//private static IPTVChannelLineParser iptv;
-	
-	public static ChannelLineParser createChannelParser(String chanConfLine) throws Exception {
-		/* TODO enable if IPTV is fully supported if(chanConfLine.toLowerCase().contains("iptv")) {
-			if(iptv == null) iptv = new IPTVChannelLineParser();
-			return iptv;
-		} else*/ 
-	    if(isDvbChannel(chanConfLine)) { 
-			if(dvb == null) dvb = new DVBChannelLineParser();
-			return dvb;
-	    } else if(isPvrInputChannel(chanConfLine)) {
-	        if(pvr == null) pvr = new PvrInputChannelLineParser();
-            return pvr;
-	    } else {
-			throw new Exception("Unknown format for channels.conf lines: " + chanConfLine);
-		}
-	}
+import java.util.StringTokenizer;
 
-	private static boolean isPvrInputChannel(String chanConfLine) {
-        return chanConfLine.contains("PVRINPUT");
+public class PvrInputChannelLineParser extends DVBChannelLineParser {
+
+    @Override
+    public Channel parse(String chanConfLine) {
+        DVBChannel dvb = (DVBChannel) super.parse(chanConfLine);
+        PvrInputChannel channel = new PvrInputChannel(dvb);
+        parseParameters(channel, chanConfLine);
+        return channel;
     }
 
-    private static boolean isDvbChannel(String chanConfLine) {
-	    String[] parts = chanConfLine.split(":");
-        if (parts.length >= 4 && (parts[3].startsWith("S") || parts[3].startsWith("C") || parts[3].startsWith("T"))) {
-            return true;
+    @Override
+    protected void parseParameters(String string) {
+        // override method from DVBChannelLineParser with no operation
+    }
+    
+    private void parseParameters(PvrInputChannel channel, String chanConfLine) {
+        String[] parts = chanConfLine.split(":");
+        String params = parts[2];
+        StringTokenizer st = new StringTokenizer(params, "|");
+        st.nextToken(); // skip PVRINPUT
+        channel.setType(st.nextToken()); // set type (TV, RADIO, COMPOSITE0..COMPOSITE4, SVIDEO0..SVIDEO3)
+        if(st.hasMoreElements()) {
+            channel.setVideoNorm(st.nextToken());
         }
-        
-        return false;
-	}
+        if(st.hasMoreElements()) {
+            channel.setCard(st.nextToken());
+        }
+    }
 }
