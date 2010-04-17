@@ -88,11 +88,6 @@ public class DVBChannel extends BroadcastChannel {
         return sb.toString();
     }
     
-    @Override
-    public String toString() {
-        return getName();
-    }
-
     private String getParameterString() {
         StringBuffer sb = new StringBuffer();
         if(getAlpha() > -1) {
