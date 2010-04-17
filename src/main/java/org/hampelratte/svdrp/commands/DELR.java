@@ -47,7 +47,7 @@ public class DELR extends Command {
     /**
      * Command to delete a recording
      * 
-     * @param parameter
+     * @param number
      *            The number of the recording, which should be deleted
      */
     public DELR(int number) {
@@ -74,7 +74,7 @@ public class DELR extends Command {
     /**
      * Sets the number of the recording, which should be deleted
      * 
-     * @param parameter
+     * @param number
      *            The number of the recording, which should be deleted
      */
     public void setNumber(int number) {

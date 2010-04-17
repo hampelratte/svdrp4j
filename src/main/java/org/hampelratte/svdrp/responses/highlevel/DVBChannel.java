@@ -33,10 +33,9 @@ import java.util.Arrays;
 
 
 /**
- * Represents a DVB channel of vdr 
+ * Represents a DVB channel of vdr. See man 5 vdr for details 
  * 
  * @author <a href="hampelratte@users.sf.net>hampelratte@users.sf.net</a>
- * @see man 5 vdr for details
  */
 public class DVBChannel extends BroadcastChannel {
     public static final int AUTOMATIC = 999;

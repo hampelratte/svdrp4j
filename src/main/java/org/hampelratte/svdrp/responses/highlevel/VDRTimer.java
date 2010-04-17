@@ -179,7 +179,7 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
     
     /**
      * Returns a settings string, which can be used to create or update timers
-     * @return
+     * @return a settings string, which can be used to create or update timers
      */
     public String toNEWT() {
         String start = createTimeString(getStartTime());

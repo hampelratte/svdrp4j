@@ -78,7 +78,7 @@ public class REMO extends Command {
 
     /**
      * Returns the state
-     * @return
+     * @return the state
      */
     public String getState() {
         return state;
