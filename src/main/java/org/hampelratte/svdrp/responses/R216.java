@@ -29,15 +29,16 @@
  */
 package org.hampelratte.svdrp.responses;
 
+import java.io.IOException;
+
 import javax.swing.ImageIcon;
 
 import org.hampelratte.svdrp.Response;
-
-import biz.source_code.Base64Coder;
+import org.hampelratte.svdrp.util.Base64;
 
 
 public class R216 extends Response {
-
+    
     public R216(String message) {
         super(216, message);
     }
@@ -51,12 +52,13 @@ public class R216 extends Response {
      * @return the grabbed image as {@link ImageIcon}
      * @throws IOException
      */
-    public ImageIcon getImage() {
+    public ImageIcon getImage() throws IOException {
         ImageIcon icon = new ImageIcon();
         String image = getMessage().substring(0, getMessage().lastIndexOf("\n"));
         image = image.substring(0, image.lastIndexOf("\n"));
         image = image.replaceAll("\n", "");
-        byte[] bytes = Base64Coder.decode(image);
+        //byte[] bytes = Base64Coder.decode(image);
+        byte[] bytes = Base64.decode(image);
         icon = new ImageIcon(bytes);
         return icon;
     }
