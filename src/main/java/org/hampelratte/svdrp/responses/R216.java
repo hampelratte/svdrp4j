@@ -57,7 +57,6 @@ public class R216 extends Response {
         String image = getMessage().substring(0, getMessage().lastIndexOf("\n"));
         image = image.substring(0, image.lastIndexOf("\n"));
         image = image.replaceAll("\n", "");
-        //byte[] bytes = Base64Coder.decode(image);
         byte[] bytes = Base64.decode(image);
         icon = new ImageIcon(bytes);
         return icon;
