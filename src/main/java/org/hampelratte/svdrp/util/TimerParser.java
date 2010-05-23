@@ -113,19 +113,16 @@ public class TimerParser {
         Pattern dayPattern = Pattern.compile("([1-9]|[12][0-9]|3[01])");
 
         // 2005-03-19
-        Pattern datePattern = Pattern
-                .compile("((?:19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])");
+        Pattern datePattern = Pattern.compile("((?:19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])");
 
         // MTWTFSS
         Pattern simpleRepeating = Pattern.compile("(\\p{Upper}|-){7}");
 
         // MTWTFSS@19 (1-31)
-        Pattern repeatingAtShort = Pattern
-                .compile("((?:\\p{Upper}|-){7})@([1-9]|[12][0-9]|3[01])");
+        Pattern repeatingAtShort = Pattern.compile("((?:\\p{Upper}|-){7})@([1-9]|[12][0-9]|3[01])");
 
         // MTWTFSS@2005-03-19
-        Pattern repeatingAt = Pattern
-                .compile("((?:\\p{Upper}|-){7})@((?:19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])");
+        Pattern repeatingAt = Pattern.compile("((?:\\p{Upper}|-){7})@((?:19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])");
 
         Matcher matcher;
         int day_of_month;

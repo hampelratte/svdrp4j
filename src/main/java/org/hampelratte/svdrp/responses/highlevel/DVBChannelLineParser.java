@@ -29,39 +29,42 @@
  */
 package org.hampelratte.svdrp.responses.highlevel;
 
+import java.util.StringTokenizer;
+
 public class DVBChannelLineParser extends ChannelLineParser {
 
     private DVBChannel channel;
-    
-	public Channel parse(String chanConfLine) {
-	    channel = new DVBChannel();
+
+    public Channel parse(String chanConfLine) {
+        channel = new DVBChannel();
         String line = chanConfLine;
         // parse channelNumber
-        channel.setChannelNumber(Integer.parseInt(line.substring(0, line.indexOf(" "))));
+        channel.setChannelNumber(Integer.parseInt(line.substring(0, line.indexOf(' '))));
         // remove channelNumber
-        line = line.substring(line.indexOf(" ") + 1); 
-        String[] parts = line.split(":");
-        channel.setName(parts[0]);
-        channel.setFrequency(Integer.parseInt(parts[1]));
-        parseParameters(parts[2]);
-        channel.setSource(parts[3]);
-        channel.setSymbolRate(Integer.parseInt(parts[4]));
-        channel.setVPID(parts[5]);
-        channel.setAPID(parts[6]);
-        channel.setTPID(parts[7]);
-        channel.setConditionalAccess(parts[8]);
-        channel.setSID(Integer.parseInt(parts[9]));
-        channel.setNID(Integer.parseInt(parts[10]));
-        channel.setTID(Integer.parseInt(parts[11]));
-        channel.setRID(Integer.parseInt(parts[12]));
-        
+        line = line.substring(line.indexOf(' ') + 1);
+
+        StringTokenizer st = new StringTokenizer(line, ":");
+        channel.setName(st.nextToken());
+        channel.setFrequency(Integer.parseInt(st.nextToken()));
+        parseParameters(st.nextToken());
+        channel.setSource(st.nextToken());
+        channel.setSymbolRate(Integer.parseInt(st.nextToken()));
+        channel.setVPID(st.nextToken());
+        channel.setAPID(st.nextToken());
+        channel.setTPID(st.nextToken());
+        channel.setConditionalAccess(st.nextToken());
+        channel.setSID(Integer.parseInt(st.nextToken()));
+        channel.setNID(Integer.parseInt(st.nextToken()));
+        channel.setTID(Integer.parseInt(st.nextToken()));
+        channel.setRID(Integer.parseInt(st.nextToken()));
+
         return channel;
-	}
-	
-	protected void parseParameters(String string) {
+    }
+
+    protected void parseParameters(String string) {
         for (int i = 0; i < string.length(); i++) {
             char c = string.charAt(i);
-            switch(c) {
+            switch (c) {
             case 'A':
                 channel.setAlpha(parseNumberParam(string, i));
                 break;

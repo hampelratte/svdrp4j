@@ -207,7 +207,7 @@ public class Connection {
     private Response readResponse() throws IOException {
         Response response = null;
         String line = "";
-        StringBuffer msg = new StringBuffer();
+        StringBuilder msg = new StringBuilder();
         boolean running = true;
         while (running && (line = in.readLine()) != null) {
             char fourthChar = line.charAt(3);
@@ -277,7 +277,7 @@ public class Connection {
                 }
                 
                 line = "";
-                msg = new StringBuffer();
+                msg = new StringBuilder();
             } else {
                 msg.append(line);
                 msg.append("\n");

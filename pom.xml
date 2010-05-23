@@ -8,7 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>svdrp4j</artifactId>
     <packaging>jar</packaging>
-    <version>0.0.4</version>
+    <version>0.0.5-SNAPSHOT</version>
     <name>SVDRP4J</name>
     <description>An implementation of the Simple VDR Protocol</description>
     <url>http://developer.berlios.de/projects/lazybones</url>
@@ -20,6 +20,20 @@
             <version>1.5.6</version>
             <type>jar</type>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+        	<groupId>org.slf4j</groupId>
+        	<artifactId>slf4j-jdk14</artifactId>
+        	<version>1.5.6</version>
+        	<type>jar</type>
+        	<scope>test</scope>
+        </dependency>
+        <dependency>
+        	<groupId>junit</groupId>
+        	<artifactId>junit</artifactId>
+        	<version>4.8.1</version>
+        	<type>jar</type>
+        	<scope>test</scope>
         </dependency>
     </dependencies>
 

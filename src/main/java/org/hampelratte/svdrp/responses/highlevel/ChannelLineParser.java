@@ -34,15 +34,16 @@ public abstract class ChannelLineParser {
 	public abstract Channel parse(String chanConfLine);
 	
 	protected static int parseNumberParam(String string, int startIndex) {
-        int endIndex = -1;
+        StringBuilder number = new StringBuilder();
         for(int j=startIndex+1; j<string.length(); j++) {
-            if(Character.isDigit(string.charAt(j))) {
-                endIndex = j+1;
+            char c = string.charAt(j);
+            if(Character.isDigit(c)) {
+                number.append(c);
             } else {
                 break;
             }
         }
         
-        return Integer.parseInt(string.substring(startIndex+1, endIndex));
+        return Integer.parseInt(number.toString());
     }
 }

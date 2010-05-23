@@ -46,16 +46,16 @@ public abstract class Channel implements Serializable {
     }
 
     public void setName(String name) {
-        name = name.replaceAll(":", "|");
-        if(name.indexOf(';') > 0) {
-            String[] parts = name.split(";");
-            name = parts[0];
-            this.serviceProviderName = parts[1];
+        name = name.replace(':', '|');
+        int delim = name.indexOf(';'); 
+        if(delim > 0) {
+            this.serviceProviderName = name.substring(delim+1, name.length());
+            name = name.substring(0, delim);
         }
-        if(name.indexOf(',') > 0) {
-            String[] parts = name.split(",");
-            name = parts[0];
-            this.shortName = parts[1];
+        delim = name.indexOf(',');
+        if(delim > 0) {
+            this.shortName = name.substring(delim+1, name.length());
+            name = name.substring(0, delim);
         }
         this.name = name;
     }

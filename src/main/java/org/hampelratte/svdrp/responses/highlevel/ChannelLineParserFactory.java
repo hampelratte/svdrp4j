@@ -38,13 +38,13 @@ public class ChannelLineParserFactory {
 	//private static IPTVChannelLineParser iptv;
 	
 	public static ChannelLineParser createChannelParser(String chanConfLine) throws Exception {
-		/* TODO enable if IPTV is fully supported if(chanConfLine.toLowerCase().contains("iptv")) {
-			if(iptv == null) iptv = new IPTVChannelLineParser();
-			return iptv;
-		} else*/ 
 	    if(isDvbChannel(chanConfLine)) { 
 			if(dvb == null) dvb = new DVBChannelLineParser();
 			return dvb;
+		/* TODO enable if IPTV is fully supported if(chanConfLine.toLowerCase().contains("iptv")) {
+		} else if(iptv == null) iptv = new IPTVChannelLineParser();
+			return iptv;
+		*/ 
 	    } else if(isPvrInputChannel(chanConfLine)) {
 	        if(pvr == null) pvr = new PvrInputChannelLineParser();
             return pvr;
@@ -58,10 +58,26 @@ public class ChannelLineParserFactory {
     }
 
     private static boolean isDvbChannel(String chanConfLine) {
-	    String[] parts = chanConfLine.split(":");
-        if (parts.length >= 4 && (parts[3].startsWith("S") || parts[3].startsWith("C") || parts[3].startsWith("T"))) {
-            return true;
+        int pos = -1;
+        for (int i = 0; i < 3; i++) {
+            pos = chanConfLine.indexOf(':', pos+1);
         }
+        pos += 1;
+        
+        // we check, if the source part starts with S, C or T
+        // if every column in name:freq:params:source has at least length 1, 
+        // S, C or T may start at least at pos 7  
+        if(pos >= 7) { 
+            char first = chanConfLine.charAt(pos);
+            if (first == 'S' || first == 'C' || first == 'T') {
+                return true;
+            }
+        }
+	    
+//        String[] parts = chanConfLine.split(":");
+//        if (parts.length >= 4 && (parts[3].charAt(0) == 'S' || parts[3].charAt(0) == 'C' || parts[3].charAt(0) == 'T')) {
+//            return true;
+//        }
         
         return false;
 	}

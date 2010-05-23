@@ -30,7 +30,6 @@
 package org.hampelratte.svdrp.responses.highlevel;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class EPGEntry {
 
@@ -40,11 +39,15 @@ public class EPGEntry {
 
     private int eventID = 0;
 
-    private Calendar startTime = GregorianCalendar.getInstance();
+    private long startTime;
+    private Calendar startTimeCal;
 
-    private Calendar endTime = GregorianCalendar.getInstance();
+    private long endTime;
+    private Calendar endTimeCal;
 
     private String tableID = "";
+    
+    private String version = "";
 
     private String title = "";
 
@@ -58,7 +61,8 @@ public class EPGEntry {
 
     private String language = "";
 
-    private long vpsTime = 0;
+    private long vpsTime;
+    private Calendar vpsTimeCal;
 
     public EPGEntry() {
     }
@@ -88,10 +92,18 @@ public class EPGEntry {
     }
 
     public Calendar getEndTime() {
-        return endTime;
+        if(endTimeCal == null) {
+            endTimeCal = Calendar.getInstance();
+            endTimeCal.setTimeInMillis(endTime);
+        }
+        return endTimeCal;
     }
 
-    public void setEndTime(Calendar endTime) {
+    /**
+     * Set the end time of the programm as unix timestamp
+     * @param endTime as unix timestamp
+     */
+    public void setEndTime(long endTime) {
         this.endTime = endTime;
     }
 
@@ -112,10 +124,18 @@ public class EPGEntry {
     }
 
     public Calendar getStartTime() {
-        return startTime;
+        if(startTimeCal == null) {
+            startTimeCal = Calendar.getInstance();
+            startTimeCal.setTimeInMillis(startTime);
+        }
+        return startTimeCal;
     }
 
-    public void setStartTime(Calendar startTime) {
+    /**
+     * Set the start time of the programm as unix timestamp
+     * @param startTime as unix timestamp
+     */
+    public void setStartTime(long startTime) {
         this.startTime = startTime;
     }
 
@@ -151,10 +171,18 @@ public class EPGEntry {
         this.title = title;
     }
 
-    public long getVpsTime() {
-        return vpsTime;
+    public Calendar getVpsTime() {
+        if(vpsTimeCal == null) {
+            vpsTimeCal = Calendar.getInstance();
+            vpsTimeCal.setTimeInMillis(vpsTime);
+        }
+        return vpsTimeCal;
     }
 
+    /**
+     * Set the end time of the programm as unix timestamp
+     * @param vpsTime as unix timestamp
+     */
     public void setVpsTime(long vpsTime) {
         this.vpsTime = vpsTime;
     }
@@ -166,11 +194,19 @@ public class EPGEntry {
     public void setEventID(int eventID) {
         this.eventID = eventID;
     }
+    
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
 
     public String toString() {
-        return getTitle() + " starts: " + startTime.get(Calendar.HOUR_OF_DAY)
-                + ":" + startTime.get(Calendar.MINUTE) + " ends: "
-                + endTime.get(Calendar.HOUR_OF_DAY) + ":"
-                + endTime.get(Calendar.MINUTE);
+        return getTitle() + " starts: " + getStartTime().get(Calendar.HOUR_OF_DAY)
+                + ":" + getStartTime().get(Calendar.MINUTE) + " ends: "
+                + getEndTime().get(Calendar.HOUR_OF_DAY) + ":"
+                + getEndTime().get(Calendar.MINUTE);
     }
 }

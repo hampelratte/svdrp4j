@@ -30,8 +30,6 @@
 package org.hampelratte.svdrp.util;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -45,7 +43,6 @@ public class EPGParser {
         StringTokenizer st = new StringTokenizer(epgData, "\n");
         EPGEntry epg = null;
         String currentChannelID = null, currentChannelName = null;
-        String[] parts;
         while (st.hasMoreTokens()) {
             String line = st.nextToken();
             if (line.startsWith("End")) {
@@ -54,31 +51,33 @@ public class EPGParser {
             switch (line.charAt(0)) {
             case 'C':
                 /* Channel */
-                parts = line.split(" ", 3);
-                currentChannelID = parts[1];
-                if(parts.length > 2) {
-                    currentChannelName = parts[2];
+                int start = line.indexOf(' ') + 1;
+                int stop = line.indexOf(' ', start + 1);
+                stop = stop > 0 ? stop : line.length();
+                currentChannelID = line.substring(start, stop);
+                if(stop < line.length()) {
+                    start = stop + 1;
+                    currentChannelName = line.substring(start, line.length());
                 }
                 break;
-
             case 'E':
                 /* EPG start */
                 epg = new EPGEntry();
                 epg.setChannelID(currentChannelID);
                 epg.setChannelName(currentChannelName);
 
-                parts = line.split(" ");
-                epg.setEventID(Integer.parseInt(parts[1]));
-                int startTime = Integer.parseInt(parts[2]);
-                int duration = Integer.parseInt(parts[3]);
+                StringTokenizer lt = new StringTokenizer(line, " ");
+                lt.nextToken(); // skip the e
+                epg.setEventID(Integer.parseInt(lt.nextToken()));
+                int startTime = Integer.parseInt(lt.nextToken());
+                int duration = Integer.parseInt(lt.nextToken());
                 int endTime = startTime + duration;
-                Calendar calStartTime = GregorianCalendar.getInstance();
-                calStartTime.setTimeInMillis(startTime * 1000L);
-                epg.setStartTime(calStartTime);
-                Calendar calEndTime = GregorianCalendar.getInstance();
-                calEndTime.setTimeInMillis(endTime * 1000L);
-                epg.setEndTime(calEndTime);
-                epg.setTableID(parts[4]);
+                epg.setStartTime(startTime * 1000L);
+                epg.setEndTime(endTime * 1000L);
+                epg.setTableID(lt.nextToken());
+                if(lt.hasMoreElements()) {
+                    epg.setVersion(lt.nextToken());
+                }
                 break;
             case 'T':
                 /* Title */
@@ -86,13 +85,18 @@ public class EPGParser {
                 break;
             case 'S':
                 /* Short text */
-                String shorttext = line.substring(2).replaceAll("\\|", "\n");
+                String shorttext = line.substring(2).replace('|', '\n');
                 epg.setShortText(shorttext);
                 break;
             case 'D':
                 /* Description */
-                String desc = line.substring(2).replaceAll("\\|", "\n");
+                String desc = line.substring(2).replace('|', '\n');
                 epg.setDescription(desc);
+                break;
+            case 'V':
+                /* VPS */
+                int vps = Integer.parseInt(line.substring(2));
+                epg.setVpsTime(vps * 1000L);
                 break;
             case 'e':
                 /* end of Entry */
