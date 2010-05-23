@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Parses a list of channels received from VDR by the LSTC command
  * 
- * @author <a href="hampelratte@users.sf.net>hampelratte@users.sf.net</a>
+ * @author <a href="hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  *
  */
 public class ChannelParser {
