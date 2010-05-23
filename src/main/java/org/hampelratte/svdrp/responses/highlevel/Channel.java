@@ -75,7 +75,7 @@ public abstract class Channel implements Serializable {
     public void setChannelNumber(int channelNumber) {
         this.channelNumber = channelNumber;
     }
-    
+
     @Override
     public String toString() {
         return getName();
