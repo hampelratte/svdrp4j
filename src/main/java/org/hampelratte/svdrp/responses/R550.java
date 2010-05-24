@@ -39,6 +39,8 @@ import org.hampelratte.svdrp.Response;
  */
 public class R550 extends Response {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * @param message
      */

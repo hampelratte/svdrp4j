@@ -39,6 +39,7 @@ import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
  * 
  */
 public class UPDT extends Command {
+    private static final long serialVersionUID = 1L;
 
     private String settings = "";
 

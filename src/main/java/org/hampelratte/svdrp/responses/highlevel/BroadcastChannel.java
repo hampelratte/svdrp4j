@@ -31,6 +31,9 @@ package org.hampelratte.svdrp.responses.highlevel;
 
 
 public class BroadcastChannel extends Channel {
+    
+    private static final long serialVersionUID = 1L;
+    
     private int frequency = 0;
     
     private String source = "";

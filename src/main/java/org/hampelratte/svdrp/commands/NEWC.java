@@ -38,6 +38,7 @@ import org.hampelratte.svdrp.Command;
  * 
  */
 public class NEWC extends Command {
+    private static final long serialVersionUID = 1L;
 
     private String settings = "";
 

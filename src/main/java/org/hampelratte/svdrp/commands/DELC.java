@@ -38,7 +38,8 @@ import org.hampelratte.svdrp.Command;
  * 
  */
 public class DELC extends Command {
-
+    private static final long serialVersionUID = 1L;
+    
     /**
      * The number of the channel, which should be deleted
      */

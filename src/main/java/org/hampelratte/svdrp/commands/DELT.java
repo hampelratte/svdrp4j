@@ -39,7 +39,8 @@ import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
  * 
  */
 public class DELT extends Command {
-
+    private static final long serialVersionUID = 1L;
+    
     /**
      * The number of the timer, which should be deleted
      */

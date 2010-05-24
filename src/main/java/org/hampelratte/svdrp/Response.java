@@ -35,7 +35,8 @@ package org.hampelratte.svdrp;
  * @author <a href="mailto:henrik.niehaus@gmx.de">Henrik Niehaus</a>
  */
 public abstract class Response extends Message {
-
+    private static final long serialVersionUID = 1L;
+    
     /**
      * The response code
      */

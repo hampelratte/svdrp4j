@@ -38,7 +38,8 @@ import org.hampelratte.svdrp.Command;
  * 
  */
 public class MODC extends Command {
-
+    private static final long serialVersionUID = 1L;
+    
     private String number = "";
 
     private String settings = "";

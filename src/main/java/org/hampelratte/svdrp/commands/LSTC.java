@@ -38,7 +38,8 @@ import org.hampelratte.svdrp.Command;
  * 
  */
 public class LSTC extends Command {
-
+    private static final long serialVersionUID = 1L;
+    
     private String channel = "";
 
     /**

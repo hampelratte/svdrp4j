@@ -37,6 +37,7 @@ import org.hampelratte.svdrp.Command;
  * @author <a href="mailto:henrik.niehaus@gmx.de">Henrik Niehaus</a>
  */
 public class QUIT extends Command {
+    private static final long serialVersionUID = 1L;
 
     public String getCommand() {
         return "QUIT";

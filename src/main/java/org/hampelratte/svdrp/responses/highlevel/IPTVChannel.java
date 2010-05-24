@@ -31,6 +31,8 @@ package org.hampelratte.svdrp.responses.highlevel;
 
 // TODO implement class
 public class IPTVChannel extends Channel {
+    
+    private static final long serialVersionUID = 1L;
 
 //	private int id;
 //	

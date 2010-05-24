@@ -38,7 +38,8 @@ import org.hampelratte.svdrp.Command;
  * 
  */
 public class GRAB extends Command {
-
+    private static final long serialVersionUID = 1L;
+    
     private String format = "";
 
     private String quality = "80";

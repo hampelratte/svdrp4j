@@ -37,6 +37,7 @@ import java.io.Serializable;
  * @author <a href="mailto:henrik.niehaus@gmx.de">Henrik Niehaus</a>
  */
 public abstract class Message implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /**
      * Returns a String representation for debug purposes

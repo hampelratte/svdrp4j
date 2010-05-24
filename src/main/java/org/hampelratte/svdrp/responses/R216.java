@@ -39,6 +39,8 @@ import org.hampelratte.svdrp.util.Base64;
 
 public class R216 extends Response {
     
+    private static final long serialVersionUID = 1L;
+    
     public R216(String message) {
         super(216, message);
     }

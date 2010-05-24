@@ -38,6 +38,7 @@ import org.hampelratte.svdrp.Command;
  * 
  */
 public class MOVT extends Command {
+    private static final long serialVersionUID = 1L;
 
     private String timer = "";
 

@@ -45,6 +45,8 @@ import org.hampelratte.svdrp.VDRVersion;
  * Represents a timer of the VDR software
  */
 public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
+    
+    private static final long serialVersionUID = 1L;
 
     public static final int INACTIVE = 0;
     public static final int ACTIVE = 1;

@@ -38,6 +38,7 @@ import org.hampelratte.svdrp.Command;
  * 
  */
 public class SCAN extends Command {
+    private static final long serialVersionUID = 1L;
 
     public String getCommand() {
         return "SCAN";

@@ -38,6 +38,8 @@ import java.util.Arrays;
  * @author <a href="hampelratte@users.sf.net>hampelratte@users.sf.net</a>
  */
 public class DVBChannel extends BroadcastChannel {
+    private static final long serialVersionUID = 1L;
+    
     public static final int AUTOMATIC = 999;
 
     // Parameters

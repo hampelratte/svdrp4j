@@ -38,7 +38,8 @@ import org.hampelratte.svdrp.Command;
  * 
  */
 public class LSTT extends Command {
-
+    private static final long serialVersionUID = 1L;
+    
     private String number = "";
 
     /**

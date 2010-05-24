@@ -39,7 +39,8 @@ import org.hampelratte.svdrp.Command;
  * 
  */
 public class HITK extends Command {
-
+    private static final long serialVersionUID = 1L;
+    
     private String key = "";
 
     /**

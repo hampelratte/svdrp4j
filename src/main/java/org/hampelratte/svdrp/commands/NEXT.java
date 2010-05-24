@@ -38,6 +38,7 @@ import org.hampelratte.svdrp.Command;
  * 
  */
 public class NEXT extends Command {
+    private static final long serialVersionUID = 1L;
 
     public static final String ABS = "abs";
     public static final String REL = "rel";

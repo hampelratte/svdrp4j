@@ -30,6 +30,7 @@
 package org.hampelratte.svdrp;
 
 public class PluginResponse extends Response {
+    private static final long serialVersionUID = 1L;
 
     public PluginResponse(int code, String message) {
         super(code, message);

@@ -32,6 +32,8 @@ package org.hampelratte.svdrp.responses;
 import org.hampelratte.svdrp.Response;
 
 public class NotImplementedBySVDRP4J extends Response {
+    
+    private static final long serialVersionUID = 1L;
 
     public NotImplementedBySVDRP4J() {
         super(-2, "This response code is not supported by SVDRP4J");

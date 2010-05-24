@@ -38,6 +38,8 @@ import org.hampelratte.svdrp.Response;
  */
 public class AccessDenied extends Response {
 
+    private static final long serialVersionUID = 1L;
+    
     public AccessDenied(String msg) {
         super(-1, msg);
     }

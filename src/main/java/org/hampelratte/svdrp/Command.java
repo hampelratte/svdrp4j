@@ -35,6 +35,8 @@ package org.hampelratte.svdrp;
  * @author <a href="mailto:henrik.niehaus@gmx.de">Henrik Niehaus</a>
  */
 public abstract class Command extends Message {
+    private static final long serialVersionUID = 1L;
+    
     /**
      * Returns the command string, which will be sent to the VDR
      * 

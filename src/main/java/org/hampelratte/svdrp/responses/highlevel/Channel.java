@@ -33,6 +33,8 @@ import java.io.Serializable;
 
 public abstract class Channel implements Serializable {
 	
+    private static final long serialVersionUID = 1L;
+    
 	private int channelNumber = -1;
     
     private String name = "";

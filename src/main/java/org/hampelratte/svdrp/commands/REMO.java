@@ -38,6 +38,7 @@ import org.hampelratte.svdrp.Command;
  * @author <a href="hampelratte@users.berlios.de">hampelratte@users.berlios.de</a>
  */
 public class REMO extends Command {
+    private static final long serialVersionUID = 1L;
 
     public static final String ON = "on";
     public static final String OFF = "off";

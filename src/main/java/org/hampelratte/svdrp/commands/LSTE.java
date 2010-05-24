@@ -39,7 +39,8 @@ import org.hampelratte.svdrp.Command;
  * 
  */
 public class LSTE extends Command {
-
+    private static final long serialVersionUID = 1L;
+    
     private String channel = "";
 
     private String time = "";

@@ -37,6 +37,7 @@ import org.hampelratte.svdrp.Command;
  * @author <a href="hampelratte@users.berlios.de">hampelratte@users.berlios.de</a>
  */
 public class PLUG extends Command {
+    private static final long serialVersionUID = 1L;
 
     private boolean mainSwitch = false;
     private boolean helpSwitch = false;
