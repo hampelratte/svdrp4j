@@ -48,6 +48,8 @@ public class Recording implements Comparable {
     private boolean isNew = false;
 
     private String title;
+    
+    private String display;
 
     private EPGEntry epgInfo;
 
@@ -86,15 +88,18 @@ public class Recording implements Comparable {
     }
     
     public String getDisplayTitle() {
-        String display = getTitle();
-        while(display.startsWith("%")) {
-            display = display.substring(1);
+        if(display == null) {
+            display = getTitle();
+            while(display.charAt(0) == ('%')) {
+                display = display.substring(1);
+            }
         }
         return display;
     }
 
     public void setTitle(String title) {
         this.title = title;
+        this.display = null; // reset the display name, so that it gets recalculated
     }
 
     public boolean isNew() {
