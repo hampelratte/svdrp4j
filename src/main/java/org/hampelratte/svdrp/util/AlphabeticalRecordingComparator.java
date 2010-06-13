@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 import org.hampelratte.svdrp.responses.highlevel.Recording;
 
-public class RecordingComparator implements Comparator<Recording> {
+public class AlphabeticalRecordingComparator implements Comparator<Recording> {
     public int compare(Recording r1, Recording r2) {
         String title1 = r1.getTitle();
         String title2 = r2.getTitle();
