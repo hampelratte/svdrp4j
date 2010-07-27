@@ -30,10 +30,11 @@
 package org.hampelratte.svdrp.mock;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
@@ -51,7 +52,7 @@ public class Server {
     
     private BufferedReader br;
     
-    private PrintStream ps;
+    private BufferedWriter bw;
     
     private Socket socket;
     
@@ -93,8 +94,8 @@ public class Server {
                 socket.setSoTimeout((int) TimeUnit.MINUTES.toMillis(3));
                 logger.debug("Connection from {}", socket.getRemoteSocketAddress());
                 
-                br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                ps = new PrintStream(socket.getOutputStream());
+                br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
+                bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "UTF-8"));
                 
                 logger.debug("Sending welcome message.");
                 sendWelcomeMessage();
@@ -141,13 +142,13 @@ public class Server {
         return true;
     }
 
-    private void sendResponse(String resp) {
+    private void sendResponse(String resp) throws IOException {
         logger.debug("--> {}", resp);
-        ps.println(resp);
-        ps.flush();
+        bw.write(resp);
+        bw.flush();
     }
 
-    private void printRecordingsList() {
+    private void printRecordingsList() throws IOException {
         sendResponse("250-1 13.05.07 14:45* %Das Wunder von Lengede - Teil 2\n" + 
                 "250-2 22.05.10 00:30  Frei Schnauze XXL\n" + 
                 "250-3 19.05.10 21:40  Hart aber fair\n" + 
@@ -183,7 +184,7 @@ public class Server {
                 "250 33 01.03.09 16:35  Schöne Venus");
     }
 
-    private void printTimerList() {
+    private void printTimerList() throws IOException {
 //        ps.println("250-1 1:29:2008-07-13:2010:2205:99:99:Born to be Wild - Saumäßig unterwegs:<epgsearch><eventid>13695</eventid><update>0</update><bstart>5</bstart><bstop>10</bstop></epgsearch>\n" + 
 //              "250-2 1:7:2008-07-14:2009:2123:50:50:Moonlight:Mick und Beth erlebten einen gemeinsamen, intimen Moment in der Wüste - jetzt versuchen sie alles, um sich aus dem Weg zu gehen, nicht zuletzt deswegen, weil die Reporterin liiert ist. Mick ist derweil mit einem neuen Fall beschäftigt und hat alle Hände voll zu tun. Der Detektiv ist auf der Suche nach einem Vampirteenager, dessen Beute meist junge Frauen eines Escort-Services sind, die er zuvor im Internet ausfindig macht.\n" + 
 //              "250 3 1:7:2008-07-15:0750:0833:50:50:Two and a Half Men:Alan leidet unter Schlafstörungen. Als er versucht, durch Joggen müde zu werden, wird er auch noch fälschlicherweise für einen Bankräuber gehalten und verhaftet. Bei einer Therapeutin findet er schließlich heraus, dass Charlie der Auslöser seiner Probleme ist. Der gräbt indes die Mutter von Jakes Freundin an, was dem gar nicht passt. Jake glaubt nämlich, dass die Sache kein gutes Ende für ihn nehmen wird. Charlie trifft sich heimlich mit der attraktiven Mutter. ");
@@ -196,7 +197,7 @@ public class Server {
                 "250 4 1:9:MTWTFSS:1811:1849:50:50:Der kleine Eisbär:Ein neuer Freund für den kleinen Eisbären: Am Meer lernt Lars Robby, die Robbe kennen. Gemeinsam entdecken sie ein Schiff, das im Eis festgefroren ist. Neugierig erkunden die beiden das alte, verlassene Schiff. Gerade als Lars und Robby Kapitän spielen, beobachten sie, wie drei Polarforscher auf das Schiff kommen. Aus ihrem Versteck heraus hören sie, dass die Männer planen, das Schiff fortzuschleppen. Doch Lars und Robby wollen ihren neuen Abenteuerspielplatz behalten! Zurück zu Hause hecken sie gemeinsam mit Lena, Pieps und Greta einen Plan aus. In dieser Nacht machen die Polarforscher, die in der Nähe des Wracks ein Lager haben, eine unheimliche Entdeckung: Vom Schiff kommen gespenstische Töne, und merkwürdige Gestalten treiben sich an Deck herum. Spukt es etwa auf dem Schiff? Die Männer bekommen es mit der Angst zu tun.||(c) by DasErste/TV-Browser");
     }
 
-    private void printChannelList() {
+    private void printChannelList() throws IOException {
         sendResponse("250-1 NICK AUSTRIA;MTV Networks:362000:M64:C:6900:513=2:661=deu:577:0:28640:1:1091:0\n" + 
                 "250-2 TNT:370000:M64:C:6900:525+142=2:780=tur,781=eng:0:0:35:66:3:0\n" + 
                 "250-3 Eurosport;SES Astra:362000:M64:C:6900:101=2:103=deu:102:0:31200:1:1091:0\n" + 
@@ -346,7 +347,7 @@ public class Server {
 //              "250-110 WDR Köln;ARD:113000:C0M64:C:6900:601:602=deu:604:0:28111:1:1101:0");
     }
 
-    private void sendWelcomeMessage() {
+    private void sendWelcomeMessage() throws IOException {
         sendResponse(welcome);
     }
     
