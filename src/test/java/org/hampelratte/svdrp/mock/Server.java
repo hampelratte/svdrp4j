@@ -145,6 +145,7 @@ public class Server {
     private void sendResponse(String resp) throws IOException {
         logger.debug("--> {}", resp);
         bw.write(resp);
+        bw.write('\n');
         bw.flush();
     }
 
