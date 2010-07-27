@@ -37,6 +37,7 @@ import java.io.OutputStreamWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.charset.Charset;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,6 +58,8 @@ import org.hampelratte.svdrp.responses.R501;
 import org.hampelratte.svdrp.responses.R502;
 import org.hampelratte.svdrp.responses.R550;
 import org.hampelratte.svdrp.responses.R554;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -68,6 +71,8 @@ import org.hampelratte.svdrp.responses.R554;
  * @author <a href="mailto:henrik.niehaus@gmx.de">Henrik Niehaus</a>
  */
 public class Connection {
+    private static transient Logger logger = LoggerFactory.getLogger(Connection.class);
+    
     /**
      * The socket used to talk to VDR
      */
@@ -85,12 +90,8 @@ public class Connection {
 
     private static VDRVersion version;
 
-    /**
-     * If set, debug output will be printed to stdout
-     */
-    public static boolean DEBUG = false;
+    private String encoding;
     
-
     /**
      * Creates a new connection to host:port with timeout
      * 
@@ -105,7 +106,7 @@ public class Connection {
      */
     public Connection(String host, int port, int timeout)
             throws UnknownHostException, IOException {
-        this(host, port, timeout, "ISO-8859-15");
+        this(host, port, timeout, "UTF-8");
     }
     
     /**
@@ -124,6 +125,7 @@ public class Connection {
      */
     public Connection(String host, int port, int timeout, String encoding) 
         throws UnknownHostException, IOException {
+        this.encoding = encoding;
         socket = new Socket();
         InetSocketAddress sa = new InetSocketAddress(host, port);
         socket.connect(sa, timeout);
@@ -133,8 +135,10 @@ public class Connection {
         // read the welcome message
         Response res = readResponse();
         if (res.getCode() == 220) {
+            String msg = res.getMessage().trim();
+
+            // try to parse the version
             try {
-                String msg = res.getMessage().trim();
                 Pattern pattern = Pattern.compile(".*((?:\\d)+\\.(?:\\d)+\\.(?:\\d)+).*");
                 Matcher m = pattern.matcher(msg);
                 if (m.matches()) {
@@ -144,6 +148,25 @@ public class Connection {
                 }
             } catch (Exception e) {
                 version = new VDRVersion("1.0.0");
+            }
+            
+            // try to parse the encoding
+            try {
+                int lastSemicolon = msg.lastIndexOf(';');
+                if(lastSemicolon > 0) {
+                    String lastSegment = msg.substring(lastSemicolon + 1).trim();
+                    if(Charset.availableCharsets().containsKey(lastSegment)) {
+                        logger.debug("VDR is running with charset {}", lastSegment);
+                        this.encoding = lastSegment;
+                        if(!this.encoding.equalsIgnoreCase(encoding)) {
+                            logger.debug("Connection has been established with encoding {}. Now switching to {}", encoding, this.encoding);
+                            out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), this.encoding));
+                            in = new BufferedReader(new InputStreamReader(socket.getInputStream(), this.encoding));
+                        }
+                    }
+                }
+            } catch (Exception e) { 
+                // fail silently 
             }
         } else {
             throw new IOException(res.getMessage());
@@ -185,14 +208,11 @@ public class Connection {
         }
         
         out.write(cmd.getCommand()); out.newLine(); out.flush();
-        if (DEBUG)
-            System.out.println("-->" + cmd.getCommand());
+        logger.debug("--> {}", cmd.getCommand());
 
         // read the response
         Response response = readResponse();
-        if (DEBUG)
-            System.out.println("<--" + response.getCode() + " "
-                    + response.getMessage());
+        logger.debug("<-- {} {}", response.getCode(), response.getMessage());
 
         // return the response
         return response;
@@ -222,7 +242,7 @@ public class Connection {
             if (fourthChar != '-') {
                 running = false;
                 msg.append(line);
-                msg.append("\n");
+                msg.append('\n');
                 switch (code) {
                 case -1:
                     response = new AccessDenied(line);
@@ -303,5 +323,9 @@ public class Connection {
      */
     public static VDRVersion getVersion() {
         return version;
+    }
+    
+    public String getEncoding() {
+        return encoding;
     }
 }
