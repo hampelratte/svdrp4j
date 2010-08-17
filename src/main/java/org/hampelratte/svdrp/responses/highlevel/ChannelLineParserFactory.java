@@ -54,7 +54,7 @@ public class ChannelLineParserFactory {
 	}
 
 	private static boolean isPvrInputChannel(String chanConfLine) {
-        return chanConfLine.contains("PVRINPUT");
+        return chanConfLine.contains("PVRINPUT") || chanConfLine.contains("w_pvrscan");
     }
 
     private static boolean isDvbChannel(String chanConfLine) {
