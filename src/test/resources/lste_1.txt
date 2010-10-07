@@ -1,0 +1,1232 @@
+215-C S19.2E-1-1101-28106 Das Erste
+215-E 31104 1283968800 900 4F FF
+215-T Tagesschau
+215-V 1283968800
+215-e
+215-E 31105 1283969700 5400 4F FF
+215-T Die Schwester
+215-S Spielfilm Deutschland 2010
+215-D Der Film erzählt die Geschichte einer Lebensgemeinschaft, die nach vielen gemeinsamen Jahren zu zerbrechen droht - ein Geschwisterdrama mit Rosemarie Fendel und Cornelia Froboess.
+215-V 1283969700
+215-e
+215-E 31158 1283975100 1800 50 FF
+215-T ARD-exclusiv
+215-S Kommando Spezialkräfte
+215-D Irgendwo in Süddeutschland. 50 junge Männer, alle Zeit- und Berufssoldaten, haben sich freiwillig gemeldet zur "Höllenwoche". So nennen sie hier den Eignungstest für das "Kommando Spezialkräfte" der Bundeswehr, kurz: KSK.
+215-V 1283975100
+215-e
+215-E 31107 1283976900 1680 50 FF
+215-T Tagesthemen
+215-S Moderation: Tom Buhrow
+215-D Themen:|* Integration|Kommentar: Birand Bingül, WDR
+215-V 1283979600
+215-e
+215-E 31108 1283978580 120 50 FF
+215-T Das Wetter im Ersten
+215-S Moderation: Sven Plöger
+215-D Wie wird das Wetter? Sonne in Stuttgart, Nebel in Nürnberg, Bremen bewölkt? Hier gibt's die aktuellen Wetterprognosen.
+215-V 1283981280
+215-e
+215-E 31109 1283978700 2700 50 FF
+215-T Der große Nebenverdienst
+215-S Korruption in Deutschland
+215-D Korruption - beinahe ein Volkssport. In Deutschland fallen vermehrt Bestechungsfälle auf. Vertrauenspositionen werden in allen gesellschaftlichen Bereichen illegal ausgenutzt - in Firmen, in Behörden, in Vereinen. Hat die Korruption zugenommen?
+215-V 1283981400
+215-e
+215-E 31159 1283981400 1800 50 FF
+215-T Mitten im Krieg
+215-S Eine Bundeswehrklinik in Afghanistan
+215-D Sie haben viel hinter sich, die Männer und Frauen der Sanitätskompanie der Bundeswehr in Masar-i-Sahrif im Norden Afghanistans: Anschläge gegen deutsche Soldaten, dutzende Verletzte, Gefallene, einer von ihnen aus dem eigenen Sanitätsverband.
+215-V 1283981400
+215-e
+215-E 31031 1283983200 1200 50 FF
+215-T Nachtmagazin
+215-D Im Nachtmagazin werden die wichtigsten Ereignisse des abgelaufenen Tages noch einmal zusammengefasst. Zudem gibt es einen Ausblick auf die zu erwartenden Themen des nächsten Tages.
+215-V 1283984100
+215-e
+215-E 31032 1283984400 5700 50 FF
+215-T Der letzte Ritt nach Santa Cruz
+215-S Spielfilm Österreich/Deutschland 1964 - Zum 80. Geburtstag von Mario Adorf (8.9.)
+215-D Ein gefürchteter Bandit entführt mit seinen Leuten die junge Frau und den kleinen Sohn eines ehemaligen Sheriffs, mit dem er eine alte Rechnung zu begleichen hat. Dieser nimmt ganz allein die Verfolgung auf...
+215-V 1283985300
+215-e
+215-E 31033 1283990100 300 50 FF
+215-T Tagesschau
+215-V 1283991000
+215-e
+215-E 31034 1283990400 3000 50 FF
+215-T Sturm der Liebe
+215-S Folge 1141
+215-D Maike ist eifersüchtig auf Eva. Barbara ist auf der ganzen Linie geschlagen - vorerst. Rosalie veräppelt Tanja. Alfons und Hildegard lassen sich porträtieren.
+215-V 1283991300
+215-e
+215-E 31035 1283993400 2700 50 FF
+215-T Der große Nebenverdienst
+215-S Korruption in Deutschland
+215-D Korruption - beinahe ein Volkssport. In Deutschland fallen vermehrt Bestechungsfälle auf. Vertrauenspositionen werden in allen gesellschaftlichen Bereichen illegal ausgenutzt - in Firmen, in Behörden, in Vereinen. Hat die Korruption zugenommen?
+215-V 1283994300
+215-e
+215-E 31156 1283996100 1800 50 FF
+215-T Mitten im Krieg
+215-S Eine Bundeswehrklinik in Afghanistan
+215-D Sie haben viel hinter sich, die Männer und Frauen der Sanitätskompanie der Bundeswehr in Masar-i-Sahrif im Norden Afghanistans: Anschläge gegen deutsche Soldaten, dutzende Verletzte, Gefallene, einer von ihnen aus dem eigenen Sanitätsverband.
+215-V 1283996100
+215-e
+215-E 31036 1283997900 3000 50 FF
+215-T Die schönsten Bahnstrecken der Welt
+215-S China: Kunming - Weishe
+215-D Führerstands-Mitfahrten
+215-V 1283997000
+215-e
+215-E 31037 1284000900 300 50 FF
+215-T Tagesschau
+215-V 1283998200
+215-e
+215-E 31157 1284001200 1800 50 FF
+215-T ARD-exclusiv
+215-S Kommando Spezialkräfte
+215-D Irgendwo in Süddeutschland. 50 junge Männer, alle Zeit- und Berufssoldaten, haben sich freiwillig gemeldet zur "Höllenwoche". So nennen sie hier den Eignungstest für das "Kommando Spezialkräfte" der Bundeswehr, kurz: KSK.
+215-V 1284001200
+215-e
+215-E 31039 1284003000 12600 50 FF
+215-T ZDF-Morgenmagazin
+215-S Moderation: Anja Heyde, Patricia Schäfer und Cherno Jobatey
+215-D Themen u.a.:|* Wie viel Zuwanderung braucht Deutschland?|* Unterwegs in Südpakistan: Die weitreichenden Folgen der Flut|* Musikmesse in Berlin: Wie kommt die Popbranche aus der Krise?|* Studiogast: Marek Tomaszewski, Pianist
+215-V 1284003000
+215-e
+215-E 31040 1284015600 300 50 FF
+215-T heute
+215-V 1284015600
+215-e
+215-E 31041 1284015900 3000 50 FF
+215-T Rote Rosen
+215-S Folge 875
+215-D Hin- und hergerissen sagt Gesa Tim zu, das Musterzimmer umzuarbeiten. Steffen reagiert fassungslos auf diese Kehrwendung. Auch Sophie ist verzweifelt darüber, so kurz vor dem Ziel wieder verloren zu haben.
+215-V 1284015900
+215-e
+215-E 31042 1284018900 300 50 FF
+215-T ARD-Wetterschau
+215-V 1284018900
+215-e
+215-E 31043 1284019200 180 50 FF
+215-T heute
+215-V 1284019200
+215-e
+215-E 31044 1284019380 1620 50 FF
+215-T Brisant
+215-D Träume und Tragödien, menschliche und tierische Schicksale liefern den Stoff für 'Brisant', das tägliche Boulevard-Magazin der ARD. Eine Mischung aus Information und Unterhaltung: schnell, spannend.
+215-V 1284019380
+215-e
+215-E 31045 1284021000 5400 50 FF
+215-T Die Schwester
+215-S Spielfilm Deutschland 2010
+215-D Der Film erzählt die Geschichte einer Lebensgemeinschaft, die nach vielen gemeinsamen Jahren zu zerbrechen droht - ein Geschwisterdrama mit Rosemarie Fendel und Cornelia Froboess.
+215-V 1284021000
+215-e
+215-E 31046 1284026400 900 50 FF
+215-T heute
+215-S mit Börsenbericht
+215-V 1284026400
+215-e
+215-E 31047 1284027300 2700 50 FF
+215-T ARD-Buffet
+215-S Leben & genießen - Moderation: Florian Weber
+215-D Geplante Themen:|* Guten Appetit: Vincent Klink bereitet Senf-Lauch-Gemüse mit Hechtfrikadellen zu|* Ratgeber Ernährung: Werbellinsee - Hechte laichen mal anders|* Sonderbriefmarke: 200 Jahre Münchner Oktoberfest
+215-V 1284027300
+215-e
+215-E 31048 1284030000 3600 50 FF
+215-T ZDF-Mittagsmagazin
+215-S mit heute-Nachrichten
+215-D Themen:|* Projekt fördert Job-Anfänger auch nach der Schulzeit|* Muslime feiern das Ende des Ramadans|* Flanieren in Venedig -Filmfest lockt Stars|* Fußball-Moderator Rolf Töpperwin zu Gast im Studio|Moderation: Susanne Conrad
+215-V 1284030000
+215-e
+215-E 31049 1284033600 600 50 FF
+215-T Tagesschau
+215-V 1284033600
+215-e
+215-E 31050 1284034200 3000 50 FF
+215-T Rote Rosen
+215-S Folge 876
+215-D Der Hass auf Gesa lässt Sophie am Steuer ausrasten - erst im letzten Moment tritt sie auf die Bremse, weil Tim auf die Straße springt und Gesa zur Seite reißt.
+215-V 1284034200
+215-e
+215-E 31051 1284037200 600 50 FF
+215-T Tagesschau
+215-V 1284037200
+215-e
+215-E 31052 1284037800 3000 50 FF
+215-T Sturm der Liebe
+215-S Folge 1142
+215-D Barbara bringt Götz gegen sich auf. Eva sorgt sich um Robert. Maike sucht eine Wohnung. Alfons will sich drücken.
+215-V 1284037800
+215-e
+215-E 31053 1284040800 600 50 FF
+215-T Tagesschau
+215-V 1284040800
+215-e
+215-E 31054 1284041400 3000 50 FF
+215-T Papageien, Palmen & Co.
+215-S (3) Zoogeschichten aus dem Loro Park auf Teneriffa
+215-D Im Pinguarium ist großer Putztag und das freut Königspinguin Agatha. Schließlich ist dann auch Martin Leber, der stellvertretende Leiter von Planet Pinguin, vor Ort.
+215-V 1284041400
+215-e
+215-E 31055 1284044400 900 50 FF
+215-T Tagesschau
+215-V 1284044400
+215-e
+215-E 31056 1284045300 2700 50 FF
+215-T Brisant
+215-D Träume und Tragödien, menschliche und tierische Schicksale liefern den Stoff für 'Brisant', das tägliche Boulevard-Magazin der ARD. Eine Mischung aus Information und Unterhaltung: schnell, spannend.
+215-V 1284045300
+215-e
+215-E 31057 1284048000 1500 50 FF
+215-T Verbotene Liebe
+215-S Folge 3685
+215-D Helena genießt mit Andi das Wohnen auf Probe in der WG. Als sie erfährt, dass Tristan bis zum Prozess wieder auf freiem Fuß ist, beschließt sie trotz Andis Bedenken, sich der Konfrontation mit ihrem Bruder zu stellen.
+215-V 1284048000
+215-e
+215-E 31058 1284049500 1500 50 FF
+215-T Marienhof
+215-S Folge 3886
+215-D Annalena und Töppers nähern sich einander an. Dinos griechischer Verfolger erfährt, wo dieser sich aufhält. Toni hat Elisabeths Hochzeitsgeschenk verkauft.
+215-V 1284049500
+215-e
+215-E 31059 1284051000 1800 50 FF
+215-T Das Duell im Ersten
+215-S Das Spiel um 100.000 Euro
+215-D Florian Weber erwartet jeweils zwei Kandidaten: den Champion und den nächsten Herausforderer. Die Kandidaten spielen um täglich 20.000 Euro. Der Champion darf seinen Titel viermal verteidigen - bis zur Höchstgewinnsumme von 100.000 Euro.
+215-V 1284051000
+215-e
+215-E 31060 1284052800 1500 50 FF
+215-T Das Duell im Ersten
+215-S Das Spiel um 100.000 Euro
+215-D Florian Weber erwartet jeweils zwei Kandidaten: den Champion und den nächsten Herausforderer. Die Kandidaten spielen um täglich 20.000 Euro. Der Champion darf seinen Titel viermal verteidigen - bis zur Höchstgewinnsumme von 100.000 Euro.
+215-V 1284052800
+215-e
+215-E 31061 1284054300 300 50 FF
+215-T Wissen vor 8
+215-S Was heißt "digital"?
+215-D Digital ist überall: der Antennenempfang ist digital, die Fotokamera sowieso und sogar unser Zeitalter soll es sein. Doch was genau bedeutet "digital" überhaupt?
+215-V 1284054300
+215-e
+215-E 31062 1284054600 300 50 FF
+215-T Das Wetter im Ersten
+215-S Moderation: Sven Plöger
+215-D Wie wird das Wetter? Sonne in Stuttgart, Nebel in Nürnberg, Bremen bewölkt? Hier gibt's die aktuellen Wetterprognosen.
+215-V 1284054600
+215-e
+215-E 31063 1284054900 300 50 FF
+215-T Börse im Ersten
+215-S Moderation: Michael Best
+215-D Die Börsensendung vom Frankfurter Parkett - immer kurz vor der 20-Uhr-Tagesschau.
+215-V 1284054900
+215-e
+215-E 31064 1284055200 900 50 FF
+215-T Tagesschau
+215-V 1284055200
+215-e
+215-E 31065 1284056100 5400 50 FF
+215-T Das fantastische Quiz des Menschen
+215-S Die neue Show mit Dr. Eckart von Hirschhausen
+215-D Der Mensch steckt bekanntlich voller Fragen und Rätsel - der Mediziner und Entertainer Dr. Eckart von Hirschhausen nimmt die Zuschauer und Ratekandidaten mit auf eine faszinierende Reise in die Wunderwelt des Homo sapiens.
+215-V 1284056100
+215-e
+215-E 31066 1284061500 1800 50 FF
+215-T Monitor
+215-S Berichte zur Zeit - Moderation: Sonia Seymour Mikich
+215-D * Etikettenschwindel Laufzeitverlängerung: Weniger Sicherheit für Altreaktoren|* Tatort Krankenhaus: Die Folgen der Privatisierung|* Keine Pflege für Demenzkranke: Angehörige werden allein gelassen|* BP-Katastrophe: Das Ende des Erdölzeitalters
+215-V 1284061500
+215-e
+215-E 31067 1284063300 1680 50 FF
+215-T Tagesthemen
+215-S Moderation: Susanne Holst
+215-D Die Tagesthemen vermitteln ergänzende Informationen zu den tagesaktuellen Ereignissen und zeigen Zusammenhänge und Hintergründe.
+215-V 1284063300
+215-e
+215-E 31068 1284064980 120 50 FF
+215-T Das Wetter im Ersten
+215-S Moderation: Sven Plöger
+215-D Wie wird das Wetter? Sonne in Stuttgart, Nebel in Nürnberg, Bremen bewölkt? Hier gibt's die aktuellen Wetterprognosen.
+215-V 1284064980
+215-e
+215-E 31069 1284065100 2700 50 FF
+215-T Satire Gipfel
+215-S Mit Mathias Richling
+215-D Nach einem durchwachsenen Sommer mit nicht ganz wahr gewordenen Fußballträumen und nicht zuletzt heftigen Turbulenzen auf der Politebene blickt Mathias Richling in dieser Ausgabe des "Satire Gipfel" gespannt in den Herbst.
+215-V 1284065100
+215-e
+215-E 31070 1284067800 3600 50 FF
+215-T Inas Nacht
+215-S Moderation: Ina Müller
+215-D Late-Night-Show mit der norddeutschen Kabarettistin, Sängerin und Moderatorin Ina Müller und nach Müllerin Art: Talk, Comedy und viel, viel Musik.
+215-V 1284067800
+215-e
+215-E 30915 1284071400 1200 50 FF
+215-T Nachtmagazin
+215-V 1284071400
+215-e
+215-E 30916 1284072600 6300 50 FF
+215-T Psycho II
+215-S Spielfilm USA 1982
+215-V 1284072600
+215-e
+215-E 30918 1284078900 300 50 FF
+215-T Tagesschau
+215-V 1284078900
+215-e
+215-E 30921 1284079200 1200 50 FF
+215-T Die lieben Kollegen
+215-S (9/39) Weihnachtliche Überraschungen
+215-V 1284079200
+215-e
+215-E 30923 1284080400 1500 50 FF
+215-T Die lieben Kollegen
+215-S (10/39) Verhängnisvolles Frühstück
+215-V 1284080400
+215-e
+215-E 30924 1284081900 3000 50 FF
+215-T Sturm der Liebe
+215-S Folge 1142
+215-V 1284081900
+215-e
+215-E 30927 1284084900 2400 50 FF
+215-T Die schönsten Bahnstrecken der Welt
+215-S China: Kunming - Weishe
+215-V 1284084900
+215-e
+215-E 30929 1284087300 300 50 FF
+215-T Tagesschau
+215-V 1284087300
+215-e
+215-E 30933 1284087600 1800 50 FF
+215-T Monitor
+215-D Berichte zur Zeit - Moderation: Sonia Seymour Mikich
+215-V 1284087600
+215-e
+215-E 30935 1284089400 12600 50 FF
+215-T ZDF-Morgenmagazin
+215-D Moderation: Anja Heyde, Patricia Schäfer und Cherno Jobatey
+215-V 1284089400
+215-e
+215-E 30937 1284102000 300 50 FF
+215-T heute
+215-V 1284102000
+215-e
+215-E 30939 1284102300 3000 50 FF
+215-T Rote Rosen
+215-S Folge 876
+215-V 1284102300
+215-e
+215-E 30940 1284105300 300 50 FF
+215-T ARD-Wetterschau
+215-V 1284105300
+215-e
+215-E 30941 1284105600 180 50 FF
+215-T heute
+215-V 1284105600
+215-e
+215-E 30943 1284105780 1620 50 FF
+215-T Brisant
+215-V 1284105780
+215-e
+215-E 30945 1284107400 5400 50 FF
+215-T Gefundenes Fressen
+215-D Spielfilm Deutschland 1977 - Zum 80. Geburtstag von Mario Adorf (8.9.)
+215-V 1284107400
+215-e
+215-E 30947 1284112800 900 50 FF
+215-T heute
+215-S mit Börsenbericht
+215-V 1284112800
+215-e
+215-E 30948 1284113700 2700 50 FF
+215-T ARD-Buffet
+215-D Leben & genießen - Moderation: Florian Weber
+215-V 1284113700
+215-e
+215-E 30950 1284116400 3600 50 FF
+215-T ZDF-Mittagsmagazin
+215-S mit heute-Nachrichten
+215-V 1284116400
+215-e
+215-E 30952 1284120000 600 50 FF
+215-T Tagesschau
+215-V 1284120000
+215-e
+215-E 30956 1284120600 3000 50 FF
+215-T Rote Rosen
+215-S Folge 877
+215-V 1284120600
+215-e
+215-E 30958 1284123600 600 50 FF
+215-T Tagesschau
+215-V 1284123600
+215-e
+215-E 30961 1284124200 3000 50 FF
+215-T Sturm der Liebe
+215-S Folge 1143
+215-V 1284124200
+215-e
+215-E 30962 1284127200 600 50 FF
+215-T Tagesschau
+215-V 1284127200
+215-e
+215-E 30965 1284127800 3000 50 FF
+215-T Papageien, Palmen & Co.
+215-D (4) Zoogeschichten aus dem Loro Park auf Teneriffa
+215-V 1284127800
+215-e
+215-E 30967 1284130800 900 50 FF
+215-T Tagesschau
+215-V 1284130800
+215-e
+215-E 30971 1284131700 2700 50 FF
+215-T Brisant
+215-V 1284131700
+215-e
+215-E 30973 1284134400 1500 50 FF
+215-T Verbotene Liebe
+215-S Folge 3686
+215-V 1284134400
+215-e
+215-E 30975 1284135900 1500 50 FF
+215-T Marienhof
+215-S Folge 3887
+215-V 1284135900
+215-e
+215-E 30976 1284137400 1800 50 FF
+215-T Das Duell im Ersten
+215-S Das Spiel um 100.000 Euro
+215-V 1284137400
+215-e
+215-E 30977 1284139200 1500 50 FF
+215-T Das Duell im Ersten
+215-S Das Spiel um 100.000 Euro
+215-V 1284139200
+215-e
+215-E 30979 1284140700 300 50 FF
+215-T Wissen vor 8
+215-D Woher kennt man das Mindesthaltbarkeitsdatum?
+215-V 1284140700
+215-e
+215-E 30981 1284141000 300 50 FF
+215-T Das Wetter im Ersten
+215-S mit Claudia Kleinert
+215-V 1284141000
+215-e
+215-E 30983 1284141300 300 50 FF
+215-T Börse im Ersten
+215-S Moderation: Michael Best
+215-V 1284141300
+215-e
+215-E 30985 1284141600 900 50 FF
+215-T Tagesschau
+215-V 1284141600
+215-e
+215-E 30988 1284142500 5400 50 FF
+215-T Der letzte Patriarch (1/2)
+215-D Spielfilm Deutschland 2010 - Zum 80. Geburtstag von Mario Adorf (8.9.)
+215-V 1284142500
+215-e
+215-E 30989 1284147900 5400 50 FF
+215-T Der letzte Patriarch (2/2)
+215-D Spielfilm Deutschland 2010 - Zum 80. Geburtstag von Mario Adorf (8.9.)
+215-V 1284147900
+215-e
+215-E 30991 1284153300 780 50 FF
+215-T Tagesthemen
+215-S Moderation: Tom Buhrow
+215-V 1284153300
+215-e
+215-E 30993 1284154080 120 50 FF
+215-T Das Wetter im Ersten
+215-S mit Claudia Kleinert
+215-V 1284154080
+215-e
+215-E 30995 1284154200 5400 50 FF
+215-T Die Frau im roten Kleid
+215-S Spielfilm Deutschland 2006
+215-V 1284154200
+215-e
+215-E 30865 1284159600 1200 50 FF
+215-T Nachtmagazin
+215-V 1284159600
+215-e
+215-E 30866 1284160800 5100 50 FF
+215-T Håkan Nesser: Moreno und das Schweigen
+215-D Spielfilm Schweden 2005 (Moreno & tystnaden)
+215-V 1284160800
+215-e
+215-E 30867 1284165900 300 50 FF
+215-T Tagesschau
+215-V 1284165900
+215-e
+215-E 30868 1284166200 5100 50 FF
+215-T Håkan Nesser: Die Schwalbe, die Katze, die Rose und der Tod
+215-D Spielfilm Schweden 2005 (Svalan, katten, rosen, döden)
+215-V 1284166200
+215-e
+215-E 30869 1284171300 3000 50 FF
+215-T Sturm der Liebe
+215-S Folge 1143
+215-V 1284171300
+215-e
+215-E 30870 1284174300 300 50 FF
+215-T Tagesschau
+215-V 1284174300
+215-e
+215-E 30871 1284174600 1200 50 FF
+215-T Die schönsten Bahnstrecken der Welt
+215-S China: Kunming - Weishe
+215-V 1284174600
+215-e
+215-E 31402 1284175800 1500 50 FF
+215-T Felix und die wilden Tiere
+215-S Die gefährlichsten Krokodile der Welt
+215-V 1284175800
+215-e
+215-E 31403 1284177300 1500 50 FF
+215-T Karen in Action
+215-S Heißer Tanz in Rio
+215-V 1284177300
+215-e
+215-E 31404 1284178800 1500 50 FF
+215-T Oliver Twist
+215-S (49) Anuschkas Spiel
+215-V 1284178800
+215-e
+215-E 31779 1284180300 1200 50 FF
+215-T Oliver Twist
+215-S (50) Drei Geschichten - eine Wahrheit
+215-V 1284180300
+215-e
+215-E 31405 1284181500 600 50 FF
+215-T Gawayn
+215-S (3) Der Streit mit der Puppe
+215-V 1284181500
+215-e
+215-E 31778 1284182100 900 50 FF
+215-T Gawayn
+215-S (4) Der verrückte Koch
+215-V 1284182100
+215-e
+215-E 31406 1284183000 1800 50 FF
+215-T Tigerenten Club Xtra
+215-S Piraten
+215-V 1284183000
+215-e
+215-E 31407 1284184800 1500 50 FF
+215-T Wissen macht Ah!
+215-S Alte Schätzchen - Wissen und mehr
+215-V 1284184800
+215-e
+215-E 31408 1284186300 600 50 FF
+215-T neuneinhalb
+215-S Das CHECK EINS-Nachrichtenmagazin
+215-V 1284186300
+215-e
+215-E 31409 1284186900 1800 50 FF
+215-T Die Pfefferkörner
+215-S (75) Zarina
+215-V 1284186900
+215-e
+215-E 31410 1284188700 1800 50 FF
+215-T Die Kinder vom Alstertal
+215-S (36) Moritz weiß, was er will
+215-V 1284188700
+215-e
+215-E 31411 1284190500 1500 50 FF
+215-T Die Kinder vom Alstertal
+215-S (37) Die Schatzkarte
+215-V 1284190500
+215-e
+215-E 31412 1284192000 180 50 FF
+215-T Tagesschau
+215-V 1284192000
+215-e
+215-E 31413 1284192180 1620 50 FF
+215-T Willi wills wissen
+215-S Wie macht der Künstler Kunst?
+215-V 1284192180
+215-e
+215-E 31414 1284193800 1800 50 FF
+215-T Fortsetzung folgt
+215-D Schluss jetzt! Emin will Streitschlichter werden
+215-V 1284193800
+215-e
+215-E 31415 1284195600 600 50 FF
+215-T neuneinhalb
+215-S Das CHECK EINS-Nachrichtenmagazin
+215-V 1284195600
+215-e
+215-E 31416 1284196200 3000 50 FF
+215-T Weiches Fell und scharfe Krallen
+215-S Neue Freiheiten
+215-V 1284196200
+215-e
+215-E 31417 1284199200 180 50 FF
+215-T Tagesschau
+215-V 1284199200
+215-e
+215-E 31418 1284199380 4920 50 FF
+215-T Wir haun die Pauker in die Pfanne
+215-S Spielfilm Deutschland 1970
+215-V 1284199380
+215-e
+215-E 31419 1284204300 300 50 FF
+215-T Tier ABC
+215-S Wisentkälbchen
+215-V 1284204300
+215-e
+215-E 31420 1284204600 5400 50 FF
+215-T Sportschau live
+215-S Triathlon-WM: Finale
+215-V 1284204600
+215-e
+215-E 31421 1284210000 180 50 FF
+215-T Tagesschau
+215-V 1284210000
+215-e
+215-E 31422 1284210180 1620 50 FF
+215-T höchstpersönlich
+215-S Gesine Cukrowski
+215-V 1284210180
+215-e
+215-E 31423 1284211800 1800 50 FF
+215-T Tim Mälzer kocht!
+215-S Pochierte Maishuhnbrust
+215-V 1284211800
+215-e
+215-E 31424 1284213600 1800 50 FF
+215-T Weltreisen
+215-S Lofoten - Inseln des Lichts
+215-V 1284213600
+215-e
+215-E 31425 1284215400 1800 50 FF
+215-T Europamagazin
+215-S Moderation: Markus Preiß
+215-V 1284215400
+215-e
+215-E 31426 1284217200 180 50 FF
+215-T Tagesschau
+215-V 1284217200
+215-e
+215-E 31427 1284217380 1620 50 FF
+215-T ARD-Ratgeber: Auto + Verkehr
+215-S Moderation: Thorsten Link
+215-V 1284217380
+215-e
+215-E 31428 1284219000 1020 50 FF
+215-T Brisant
+215-V 1284219000
+215-e
+215-E 31429 1284220020 180 50 FF
+215-T Das Wetter im Ersten
+215-V 1284220020
+215-e
+215-E 31430 1284220200 600 50 FF
+215-T Tagesschau
+215-V 1284220200
+215-e
+215-E 31431 1284220800 1800 50 FF
+215-T Sportschau
+215-S 3. Liga
+215-V 1284220800
+215-e
+215-E 31432 1284222600 5220 50 FF
+215-T Sportschau
+215-S Fußball-Bundesliga: 3. Spieltag
+215-V 1284222600
+215-e
+215-E 31433 1284227820 180 50 FF
+215-T Glücksspirale
+215-S Moderation: Franziska Reichenbacher
+215-V 1284227820
+215-e
+215-E 31434 1284228000 900 50 FF
+215-T Tagesschau
+215-V 1284228000
+215-e
+215-E 31435 1284228900 6300 50 FF
+215-T MusikantenDampfer
+215-S Die Show im Grünen
+215-V 1284228900
+215-e
+215-E 31436 1284235200 300 50 FF
+215-T Ziehung der Lottozahlen
+215-D Übertragung der 36. Ausspielung im Deutschen Lottoblock
+215-V 1284235200
+215-e
+215-E 31437 1284235500 1080 50 FF
+215-T Tagesthemen
+215-S mit Sport
+215-V 1284235500
+215-e
+215-E 31438 1284236580 120 50 FF
+215-T Das Wetter im Ersten
+215-V 1284236580
+215-e
+215-E 31439 1284236700 300 50 FF
+215-T Das Wort zum Sonntag
+215-S spricht Pfarrer Stefan Claaß aus Mainz
+215-V 1284236700
+215-e
+215-E 31440 1284237000 5700 50 FF
+215-T Cop Land
+215-S Spielfilm USA 1997
+215-V 1284237000
+215-e
+215-E 31355 1284242700 600 50 FF
+215-T Tagesschau
+215-V 1284242700
+215-e
+215-E 31356 1284243300 5400 50 FF
+215-T Hügel der blutigen Stiefel
+215-D Spielfilm Italien 1969 (La collina degli Stivali)
+215-V 1284243300
+215-e
+215-E 31357 1284248700 300 50 FF
+215-T Tagesschau
+215-V 1284248700
+215-e
+215-E 31358 1284249000 6300 50 FF
+215-T Coma
+215-S Spielfilm USA 1977
+215-V 1284249000
+215-e
+215-E 31359 1284255300 6600 51 FF
+215-T Ich - Die Nummer Eins
+215-D Spielfilm Frankreich / Italien 1972 (Le Silencieux)
+215-V 1284255300
+215-e
+215-E 31360 1284261900 300 51 FF
+215-T Tagesschau
+215-V 1284261900
+215-e
+215-E 31361 1284262200 1800 51 FF
+215-T Fortsetzung folgt
+215-D Schluss jetzt! Emin will Streitschlichter werden
+215-V 1284262200
+215-e
+215-E 31362 1284264000 1500 51 FF
+215-T Willis Quiz Quark Club
+215-S Kinderprogramm
+215-V 1284264000
+215-e
+215-E 31363 1284265500 1200 51 FF
+215-T Oliver Twist
+215-S (51) Ski-Zirkus
+215-V 1284265500
+215-e
+215-E 31780 1284266700 1500 51 FF
+215-T Oliver Twist
+215-S (52) Dodgers große Zaubershow
+215-V 1284266700
+215-e
+215-E 31364 1284268200 1500 51 FF
+215-T Sesamstraße
+215-S Kinderprogramm
+215-V 1284268200
+215-e
+215-E 31365 1284269700 1500 51 FF
+215-T Rennschwein Rudi Rüssel
+215-S Rudi und Rudi
+215-V 1284269700
+215-e
+215-E 31366 1284271200 1500 51 FF
+215-T Rennschwein Rudi Rüssel
+215-S (31) Rudi rennt wieder
+215-V 1284271200
+215-e
+215-E 31367 1284272700 1800 51 FF
+215-T Die Pfefferkörner
+215-S (75) Zarina
+215-V 1284272700
+215-e
+215-E 31368 1284274500 3600 51 FF
+215-T Tigerenten Club
+215-S Unser wilder Planet
+215-V 1284274500
+215-e
+215-E 31369 1284278100 300 51 FF
+215-T Tagesschau
+215-V 1284278100
+215-e
+215-E 31371 1284278400 5400 51 FF
+215-T Immer wieder sonntags - Best of
+215-V 1284278400
+215-e
+215-E 31373 1284283800 1800 51 FF
+215-T Die Sendung mit der Maus
+215-D Lach- und Sachgeschichten für Fernsehanfänger
+215-V 1284283800
+215-e
+215-E 31375 1284285600 180 51 FF
+215-T Tagesschau
+215-V 1284285600
+215-e
+215-E 31377 1284285780 2520 51 FF
+215-T Presseclub
+215-S Moderation: Jörg Schönenborn
+215-V 1284285780
+215-e
+215-E 31379 1284288300 1800 51 FF
+215-T Tagesschau
+215-S mit Wochenspiegel
+215-V 1284288300
+215-e
+215-E 31380 1284290100 1800 51 FF
+215-T ARD-exclusiv
+215-D Die letzte Reise des Serbischen Tanzbären
+215-V 1284290100
+215-e
+215-E 31382 1284291900 2700 51 FF
+215-T Polettos Kochschule
+215-S (3) Grundkurs Hähnchenbrust
+215-V 1284291900
+215-e
+215-E 31383 1284294600 5700 51 FF
+215-T Kleiner Mann - ganz groß
+215-S Spielfilm Deutschland 1956
+215-V 1284294600
+215-e
+215-E 31385 1284300300 1500 51 FF
+215-T Korsika - Mit dem Zug von Calvi nach Ajaccio
+215-V 1284300300
+215-e
+215-E 31386 1284301800 1800 51 FF
+215-T ARD-Ratgeber: Bauen + Wohnen
+215-S Moderation: Christoph Tiegel
+215-V 1284301800
+215-e
+215-E 31387 1284303600 180 51 FF
+215-T Tagesschau
+215-V 1284303600
+215-e
+215-E 31388 1284303780 1620 51 FF
+215-T W wie Wissen
+215-S Was macht das Öl im Meer?
+215-V 1284303780
+215-e
+215-E 31389 1284305400 1800 51 FF
+215-T Gott und die Welt
+215-D Ich bin doch kein Mörder - Folgen eines Autounfalls
+215-V 1284305400
+215-e
+215-E 31390 1284307200 1800 51 FF
+215-T Sportschau
+215-S Der Sport vom Wochenende
+215-V 1284307200
+215-e
+215-E 31391 1284309000 1140 51 FF
+215-T Bericht aus Berlin
+215-S Moderation: Rainald Becker
+215-V 1284309000
+215-e
+215-E 31392 1284310140 60 51 FF
+215-T Ein Platz an der Sonne
+215-S Wochengewinner der ARD-Fernsehlotterie
+215-V 1284310140
+215-e
+215-E 31393 1284310200 1800 51 FF
+215-T Lindenstraße
+215-S (1293) Zuckerfest
+215-V 1284310200
+215-e
+215-E 31394 1284312000 2400 51 FF
+215-T Weltspiegel
+215-S Auslandskorrespondenten berichten
+215-V 1284312000
+215-e
+215-E 31395 1284314400 900 51 FF
+215-T Tagesschau
+215-V 1284314400
+215-e
+215-E 31396 1284315300 5400 51 FF
+215-T Tatort: Schmale Schultern
+215-S Fernsehfilm Deutschland 2009
+215-V 1284315300
+215-e
+215-E 31397 1284320700 3600 51 FF
+215-T Anne Will
+215-S Politisch denken, persönlich fragen
+215-V 1284320700
+215-e
+215-E 31398 1284324300 1080 51 FF
+215-T Tagesthemen
+215-S mit Sport
+215-V 1284324300
+215-e
+215-E 31399 1284325380 120 51 FF
+215-T Das Wetter im Ersten
+215-V 1284325380
+215-e
+215-E 31400 1284325500 1800 51 FF
+215-T ttt - titel thesen temperamente
+215-S Moderation: Evelyn Fischer
+215-V 1284325500
+215-e
+215-E 31401 1284327300 1800 51 FF
+215-T Töne, Triumphe, Tränen
+215-D Der internationale Musikwettbewerb der ARD
+215-V 1284327300
+215-e
+215-E 31164 1284329100 6300 51 FF
+215-T The Fall - Im Reich der Fantasie
+215-D Spielfilm (Indien / Großbritannien / USA) 2006 (The Fall)
+215-V 1284329100
+215-e
+215-E 31165 1284335400 300 51 FF
+215-T Tagesschau
+215-V 1284335400
+215-e
+215-E 31166 1284335700 6900 51 FF
+215-T Die schwarze Dahlie
+215-S Spielfilm USA 2005 (The Black Dahlia)
+215-V 1284335700
+215-e
+215-E 31167 1284342600 1800 51 FF
+215-T ttt - titel thesen temperamente
+215-S Moderation: Evelyn Fischer
+215-V 1284342600
+215-e
+215-E 31168 1284344400 1500 51 FF
+215-T Die schönsten Bahnstrecken der Welt
+215-S China: Kunming - Weishe
+215-V 1284344400
+215-e
+215-E 31169 1284345900 300 51 FF
+215-T Tagesschau
+215-V 1284345900
+215-e
+215-E 31170 1284346200 2400 51 FF
+215-T Weltspiegel
+215-S Auslandskorrespondenten berichten
+215-V 1284346200
+215-e
+215-E 31171 1284348600 12600 51 FF
+215-T Morgenmagazin
+215-S Das ARD-Frühstücksfernsehen
+215-V 1284348600
+215-e
+215-E 31172 1284361200 300 51 FF
+215-T Tagesschau
+215-V 1284361200
+215-e
+215-E 31173 1284361500 3000 51 FF
+215-T Rote Rosen
+215-S Folge 877
+215-V 1284361500
+215-e
+215-E 31174 1284364500 300 51 FF
+215-T ARD-Wetterschau
+215-V 1284364500
+215-e
+215-E 31175 1284364800 180 51 FF
+215-T Tagesschau
+215-V 1284364800
+215-e
+215-E 31176 1284364980 720 51 FF
+215-T Brisant
+215-V 1284364980
+215-e
+215-E 31177 1284365700 6300 51 FF
+215-T MusikantenDampfer
+215-S Die Show im Grünen
+215-V 1284365700
+215-e
+215-E 31178 1284372000 900 51 FF
+215-T Tagesschau
+215-V 1284372000
+215-e
+215-E 31179 1284372900 2700 51 FF
+215-T ARD-Buffet
+215-D Leben & genießen - Moderation: Evelin König
+215-V 1284372900
+215-e
+215-E 31180 1284375600 3600 51 FF
+215-T ARD-Mittagsmagazin
+215-S mit Tagesschau
+215-V 1284375600
+215-e
+215-E 31181 1284379200 600 51 FF
+215-T Tagesschau
+215-V 1284379200
+215-e
+215-E 31182 1284379800 3000 51 FF
+215-T Rote Rosen
+215-S Folge 878
+215-V 1284379800
+215-e
+215-E 31183 1284382800 600 51 FF
+215-T Tagesschau
+215-V 1284382800
+215-e
+215-E 31184 1284383400 3000 51 FF
+215-T Sturm der Liebe
+215-S Folge 1144
+215-V 1284383400
+215-e
+215-E 31185 1284386400 600 51 FF
+215-T Tagesschau
+215-V 1284386400
+215-e
+215-E 31186 1284387000 3000 51 FF
+215-T Papageien, Palmen & Co.
+215-D (5) Zoogeschichten aus dem Loro Park auf Teneriffa
+215-V 1284387000
+215-e
+215-E 31187 1284390000 900 51 FF
+215-T Tagesschau
+215-V 1284390000
+215-e
+215-E 31188 1284390900 2700 51 FF
+215-T Brisant
+215-V 1284390900
+215-e
+215-E 31189 1284393600 1500 51 FF
+215-T Verbotene Liebe
+215-S Folge 3687
+215-V 1284393600
+215-e
+215-E 31190 1284395100 1500 51 FF
+215-T Marienhof
+215-S Folge 3888
+215-V 1284395100
+215-e
+215-E 31191 1284396600 3600 51 FF
+215-T Großstadtrevier
+215-S (231) Spiel mit der Angst
+215-V 1284396600
+215-e
+215-E 31192 1284400200 300 51 FF
+215-T Das Wetter im Ersten
+215-V 1284400200
+215-e
+215-E 31193 1284400500 300 51 FF
+215-T Börse im Ersten
+215-S Moderation: Michael Best
+215-V 1284400500
+215-e
+215-E 31194 1284400800 900 51 FF
+215-T Tagesschau
+215-V 1284400800
+215-e
+215-E 31195 1284401700 2700 51 FF
+215-T Der Winzerkönig
+215-S (36) Auf Kollisionskurs
+215-V 1284401700
+215-e
+215-E 31196 1284404400 2700 51 FF
+215-T Damals nach der DDR
+215-S (1) Freiheit und Auflösung
+215-V 1284404400
+215-e
+215-E 31197 1284407100 1800 51 FF
+215-T FAKT
+215-S Das MDR-Magazin
+215-V 1284407100
+215-e
+215-E 31198 1284408900 1680 51 FF
+215-T Tagesthemen
+215-S Moderation: Tom Buhrow
+215-V 1284408900
+215-e
+215-E 31199 1284410580 120 51 FF
+215-T Das Wetter im Ersten
+215-V 1284410580
+215-e
+215-E 31200 1284410700 4500 51 FF
+215-T Beckmann
+215-V 1284410700
+215-e
+215-E 31201 1284415200 1200 51 FF
+215-T Nachtmagazin
+215-V 1284415200
+215-e
+215-E 31202 1284416400 1800 51 FF
+215-T Studio Richling
+215-S Folge 1
+215-V 1284416400
+215-e
+215-E 31203 1284418200 5700 51 FF
+215-T Die Jungen von der Paulstraße
+215-D Spielfilm Österreich/Ungarn 2002 - Zum 80. Geburtstag von Mario Adorf (8.9.)
+215-V 1284418200
+215-e
+215-E 31204 1284423900 300 51 FF
+215-T Tagesschau
+215-V 1284423900
+215-e
+215-E 31205 1284424200 3000 51 FF
+215-T Sturm der Liebe
+215-S Folge 1144
+215-V 1284424200
+215-e
+215-E 31206 1284427200 2700 51 FF
+215-T Damals nach der DDR
+215-S (1) Freiheit und Auflösung
+215-V 1284427200
+215-e
+215-E 31207 1284429900 1800 51 FF
+215-T ARD-Ratgeber: Auto + Verkehr
+215-S Moderation: Thorsten Link
+215-V 1284429900
+215-e
+215-E 31208 1284431700 1200 51 FF
+215-T Die schönsten Bahnstrecken der Welt
+215-S China: Kunming - Weishe
+215-V 1284431700
+215-e
+215-E 31209 1284432900 300 51 FF
+215-T Tagesschau
+215-V 1284432900
+215-e
+215-E 31210 1284433200 1800 51 FF
+215-T FAKT
+215-S Das MDR-Magazin
+215-V 1284433200
+215-e
+215-E 31211 1284435000 12600 51 FF
+215-T Morgenmagazin
+215-S Das ARD-Frühstücksfernsehen
+215-V 1284435000
+215-e
+215-E 31212 1284447600 300 51 FF
+215-T Tagesschau
+215-V 1284447600
+215-e
+215-E 31213 1284447900 3000 51 FF
+215-T Rote Rosen
+215-S Folge 878
+215-V 1284447900
+215-e
+215-E 31214 1284450900 300 51 FF
+215-T ARD-Wetterschau
+215-V 1284450900
+215-e
+215-E 31215 1284451200 180 51 FF
+215-T Tagesschau
+215-V 1284451200
+215-e
+215-E 31216 1284451380 1620 51 FF
+215-T Brisant
+215-V 1284451380
+215-e
+215-E 31217 1284453000 5400 51 FF
+215-T Wenn Ludwig ins Manöver zieht
+215-S Spielfilm Deutschland 1967
+215-V 1284453000
+215-e
+215-E 31218 1284458400 900 51 FF
+215-T Tagesschau
+215-V 1284458400
+215-e
+215-E 31219 1284459300 2700 51 FF
+215-T ARD-Buffet
+215-D Leben & genießen - Moderation: Evelin König
+215-V 1284459300
+215-e
+215-E 31220 1284462000 3600 51 FF
+215-T ARD-Mittagsmagazin
+215-S mit Tagesschau
+215-V 1284462000
+215-e
+215-E 31221 1284465600 600 51 FF
+215-T Tagesschau
+215-V 1284465600
+215-e
+215-E 31222 1284466200 3000 51 FF
+215-T Rote Rosen
+215-S Folge 879
+215-V 1284466200
+215-e
+215-E 31223 1284469200 600 51 FF
+215-T Tagesschau
+215-V 1284469200
+215-e
+215-E 31224 1284469800 3000 51 FF
+215-T Sturm der Liebe
+215-S Folge 1145
+215-V 1284469800
+215-e
+215-E 31225 1284472800 600 51 FF
+215-T Tagesschau
+215-V 1284472800
+215-e
+215-E 31226 1284473400 3000 51 FF
+215-T Papageien, Palmen & Co.
+215-D (6) Zoogeschichten aus dem Loro Park auf Teneriffa
+215-V 1284473400
+215-e
+215-E 31227 1284476400 900 51 FF
+215-T Tagesschau
+215-V 1284476400
+215-e
+215-E 31228 1284477300 2700 51 FF
+215-T Brisant
+215-V 1284477300
+215-e
+215-E 31229 1284480000 1500 51 FF
+215-T Verbotene Liebe
+215-S Folge 3688
+215-V 1284480000
+215-e
+215-E 31230 1284481500 1500 51 FF
+215-T Marienhof
+215-S Folge 3889
+215-V 1284481500
+215-e
+215-E 31231 1284483000 3300 51 FF
+215-T Das Duell im Ersten
+215-S Das Spiel um 100.000 Euro
+215-V 1284483000
+215-e
+215-E 31232 1284486300 300 51 FF
+215-T Wissen vor 8
+215-D Wie löscht man brennendes Öl in der Pfanne?
+215-V 1284486300
+215-e
+215-E 31233 1284486600 300 51 FF
+215-T Das Wetter im Ersten
+215-V 1284486600
+215-e
+215-E 31234 1284486900 300 51 FF
+215-T Börse im Ersten
+215-S Moderation: Michael Best
+215-V 1284486900
+215-e
+215-E 31235 1284487200 900 51 FF
+215-T Tagesschau
+215-V 1284487200
+215-e
+215-E 31236 1284488100 3000 51 FF
+215-T Weissensee
+215-S (1/6) Operation Juninacht
+215-V 1284488100
+215-e
+215-E 31237 1284491100 2700 51 FF
+215-T In aller Freundschaft
+215-S (488) Blattschuss
+215-V 1284491100
+215-e
+215-E 31238 1284493800 1500 51 FF
+215-T Plusminus
+215-D Das ARD-Wirtschaftsmagazin - Moderation: Jörg Boecker
+215-V 1284493800
+215-e
+215-E 31239 1284495300 1680 51 FF
+215-T Tagesthemen
+215-S Moderation: Susanne Holst
+215-V 1284495300
+215-e
+215-E 31240 1284496980 120 51 FF
+215-T Das Wetter im Ersten
+215-V 1284496980
+215-e
+215-E 31241 1284497100 4500 51 FF
+215-T Menschen bei Maischberger
+215-V 1284497100
+215-e
+215-c
+215 End of EPG data

@@ -57,10 +57,12 @@ public class Server {
     private Socket socket;
     
     private String welcome;
+    private String timers;
     
     private boolean running = true;
     
     public Server() {
+        logger.info("Running in {}", System.getProperty("user.dir"));
         new Thread() {
             public void run() {
                 serveClients();
@@ -71,9 +73,14 @@ public class Server {
     public void loadWelcome(String welcomeTextFile) throws IOException {
         welcome = readFile(welcomeTextFile);
     }
+    
+    public void loadTimers(String timersFile) throws IOException {
+        timers = readFile(timersFile);
+    }
 
-    private String readFile(String welcomeTextFile) throws IOException {
-        InputStream in = getClass().getResourceAsStream("/" + welcomeTextFile);
+    private String readFile(String textFile) throws IOException {
+        logger.debug("Trying to load file {}", textFile);
+        InputStream in = getClass().getResourceAsStream("/" + textFile);
         Scanner scanner = new Scanner(in, "UTF-8");
         StringBuilder sb = new StringBuilder();
         while(scanner.hasNext()) {
@@ -92,7 +99,7 @@ public class Server {
             while(running) {
                 socket = ss.accept();
                 socket.setSoTimeout((int) TimeUnit.MINUTES.toMillis(3));
-                logger.debug("Connection from {}", socket.getRemoteSocketAddress());
+                logger.info("Connection from {}", socket.getRemoteSocketAddress());
                 
                 br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
                 bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "UTF-8"));
@@ -112,7 +119,7 @@ public class Server {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Error while serving clients", e);
         }
     }
 
@@ -132,14 +139,21 @@ public class Server {
         } else if ("lstc".equalsIgnoreCase(request)) {
             printChannelList();
         } else if ("lstt".equalsIgnoreCase(request)) {
-            printTimerList();
+            sendResponse(timers);
         } else if ("lstr".equalsIgnoreCase(request)) {
             printRecordingsList();
+        } else if ("lste 1".equalsIgnoreCase(request)) {
+            printEpg();
         } else if ("test_charset".equalsIgnoreCase(request)) {
             sendResponse("221 öüäß");
         }
         
         return true;
+    }
+
+    private void printEpg() throws IOException {
+        String lste = readFile("lste_1.txt");
+        sendResponse(lste);
     }
 
     private void sendResponse(String resp) throws IOException {
@@ -183,19 +197,6 @@ public class Server {
                 "250-31 23.11.09 20:10* Der Baader Meinhof Komplex (2/2)\n" + 
                 "250-32 01.11.09 23:55  The Sentinel - Wem kannst du trauen?\n" + 
                 "250 33 01.03.09 16:35  Schöne Venus");
-    }
-
-    private void printTimerList() throws IOException {
-//        ps.println("250-1 1:29:2008-07-13:2010:2205:99:99:Born to be Wild - Saumäßig unterwegs:<epgsearch><eventid>13695</eventid><update>0</update><bstart>5</bstart><bstop>10</bstop></epgsearch>\n" + 
-//              "250-2 1:7:2008-07-14:2009:2123:50:50:Moonlight:Mick und Beth erlebten einen gemeinsamen, intimen Moment in der Wüste - jetzt versuchen sie alles, um sich aus dem Weg zu gehen, nicht zuletzt deswegen, weil die Reporterin liiert ist. Mick ist derweil mit einem neuen Fall beschäftigt und hat alle Hände voll zu tun. Der Detektiv ist auf der Suche nach einem Vampirteenager, dessen Beute meist junge Frauen eines Escort-Services sind, die er zuvor im Internet ausfindig macht.\n" + 
-//              "250 3 1:7:2008-07-15:0750:0833:50:50:Two and a Half Men:Alan leidet unter Schlafstörungen. Als er versucht, durch Joggen müde zu werden, wird er auch noch fälschlicherweise für einen Bankräuber gehalten und verhaftet. Bei einer Therapeutin findet er schließlich heraus, dass Charlie der Auslöser seiner Probleme ist. Der gräbt indes die Mutter von Jakes Freundin an, was dem gar nicht passt. Jake glaubt nämlich, dass die Sache kein gutes Ende für ihn nehmen wird. Charlie trifft sich heimlich mit der attraktiven Mutter. ");
-//        ps.println("250-1 1:3:2008-08-19:2155:2240:50:50:Fahr mal hin:Sie ist mit Sicherheit die s&#65533;&#65533;este Stra&#65533;e der Welt. Die neue \"Route du Chocolat\". Sie f&#65533;hrt vom els&#65533;ssischen Retzwiller bis nach Bad Bergzabern in der S&#65533;dpfalz. An insgesamt 40 Rastpl&#65533;tzen, also Konditoreien und Chocolaterien, k&#65533;nnen Reisende in Sachen Schokolade schwelgen. Edle Schokoladen und Rumtr&#65533;ffel naschen, Pfefferpralinen kosten und den Chocolatiers bei der Zubereitung &#65533;ber die Schulter schauen. Die Idee zur \"Route du Chocolat\" hatten els&#65533;ssische Patissiers und Chocolatiers. Schlie&#65533;lich stammen 40 Prozent aller in Frankreich hergestellten Schokoladenprodukte aus dem Elsass. Seit dem Kinofilm \"Chocolat\" ist die Schokolade neu entdeckt worden. Weg vom billigen Massenprodukt mit den Standardsorten wie Vollmilch oder Trauben-Nuss. Heute denken sich Schokoladenhersteller immer neue, manchmal sogar kuriose Sorten aus. Besonders im Trend ist derzeit Schokolade mit Pfeffer oder Chiligeschmack. Der Phantasie der Chocolatiers sind keine Grenzen gesetzt. Die Zuschauer erfahren in der Sendung wie die Schokolade nach Frankreich kam, lernen dass es Schokolade lange Zeit nur zum Trinken gab und nehmen teil an einer Verkostung von Wein und Schokolade. Sie erleben in der Schule der Chocolatiers eine Abschlusspr&#65533;fung und im Luxushotel \"Le Clos de D&#65533;lices\" eine Massage mit fl&#65533;ssiger Schokolade.||(c) by DasErste/TV-Browser\n" + 
-//              "250-2 1:6:MTWTF--:0556:0614:50:50:MUSIK BOXX:Habt ihr Lust auf Singen und Tanzen? Dann ist die MUSIK BOXX genau das Richtige f&#65533;r euch. In der MUSIK BOXX zeigen wir von Montag bis Freitag die neuesten und besten Musik Clips von euren Lieblingsliedermachern, wie Volker Rosin, Rumpelstil, Jenny Thoms, Gr&#65533;nschnabel, Hexe Knickebein, Daniel Kallauch, Rolf Zuckowski und vielen mehr. Die Auswahl ist riesengro&#65533;!!! In der MUSIK BOXX gibt es Lieder &#65533;ber Tiere, Freundschaft, Geister, Indianer aber auch tolle Bewegungs-Lieder. Schaut mal rein, bestimmt ist auch euer Lieblingslied dabei!\n" + 
-//              "250 3 1:9:2008-08-19:1140:1240:50:50:Unkraut:* Frankenwald: Naturjuwel im Dornr&#65533;schenschlaf|* Rarit&#65533;ten: Bayerns letzte Urw&#65533;lder|* Visionen: Bioenergie f&#65533;r ein ganzes Dorf|* Invasion: Tschechische Borkenk&#65533;fer im Bayerischen Wald|* Luft&#65533;berwachung: Auf der Suche nach Waldbr&#65533;nden ");
-           sendResponse("250-1 1:7:MTWTF--:1226:1339:50:50:Planet Wissen:Ob Merino, Bentheimer Landschaf oder Moorschnucke - Schafe, die wandelnden \"Rasenmäher\" sind Alleskönner: Sie liefern uns nicht nur Fleisch und Käse, auch als Landschaftspfleger werden sie immer wichtiger.\n" + 
-                "250-2 1:9:MTWTF--:1846:1909:50:50:Unser Sandmännchen:\n" + 
-                "250-3 1:1:-TWTF--:1941:1959:50:50:Wissen vor 8:von und mit Ranga Yogeshwar|Heute: Was ist die Milchstraße?|In klaren Nächten kann man sie am Sternenhimmel erkennen, die Milchstraße. Doch was verbirgt sich genau hinter diesem leuchtenden Band? Ranga Yogeshwar hat genauer hingeschaut.||(c) by DasErste/TV-Browser\n" + 
-                "250 4 1:9:MTWTFSS:1811:1849:50:50:Der kleine Eisbär:Ein neuer Freund für den kleinen Eisbären: Am Meer lernt Lars Robby, die Robbe kennen. Gemeinsam entdecken sie ein Schiff, das im Eis festgefroren ist. Neugierig erkunden die beiden das alte, verlassene Schiff. Gerade als Lars und Robby Kapitän spielen, beobachten sie, wie drei Polarforscher auf das Schiff kommen. Aus ihrem Versteck heraus hören sie, dass die Männer planen, das Schiff fortzuschleppen. Doch Lars und Robby wollen ihren neuen Abenteuerspielplatz behalten! Zurück zu Hause hecken sie gemeinsam mit Lena, Pieps und Greta einen Plan aus. In dieser Nacht machen die Polarforscher, die in der Nähe des Wracks ein Lager haben, eine unheimliche Entdeckung: Vom Schiff kommen gespenstische Töne, und merkwürdige Gestalten treiben sich an Deck herum. Spukt es etwa auf dem Schiff? Die Männer bekommen es mit der Angst zu tun.||(c) by DasErste/TV-Browser");
     }
 
     private void printChannelList() throws IOException {
@@ -359,5 +360,11 @@ public class Server {
         } catch (IOException e) {
             // fail silently
         }
+    }
+    
+    public static void main(String[] args) throws IOException {
+        Server server = new Server();
+        server.loadWelcome("welcome-1.6.0_2-utf_8.txt");
+        server.loadTimers("lstt_doppelpack_fake.txt");
     }
 }
