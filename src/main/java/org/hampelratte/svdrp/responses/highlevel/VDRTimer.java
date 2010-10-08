@@ -460,7 +460,7 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
     }
     
     public boolean isRecording() {
-        if(getState() == RECORDING) {
+        if(hasState(ACTIVE) && hasState(RECORDING)) {
             return true;
         }
         
