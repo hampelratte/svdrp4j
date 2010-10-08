@@ -27,7 +27,9 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.hampelratte.svdrp;
+package org.hampelratte.svdrp.responses;
+
+import org.hampelratte.svdrp.Response;
 
 public class PluginResponse extends Response {
     private static final long serialVersionUID = 1L;

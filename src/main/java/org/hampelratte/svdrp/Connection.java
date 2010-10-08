@@ -45,6 +45,7 @@ import org.hampelratte.svdrp.commands.PUTE;
 import org.hampelratte.svdrp.commands.QUIT;
 import org.hampelratte.svdrp.responses.AccessDenied;
 import org.hampelratte.svdrp.responses.NotImplementedBySVDRP4J;
+import org.hampelratte.svdrp.responses.PluginResponse;
 import org.hampelratte.svdrp.responses.R214;
 import org.hampelratte.svdrp.responses.R215;
 import org.hampelratte.svdrp.responses.R216;
