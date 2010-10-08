@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
 import org.junit.Test;
 
-public class VDRTimerState {
+public class VDRTimerStateTest {
     
     private VDRTimer timer = new VDRTimer();
     
