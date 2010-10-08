@@ -3,6 +3,8 @@ package org.hampelratte.svdrp;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Calendar;
+
 import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
 import org.junit.Test;
 
@@ -62,5 +64,15 @@ public class VDRTimerStateTest {
         
         timer.setState(VDRTimer.RECORDING);
         assertFalse(timer.isRecording());
+        
+        timer.setState(VDRTimer.ACTIVE);
+        assertFalse(timer.isRecording());
+        Calendar start = Calendar.getInstance();
+        start.add(Calendar.HOUR, -1);
+        timer.setStartTime(start);
+        Calendar stop = Calendar.getInstance();
+        stop.add(Calendar.HOUR, 1);
+        timer.setEndTime(stop);
+        assertTrue(timer.isRecording());
     }
 }
