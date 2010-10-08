@@ -466,7 +466,7 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
         
         Calendar now = Calendar.getInstance();
         if(now.after(getStartTime()) && now.before(getEndTime())) {
-            return true;
+            return hasState(ACTIVE);
         }
         
         return false;
