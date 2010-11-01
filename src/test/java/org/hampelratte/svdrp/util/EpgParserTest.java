@@ -89,8 +89,8 @@ public class EpgParserTest {
         Calendar calEndTime = (Calendar) calStartTime.clone();      // end time
         calEndTime.add(Calendar.SECOND, 7200);
         assertEquals(calEndTime, first.getEndTime());
-        assertEquals("50", first.getTableID());                     // table id
-        assertEquals("FF", first.getVersion());                     // version
+        assertEquals(80, first.getTableID());                       // table id
+        assertEquals(255, first.getVersion());                      // version
         
         String epgDataWithoutVersion = 
             "C S19.2E-133-5-1793\n" + 
@@ -101,7 +101,7 @@ public class EpgParserTest {
         
         entries = EPGParser.parse(epgDataWithoutVersion);
         first = entries.get(0);
-        assertEquals("", first.getVersion());
+        assertEquals(0, first.getVersion());
     }
     
     @Test

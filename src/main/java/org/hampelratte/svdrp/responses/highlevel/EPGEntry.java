@@ -48,9 +48,9 @@ public class EPGEntry {
     private long endTime;
     private Calendar endTimeCal;
 
-    private String tableID = "";
+    private int tableID = 0;
     
-    private String version = "";
+    private int version = 0;
 
     private String title = "";
 
@@ -130,12 +130,12 @@ public class EPGEntry {
         this.startTime = startTime;
     }
 
-    public String getTableID() {
+    public int getTableID() {
         return tableID;
     }
 
-    public void setTableID(String tableID) {
-        this.tableID = tableID;
+    public void setTableID(int tableId) {
+        this.tableID = tableId;
     }
 
     public String getTitle() {
@@ -170,11 +170,11 @@ public class EPGEntry {
         this.eventID = eventID;
     }
     
-    public String getVersion() {
+    public int getVersion() {
         return version;
     }
 
-    public void setVersion(String version) {
+    public void setVersion(int version) {
         this.version = version;
     }
     

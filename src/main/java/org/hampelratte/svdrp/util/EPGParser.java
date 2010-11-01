@@ -75,9 +75,9 @@ public class EPGParser {
                 int endTime = startTime + duration;
                 epg.setStartTime(startTime * 1000L);
                 epg.setEndTime(endTime * 1000L);
-                epg.setTableID(lt.nextToken());
+                epg.setTableID(Integer.parseInt(lt.nextToken(), 16));
                 if(lt.hasMoreElements()) {
-                    epg.setVersion(lt.nextToken());
+                    epg.setVersion(Integer.parseInt(lt.nextToken(), 16));
                 }
                 break;
             case 'T':
