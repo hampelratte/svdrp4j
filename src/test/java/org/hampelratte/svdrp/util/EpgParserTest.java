@@ -29,13 +29,15 @@
  */
 package org.hampelratte.svdrp.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.hampelratte.svdrp.responses.highlevel.EPGEntry;
+import org.hampelratte.svdrp.responses.highlevel.Stream;
 import org.junit.Test;
 
 public class EpgParserTest {
@@ -46,6 +48,10 @@ public class EpgParserTest {
         "T Program Title\n" + 
         "D Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.|Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..\n" +
         "S Lorem ipsum dolor sit amet...\n" +
+        "X 1 03 deu 16:9\n" + 
+        "X 2 03 deu stereo\n" + 
+        "X 3 01 deu \n" + 
+        "X 2 03 deu ohne Audiodeskription\n" +
         "V 1274605200\n" +
         "e\nc";
     
@@ -90,7 +96,7 @@ public class EpgParserTest {
             "C S19.2E-133-5-1793\n" + 
             "E 12667 1274605200 7200 50\n" + 
             "T Program Title\n" + 
-            "D Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..\n" + 
+            "D Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..\n" +
             "e\nc";
         
         entries = EPGParser.parse(epgDataWithoutVersion);
@@ -130,4 +136,38 @@ public class EpgParserTest {
         String expected = "Lorem ipsum dolor sit amet...";
         assertEquals(expected, first.getShortText());
     }
+    
+    @Test 
+    public void testStreamTypes() {
+        List<EPGEntry> entries = EPGParser.parse(epgData);
+        EPGEntry entry = entries.get(0);
+        
+        assertEquals(4, entry.getStreams().size());
+        assertEquals(3, entry.getAudioStreams().size());
+        
+        Stream video16_9 = entry.getStreams().get(0);
+        assertEquals(video16_9.getContent(), Stream.CONTENT.VIDEO);
+        assertEquals(video16_9.getType(), 3);
+        assertEquals(video16_9.getLanguage(), "deu");
+        assertEquals(video16_9.getLanguage(), "16:9");
+        
+        Stream audioStereo = entry.getStreams().get(1);
+        assertEquals(audioStereo.getContent(), Stream.CONTENT.AUDIO);
+        assertEquals(audioStereo.getType(), 3);
+        assertEquals(audioStereo.getLanguage(), "deu");
+        assertEquals(audioStereo.getLanguage(), "stereo");
+        
+        Stream audioNoDesc = entry.getStreams().get(2);
+        assertEquals(audioNoDesc.getContent(), Stream.CONTENT.AUDIO);
+        assertEquals(audioNoDesc.getType(), 1);
+        assertEquals(audioNoDesc.getLanguage(), "deu");
+        assertEquals(audioNoDesc.getLanguage(), "N/A");
+        
+        Stream audioWoDesc = entry.getStreams().get(3);
+        assertEquals(audioWoDesc.getContent(), Stream.CONTENT.AUDIO);
+        assertEquals(audioWoDesc.getType(), 3);
+        assertEquals(audioWoDesc.getLanguage(), "deu");
+        assertEquals(audioWoDesc.getLanguage(), "ohne Audiodeskription");
+    }
 }
+

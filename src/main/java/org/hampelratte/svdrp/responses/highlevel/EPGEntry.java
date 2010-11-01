@@ -29,7 +29,10 @@
  */
 package org.hampelratte.svdrp.responses.highlevel;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
 
 public class EPGEntry {
 
@@ -55,14 +58,10 @@ public class EPGEntry {
 
     private String description = "";
 
-    private int stream = 1;
-
-    private String streamType = "";
-
-    private String language = "";
-
     private long vpsTime;
     private Calendar vpsTimeCal;
+    
+    private List<Stream> streams = new ArrayList<Stream>();
 
     public EPGEntry() {
     }
@@ -107,14 +106,6 @@ public class EPGEntry {
         this.endTime = endTime;
     }
 
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
     public String getShortText() {
         return shortText;
     }
@@ -137,22 +128,6 @@ public class EPGEntry {
      */
     public void setStartTime(long startTime) {
         this.startTime = startTime;
-    }
-
-    public int getStream() {
-        return stream;
-    }
-
-    public void setStream(int stream) {
-        this.stream = stream;
-    }
-
-    public String getStreamType() {
-        return streamType;
-    }
-
-    public void setStreamType(String streamType) {
-        this.streamType = streamType;
     }
 
     public String getTableID() {
@@ -201,6 +176,25 @@ public class EPGEntry {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+    
+    public List<Stream> getStreams() {
+        return streams;
+    }
+    
+    /**
+     * Convenience method which returns only audio streams. Video streams are filtered.
+     * @return A list of audio streams. Video streams are filtered.
+     */
+    public List<Stream> getAudioStreams() {
+        List<Stream> audioStreams = new ArrayList<Stream>(getStreams());
+        for (Iterator<Stream> iterator = audioStreams.iterator(); iterator.hasNext();) {
+            Stream stream = iterator.next();
+            if(stream.getContent() == Stream.CONTENT.VIDEO) {
+                iterator.remove();
+            }
+        }
+        return audioStreams;
     }
 
     public String toString() {

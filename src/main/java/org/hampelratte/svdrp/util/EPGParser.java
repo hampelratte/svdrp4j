@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import org.hampelratte.svdrp.responses.highlevel.EPGEntry;
+import org.hampelratte.svdrp.responses.highlevel.Stream;
 
 
 public class EPGParser {
@@ -97,6 +98,29 @@ public class EPGParser {
                 /* VPS */
                 int vps = Integer.parseInt(line.substring(2));
                 epg.setVpsTime(vps * 1000L);
+                break;
+            case 'X':
+                lt = new StringTokenizer(line, " ");
+                lt.nextToken(); // skip the X
+                int content = Integer.parseInt(lt.nextToken());
+                int type = Integer.parseInt(lt.nextToken());
+                String iso3code = lt.nextToken();
+                
+                // parse the description, if available
+                desc = "N/A";
+                if(lt.hasMoreElements()) {
+                    desc = lt.nextToken();
+                    while(lt.hasMoreElements()) {
+                        desc += ' ' + lt.nextToken(); 
+                    }
+                }
+                
+                Stream stream = new Stream();
+                stream.setContent(content == 1 ? Stream.CONTENT.VIDEO : Stream.CONTENT.AUDIO);
+                stream.setType(type);
+                stream.setLanguage(iso3code);
+                stream.setDescription(desc);
+                epg.getStreams().add(stream);
                 break;
             case 'e':
                 /* end of Entry */
