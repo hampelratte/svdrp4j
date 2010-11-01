@@ -149,25 +149,25 @@ public class EpgParserTest {
         assertEquals(video16_9.getContent(), Stream.CONTENT.VIDEO);
         assertEquals(video16_9.getType(), 3);
         assertEquals(video16_9.getLanguage(), "deu");
-        assertEquals(video16_9.getLanguage(), "16:9");
+        assertEquals(video16_9.getDescription(), "16:9");
         
         Stream audioStereo = entry.getStreams().get(1);
         assertEquals(audioStereo.getContent(), Stream.CONTENT.AUDIO);
         assertEquals(audioStereo.getType(), 3);
         assertEquals(audioStereo.getLanguage(), "deu");
-        assertEquals(audioStereo.getLanguage(), "stereo");
+        assertEquals(audioStereo.getDescription(), "stereo");
         
         Stream audioNoDesc = entry.getStreams().get(2);
         assertEquals(audioNoDesc.getContent(), Stream.CONTENT.AUDIO);
         assertEquals(audioNoDesc.getType(), 1);
         assertEquals(audioNoDesc.getLanguage(), "deu");
-        assertEquals(audioNoDesc.getLanguage(), "N/A");
+        assertEquals(audioNoDesc.getDescription(), "N/A");
         
         Stream audioWoDesc = entry.getStreams().get(3);
         assertEquals(audioWoDesc.getContent(), Stream.CONTENT.AUDIO);
         assertEquals(audioWoDesc.getType(), 3);
         assertEquals(audioWoDesc.getLanguage(), "deu");
-        assertEquals(audioWoDesc.getLanguage(), "ohne Audiodeskription");
+        assertEquals(audioWoDesc.getDescription(), "ohne Audiodeskription");
     }
 }
 
