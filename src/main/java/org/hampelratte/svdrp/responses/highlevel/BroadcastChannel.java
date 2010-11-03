@@ -46,7 +46,7 @@ public class BroadcastChannel extends Channel {
 
     private String TPID = "";
 
-    private String conditionalAccess = "";
+    private int conditionalAccess = 0;
 
     private int SID = 0;
 
@@ -72,11 +72,11 @@ public class BroadcastChannel extends Channel {
         APID = apid;
     }
 
-    public String getConditionalAccess() {
+    public int getConditionalAccess() {
         return conditionalAccess;
     }
 
-    public void setConditionalAccess(String conditionalAccess) {
+    public void setConditionalAccess(int conditionalAccess) {
         this.conditionalAccess = conditionalAccess;
     }
 

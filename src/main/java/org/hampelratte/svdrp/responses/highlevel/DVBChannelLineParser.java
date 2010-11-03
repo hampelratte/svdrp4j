@@ -44,7 +44,7 @@ public class DVBChannelLineParser extends ChannelLineParser {
         line = line.substring(line.indexOf(' ') + 1);
 
         StringTokenizer st = new StringTokenizer(line, ":");
-        channel.setName(st.nextToken());
+        channel.setName(st.nextToken().replace("|", ":"));
         channel.setFrequency(Integer.parseInt(st.nextToken()));
         parseParameters(st.nextToken());
         channel.setSource(st.nextToken());
@@ -52,7 +52,7 @@ public class DVBChannelLineParser extends ChannelLineParser {
         channel.setVPID(st.nextToken());
         channel.setAPID(st.nextToken());
         channel.setTPID(st.nextToken());
-        channel.setConditionalAccess(st.nextToken());
+        channel.setConditionalAccess(Integer.parseInt(st.nextToken(), 16));
         channel.setSID(Integer.parseInt(st.nextToken()));
         channel.setNID(Integer.parseInt(st.nextToken()));
         channel.setTID(Integer.parseInt(st.nextToken()));

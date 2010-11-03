@@ -64,7 +64,7 @@ public class DVBChannel extends BroadcastChannel {
      */
     public String toChannelsConf() {
         StringBuffer sb = new StringBuffer();
-        sb.append(getName());
+        sb.append(getName().replace(":", "|"));
         if(getShortName().length() > 0) {
             sb.append(',');
             sb.append(getShortName());

@@ -48,7 +48,6 @@ public abstract class Channel implements Serializable {
     }
 
     public void setName(String name) {
-        name = name.replace(':', '|');
         int delim = name.indexOf(';'); 
         if(delim > 0) {
             this.serviceProviderName = name.substring(delim+1, name.length());
