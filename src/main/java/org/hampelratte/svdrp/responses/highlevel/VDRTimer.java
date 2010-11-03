@@ -99,7 +99,11 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
      * @see VDRTimer#RECORDING
      */
     public boolean hasState(int STATE) {
-        return (state & STATE) == STATE;
+        if(STATE == INACTIVE) {
+            return !isActive();
+        } else {
+            return (state & STATE) == STATE;
+        }
     }
 
     public int getChannelNumber() {
@@ -150,8 +154,7 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
     }
 
     public void setTitle(String title) {
-        title.replaceAll(":", "|");
-        this.title = title;
+        this.title = title.replace('|', ':');
     }
 
     /**
@@ -375,14 +378,15 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
     }
 
     public void setPath(String path) {
-        this.path = path;
-        if (!this.path.endsWith("~") && !path.equals("")) {
-            this.path += "~";
-        }
+        this.path = path.replace('|', ':');
     }
 
     public String getFile() {
-        return (path + title).replaceAll(":", "|");
+        String _path = this.path;
+        if (!_path.endsWith("~") && !_path.equals("")) {
+            _path += "~";
+        }
+        return (_path + title).replace(':', '|');
     }
 
     public void setFile(String file) {
@@ -391,8 +395,8 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
             setPath(file.substring(0, pos));
             setTitle(file.substring(pos + 1));
         } else {
-            this.path = "";
-            this.title = file;
+            setPath("");
+            setTitle(file);
         }
     }
 
