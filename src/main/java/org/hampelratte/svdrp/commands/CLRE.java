@@ -38,11 +38,36 @@ import org.hampelratte.svdrp.Command;
  */
 public class CLRE extends Command {
     private static final long serialVersionUID = 1L;
+
+    private String param;
+    
+    /**
+     * Create a CLRE with the channel number as param
+     * @param channelNumber the channel number {@link org.hampelratte.svdrp.responses.highlevel.Channel#getChannelNumber()}
+     */
+    public CLRE(int channelNumber) {
+        param = Integer.toString(channelNumber);
+    }
+    
+    /**
+     * Create a CLRE with the channel name or ID as param
+     * 
+     * @param channel
+     *            the channel name {@link org.hampelratte.svdrp.responses.highlevel.Channel#getName()} or the
+     *            channel ID
+     */
+    public CLRE(String channel) {
+        param = channel;
+    }
     
     public String getCommand() {
-        return "CLRE";
+        String command = "CLRE";
+        if(param != null) {
+            command += " " + param;
+        }
+        return command;
     }
-
+    
     public String toString() {
         return "CLRE";
     }
