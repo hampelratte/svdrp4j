@@ -39,20 +39,21 @@ import org.hampelratte.svdrp.Command;
  */
 public class DELC extends Command {
     private static final long serialVersionUID = 1L;
-    
+
     /**
      * The number of the channel, which should be deleted
      */
-    private String number;
+    private int number;
 
     /**
      * Command to delete a channel
      * 
      * @param parameter
      *            The number of the channel, which should be deleted
+     * @see org.hampelratte.svdrp.responses.highlevel.Channel#getChannelNumber()
      */
-    public DELC(String parameter) {
-        this.number = parameter;
+    public DELC(int number) {
+        this.number = number;
     }
 
     public String getCommand() {
@@ -67,18 +68,20 @@ public class DELC extends Command {
      * Returns the number of the channel, which should be deleted
      * 
      * @return The number of the channel, which should be deleted
+     * @see org.hampelratte.svdrp.responses.highlevel.Channel#getChannelNumber()
      */
-    public String getNumber() {
+    public int getNumber() {
         return number;
     }
 
     /**
      * Sets the number of the channel, which should be deleted
      * 
-     * @param parameter
+     * @param number
      *            The number of the channel, which should be deleted
+     * @see org.hampelratte.svdrp.responses.highlevel.Channel#getChannelNumber()
      */
-    public void setNumber(String parameter) {
-        this.number = parameter;
+    public void setNumber(int number) {
+        this.number = number;
     }
 }
