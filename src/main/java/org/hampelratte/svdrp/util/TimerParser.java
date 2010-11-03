@@ -42,7 +42,7 @@ import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
 /**
  * Parses a list of timers received from VDR by the LSTT command
  * 
- * @author <a href="hampelratte@users.sf.net>hampelratte@users.sf.net</a>
+ * @author <a href="hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  *
  */
 //FIXME für repeating timer die start und endzeit richtig setzen
@@ -119,7 +119,7 @@ public class TimerParser {
         Pattern simpleRepeating = Pattern.compile("(\\p{Upper}|-){7}");
 
         // MTWTFSS@19 (1-31)
-        Pattern repeatingAtShort = Pattern.compile("((?:\\p{Upper}|-){7})@([1-9]|[12][0-9]|3[01])");
+        Pattern repeatingAtShort = Pattern.compile("((?:\\p{Upper}|-){7})@(0?[1-9]|[12][0-9]|3[01])");
 
         // MTWTFSS@2005-03-19
         Pattern repeatingAt = Pattern.compile("((?:\\p{Upper}|-){7})@((?:19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])");
