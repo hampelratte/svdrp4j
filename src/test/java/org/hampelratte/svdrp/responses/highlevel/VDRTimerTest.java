@@ -214,6 +214,13 @@ public class VDRTimerTest  {
         assertTrue(timer.isRecording());
     }
     
+    @Test
+    public void testUniqueKey() {
+        assertEquals("1:-----SS:12:00:13:00", timer.getUniqueKey());
+        timer.setRepeatingDays(new boolean[7]);
+        assertEquals("1:2010-11-04:04.11.2010 12:00:04.11.2010 13:00", timer.getUniqueKey());
+    }
+    
     @AfterClass 
     public static void shutdownServer() throws IOException, InterruptedException {
         server.shutdown();
