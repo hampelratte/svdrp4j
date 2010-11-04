@@ -282,6 +282,7 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
 
     public void setFirstTime(Calendar firstTime) {
         this.firstTime = firstTime;
+        hasFirstTime = true;
     }
 
     public boolean hasFirstTime() {
@@ -320,7 +321,7 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
         int minor = v.getMinor();
         int rev = v.getRevision();
 
-        boolean newFormat = (major == 1 && minor >= 3 && rev >= 23) | isRepeating();
+        boolean newFormat = (major == 1 && (minor > 3 || minor == 3 && rev >= 23) ) | isRepeating();
 
         String date = "";
         if (newFormat) {
@@ -452,6 +453,11 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
         this.state = state;
     }
     
+    /**
+     * Sets the given state to the given value. All other states are not touched.
+     * @param STATE the state to change
+     * @param enabled the new value of the state
+     */
     public void changeStateTo(int STATE, boolean enabled) {
         if(enabled && hasState(STATE) || !enabled && !hasState(STATE)) {
             // we don't have to change anything, because the timer already 
