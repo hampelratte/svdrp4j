@@ -122,7 +122,7 @@ public class TimerParserTest {
     public void testRepeatingTimerStartingOnDay() {
         VDRTimer timer = timers.get(3);
         assertTrue(timer.isRepeating());
-        assertEquals(4, timer.getStartTime().get(Calendar.DAY_OF_MONTH));
+        assertEquals(day, timer.getStartTime().get(Calendar.DAY_OF_MONTH));
         assertTrue(timer.getRepeatingDays()[0]);
         assertTrue(timer.getRepeatingDays()[1]);
         assertTrue(timer.getRepeatingDays()[2]);
