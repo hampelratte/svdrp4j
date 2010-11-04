@@ -31,31 +31,51 @@ package org.hampelratte.svdrp.util;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import org.hampelratte.svdrp.Connection;
+import org.hampelratte.svdrp.commands.QUIT;
+import org.hampelratte.svdrp.mock.Server;
 import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class TimerParserTest {
 
-    private static int day = 1;
+    private static Calendar day = Calendar.getInstance();
     static {
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DAY_OF_MONTH, 1);
-        day = cal.get(Calendar.DAY_OF_MONTH);
+        day.add(Calendar.DAY_OF_MONTH, 1);
     }
     
+    private static Server server;
+    
     private final String timerData = 
-        "1 1:1:"+day+":1945:2030:43:67:Doppel|Punkt:Mehrzeilige|nichtssagende|Beschreibung der Sendung mit Doppel:Punkt.\n" + 
+        "1 1:1:"+day.get(Calendar.DAY_OF_MONTH)+":1945:2030:43:67:Doppel|Punkt:Mehrzeilige|nichtssagende|Beschreibung der Sendung mit Doppel:Punkt.\n" + 
         "2 2:1:2010-11-02:1945:2030:50:50:Tagesschau~Tagesschau am 2.11.2010:\n" + 
         "3 4:1:MTWTF--:2225:2310:50:50:Tagesthemen:\n" + 
-        "4 8:2:MTWTFSS@"+day+":2130:2227:50:50:heute-journal:\n" + 
+        "4 8:2:MTWTFSS@"+day.get(Calendar.DAY_OF_MONTH)+":2130:2227:50:50:heute-journal:\n" + 
         "5 0:2:M-----S@2010-12-31:2330:0030:50:50:Happy New Year:\n" +
         "6 13:2:--W----@2010-11-02:2330:0011:50:50:Ganz spät:";
     
     private List<VDRTimer> timers;
+    
+    @BeforeClass
+    public static void startMockServer() throws IOException, InterruptedException {
+        server = new Server();
+        server.loadWelcome("welcome-1.6.0_2-utf_8.txt");
+        new Thread(server).start();
+        
+        // wait for the server
+        Thread.sleep(1000);
+        
+        Connection conn = new Connection("localhost", 2001);
+        conn.send(new QUIT());
+    }
     
     @Before
     public void parseTimers() {
@@ -93,7 +113,7 @@ public class TimerParserTest {
     @Test
     public void testDayParsing() {
         VDRTimer timer = timers.get(0);
-        assertEquals(day, timer.getStartTime().get(Calendar.DAY_OF_MONTH));
+        assertEquals(day.get(Calendar.DAY_OF_MONTH), timer.getStartTime().get(Calendar.DAY_OF_MONTH));
     }
     
     @Test
@@ -122,7 +142,7 @@ public class TimerParserTest {
     public void testRepeatingTimerStartingOnDay() {
         VDRTimer timer = timers.get(3);
         assertTrue(timer.isRepeating());
-        assertEquals(day, timer.getStartTime().get(Calendar.DAY_OF_MONTH));
+        assertEquals(day.get(Calendar.DAY_OF_MONTH), timer.getStartTime().get(Calendar.DAY_OF_MONTH));
         assertTrue(timer.getRepeatingDays()[0]);
         assertTrue(timer.getRepeatingDays()[1]);
         assertTrue(timer.getRepeatingDays()[2]);
@@ -215,7 +235,13 @@ public class TimerParserTest {
     
     @Test
     public void testToNEWT() {
-        assertEquals("1:1:"+day+":1945:2030:43:67:Doppel|Punkt:Mehrzeilige|nichtssagende|Beschreibung der Sendung mit Doppel:Punkt.", timers.get(0).toNEWT());
+        String dayString = new SimpleDateFormat("yyyy-MM-dd").format(day.getTime());
+        assertEquals("1:1:"+dayString+":1945:2030:43:67:Doppel|Punkt:Mehrzeilige|nichtssagende|Beschreibung der Sendung mit Doppel:Punkt.", timers.get(0).toNEWT());
+    }
+    
+    @AfterClass 
+    public static void shutdownServer() throws IOException, InterruptedException {
+        server.shutdown();
     }
 }
 

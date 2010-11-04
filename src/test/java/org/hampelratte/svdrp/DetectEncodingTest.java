@@ -44,8 +44,12 @@ public class DetectEncodingTest {
     private static Server server;
     
     @BeforeClass
-    public static void startMockServer() throws IOException {
+    public static void startMockServer() throws IOException, InterruptedException {
         server = new Server();
+        new Thread(server).start();
+        
+        // wait for the server
+        Thread.sleep(1000);
     }
     
     @Test
@@ -53,7 +57,7 @@ public class DetectEncodingTest {
         Connection con = null;
         try {
             server.loadWelcome("welcome-1.6.0_2-utf_8.txt");
-            con = new Connection("localhost", 2001);
+            con = new Connection("localhost", 2001, 100);
             assertEquals("UTF-8", con.getEncoding());
         } catch (UnknownHostException e) {
             e.printStackTrace();
@@ -75,7 +79,7 @@ public class DetectEncodingTest {
         Connection con = null;
         try {
             server.loadWelcome("welcome-1.6.0_2-iso_8859_1.txt");
-            con = new Connection("localhost", 2001);
+            con = new Connection("localhost", 2001, 100);
             assertEquals("ISO-8859-1", con.getEncoding());
         } catch (UnknownHostException e) {
             e.printStackTrace();
@@ -97,7 +101,7 @@ public class DetectEncodingTest {
         Connection con = null;
         try {
             server.loadWelcome("welcome-1.6.0_2-fantasy.txt");
-            con = new Connection("localhost", 2001);
+            con = new Connection("localhost", 2001, 100);
             assertEquals("UTF-8", con.getEncoding());
         } catch (UnknownHostException e) {
             e.printStackTrace();
@@ -119,7 +123,7 @@ public class DetectEncodingTest {
         Connection con = null;
         try {
             server.loadWelcome("welcome-1.6.0_2-utf_8.txt");
-            con = new Connection("localhost", 2001, 500, "ISO-8859-1");
+            con = new Connection("localhost", 2001, 100, "ISO-8859-1");
             Response resp = con.send(new Command() {
                 
                 @Override
@@ -149,7 +153,7 @@ public class DetectEncodingTest {
     }
     
     @AfterClass 
-    public static void shutdownServer() {
+    public static void shutdownServer() throws IOException, InterruptedException {
         server.shutdown();
     }
 }

@@ -37,6 +37,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
@@ -44,7 +45,7 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Server {
+public class Server implements Runnable {
 
     private static transient Logger logger = LoggerFactory.getLogger(Server.class);
     
@@ -54,20 +55,18 @@ public class Server {
     
     private BufferedWriter bw;
     
+    private ServerSocket serverSocket;
     private Socket socket;
     
     private String welcome;
     private String timers;
     
-    private boolean running = true;
-    
     public Server() {
         logger.info("Running in {}", System.getProperty("user.dir"));
-        new Thread() {
-            public void run() {
-                serveClients();
-            }
-        }.start();
+    }
+    
+    public void run() {
+        serveClients();
     }
     
     public void loadWelcome(String welcomeTextFile) throws IOException {
@@ -94,22 +93,23 @@ public class Server {
 
     private void serveClients() {
         try {
-            ServerSocket ss = new ServerSocket(port);
+            serverSocket = new ServerSocket(port);
             logger.debug("Listening on port {}", port);
-            while(running) {
-                socket = ss.accept();
+            while (!serverSocket.isClosed()) {
+                logger.info("Waiting for connection from client");
+                socket = serverSocket.accept();
                 socket.setSoTimeout((int) TimeUnit.MINUTES.toMillis(3));
                 logger.info("Connection from {}", socket.getRemoteSocketAddress());
-                
+
                 br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
                 bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "UTF-8"));
-                
+
                 logger.debug("Sending welcome message.");
                 sendWelcomeMessage();
-                
-                while(!socket.isClosed()) {
+
+                while (!socket.isClosed()) {
                     try {
-                        if(!readRequest()) {
+                        if (!readRequest()) {
                             break;
                         }
                     } catch (SocketTimeoutException e) {
@@ -117,6 +117,11 @@ public class Server {
                         socket.close();
                     }
                 }
+
+            }
+        } catch (SocketException e) {
+            if(serverSocket != null && !serverSocket.isClosed()) {
+                logger.error("Error while serving clients", e);
             }
         } catch (IOException e) {
             logger.error("Error while serving clients", e);
@@ -353,18 +358,17 @@ public class Server {
         sendResponse(welcome);
     }
     
-    public void shutdown() {
-        running = false;
-        try {
-            socket.close();
-        } catch (IOException e) {
-            // fail silently
-        }
+    public void shutdown() throws IOException, InterruptedException {
+        logger.info("Shutting down server...");
+        if(serverSocket!= null) serverSocket.close();
+        if(socket != null) socket.close();
+        logger.info("Shutdown successful.");
     }
     
     public static void main(String[] args) throws IOException {
         Server server = new Server();
         server.loadWelcome("welcome-1.6.0_2-utf_8.txt");
         server.loadTimers("lstt_doppelpack_fake.txt");
+        new Thread(server).start();
     }
 }
