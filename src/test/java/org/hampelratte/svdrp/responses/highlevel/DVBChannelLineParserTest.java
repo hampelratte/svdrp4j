@@ -97,7 +97,7 @@ public class DVBChannelLineParserTest {
     
     @Test
     public void testConditionalAccess() {
-        assertEquals(0, chan.getConditionalAccess());
+        assertEquals(new Integer(0), chan.getConditionalAccess().get(0));
     }
 
     @Test
