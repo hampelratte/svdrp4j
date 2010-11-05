@@ -431,4 +431,36 @@ public class DVBChannel extends BroadcastChannel {
         
         return false;
     }
+    
+    /**
+     * Copied from "man 5 vdr"
+     * 
+     * A particular channel can be uniquely identified by its channel ID, which is a string that looks like this:
+     *
+     * S19.2E-1-1089-12003-0
+     *
+     * The components of this string are the Source (S19.2E), NID (1), TID (1089), SID (12003) and RID (0) as defined above.  The last part can be omitted if it is 0, so the above example could also be written  as
+     * S19.2E-1-1089-12003).
+     * The channel ID is used in the timers.conf and epg.data files to properly identify the channels.
+     *
+     * If a channel has both NID and TID set to 0, the channel ID will use the Frequency instead of the TID. For satellite channels an additional offset of 100000, 200000, 300000 or 400000 is added to that number,
+     * depending on the Polarization (H, V, L or R, respectively). This is necessary because on some satellites the same frequency is used for two different transponders, with opposite polarization.
+     * @return the channel ID as String
+     */
+    public String getID() {
+        String id = getSource() + "-" + getNID() + "-";
+        if(getNID() == 0 && getTID() == 0) {
+            int part = getFrequency();
+            part += isHorizontalPolarization() ? 100000 : 0;
+            part += isVerticalPolarization() ? 200000 : 0;
+            part += isLeftCircularPolarization() ? 300000 : 0;
+            part += isRightCircularPolarization() ? 400000 : 0;
+            id += part;
+        } else {
+            id += getTID();
+        }
+        id += "-" + getSID();
+        id += "-" + getRID();
+        return id;
+    }
 }
