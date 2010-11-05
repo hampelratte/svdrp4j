@@ -60,11 +60,13 @@ public class NEWT extends Command {
         this(timer.toNEWT());
     }
 
+    @Override
     public String getCommand() {
         String cmd = "NEWT " + settings;
         return cmd;
     }
 
+    @Override
     public String toString() {
         return "NEWT";
     }

@@ -41,11 +41,13 @@ public class STAT extends Command {
 
     private String disk = "disk";
 
+    @Override
     public String getCommand() {
         String cmd = "STAT " + disk;
         return cmd.trim();
     }
 
+    @Override
     public String toString() {
         return "STAT";
     }

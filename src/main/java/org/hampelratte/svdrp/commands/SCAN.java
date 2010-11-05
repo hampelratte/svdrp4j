@@ -40,10 +40,12 @@ import org.hampelratte.svdrp.Command;
 public class SCAN extends Command {
     private static final long serialVersionUID = 1L;
 
+    @Override
     public String getCommand() {
         return "SCAN";
     }
 
+    @Override
     public String toString() {
         return "SCAN";
     }

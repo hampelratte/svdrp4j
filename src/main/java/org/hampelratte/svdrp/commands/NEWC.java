@@ -58,11 +58,13 @@ public class NEWC extends Command {
         this.settings = settings;
     }
 
+    @Override
     public String getCommand() {
         String cmd = "NEWC " + settings;
         return cmd;
     }
 
+    @Override
     public String toString() {
         return "NEWC";
     }

@@ -61,11 +61,13 @@ public class NEXT extends Command {
         setMode(mode);
     }
 
+    @Override
     public String getCommand() {
         String cmd = "NEXT " + mode;
         return cmd;
     }
 
+    @Override
     public String toString() {
         return "NEXT";
     }

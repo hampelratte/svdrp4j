@@ -44,7 +44,7 @@ public class DELT extends Command {
     /**
      * The number of the timer, which should be deleted
      */
-    private String number;
+    private int number;
 
     /**
      * Command to delete a timer
@@ -52,7 +52,7 @@ public class DELT extends Command {
      * @param number
      *            The number of the timer, which should be deleted
      */
-    public DELT(String number) {
+    public DELT(int number) {
         this.number = number;
     }
     
@@ -62,13 +62,15 @@ public class DELT extends Command {
      * @param timer The timer, which should be deleted
      */
     public DELT(VDRTimer timer) {
-        this(Integer.toString(timer.getID()));
+        this(timer.getID());
     }
 
+    @Override
     public String getCommand() {
         return "DELT " + number;
     }
 
+    @Override
     public String toString() {
         return "DELT";
     }
@@ -78,7 +80,7 @@ public class DELT extends Command {
      * 
      * @return The number of the timer, which should be deleted
      */
-    public String getNumber() {
+    public int getNumber() {
         return number;
     }
 
@@ -88,7 +90,7 @@ public class DELT extends Command {
      * @param parameter
      *            The number of the timer, which should be deleted
      */
-    public void setNumber(String parameter) {
+    public void setNumber(int parameter) {
         this.number = parameter;
     }
 }

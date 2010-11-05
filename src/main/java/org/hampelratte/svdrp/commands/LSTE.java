@@ -115,11 +115,13 @@ public class LSTE extends Command {
         this(Integer.toString(number), "at " + time_t);
     }
 
+    @Override
     public String getCommand() {
         String cmd = "LSTE " + channel + " " + time;
         return cmd.trim();
     }
 
+    @Override
     public String toString() {
         return "LSTE";
     }

@@ -52,11 +52,13 @@ public class MESG extends Command {
         this.message = message;
     }
 
+    @Override
     public String getCommand() {
         String cmd = "MESG " + message;
         return cmd.trim();
     }
 
+    @Override
     public String toString() {
         return "MESG";
     }

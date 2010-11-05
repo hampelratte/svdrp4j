@@ -60,10 +60,12 @@ public class UPDT extends Command {
         this(timer.toNEWT());
     }
 
+    @Override
     public String getCommand() {
         return "UPDT " + settings;
     }
 
+    @Override
     public String toString() {
         return "UPDT";
     }

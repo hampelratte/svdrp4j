@@ -38,9 +38,9 @@ import org.hampelratte.svdrp.Command;
  * 
  */
 public class LSTR extends Command {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     
-    private String number = "";
+    private int number;
 
     /**
      * Command to get a list of all recordings
@@ -55,7 +55,7 @@ public class LSTR extends Command {
      *            The number of the recording
      */
     public LSTR(String number) {
-        this.number = number;
+        this.number = Integer.parseInt(number);
     }
     
     /**
@@ -65,14 +65,16 @@ public class LSTR extends Command {
      *            The number of the recording
      */
     public LSTR(int number) {
-        this.number = Integer.toString(number);
+        this.number = number;
     }
 
+    @Override
     public String getCommand() {
         String cmd = "LSTR " + number;
         return cmd.trim();
     }
 
+    @Override
     public String toString() {
         return "LSTR";
     }
@@ -82,7 +84,7 @@ public class LSTR extends Command {
      * 
      * @return The number of the recording
      */
-    public String getNumber() {
+    public int getNumber() {
         return number;
     }
 
@@ -92,7 +94,7 @@ public class LSTR extends Command {
      * @param number
      *            The number of the recording
      */
-    public void setNumber(String number) {
+    public void setNumber(int number) {
         this.number = number;
     }
 }

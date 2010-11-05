@@ -55,10 +55,12 @@ public class DELR extends Command {
         this.number = number;
     }
 
+    @Override
     public String getCommand() {
         return "DELR " + number;
     }
 
+    @Override
     public String toString() {
         return "DELR";
     }

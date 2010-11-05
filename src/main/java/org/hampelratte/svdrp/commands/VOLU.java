@@ -37,7 +37,7 @@ import org.hampelratte.svdrp.Command;
  * @author <a href="mailto:henrik.niehaus@gmx.de">Henrik Niehaus</a>
  */
 public class VOLU extends Command {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
     private String volume = "";
 
@@ -45,17 +45,19 @@ public class VOLU extends Command {
      * Command to change the volume of VDR
      * 
      * @param volume
-     *            "+", "-", "mute" or a number between 0..255
+     *            "+", "-", "mute" or a number int he range of 0..255
      */
     public VOLU(String volume) {
         this.volume = volume;
     }
 
+    @Override
     public String getCommand() {
         String cmd = "VOLU " + volume;
         return cmd.trim();
     }
 
+    @Override
     public String toString() {
         return "VOLU";
     }
@@ -73,9 +75,19 @@ public class VOLU extends Command {
      * Sets the volume
      * 
      * @param volume
-     *            "+", "-", "mute" or a number between 0..255
+     *            "+", "-", "mute" or a number int he range of 0..255
      */
     public void setVolume(String volume) {
         this.volume = volume;
+    }
+    
+    /**
+     * Sets the volume
+     * 
+     * @param volume
+     *            a number int he range of 0..255
+     */
+    public void setVolume(int volume) {
+        this.volume = Integer.toString(volume);
     }
 }

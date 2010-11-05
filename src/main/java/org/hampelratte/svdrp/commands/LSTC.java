@@ -58,11 +58,13 @@ public class LSTC extends Command {
         this.channel = channel;
     }
 
+    @Override
     public String getCommand() {
         String cmd = "LSTC " + channel;
         return cmd.trim();
     }
 
+    @Override
     public String toString() {
         return "LSTC";
     }

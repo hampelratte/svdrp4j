@@ -65,11 +65,13 @@ public class CHAN extends Command {
         this.parameter = parameter;
     }
 
+    @Override
     public String getCommand() {
         String cmd = "CHAN " + parameter;
         return cmd.trim();
     }
 
+    @Override
     public String toString() {
         return "CHAN";
     }
@@ -92,8 +94,8 @@ public class CHAN extends Command {
      *            <ul>
      *            <li>"+" switches to the next channel</li>
      *            <li>"-" switches to the previous channel</li>
-     *            <li>the channel number</li>
-     *            <li>the channel name</li>
+     *            <li>the channel number {@link org.hampelratte.svdrp.responses.highlevel.Channel#getChannelNumber() Channel.getChannelNumber()}</li>
+     *            <li>the channel name {@link org.hampelratte.svdrp.responses.highlevel.Channel#getName() Channel.getName()}</li>
      *            <li>the channel id</li>
      *            </ul>
      */

@@ -39,10 +39,12 @@ import org.hampelratte.svdrp.Command;
 public class QUIT extends Command {
     private static final long serialVersionUID = 1L;
 
+    @Override
     public String getCommand() {
         return "QUIT";
     }
 
+    @Override
     public String toString() {
         return "QUIT";
     }

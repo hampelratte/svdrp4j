@@ -38,9 +38,9 @@ import org.hampelratte.svdrp.Command;
  * 
  */
 public class LSTT extends Command {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     
-    private String number = "";
+    private int number;
 
     /**
      * Command to get a list of all timers
@@ -53,15 +53,17 @@ public class LSTT extends Command {
      * 
      * @param number - The number/id of this timer
      */
-    public LSTT(String number) {
+    public LSTT(int number) {
         this.number = number;
     }
 
+    @Override
     public String getCommand() {
         String cmd = "LSTT " + number;
         return cmd.trim();
     }
 
+    @Override
     public String toString() {
         return "LSTT";
     }
@@ -71,7 +73,7 @@ public class LSTT extends Command {
      * 
      * @return the number of the timer
      */
-    public String getNumber() {
+    public int getNumber() {
         return number;
     }
 
@@ -81,7 +83,7 @@ public class LSTT extends Command {
      * @param number
      *            The number of the timer
      */
-    public void setNumber(String number) {
+    public void setNumber(int number) {
         this.number = number;
     }
 }

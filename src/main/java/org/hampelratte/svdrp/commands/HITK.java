@@ -60,11 +60,13 @@ public class HITK extends Command {
         this.key = key;
     }
 
+    @Override
     public String getCommand() {
         String cmd = "HITK " + key;
         return cmd.trim();
     }
 
+    @Override
     public String toString() {
         return "HITK";
     }

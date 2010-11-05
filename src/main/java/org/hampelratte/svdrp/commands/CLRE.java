@@ -60,6 +60,7 @@ public class CLRE extends Command {
         param = channel;
     }
     
+    @Override
     public String getCommand() {
         String command = "CLRE";
         if(param != null) {
@@ -68,6 +69,7 @@ public class CLRE extends Command {
         return command;
     }
     
+    @Override
     public String toString() {
         return "CLRE";
     }

@@ -39,9 +39,9 @@ import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
  * 
  */
 public class MODT extends Command {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
-    private String number = "";
+    private int number;
 
     private String settings = "";
 
@@ -56,7 +56,7 @@ public class MODT extends Command {
      *            In the summary newline characters have to be replaced by |<br>
      *            More details in the man page vdr(5)
      */
-    public MODT(String number, String settings) {
+    public MODT(int number, String settings) {
         this.settings = settings;
         this.number = number;
     }
@@ -71,7 +71,7 @@ public class MODT extends Command {
      */
     public MODT(int number, VDRTimer timer) {
         this.settings = timer.toNEWT();
-        this.number = Integer.toString(number);
+        this.number = number;
     }
 
     /**
@@ -79,7 +79,7 @@ public class MODT extends Command {
      * 
      * @return The number of the timer
      */
-    public String getNumber() {
+    public int getNumber() {
         return number;
     }
 
@@ -89,7 +89,7 @@ public class MODT extends Command {
      * @param number
      *            The number of the timer
      */
-    public void setNumber(String number) {
+    public void setNumber(int number) {
         this.number = number;
     }
 
@@ -115,11 +115,13 @@ public class MODT extends Command {
         this.settings = setting;
     }
 
+    @Override
     public String getCommand() {
         String cmd = "MODT " + number + " " + settings;
         return cmd.trim();
     }
 
+    @Override
     public String toString() {
         return "MODT";
     }

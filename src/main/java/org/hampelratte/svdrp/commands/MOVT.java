@@ -38,23 +38,11 @@ import org.hampelratte.svdrp.Command;
  * 
  */
 public class MOVT extends Command {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
-    private String timer = "";
+    private int timer;
 
-    private String position = "";
-
-    /**
-     * Command to move a timer to a new position
-     * 
-     * @param timer
-     *            The timer number
-     * @param to
-     *            The new postion of the timer
-     */
-    public MOVT(String timer, int to) {
-        this(timer, Integer.toString(to));
-    }
+    private int position;
 
     /**
      * Command to move a timer to a new position
@@ -64,7 +52,7 @@ public class MOVT extends Command {
      * @param to
      *            The new postion of the timer
      */
-    public MOVT(String timer, String to) {
+    public MOVT(int timer, int to) {
         this.timer = timer;
         this.position = to;
     }
@@ -74,7 +62,7 @@ public class MOVT extends Command {
      * 
      * @return The timer number
      */
-    public String getTimer() {
+    public int getTimer() {
         return timer;
     }
 
@@ -84,7 +72,7 @@ public class MOVT extends Command {
      * @param number
      *            The timer number
      */
-    public void setTimer(String number) {
+    public void setTimer(int number) {
         this.timer = number;
     }
 
@@ -93,7 +81,7 @@ public class MOVT extends Command {
      * 
      * @return The new postion of the timer
      */
-    public String getPosition() {
+    public int getPosition() {
         return position;
     }
 
@@ -103,15 +91,17 @@ public class MOVT extends Command {
      * @param setting
      *            The new position of the timer
      */
-    public void setPosition(String setting) {
+    public void setPosition(int setting) {
         this.position = setting;
     }
 
+    @Override
     public String getCommand() {
         String cmd = "MOVT " + timer + " " + position;
         return cmd.trim();
     }
 
+    @Override
     public String toString() {
         return "MOVT";
     }

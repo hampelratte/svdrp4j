@@ -56,10 +56,12 @@ public class DELC extends Command {
         this.number = number;
     }
 
+    @Override
     public String getCommand() {
         return "DELC " + number;
     }
 
+    @Override
     public String toString() {
         return "DELC";
     }

@@ -38,11 +38,11 @@ import org.hampelratte.svdrp.Command;
  * 
  */
 public class MOVC extends Command {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
-    private String channel = "";
+    private int channel;
 
-    private String position = "";
+    private int position;
 
     /**
      * Command to move a channel to a new position
@@ -52,7 +52,7 @@ public class MOVC extends Command {
      * @param to
      *            The new postio of the channel
      */
-    public MOVC(String number, String to) {
+    public MOVC(int number, int to) {
         this.channel = number;
         this.position = to;
     }
@@ -62,7 +62,7 @@ public class MOVC extends Command {
      * 
      * @return The channel number
      */
-    public String getChannel() {
+    public int getChannel() {
         return channel;
     }
 
@@ -72,7 +72,7 @@ public class MOVC extends Command {
      * @param number
      *            The channel number
      */
-    public void setChannel(String number) {
+    public void setChannel(int number) {
         this.channel = number;
     }
 
@@ -81,7 +81,7 @@ public class MOVC extends Command {
      * 
      * @return The new position of the channel
      */
-    public String getPosition() {
+    public int getPosition() {
         return position;
     }
 
@@ -91,15 +91,17 @@ public class MOVC extends Command {
      * @param position
      *            The new postion of the channel
      */
-    public void setPosition(String position) {
+    public void setPosition(int position) {
         this.position = position;
     }
 
+    @Override
     public String getCommand() {
         String cmd = "MOVC " + channel + " " + position;
         return cmd.trim();
     }
 
+    @Override
     public String toString() {
         return "MOVC";
     }

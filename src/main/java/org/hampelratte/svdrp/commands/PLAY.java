@@ -56,10 +56,12 @@ public class PLAY extends Command {
         this.recordingNumber = recordingNumber;
     }
 
+    @Override
     public String getCommand() {
         return "PLAY " + recordingNumber;
     }
 
+    @Override
     public String toString() {
         return "PLAY";
     }

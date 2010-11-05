@@ -42,7 +42,7 @@ public class GRAB extends Command {
     
     private String format = "";
 
-    private String quality = "80";
+    private int quality = 80;
 
     private String resolution = "400 300";
 
@@ -61,12 +61,14 @@ public class GRAB extends Command {
         this.filename = filename;
     }
 
+    @Override
     public String getCommand() {
         String cmd = "GRAB " + filename + " " + format + " " + quality + " "
                 + resolution;
         return cmd.trim();
     }
 
+    @Override
     public String toString() {
         return "GRAB";
     }
@@ -103,7 +105,7 @@ public class GRAB extends Command {
      * 
      * @return The quality of the screenshot
      */
-    public String getQuality() {
+    public int getQuality() {
         return quality;
     }
 
@@ -114,7 +116,7 @@ public class GRAB extends Command {
      * @param quality
      *            The quality of the screenshot (1-100)
      */
-    public void setQuality(String quality) {
+    public void setQuality(int quality) {
         this.quality = quality;
     }
 

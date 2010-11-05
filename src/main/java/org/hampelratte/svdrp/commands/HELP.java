@@ -59,11 +59,13 @@ public class HELP extends Command {
         this.topic = parameter;
     }
 
+    @Override
     public String getCommand() {
         String cmd = "HELP " + topic;
         return cmd.trim();
     }
 
+    @Override
     public String toString() {
         return "HELP";
     }

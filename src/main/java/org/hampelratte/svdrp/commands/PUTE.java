@@ -54,11 +54,13 @@ public class PUTE extends Command {
         this.data = data;
     }
 
+    @Override
     public String getCommand() {
         String cmd = data + "\n.\n";
         return cmd.trim();
     }
 
+    @Override
     public String toString() {
         return "PUTE";
     }

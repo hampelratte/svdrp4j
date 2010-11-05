@@ -38,9 +38,9 @@ import org.hampelratte.svdrp.Command;
  * 
  */
 public class MODC extends Command {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     
-    private String number = "";
+    private int number;
 
     private String settings = "";
 
@@ -58,7 +58,7 @@ public class MODC extends Command {
      *            Access:SID:NID:TID:RID<br>
      *            Have a look at the man page vdr(5) for more details
      */
-    public MODC(String number, String settings) {
+    public MODC(int number, String settings) {
         this.number = number;
         this.settings = settings;
     }
@@ -68,7 +68,7 @@ public class MODC extends Command {
      * 
      * @return The number of the channel
      */
-    public String getNumber() {
+    public int getNumber() {
         return number;
     }
 
@@ -78,7 +78,7 @@ public class MODC extends Command {
      * @param number
      *            The number of the channel
      */
-    public void setNumber(String number) {
+    public void setNumber(int number) {
         this.number = number;
     }
 
@@ -107,11 +107,13 @@ public class MODC extends Command {
         this.settings = setting;
     }
 
+    @Override
     public String getCommand() {
         String cmd = "MODC " + number + " " + settings;
         return cmd.trim();
     }
 
+    @Override
     public String toString() {
         return "MODC";
     }
