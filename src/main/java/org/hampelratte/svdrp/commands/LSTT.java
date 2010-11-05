@@ -34,7 +34,7 @@ import org.hampelratte.svdrp.Command;
 /**
  * Command to list all timers or details of a given timer
  * 
- * @author <a href="mailto:henrik.niehaus@gmx.de">Henrik Niehaus</a>
+ * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  * 
  */
 public class LSTT extends Command {

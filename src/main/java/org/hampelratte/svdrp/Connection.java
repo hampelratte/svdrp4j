@@ -69,7 +69,7 @@ import org.slf4j.LoggerFactory;
  * 
  * You may set Connection.DEBUG to true to get debug output on System.out
  * 
- * @author <a href="mailto:henrik.niehaus@gmx.de">Henrik Niehaus</a>
+ * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  */
 public class Connection {
     private static transient Logger logger = LoggerFactory.getLogger(Connection.class);

@@ -35,7 +35,7 @@ import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
 /**
  * Command to modify a timer
  * 
- * @author <a href="mailto:henrik.niehaus@gmx.de">Henrik Niehaus</a>
+ * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  * 
  */
 public class MODT extends Command {

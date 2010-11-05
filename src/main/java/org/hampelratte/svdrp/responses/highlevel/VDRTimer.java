@@ -40,7 +40,7 @@ import org.hampelratte.svdrp.VDRVersion;
 
 
 /**
- * @author <a href="hampelratte@users.sf.net>hampelratte@users.sf.net </a>
+ * @author <a href="hampelratte@users.sf.net">hampelratte@users.sf.net </a>
  * 
  * Represents a timer of the VDR software
  */

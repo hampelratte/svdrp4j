@@ -34,7 +34,7 @@ import org.hampelratte.svdrp.Response;
 /**
  * VDR Response: Help text
  * 
- * @author <a href="hampelratte@users.sf.net>hampelratte@users.sf.net</a>
+ * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  */
 public class R214 extends Response {
 

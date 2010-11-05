@@ -10,7 +10,8 @@
     <packaging>jar</packaging>
     <version>0.0.5-SNAPSHOT</version>
     <name>SVDRP4J</name>
-    <description>An implementation of the Simple VDR Protocol</description>
+    <description>An implementation of the Simple VDR Protocol.
+This version is compatible with VDR 1.6.0-2 and earlier. Maybe newer version work, too, but new features are not implemented.</description>
     <url>http://developer.berlios.de/projects/lazybones</url>
 
     <dependencies>
@@ -37,6 +38,19 @@
         </dependency>
     </dependencies>
 
+    <issueManagement>
+    	<system>BerliOS Issue Trackers</system>
+    	<url>https://developer.berlios.de/bugs/?group_id=4483</url>
+    </issueManagement>
+    <ciManagement>
+    	<system>Hudson CI</system>
+    	<url>http://hampelratte.org/hudson/job/svdrp4j</url>
+    </ciManagement>
+    <scm>
+    	<connection>scm:cvs:pserver:anonymous@cvs.lazybones.berlios.de:/cvsroot/lazybones</connection>
+    	<developerConnection>scm:cvs:extssh:developername@cvs.lazybones.berlios.de:/cvsroot/lazybones</developerConnection>
+    	<url>https://cvs.berlios.de/cgi-bin/viewvc.cgi/lazybones/svdrp4j</url>
+    </scm>
     <build>
         <resources>
             <resource>

@@ -34,7 +34,7 @@ import org.hampelratte.svdrp.Response;
 /**
  * VDR Response: VDR has closed the connection
  * 
- * @author <a href="hampelratte@users.sf.net>hampelratte@users.sf.net</a>
+ * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  * 
  */
 public class R221 extends Response {

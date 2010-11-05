@@ -42,7 +42,7 @@ import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
 /**
  * Parses a list of timers received from VDR by the LSTT command
  * 
- * @author <a href="hampelratte@users.sf.net">hampelratte@users.sf.net</a>
+ * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  *
  */
 //FIXME für repeating timer die start und endzeit richtig setzen

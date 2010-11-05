@@ -35,7 +35,7 @@ import org.hampelratte.svdrp.Command;
  * Command to list all EPG data of all channels, or the data of one channel, or
  * the data of one channel at a time
  * 
- * @author <a href="mailto:henrik.niehaus@gmx.de">Henrik Niehaus</a>
+ * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  * 
  */
 public class LSTE extends Command {

@@ -34,7 +34,7 @@ import org.hampelratte.svdrp.Command;
 /**
  * Command to delete a channel on the VDR
  * 
- * @author <a href="mailto:henrik.niehaus@gmx.de">Henrik Niehaus</a>
+ * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  * 
  */
 public class DELC extends Command {

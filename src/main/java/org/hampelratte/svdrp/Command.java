@@ -32,7 +32,7 @@ package org.hampelratte.svdrp;
 /**
  * The superclass for all commands sent to VDR
  * 
- * @author <a href="mailto:henrik.niehaus@gmx.de">Henrik Niehaus</a>
+ * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  */
 public abstract class Command extends Message {
     private static final long serialVersionUID = 1L;

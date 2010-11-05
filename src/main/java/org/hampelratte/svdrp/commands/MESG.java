@@ -34,7 +34,7 @@ import org.hampelratte.svdrp.Command;
 /**
  * Command to show the given message on the osd of your VDR
  * 
- * @author <a href="mailto:henrik.niehaus@gmx.de">Henrik Niehaus</a>
+ * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  * 
  */
 public class MESG extends Command {

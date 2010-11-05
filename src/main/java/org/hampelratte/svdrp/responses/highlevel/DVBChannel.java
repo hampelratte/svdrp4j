@@ -35,7 +35,7 @@ import java.util.Arrays;
 /**
  * Represents a DVB channel of vdr. See man 5 vdr for details 
  * 
- * @author <a href="hampelratte@users.sf.net>hampelratte@users.sf.net</a>
+ * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  */
 public class DVBChannel extends BroadcastChannel {
     private static final long serialVersionUID = 1L;

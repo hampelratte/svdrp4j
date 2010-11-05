@@ -34,7 +34,7 @@ import org.hampelratte.svdrp.Command;
 /**
  * Command to list system statistics like disk space
  * 
- * @author <a href="mailto:henrik.niehaus@gmx.de">Henrik Niehaus</a>
+ * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  */
 public class STAT extends Command {
     private static final long serialVersionUID = 1L;

@@ -34,7 +34,7 @@ import java.io.Serializable;
 /**
  * Represents a Message of the SVDRP. Either a command or a response.
  * 
- * @author <a href="mailto:henrik.niehaus@gmx.de">Henrik Niehaus</a>
+ * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  */
 public abstract class Message implements Serializable {
     private static final long serialVersionUID = 1L;

@@ -35,7 +35,7 @@ import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
 /**
  * Command to create a new timer
  * 
- * @author <a href="mailto:henrik.niehaus@gmx.de">Henrik Niehaus</a>
+ * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  * 
  */
 public class NEWT extends Command {

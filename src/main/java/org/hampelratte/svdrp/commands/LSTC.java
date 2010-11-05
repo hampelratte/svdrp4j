@@ -34,7 +34,7 @@ import org.hampelratte.svdrp.Command;
 /**
  * Command to list all channels or details of the a given channel
  * 
- * @author <a href="mailto:henrik.niehaus@gmx.de">Henrik Niehaus</a>
+ * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  * 
  */
 public class LSTC extends Command {

@@ -35,7 +35,7 @@ import org.hampelratte.svdrp.Command;
  * Command to simulate the hit of a key on the remote control. To get a list of
  * valid keys use the constructor HITK()
  * 
- * @author <a href="mailto:henrik.niehaus@gmx.de">Henrik Niehaus</a>
+ * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  * 
  */
 public class HITK extends Command {

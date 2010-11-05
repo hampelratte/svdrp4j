@@ -35,7 +35,7 @@ import java.util.Date;
 
 /**
  * 
- * @author <a href="hampelratte@users.sf.net>hampelratte@users.sf.net</a>
+ * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  *
  * Represents a recording of VDR
  */
