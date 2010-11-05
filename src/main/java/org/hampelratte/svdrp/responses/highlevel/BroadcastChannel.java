@@ -29,7 +29,14 @@
  */
 package org.hampelratte.svdrp.responses.highlevel;
 
+import java.util.Collections;
+import java.util.List;
 
+/**
+ * A channel, which is broadcast in any way like DVB-S, DVB-T, DVB-C or analogue.
+ *
+ * @author <a href="mailto:hampelratte@users.berlios.de">hampelratte@users.berlios.de</a>
+ */
 public class BroadcastChannel extends Channel {
     
     private static final long serialVersionUID = 2L;
@@ -46,7 +53,7 @@ public class BroadcastChannel extends Channel {
 
     private String TPID = "";
 
-    private int conditionalAccess = 0;
+    private List<Integer> conditionalAccess = Collections.emptyList();
 
     private int SID = 0;
 
@@ -72,11 +79,11 @@ public class BroadcastChannel extends Channel {
         APID = apid;
     }
 
-    public int getConditionalAccess() {
+    public List<Integer> getConditionalAccess() {
         return conditionalAccess;
     }
 
-    public void setConditionalAccess(int conditionalAccess) {
+    public void setConditionalAccess(List<Integer> conditionalAccess) {
         this.conditionalAccess = conditionalAccess;
     }
 

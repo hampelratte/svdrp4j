@@ -146,7 +146,7 @@ public class DVBChannel extends BroadcastChannel {
 
     /**
      * Sets the bandwidth of this channel.
-     * @param bandwidth Valid values are 5, 6, 7, 8. To reset this parameter,
+     * @param bandwidth Valid values are 6, 7, 8. To reset this parameter,
      * call the method with -1 as parameter.
      */
     public void setBandwidth(int bandwidth) {
@@ -159,7 +159,7 @@ public class DVBChannel extends BroadcastChannel {
 
     /**
      * Sets the code rate high priority value of this channel.
-     * @param codeRateHP Valid values are 0, 12, 13, 14, 23, 25, 34, 35, 45, 56, 67, 78, 89, 910.
+     * @param codeRateHP Valid values are 0, 12, 23, 34, 45, 56, 67, 78, 89.
      * To reset this parameter, call the method with -1 as parameter.
      */
     public void setCodeRateHP(int codeRateHP) {
@@ -172,7 +172,7 @@ public class DVBChannel extends BroadcastChannel {
 
     /**
      * Sets the code rate low priority value of this channel.
-     * @param codeRateLP Valid values are 0, 12, 13, 14, 23, 25, 34, 35, 45, 56, 67, 78, 89, 910.
+     * @param codeRateLP Valid values are 0, 12, 23, 34, 45, 56, 67, 78, 89.
      * To reset this parameter, call the method with -1 as parameter.
      */
     public void setCodeRateLP(int codeRateLP) {
@@ -240,7 +240,7 @@ public class DVBChannel extends BroadcastChannel {
 
     /**
      * Sets the modulation value of this channel.
-     * @param modulation Valid values are 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 16, 32, 64, 128, 256, 512, 998, 1024.
+     * @param modulation Valid values are 0, 12, 23, 34, 45, 56, 67, 78, 89.
      * To reset this parameter, call the method with -1 as parameter.
      */
     public void setModulation(int modulation) {
@@ -261,7 +261,7 @@ public class DVBChannel extends BroadcastChannel {
 
     /**
      * Sets the transmission mode value of this channel.
-     * @param transmissionMode Valid values are 2, 4, 8.
+     * @param transmissionMode Valid values are 2, 8.
      * To reset this parameter, call the method with -1 as parameter.
      */
     public void setTransmissionMode(int transmissionMode)  {
@@ -280,6 +280,7 @@ public class DVBChannel extends BroadcastChannel {
         return getSource()+"-"+getNID()+"-"+getTID()+"-"+getSID()+"-"+getRID();
     }
     
+    @Override
     public boolean equals(Object o) {
         if (o instanceof DVBChannel) {
             DVBChannel c = (DVBChannel) o;
@@ -288,6 +289,7 @@ public class DVBChannel extends BroadcastChannel {
         return false;
     }
 
+    @Deprecated
     public int getAlpha() {
         return alpha;
     }
@@ -297,10 +299,12 @@ public class DVBChannel extends BroadcastChannel {
      * @param alpha Valid values are 0, 1, 2, 4
      * To reset this parameter, call the method with -1 as parameter.
      */
+    @Deprecated
     public void setAlpha(int alpha) {
         this.alpha = alpha;
     }
 
+    @Deprecated
     public int getRolloff() {
         return rolloff;
     }
@@ -310,10 +314,12 @@ public class DVBChannel extends BroadcastChannel {
      * @param rolloff Valid values are 0, 20, 25, 35
      * To reset this parameter, call the method with -1 as parameter.
      */
+    @Deprecated
     public void setRolloff(int rolloff) {
         this.rolloff = rolloff;
     }
 
+    @Deprecated
     public int getPriority() {
         return priority;
     }
@@ -323,6 +329,7 @@ public class DVBChannel extends BroadcastChannel {
      * @param priority Valid values are 0, 1
      * To reset this parameter, call the method with -1 as parameter.
      */
+    @Deprecated
     public void setPriority(int priority) {
         this.priority = priority;
     }
@@ -342,21 +349,21 @@ public class DVBChannel extends BroadcastChannel {
         }
 
         // validate bandwidth
-        validValues = new int[] {-1, 5, 6, 7, 8, AUTOMATIC};
+        validValues = new int[] {-1, 6, 7, 8, AUTOMATIC};
         valid = validateArray(validValues, bandwidth);
         if(!valid) {
             throwIllegalArgumentException("Bandwidth", bandwidth, validValues);
         }
         
         // validate codeRateHP
-        validValues = new int[] {-1, 0, 12, 13, 14, 23, 25, 34, 35, 45, 56, 67, 78, 89, 910, AUTOMATIC};
+        validValues = new int[] {-1, 0, 12, 23, 34, 45, 56, 67, 78, 89, AUTOMATIC};
         valid = validateArray(validValues, codeRateHP);
         if(!valid) {
             throwIllegalArgumentException("Code rate HP", codeRateHP, validValues);
         }
         
         // validate codeRateLP
-        validValues = new int[] {-1, 0, 12, 13, 14, 23, 25, 34, 35, 45, 56, 67, 78, 89, 910, AUTOMATIC};
+        validValues = new int[] {-1, 0, 12, 23, 34, 45, 56, 67, 78, 89, AUTOMATIC};
         valid = validateArray(validValues, codeRateLP);
         if(!valid) {
             throwIllegalArgumentException("Code rate LP", codeRateLP, validValues);
@@ -384,7 +391,7 @@ public class DVBChannel extends BroadcastChannel {
         }
         
         // validate modulation
-        validValues = new int[] {-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 16, 32, 64, 128, 256, 512, 998, 1024, AUTOMATIC};
+        validValues = new int[] {-1, 0, 16, 32, 64, 128, 256, AUTOMATIC};
         valid = validateArray(validValues, modulation);
         if(!valid) {
             throwIllegalArgumentException("Modulation", modulation, validValues);
@@ -405,7 +412,7 @@ public class DVBChannel extends BroadcastChannel {
         }
         
         // validate transmission mode
-        validValues = new int[] {-1, 2, 4, 8, AUTOMATIC};
+        validValues = new int[] {-1, 2, 8, AUTOMATIC};
         valid = validateArray(validValues, transmissionMode);
         if(!valid) {
             throwIllegalArgumentException("Transmission mode", transmissionMode, validValues);

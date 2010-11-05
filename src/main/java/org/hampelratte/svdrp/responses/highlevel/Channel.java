@@ -31,48 +31,98 @@ package org.hampelratte.svdrp.responses.highlevel;
 
 import java.io.Serializable;
 
+/**
+ * Base class for any VDR channel. This can be a DVB channel or a channel provided by any of the VDR plug-ins like an
+ * IPTV channel or an PvrInput channel
+ * 
+ * @author <a href="mailto:hampelratte@users.berlios.de">hampelratte@users.berlios.de</a>
+ */
 public abstract class Channel implements Serializable {
-	
+
     private static final long serialVersionUID = 1L;
-    
-	private int channelNumber = -1;
-    
+
+    private int channelNumber = -1;
+
     private String name = "";
-    
+
     private String shortName = "";
-    
+
     private String serviceProviderName = "";
-    
+
+    /**
+     * A channel name coming from VDR may consist of the name, a short name and a service provider name, e.g.:
+     * <code>RTL Television,RTL;RTL World</code> This method returns only the name, which is <code>RTL Television</code>
+     * 
+     * @return the name of the channel
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * A channel name may consist of the name, a short name and a service provider name, e.g.: RTL Television,RTL;RTL
+     * World This method will split the argument into name, short name and provider name, so that {@link #getName()},
+     * {@link #getShortName()} and {@link #getServiceProviderName()} will return the according part.
+     * 
+     * @param name
+     *            the name of the channel. You have to provide at least the name, but the following combinations are
+     *            possible:
+     *            <ul>
+     *            <li>RTL Television</li>
+     *            <li>RTL Television,RTL</li>
+     *            <li>RTL Television,RTL;RTL World</li>
+     *            <li>RTL Television;RTL World</li>
+     *            </ul>
+     */
     public void setName(String name) {
-        int delim = name.indexOf(';'); 
-        if(delim > 0) {
-            this.serviceProviderName = name.substring(delim+1, name.length());
+        int delim = name.indexOf(';');
+        if (delim > 0) {
+            this.serviceProviderName = name.substring(delim + 1, name.length());
             name = name.substring(0, delim);
         }
         delim = name.indexOf(',');
-        if(delim > 0) {
-            this.shortName = name.substring(delim+1, name.length());
+        if (delim > 0) {
+            this.shortName = name.substring(delim + 1, name.length());
             name = name.substring(0, delim);
         }
         this.name = name;
     }
-    
+
+    /**
+     * A channel name coming from VDR may consist of the name, a short name and a service provider name, e.g.: RTL
+     * Television,RTL;RTL World This method returns only the short name, which is RTL
+     * 
+     * @return the name of the channel
+     */
     public String getShortName() {
         return shortName;
     }
-    
+
+    /**
+     * A channel name coming from VDR may consist of the name, a short name and a service provider name, e.g.: RTL
+     * Television,RTL;RTL World This method returns only the service provider name, which is RTL World
+     * 
+     * @return the name of the channel
+     */
     public String getServiceProviderName() {
         return serviceProviderName;
     }
-    
+
+    /**
+     * The number of the channel. This equates to the key you would hit on the remote control to tune this channel.
+     * 
+     * @return the number of the channel.
+     */
     public int getChannelNumber() {
         return channelNumber;
     }
 
+    /**
+     * The number of the channel. This equates to the key you would hit on the remote control to tune this channel.
+     * 
+     * @param channelNumber
+     *            the number of the channel.
+     */
     public void setChannelNumber(int channelNumber) {
         this.channelNumber = channelNumber;
     }
@@ -81,5 +131,4 @@ public abstract class Channel implements Serializable {
     public String toString() {
         return getName();
     }
-    
 }

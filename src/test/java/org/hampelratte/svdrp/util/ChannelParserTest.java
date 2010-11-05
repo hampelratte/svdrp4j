@@ -78,4 +78,22 @@ public class ChannelParserTest {
         assertTrue(channels.get(1) instanceof PvrInputChannel);
         assertTrue(channels.get(2) instanceof PvrInputChannel);
     }
+    
+    @Test
+    public void testConditionalAccess() throws ParseException {
+        String channelData = 
+                  "114 Sky Cinema,Cinema;SKY:11798:hC34:S19.2E:27500:511:512=deu:32:1702,1722,1833,1834,1836,9C4,9C7:10:133:2:0\n" + 
+                  "115 Sky Cinema +1,Cinema1;SKY:11798:hC34:S19.2E:27500:1791:1792=deu,1793=eng;1795=deu:32:1702:11:133:2:0";
+        
+        List<Channel> channels = ChannelParser.parse(channelData, false);
+        assertTrue(((DVBChannel)channels.get(0)).getConditionalAccess().contains(0x1702));
+        assertTrue(((DVBChannel)channels.get(0)).getConditionalAccess().contains(0x1722));
+        assertTrue(((DVBChannel)channels.get(0)).getConditionalAccess().contains(0x1833));
+        assertTrue(((DVBChannel)channels.get(0)).getConditionalAccess().contains(0x1834));
+        assertTrue(((DVBChannel)channels.get(0)).getConditionalAccess().contains(0x1836));
+        assertTrue(((DVBChannel)channels.get(0)).getConditionalAccess().contains(0x9c4));
+        assertTrue(((DVBChannel)channels.get(0)).getConditionalAccess().contains(0x9c7));
+        
+        assertTrue(((DVBChannel)channels.get(1)).getConditionalAccess().contains(0x1702));
+    }
 }

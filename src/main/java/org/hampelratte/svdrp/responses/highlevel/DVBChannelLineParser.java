@@ -29,6 +29,8 @@
  */
 package org.hampelratte.svdrp.responses.highlevel;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class DVBChannelLineParser extends ChannelLineParser {
@@ -52,13 +54,22 @@ public class DVBChannelLineParser extends ChannelLineParser {
         channel.setVPID(st.nextToken());
         channel.setAPID(st.nextToken());
         channel.setTPID(st.nextToken());
-        channel.setConditionalAccess(Integer.parseInt(st.nextToken(), 16));
+        channel.setConditionalAccess(parseConditionalAccess(st.nextToken()));
         channel.setSID(Integer.parseInt(st.nextToken()));
         channel.setNID(Integer.parseInt(st.nextToken()));
         channel.setTID(Integer.parseInt(st.nextToken()));
         channel.setRID(Integer.parseInt(st.nextToken()));
 
         return channel;
+    }
+    
+    protected List<Integer> parseConditionalAccess(String ca) {
+        List<Integer> caList = new ArrayList<Integer>();
+        StringTokenizer st = new StringTokenizer(ca, ",");
+        while(st.hasMoreElements()) {
+            caList.add(Integer.parseInt(st.nextToken(), 16));
+        }
+        return caList;
     }
 
     protected void parseParameters(String string) {
