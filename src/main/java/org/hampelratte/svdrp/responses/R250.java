@@ -32,7 +32,7 @@ package org.hampelratte.svdrp.responses;
 import org.hampelratte.svdrp.Response;
 
 /**
- * VDR Response: Requested action ok
+ * VDR Response: Requested VDR action okay, completed
  * 
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  * 
@@ -48,8 +48,9 @@ public class R250 extends Response {
         super(250, message);
     }
 
+    @Override
     public String toString() {
-        return "250 - Requested action finished";
+        return "250 - Requested VDR action okay, completed";
     }
 
 }

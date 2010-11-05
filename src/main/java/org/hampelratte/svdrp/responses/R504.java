@@ -32,7 +32,7 @@ package org.hampelratte.svdrp.responses;
 import org.hampelratte.svdrp.Response;
 
 /**
- * VDR Response: Parameter not yet implemented
+ * VDR Response: Command parameter not implemented
  * 
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  * 
@@ -49,6 +49,7 @@ public class R504 extends Response {
         super(code, message);
     }
 
+    @Override
     public String toString() {
         return "504 - Command parameter not implemented";
     }

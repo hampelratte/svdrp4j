@@ -32,7 +32,7 @@ package org.hampelratte.svdrp.responses;
 import org.hampelratte.svdrp.Response;
 
 /**
- * VDR Response: Help text
+ * VDR Response: Help message
  * 
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  */
@@ -44,7 +44,8 @@ public class R214 extends Response {
         super(214, msg);
     }
 
+    @Override
     public String toString() {
-        return "214 - Help text";
+        return "214 - Help message";
     }
 }

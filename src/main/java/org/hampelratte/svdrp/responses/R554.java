@@ -47,7 +47,8 @@ public class R554 extends Response {
     public R554(String message) {
         super(554, message);
     }
-
+    
+    @Override
     public String toString() {
         return "554 - Transaction failed";
     }

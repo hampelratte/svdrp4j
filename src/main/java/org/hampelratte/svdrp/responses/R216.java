@@ -36,7 +36,12 @@ import javax.swing.ImageIcon;
 import org.hampelratte.svdrp.Response;
 import org.hampelratte.svdrp.util.Base64;
 
-
+/**
+ * VDR Response: Image grab data (base 64)
+ * 
+ * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
+ * 
+ */
 public class R216 extends Response {
     
     private static final long serialVersionUID = 1L;
@@ -45,6 +50,7 @@ public class R216 extends Response {
         super(216, message);
     }
     
+    @Override
     public String toString() {
         return "216 - Image grab data (base 64)";
     }

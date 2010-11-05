@@ -32,7 +32,7 @@ package org.hampelratte.svdrp.responses;
 import org.hampelratte.svdrp.Response;
 
 /**
- * VDR Response: Unknown parameter
+ * VDR Response: Syntax error in parameters or arguments
  * 
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  * 
@@ -48,8 +48,9 @@ public class R501 extends Response {
         super(501, message);
     }
 
+    @Override
     public String toString() {
-        return "501 - Wrong syntax in parameter";
+        return "501 - Syntax error in parameters or arguments";
     }
 
 }

@@ -32,7 +32,7 @@ package org.hampelratte.svdrp.responses;
 import org.hampelratte.svdrp.Response;
 
 /**
- * VDR Response: Command not yet implemented
+ * VDR Response: Command not implemented
  * 
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  * 
@@ -48,8 +48,9 @@ public class R502 extends Response {
         super(502, message);
     }
 
+    @Override
     public String toString() {
-        return "502 - Command not implemented, yet";
+        return "502 - Command not implemented";
     }
 
 }

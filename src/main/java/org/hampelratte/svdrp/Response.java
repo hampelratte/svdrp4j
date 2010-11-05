@@ -65,6 +65,7 @@ public abstract class Response extends Message {
      * <ul>
      * <li>214 - Help text</li>
      * <li>215 - EPG entry</li>
+     * <li>216 - Image grab data (base 64)</li>
      * <li>220 - VDR ready</li>
      * <li>221 - VDR closing connection</li>
      * <li>250 - Requested action ok</li>

@@ -32,7 +32,7 @@ package org.hampelratte.svdrp.responses;
 import org.hampelratte.svdrp.Response;
 
 /**
- * VDR Response: VDR has closed the connection
+ * VDR Response: VDR service closing transmission channel
  * 
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  * 
@@ -48,8 +48,9 @@ public class R221 extends Response {
         super(221, message);
     }
 
+    @Override
     public String toString() {
-        return "221 - VDR has closed the connection";
+        return "221 - VDR service closing transmission channel";
     }
 
 }

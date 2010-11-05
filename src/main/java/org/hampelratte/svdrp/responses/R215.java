@@ -32,7 +32,7 @@ package org.hampelratte.svdrp.responses;
 import org.hampelratte.svdrp.Response;
 
 /**
- * VDR Response: EPG entry
+ * VDR Response: EPG or recording data record
  * 
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  * 
@@ -48,8 +48,9 @@ public class R215 extends Response {
         super(215, message);
     }
 
+    @Override
     public String toString() {
-        return "215 - EPG Entry";
+        return "215 - EPG or recording data record";
     }
 
 }

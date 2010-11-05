@@ -43,6 +43,7 @@ public class NotImplementedBySVDRP4J extends Response {
         super(code, mesg);
     }
 
+    @Override
     public String toString() {
         return getCode() + " - This response code is not supported by SVDRP4J";
     }

@@ -44,6 +44,7 @@ public class AccessDenied extends Response {
         super(-1, msg);
     }
 
+    @Override
     public String toString() {
         return "Access denied";
     }

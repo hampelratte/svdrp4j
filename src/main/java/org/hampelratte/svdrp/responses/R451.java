@@ -32,7 +32,7 @@ package org.hampelratte.svdrp.responses;
 import org.hampelratte.svdrp.Response;
 
 /**
- * VDR Response: Requested action canceled
+ * VDR Response: Requested action aborted: local error in processing
  * 
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  * 
@@ -48,8 +48,9 @@ public class R451 extends Response {
         super(451, message);
     }
 
+    @Override
     public String toString() {
-        return "451 - Requested action canceled: A local error occured";
+        return "451 - Requested action aborted: local error in processing";
     }
 
 }

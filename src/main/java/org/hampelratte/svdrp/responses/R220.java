@@ -32,7 +32,7 @@ package org.hampelratte.svdrp.responses;
 import org.hampelratte.svdrp.Response;
 
 /**
- * VDR Response: VDR ready
+ * VDR Response: VDR service ready
  * 
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  * 
@@ -46,11 +46,11 @@ public class R220 extends Response {
      */
     public R220(String message) {
         super(220, message);
-
     }
 
+    @Override
     public String toString() {
-        return "220 - VDR is ready to receive commands";
+        return "220 - VDR service ready";
     }
 
 }

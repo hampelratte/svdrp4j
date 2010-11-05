@@ -32,7 +32,7 @@ package org.hampelratte.svdrp.responses;
 import org.hampelratte.svdrp.Response;
 
 /**
- * VDR Response: Requested action not executed
+ * VDR Response: Requested action not taken
  * 
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  * 
@@ -48,8 +48,9 @@ public class R550 extends Response {
         super(550, message);
     }
 
+    @Override
     public String toString() {
-        return "550 - Requested action not executed";
+        return "550 - Requested action not taken";
     }
 
 }

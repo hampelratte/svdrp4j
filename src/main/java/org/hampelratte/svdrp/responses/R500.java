@@ -32,7 +32,7 @@ package org.hampelratte.svdrp.responses;
 import org.hampelratte.svdrp.Response;
 
 /**
- * VDR Response: Unknown command
+ * VDR Response: Syntax error, command unrecognized
  * 
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  * 
@@ -48,8 +48,9 @@ public class R500 extends Response {
         super(500, message);
     }
 
+    @Override
     public String toString() {
-        return "500 - Unknown command";
+        return "500 - Syntax error, command unrecognized";
     }
 
 }

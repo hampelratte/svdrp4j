@@ -32,7 +32,7 @@ package org.hampelratte.svdrp.responses;
 import org.hampelratte.svdrp.Response;
 
 /**
- * VDR Response: Start of EPG data
+ * VDR Response: Start sending EPG data
  * 
  * @author <a href="hampelratte@users.sf.net">hampelratte@users.sf.net </a>
  * 
@@ -48,8 +48,9 @@ public class R354 extends Response {
         super(354, message);
     }
 
+    @Override
     public String toString() {
-        return "354 - Start sending of EPG data";
+        return "354 - Start sending EPG data";
     }
 
 }
