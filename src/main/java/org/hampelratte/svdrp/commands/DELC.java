@@ -48,7 +48,7 @@ public class DELC extends Command {
     /**
      * Command to delete a channel
      * 
-     * @param parameter
+     * @param number
      *            The number of the channel, which should be deleted
      * @see org.hampelratte.svdrp.responses.highlevel.Channel#getChannelNumber()
      */

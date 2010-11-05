@@ -64,7 +64,7 @@ public class LSTE extends Command {
     /**
      * Command to list all data of one channel
      * 
-     * @param channel
+     * @param number
      *            The number of the channel
      */
     public LSTE(int number) {
