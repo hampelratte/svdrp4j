@@ -59,8 +59,11 @@ public class LSTT extends Command {
 
     @Override
     public String getCommand() {
-        String cmd = "LSTT " + number;
-        return cmd.trim();
+        String cmd = "LSTT";
+        if(number > 0) {
+            cmd += " " + number;
+        }
+        return cmd;
     }
 
     @Override

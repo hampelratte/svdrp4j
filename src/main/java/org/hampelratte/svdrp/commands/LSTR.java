@@ -70,8 +70,11 @@ public class LSTR extends Command {
 
     @Override
     public String getCommand() {
-        String cmd = "LSTR " + number;
-        return cmd.trim();
+        String cmd = "LSTR";
+        if(number > 0) {
+            cmd += " " + number;
+        }
+        return cmd;
     }
 
     @Override
