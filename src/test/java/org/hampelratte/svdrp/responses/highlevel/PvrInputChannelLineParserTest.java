@@ -1,6 +1,6 @@
 /* $Id$
  * 
- * Copyright (c) 2005, Henrik Niehaus & Lazy Bones development team
+ * Copyright (c) Henrik Niehaus & Lazy Bones development team
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -29,36 +29,76 @@
  */
 package org.hampelratte.svdrp.responses.highlevel;
 
-import java.util.StringTokenizer;
+import static junit.framework.Assert.*;
 
-public class PvrInputChannelLineParser extends DVBChannelLineParser {
+import org.junit.Before;
+import org.junit.Test;
 
-    @Override
-    public Channel parse(String chanConfLine) {
-        DVBChannel dvb = (DVBChannel) super.parse(chanConfLine);
-        PvrInputChannel channel = new PvrInputChannel(dvb);
-        parseParameters(channel, chanConfLine);
-        return channel;
+public class PvrInputChannelLineParserTest {
+
+    private String channelData = "1 ARD;w_pvrscan:224250:TV|PAL:V:0:301+101=2:300=@4:305:0:3588:0:0:0";
+
+    private ChannelLineParser parser = new PvrInputChannelLineParser();
+
+    private PvrInputChannel chan;
+
+    @Before
+    public void parseLine() {
+        chan = (PvrInputChannel) parser.parse(channelData);
     }
 
-    @Override
-    protected void parseParameters(String string) {
-        // override method from DVBChannelLineParser with no operation
+    @Test
+    public void testChannelNumber() {
+        assertEquals(1, chan.getChannelNumber());
+    }
+
+    @Test
+    public void testFrequency() {
+        assertEquals(224250, chan.getFrequency());
+    }
+
+    @Test
+    public void testSource() {
+        assertEquals("V", chan.getSource());
+    }
+
+    @Test
+    public void testVPID() {
+        assertEquals("301+101=2", chan.getVPID());
+    }
+
+    @Test
+    public void testAPID() {
+        assertEquals("300=@4", chan.getAPID());
+    }
+
+    @Test
+    public void testTPID() {
+        assertEquals("305", chan.getTPID());
     }
     
-    private void parseParameters(PvrInputChannel channel, String chanConfLine) {
-        String[] parts = chanConfLine.split(":");
-        String params = parts[2];
-        StringTokenizer st = new StringTokenizer(params, "|");
-        if(params.startsWith("PVRINPUT|")) {
-            st.nextToken(); // skip PVRINPUT
-        }
-        channel.setType(st.nextToken()); // set type (TV, RADIO, COMPOSITE0..COMPOSITE4, SVIDEO0..SVIDEO3)
-        if(st.hasMoreElements()) {
-            channel.setVideoNorm(st.nextToken());
-        }
-        if(st.hasMoreElements()) {
-            channel.setCard(st.nextToken());
-        }
+    @Test
+    public void testConditionalAccess() {
+        assertEquals(new Integer(0), chan.getConditionalAccess().get(0));
+    }
+
+    @Test
+    public void testSID() {
+        assertEquals(3588, chan.getSID());
+    }
+
+    @Test
+    public void testNID() {
+        assertEquals(0, chan.getNID());
+    }
+
+    @Test
+    public void testTID() {
+        assertEquals(0, chan.getTID());
+    }
+
+    @Test
+    public void testRID() {
+        assertEquals(0, chan.getRID());
     }
 }

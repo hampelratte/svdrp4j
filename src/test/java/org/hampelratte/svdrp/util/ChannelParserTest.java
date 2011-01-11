@@ -71,12 +71,16 @@ public class ChannelParserTest {
         String channelData = 
                   "1 NICK AUSTRIA;MTV Networks:362000:M64:C:6900:513=2:661=deu:577:0:28640:1:1091:0\n"
                 + "2 DSF:783250:PVRINPUT|TV|PAL:P:0:301:300:305:0:1:0:3499:0\n"
-                + "3 DMAX;w_pvrscan:343250:PVRINPUT|TV|PAL:P:0:301=2:300:305:0:5492:0:0:0";
+                + "3 Composite 0;pvrinput:1:COMPOSITE0:V:0:301=2:300=@4:0:0:9000:0:0:0\n"
+                + "4 S-Video 0;pvrinput:1:SVIDEO0:V:0:301=2:300=@4:0:0:9005:0:0:0\n"
+                + "5 DMAX;w_pvrscan:343250:PVRINPUT|TV|PAL:P:0:301=2:300:305:0:5492:0:0:0";
         
         List<Channel> channels = ChannelParser.parse(channelData, false);
         assertTrue(channels.get(0) instanceof DVBChannel);
         assertTrue(channels.get(1) instanceof PvrInputChannel);
         assertTrue(channels.get(2) instanceof PvrInputChannel);
+        assertTrue(channels.get(3) instanceof PvrInputChannel);
+        assertTrue(channels.get(4) instanceof PvrInputChannel);
     }
     
     @Test

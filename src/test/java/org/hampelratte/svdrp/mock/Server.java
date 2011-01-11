@@ -40,6 +40,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
@@ -60,6 +61,7 @@ public class Server implements Runnable {
     
     private String welcome;
     private String timers;
+    private String channels = "";
     
     public Server() {
         logger.info("Running in {}", System.getProperty("user.dir"));
@@ -75,6 +77,20 @@ public class Server implements Runnable {
     
     public void loadTimers(String timersFile) throws IOException {
         timers = readFile(timersFile);
+    }
+    
+    public void loadChannelsConf(String channelsFile) throws IOException {
+        String channelsConf = readFile(channelsFile);
+        StringTokenizer st = new StringTokenizer(channelsConf, "\n");
+        int channelNumber = 0;
+        while(st.hasMoreElements()) {
+            String line = st.nextToken();
+            char delim = st.hasMoreElements() ? '-' : ' ';
+            channels += "250" + delim + Integer.toString(++channelNumber) + ' ' + line;
+            if(st.hasMoreElements()) {
+                channels += '\n';
+            }
+        }
     }
 
     private String readFile(String textFile) throws IOException {
@@ -207,43 +223,7 @@ public class Server implements Runnable {
     }
 
     private void printChannelList() throws IOException {
-        sendResponse("250-1 NICK AUSTRIA;MTV Networks:362000:M64:C:6900:513=2:661=deu:577:0:28640:1:1091:0\n" + 
-                "250-2 TNT:370000:M64:C:6900:525+142=2:780=tur,781=eng:0:0:35:66:3:0\n" + 
-                "250-3 Eurosport;SES Astra:362000:M64:C:6900:101=2:103=deu:102:0:31200:1:1091:0\n" + 
-                "250-4 EuroNews;Globecast:362000:M64:C:6900:2432=2:2433=deu,2434=eng,2435=fra,2436=ita,2437=esl,2438=por,2439=rus,2440=und:0:0:31220:1:1091:0\n" + 
-                "250-5 MTV AUSTRIA;MTV Networks:362000:M64:C:6900:515=2:662=deu:578:0:28641:1:1091:0\n" + 
-                "250-6 RTL Television,RTL;RTL World:410000:M64:C:6900:163=2:104=deu;106=deu:105:0:12003:1:1089:0\n" + 
-                "250-7 RTL2;RTL World:410000:M64:C:6900:166=2:128=deu:68:0:12020:1:1089:0\n" + 
-                "250-8 Super RTL,S RTL;RTL World:410000:M64:C:6900:165=2:120=deu:65:0:12040:1:1089:0\n" + 
-                "250-9 VOX;RTL World:410000:M64:C:6900:167=2:136=deu:71:0:12060:1:1089:0\n" + 
-                "250-10 n-tv;RTL World:410000:M64:C:6900:169=2:73=deu:80:0:12090:1:1089:0\n" + 
-                "250-11 SAT.1;ProSiebenSat.1:418000:M64:C:6900:255=2:256=deu;259=deu:32:0:17500:1:1107:0\n" + 
-                "250-12 ProSieben;ProSiebenSat.1:418000:M64:C:6900:511=2:512=deu;515=deu:33:0:17501:1:1107:0\n" + 
-                "250-13 kabel eins;ProSiebenSat.1:418000:M64:C:6900:767=2:768=deu:34:0:17502:1:1107:0\n" + 
-                "250-14 N24;ProSiebenSat.1:418000:M64:C:6900:1023=2:1024=deu:35:0:17503:1:1107:0\n" + 
-                "250-15 Das Erste;ARD:442000:M64:C:6900:101=2:102=deu,103=2ch;106=dd:104:0:28106:1:1101:0\n" + 
-                "250-16 Bayerisches FS Süd;ARD:442000:M64:C:6900:201=2:202=deu,203=2ch;206=dd:204:0:28107:1:1101:0\n" + 
-                "250-17 hr-fernsehen;ARD:442000:M64:C:6900:301=2:302=deu,303=2ch:304:0:28108:1:1101:0\n" + 
-                "250-18 WDR Köln;ARD:442000:M64:C:6900:601=2:602=deu,603=2ch:604:0:28111:1:1101:0\n" + 
-                "250-19 BR-alpha*;ARD:442000:M64:C:6900:701=2:702=deu:704:0:28112:1:1101:0\n" + 
-                "250-20 SWR Fernsehen BW;ARD:442000:M64:C:6900:801=2:802=deu,803=2ch:804:0:28113:1:1101:0\n" + 
-                "250-21 ZDF;ZDFvision:450000:M64:C:6900:110=2:120=deu,121=2ch;125=deu:130:0:28006:1:1079:0\n" + 
-                "250-22 ZDFinfokanal;ZDFvision:450000:M64:C:6900:610=2:620=deu:630:0:28011:1:1079:0\n" + 
-                "250-23 ZDFdokukanal;ZDFvision:450000:M64:C:6900:660=2:670=deu,671=2ch:630:0:28014:1:1079:0\n" + 
-                "250-24 DSF:783250:PVRINPUT|TV|PAL:P:0:301:300:305:0:1:0:3499:0\n" + 
-                "250-25 3sat;ZDFvision:450000:M64:C:6900:210=2:220=deu,221=2ch;225=dd:230:0:28007:1:1079:0\n" + 
-                "250-26 KiKa;ZDFvision:450000:M64:C:6900:310=2:320=deu:330:0:28008:1:1079:0\n" + 
-                "250-27 rbb Berlin;ARD:458000:M64:C:6900:601=2:602=deu:604:0:28206:1:1073:0\n" + 
-                "250-28 NDR FS HH;ARD:458000:M64:C:6900:2601=2:2602=deu,2603=2ch:2604:0:28225:1:1073:0\n" + 
-                "250-29 MDR Sachsen;ARD:458000:M64:C:6900:2901=2:2902=deu,2903=2ch:2904:0:28228:1:1073:0\n" + 
-                "250-30 EinsExtra;ARD:466000:M64:C:6900:101=2:102=deu:0:0:28721:1:1051:0\n" + 
-                "250-31 Einsfestival;ARD:466000:M64:C:6900:201=2:202=deu:204:0:28722:1:1051:0\n" + 
-                "250-32 EinsPlus;ARD:466000:M64:C:6900:301=2:302=deu:304:0:28723:1:1051:0\n" + 
-                "250-33 arte;ARD:466000:M64:C:6900:401=2:402=deu,403=fra:404:0:28724:1:1051:0\n" + 
-                "250-34 Phoenix;ARD:466000:M64:C:6900:501=2:502=deu:504:0:28725:1:1051:0\n" + 
-                "250-35 DMAX;w_pvrscan:343250:PVRINPUT|TV|PAL:P:0:301=2:300:305:0:5492:0:0:0\n" + 
-                "250-36 Das Vierte;w_pvrscan:335250:PVRINPUT|TV|PAL:P:0:301=2:300:305:0:5364:0:0:0\n" + 
-                "250 37 Tele5;w_pvrscan:280250:PVRINPUT|TV|PAL:P:0:301=2:300:305:0:4484:0:0:0"); 
+        sendResponse(channels); 
 //        ps.println("250-1 Das Erste;ARD:11836:hC34:S19.2E:27500:101:102=deu,103=2ch;106=dd:104:0:28106:1:1101:0\n" + 
 //              "250-2 ZDF;ZDFvision:11954:hC34:S19.2E:27500:110:120=deu,121=2ch;125=dd:130:0:28006:1:1079:0\n" + 
 //              "250-3 SWR Fernsehen BW;ARD:11836:hC34:S19.2E:27500:801:802=deu:804:0:28113:1:1101:0\n" +  
@@ -371,6 +351,7 @@ public class Server implements Runnable {
         Server server = new Server();
         server.loadWelcome("welcome-1.6.0_2-utf_8.txt");
         server.loadTimers("lstt_doppelpack_fake.txt");
+        server.loadChannelsConf("pvrinput_channels.conf");
         new Thread(server).start();
     }
 }
