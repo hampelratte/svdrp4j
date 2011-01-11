@@ -124,8 +124,8 @@ public class DetectEncodingTest {
         try {
             server.loadWelcome("welcome-1.6.0_2-utf_8.txt");
             con = new Connection("localhost", 2001, 100, "ISO-8859-1");
+            @SuppressWarnings("serial")
             Response resp = con.send(new Command() {
-                
                 @Override
                 public String toString() {
                     return "Charset Test";
