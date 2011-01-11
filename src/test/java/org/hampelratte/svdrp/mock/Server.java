@@ -151,6 +151,8 @@ public class Server implements Runnable {
             printEpg();
         } else if ("test_charset".equalsIgnoreCase(request)) {
             sendResponse("221 öüäß");
+        } else {
+            sendResponse("502 Not implemented");
         }
         
         return true;
