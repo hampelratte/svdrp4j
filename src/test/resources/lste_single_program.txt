@@ -1,0 +1,7 @@
+215-C C-61441-10008-53621 ProSieben
+215-E 3 1295305200 86400 4E 2
+215-T Leider keine Programminformation verfügbar
+215-D Bei Fragen wenden Sie sich bitte an ihren Kabelnetzbetreiber
+215-e
+215-c
+215 End of EPG data

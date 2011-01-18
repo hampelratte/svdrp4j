@@ -163,7 +163,7 @@ public class Server implements Runnable {
             sendResponse(timers);
         } else if ("lstr".equalsIgnoreCase(request)) {
             printRecordingsList();
-        } else if ("lste 1".equalsIgnoreCase(request)) {
+        } else if (request.toLowerCase().matches("lste \\d+")) {
             printEpg();
         } else if ("test_charset".equalsIgnoreCase(request)) {
             sendResponse("221 öüäß");
@@ -175,7 +175,8 @@ public class Server implements Runnable {
     }
 
     private void printEpg() throws IOException {
-        String lste = readFile("lste_1.txt");
+        //String lste = readFile("lste_1.txt");
+        String lste = readFile("lste_single_program.txt");
         sendResponse(lste);
     }
 
