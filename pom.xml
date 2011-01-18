@@ -8,7 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>svdrp4j</artifactId>
     <packaging>jar</packaging>
-    <version>0.0.5</version>
+    <version>0.0.6-SNAPSHOT</version>
     <name>SVDRP4J</name>
     <description>An implementation of the Simple VDR Protocol.
 This version is compatible with VDR 1.6.0-2 and earlier. Maybe newer version work, too, but new features are not implemented.</description>
