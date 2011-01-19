@@ -183,14 +183,14 @@ public class EPGEntry {
     }
     
     /**
-     * Convenience method which returns only audio streams. Video streams are filtered.
-     * @return A list of audio streams. Video streams are filtered.
+     * Convenience method which returns only audio streams. Other streams are filtered.
+     * @return A list of audio streams. Other streams are filtered.
      */
     public List<Stream> getAudioStreams() {
         List<Stream> audioStreams = new ArrayList<Stream>(getStreams());
         for (Iterator<Stream> iterator = audioStreams.iterator(); iterator.hasNext();) {
             Stream stream = iterator.next();
-            if(stream.getContent() == Stream.CONTENT.VIDEO) {
+            if(stream.getContent() != Stream.CONTENT.AUDIO && stream.getContent() != Stream.CONTENT.AC3) {
                 iterator.remove();
             }
         }

@@ -52,6 +52,8 @@ public class EpgParserTest {
         "X 2 03 deu stereo\n" + 
         "X 3 01 deu \n" + 
         "X 2 03 deu ohne Audiodeskription\n" +
+        "X 5 0B deu 16:9\n" +
+        "X 4 2C deu Deutsch\n" +
         "V 1274605200\n" +
         "e\nc";
     
@@ -142,7 +144,7 @@ public class EpgParserTest {
         List<EPGEntry> entries = EPGParser.parse(epgData);
         EPGEntry entry = entries.get(0);
         
-        assertEquals(4, entry.getStreams().size());
+        assertEquals(6, entry.getStreams().size());
         assertEquals(3, entry.getAudioStreams().size());
         
         Stream video16_9 = entry.getStreams().get(0);
@@ -158,7 +160,7 @@ public class EpgParserTest {
         assertEquals(audioStereo.getDescription(), "stereo");
         
         Stream audioNoDesc = entry.getStreams().get(2);
-        assertEquals(audioNoDesc.getContent(), Stream.CONTENT.AUDIO);
+        assertEquals(audioNoDesc.getContent(), Stream.CONTENT.SUBTITLE);
         assertEquals(audioNoDesc.getType(), 1);
         assertEquals(audioNoDesc.getLanguage(), "deu");
         assertEquals(audioNoDesc.getDescription(), "N/A");
@@ -168,6 +170,18 @@ public class EpgParserTest {
         assertEquals(audioWoDesc.getType(), 3);
         assertEquals(audioWoDesc.getLanguage(), "deu");
         assertEquals(audioWoDesc.getDescription(), "ohne Audiodeskription");
+        
+        Stream video16_9_2 = entry.getStreams().get(4);
+        assertEquals(video16_9_2.getContent(), Stream.CONTENT.UNKNOWN);
+        assertEquals(video16_9_2.getType(), 0x0B);
+        assertEquals(video16_9_2.getLanguage(), "deu");
+        assertEquals(video16_9_2.getDescription(), "16:9");
+        
+        Stream ac3 = entry.getStreams().get(5);
+        assertEquals(ac3.getContent(), Stream.CONTENT.AC3);
+        assertEquals(ac3.getType(), 0x2C);
+        assertEquals(ac3.getLanguage(), "deu");
+        assertEquals(ac3.getDescription(), "Deutsch");
     }
 }
 

@@ -102,8 +102,8 @@ public class EPGParser {
             case 'X':
                 lt = new StringTokenizer(line, " ");
                 lt.nextToken(); // skip the X
-                int content = Integer.parseInt(lt.nextToken());
-                int type = Integer.parseInt(lt.nextToken());
+                int content = Integer.parseInt(lt.nextToken(), 16);
+                int type = Integer.parseInt(lt.nextToken(), 16);
                 String iso3code = lt.nextToken();
                 
                 // parse the description, if available
@@ -116,7 +116,23 @@ public class EPGParser {
                 }
                 
                 Stream stream = new Stream();
-                stream.setContent(content == 1 ? Stream.CONTENT.VIDEO : Stream.CONTENT.AUDIO);
+                switch(content) {
+                case 1:
+                    stream.setContent(Stream.CONTENT.VIDEO);
+                    break;
+                case 2:
+                    stream.setContent(Stream.CONTENT.AUDIO);
+                    break;
+                case 3:
+                    stream.setContent(Stream.CONTENT.SUBTITLE);
+                    break;
+                case 4:
+                    stream.setContent(Stream.CONTENT.AC3);
+                    break;
+                default:
+                    stream.setContent(Stream.CONTENT.UNKNOWN);
+                    break;
+                }
                 stream.setType(type);
                 stream.setLanguage(iso3code);
                 stream.setDescription(desc);
