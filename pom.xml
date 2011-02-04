@@ -43,7 +43,7 @@ This version is compatible with VDR 1.6.0-2 and earlier. Maybe newer version wor
     	<url>https://developer.berlios.de/bugs/?group_id=4483</url>
     </issueManagement>
     <ciManagement>
-    	<system>Hudson CI</system>
+    	<system>Jenkins CI</system>
     	<url>http://hampelratte.org/ci/job/svdrp4j</url>
     </ciManagement>
     <scm>
