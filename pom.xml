@@ -3,7 +3,7 @@
     <parent>
         <artifactId>master</artifactId>
         <groupId>org.hampelratte</groupId>
-        <version>2</version>
+        <version>3</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>svdrp4j</artifactId>
@@ -44,7 +44,7 @@ This version is compatible with VDR 1.6.0-2 and earlier. Maybe newer version wor
     </issueManagement>
     <ciManagement>
     	<system>Hudson CI</system>
-    	<url>http://hampelratte.org/hudson/job/svdrp4j</url>
+    	<url>http://hampelratte.org/ci/job/svdrp4j</url>
     </ciManagement>
     <scm>
     	<connection>scm:cvs:pserver:anonymous@cvs.lazybones.berlios.de:/cvsroot/lazybones</connection>
