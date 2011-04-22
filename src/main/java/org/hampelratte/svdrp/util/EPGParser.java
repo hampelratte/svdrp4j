@@ -118,16 +118,22 @@ public class EPGParser {
                 Stream stream = new Stream();
                 switch(content) {
                 case 1:
-                    stream.setContent(Stream.CONTENT.VIDEO);
+                    stream.setContent(Stream.CONTENT.MP2V);
                     break;
                 case 2:
-                    stream.setContent(Stream.CONTENT.AUDIO);
+                    stream.setContent(Stream.CONTENT.MP2A);
                     break;
                 case 3:
                     stream.setContent(Stream.CONTENT.SUBTITLE);
                     break;
                 case 4:
                     stream.setContent(Stream.CONTENT.AC3);
+                    break;
+                case 5:
+                    stream.setContent(Stream.CONTENT.H264);
+                    break;
+                case 6:
+                    stream.setContent(Stream.CONTENT.HEAAC);
                     break;
                 default:
                     stream.setContent(Stream.CONTENT.UNKNOWN);

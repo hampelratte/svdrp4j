@@ -190,7 +190,7 @@ public class EPGEntry {
         List<Stream> audioStreams = new ArrayList<Stream>(getStreams());
         for (Iterator<Stream> iterator = audioStreams.iterator(); iterator.hasNext();) {
             Stream stream = iterator.next();
-            if(stream.getContent() != Stream.CONTENT.AUDIO && stream.getContent() != Stream.CONTENT.AC3) {
+            if(stream.getContent() != Stream.CONTENT.MP2A && stream.getContent() != Stream.CONTENT.AC3 && stream.getContent() != Stream.CONTENT.HEAAC) {
                 iterator.remove();
             }
         }

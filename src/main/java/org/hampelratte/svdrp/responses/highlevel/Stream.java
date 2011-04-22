@@ -31,7 +31,7 @@ package org.hampelratte.svdrp.responses.highlevel;
 
 public class Stream {
     public static enum CONTENT {
-        VIDEO, AUDIO, SUBTITLE, AC3, UNKNOWN
+        MP2V, MP2A, SUBTITLE, AC3, H264, HEAAC, UNKNOWN
     }
 
     private CONTENT content;
