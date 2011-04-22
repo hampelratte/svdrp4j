@@ -37,15 +37,31 @@ import org.hampelratte.svdrp.Command;
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  */
 public class PLAY extends Command {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
+    public static final String BEGIN = "begin";
+    
+    int startFrame = -1;
+    
+    String startTime = null;
+    
     int recordingNumber;
     
     /**
      * @param recordingNumber
      */
     public PLAY(int recordingNumber) {
+        this(recordingNumber, -1);
+    }
+    
+    public PLAY(int recordingNumber, int startFrame) {
         this.recordingNumber = recordingNumber;
+        this.startFrame = startFrame;
+    }
+    
+    public PLAY(int recordingNumber, String startTime) {
+        this.recordingNumber = recordingNumber;
+        this.startTime = startTime;
     }
 
     public int getRecordingNumber() {
@@ -55,14 +71,52 @@ public class PLAY extends Command {
     public void setRecordingNumber(int recordingNumber) {
         this.recordingNumber = recordingNumber;
     }
+    
+    public int getStartFrame() {
+        return startFrame;
+    }
+
+    /**
+     * Sets the frame to begin with. A previously set start time will be reset.
+     * 
+     * @param startFrame
+     */
+    public void setStartFrame(int startFrame) {
+        this.startFrame = startFrame;
+        this.startTime = null;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    /**
+     * Sets the start time to begin with in the format hh:mm:ss[.ff] or {@link PLAY#BEGIN}. A previously set start frame will be reset.
+     * 
+     * @param startTime
+     *            in the format hh:mm:ss[.ff] or {@link PLAY#BEGIN}
+     */
+    public void setStartTime(String startTime) {
+        if (startTime != null && !("begin".equals(startTime) || startTime.matches("\\d\\d:\\d\\d:\\d\\d(?:\\.\\d\\d)?")) ) {
+            throw new IllegalArgumentException("Start time has to be in the format hh:mm:ss[.ff]");
+        }
+        this.startTime = startTime;
+        this.startFrame = -1;
+    }
 
     @Override
     public String getCommand() {
-        return "PLAY " + recordingNumber;
+        String command = "PLAY " + recordingNumber;
+        if(startFrame > -1) {
+            command += " " + startFrame;
+        } else if(startTime != null) {
+            command += " " + startTime;
+        }
+        return command;
     }
 
     @Override
     public String toString() {
-        return "PLAY";
+        return getCommand();
     }
 }
