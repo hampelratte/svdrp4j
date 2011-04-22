@@ -64,7 +64,11 @@ public class CHAN extends Command {
     public CHAN(String parameter) {
         this.parameter = parameter;
     }
-
+    
+    public CHAN(int channelNumber) {
+        this.parameter = Integer.toString(channelNumber);
+    }
+    
     @Override
     public String getCommand() {
         String cmd = "CHAN " + parameter;
