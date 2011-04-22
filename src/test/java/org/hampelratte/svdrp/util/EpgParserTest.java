@@ -148,40 +148,40 @@ public class EpgParserTest {
         assertEquals(3, entry.getAudioStreams().size());
         
         Stream video16_9 = entry.getStreams().get(0);
-        assertEquals(video16_9.getContent(), Stream.CONTENT.VIDEO);
-        assertEquals(video16_9.getType(), 3);
-        assertEquals(video16_9.getLanguage(), "deu");
-        assertEquals(video16_9.getDescription(), "16:9");
+        assertEquals(Stream.CONTENT.MP2V, video16_9.getContent());
+        assertEquals(3, video16_9.getType());
+        assertEquals("deu", video16_9.getLanguage());
+        assertEquals("16:9", video16_9.getDescription());
         
         Stream audioStereo = entry.getStreams().get(1);
-        assertEquals(audioStereo.getContent(), Stream.CONTENT.AUDIO);
-        assertEquals(audioStereo.getType(), 3);
-        assertEquals(audioStereo.getLanguage(), "deu");
-        assertEquals(audioStereo.getDescription(), "stereo");
+        assertEquals(Stream.CONTENT.MP2A, audioStereo.getContent());
+        assertEquals(3, audioStereo.getType());
+        assertEquals("deu", audioStereo.getLanguage());
+        assertEquals("stereo", audioStereo.getDescription());
         
         Stream audioNoDesc = entry.getStreams().get(2);
-        assertEquals(audioNoDesc.getContent(), Stream.CONTENT.SUBTITLE);
-        assertEquals(audioNoDesc.getType(), 1);
-        assertEquals(audioNoDesc.getLanguage(), "deu");
-        assertEquals(audioNoDesc.getDescription(), "N/A");
+        assertEquals(Stream.CONTENT.SUBTITLE, audioNoDesc.getContent());
+        assertEquals(1, audioNoDesc.getType());
+        assertEquals("deu", audioNoDesc.getLanguage());
+        assertEquals("N/A", audioNoDesc.getDescription());
         
         Stream audioWoDesc = entry.getStreams().get(3);
-        assertEquals(audioWoDesc.getContent(), Stream.CONTENT.AUDIO);
-        assertEquals(audioWoDesc.getType(), 3);
-        assertEquals(audioWoDesc.getLanguage(), "deu");
-        assertEquals(audioWoDesc.getDescription(), "ohne Audiodeskription");
+        assertEquals(Stream.CONTENT.MP2A, audioWoDesc.getContent());
+        assertEquals(3, audioWoDesc.getType());
+        assertEquals("deu", audioWoDesc.getLanguage());
+        assertEquals("ohne Audiodeskription", audioWoDesc.getDescription());
         
         Stream video16_9_2 = entry.getStreams().get(4);
-        assertEquals(video16_9_2.getContent(), Stream.CONTENT.UNKNOWN);
-        assertEquals(video16_9_2.getType(), 0x0B);
-        assertEquals(video16_9_2.getLanguage(), "deu");
-        assertEquals(video16_9_2.getDescription(), "16:9");
+        assertEquals(Stream.CONTENT.H264, video16_9_2.getContent());
+        assertEquals(0x0B, video16_9_2.getType());
+        assertEquals("deu", video16_9_2.getLanguage());
+        assertEquals("16:9", video16_9_2.getDescription());
         
         Stream ac3 = entry.getStreams().get(5);
-        assertEquals(ac3.getContent(), Stream.CONTENT.AC3);
-        assertEquals(ac3.getType(), 0x2C);
-        assertEquals(ac3.getLanguage(), "deu");
-        assertEquals(ac3.getDescription(), "Deutsch");
+        assertEquals(Stream.CONTENT.AC3, ac3.getContent());
+        assertEquals(0x2C, ac3.getType());
+        assertEquals("deu", ac3.getLanguage());
+        assertEquals("Deutsch", ac3.getDescription());
     }
 }
 
