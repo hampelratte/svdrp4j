@@ -57,6 +57,10 @@ public class LSTC extends Command {
     public LSTC(String channel) {
         this.channel = channel;
     }
+    
+    public LSTC(int channel) {
+        this.channel = Integer.toString(channel);
+    }
 
     @Override
     public String getCommand() {
