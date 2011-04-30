@@ -40,6 +40,7 @@ import java.util.Arrays;
 public class DVBChannel extends BroadcastChannel {
     private static final long serialVersionUID = 1L;
     
+    public static final int QAM = 998;
     public static final int AUTOMATIC = 999;
 
     // Parameters
@@ -391,7 +392,7 @@ public class DVBChannel extends BroadcastChannel {
         }
         
         // validate modulation
-        validValues = new int[] {-1, 0, 16, 32, 64, 128, 256, AUTOMATIC};
+        validValues = new int[] {-1, 0, 2, 5, 6, 10, 11, 16, 32, 64, 128, 256, QAM, AUTOMATIC};
         valid = validateArray(validValues, modulation);
         if(!valid) {
             throwIllegalArgumentException("Modulation", modulation, validValues);
