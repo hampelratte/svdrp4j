@@ -47,6 +47,8 @@ public class RecordingsParser {
      */
     public static List<Recording> parse(String response) {
         ArrayList<Recording> list = new ArrayList<Recording>();
+        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yy HH:mm");
+        StringBuffer title = new StringBuffer();
         StringTokenizer st = new StringTokenizer(response, "\n");
         while(st.hasMoreTokens()) {
             String line = st.nextToken();
@@ -63,7 +65,6 @@ public class RecordingsParser {
                 date = date.substring(0, date.length()-1);
             }
 
-            SimpleDateFormat df = new SimpleDateFormat("dd.MM.yy HH:mm");
             try {
                 recording.setStartTime(df.parse(date));
             } catch (ParseException e) {
@@ -71,7 +72,7 @@ public class RecordingsParser {
             }
             
             // parse title
-            StringBuffer title = new StringBuffer();
+            title.setLength(0);
             while(st2.hasMoreTokens()) {
                 title.append(st2.nextToken());
                 title.append(' ');
