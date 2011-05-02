@@ -69,8 +69,10 @@ public class EPGEntry {
     
     private List<Stream> streams = new ArrayList<Stream>();
 
+    // TODO move to Recording.java
     private int priority = 0;
     
+    // TODO move to Recording.java
     private int lifetime = 0;
     
     public EPGEntry() {
