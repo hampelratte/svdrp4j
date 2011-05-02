@@ -1,0 +1,9 @@
+215-C S19.2E-1-1101-28106 Das Erste
+215-E 30780 1283104800 900 4E FF
+215-T Tagesschau
+215-D * Bundeskanzlerin Merkel zur Zukunft der schwarz-gelben Koalition * Gewerkschaften fordern höhere Gehälter * Sport: Bundesliga, Basketball-WM und Formel 1
+215-X 2 03 deu 
+215-X 2 03 2ch 
+215-X 2 05 deu 
+215-V 1283104800
+215 End of recording information
