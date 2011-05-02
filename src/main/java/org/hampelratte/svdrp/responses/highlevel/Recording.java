@@ -46,6 +46,11 @@ public class Recording extends EPGEntry implements Comparable<Recording> {
     
     private String display;
     
+    // TODO extend the unit test for lifetime and priority
+    private int priority = 0;
+    
+    private int lifetime = 0;
+    
     public Recording() { 
     }
     
@@ -54,14 +59,11 @@ public class Recording extends EPGEntry implements Comparable<Recording> {
     }
     
     public void copyFrom(EPGEntry entry) {
-        // TODO write a unit test, which tests, if all values are set correct
         super.setChannelID(entry.getChannelID());
         super.setChannelName(entry.getChannelName());
         super.setDescription(entry.getDescription());
         super.setEndTime(entry.getEndTime());
         super.setEventID(entry.getEventID());
-        super.setLifetime(entry.getLifetime());
-        super.setPriority(entry.getPriority());
         super.setShortText(entry.getShortText());
         super.setStartTime(entry.getStartTime());
         super.setStreams(entry.getStreams());
@@ -94,6 +96,10 @@ public class Recording extends EPGEntry implements Comparable<Recording> {
         }
         return display;
     }
+    
+    public void setDisplayTitle(String display) {
+        this.display = display;
+    }
 
     public void setTitle(String title) {
         super.setTitle(title);
@@ -110,6 +116,22 @@ public class Recording extends EPGEntry implements Comparable<Recording> {
     
     public boolean isCut() {
         return getTitle().startsWith("%") || getTitle().contains("~%");
+    }
+    
+    public int getPriority() {
+        return priority;
+    }
+    
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+    
+    public int getLifetime() {
+        return lifetime;
+    }
+    
+    public void setLifetime(int lifetime) {
+        this.lifetime = lifetime;
     }
     
     public String toString() {

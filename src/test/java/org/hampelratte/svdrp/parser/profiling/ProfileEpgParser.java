@@ -48,7 +48,7 @@ public class ProfileEpgParser {
             conn = new Connection("192.168.0.1", 2001, 500, "utf-8");
             Response resp = conn.send(new LSTE());
             long start = System.currentTimeMillis();
-            List<EPGEntry> entries = EPGParser.parse(resp.getMessage());
+            List<EPGEntry> entries = new EPGParser().parse(resp.getMessage());
             long stop = System.currentTimeMillis();
             System.out.println("Parsed " + entries.size() + " entries in " + (stop - start) + " ms");
         } catch (UnknownHostException e) {

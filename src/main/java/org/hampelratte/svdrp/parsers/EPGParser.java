@@ -38,131 +38,133 @@ import org.hampelratte.svdrp.responses.highlevel.Stream;
 
 
 public class EPGParser {
+    protected String currentChannelID, currentChannelName;
+    protected EPGEntry epg;
+    protected List<EPGEntry> list;
 
-    public static List<EPGEntry> parse(String epgData) {
-        ArrayList<EPGEntry> list = new ArrayList<EPGEntry>();
+    public List<EPGEntry> parse(String epgData) {
+        currentChannelID = null;
+        currentChannelName = null;
+        epg = null;
+        list = new ArrayList<EPGEntry>();
+        
         StringTokenizer st = new StringTokenizer(epgData, "\n");
-        EPGEntry epg = null;
-        String currentChannelID = null, currentChannelName = null;
         while (st.hasMoreTokens()) {
             String line = st.nextToken();
             if (line.startsWith("End")) {
                 return list;
             }
-            
-            switch (line.charAt(0)) {
-            case 'C':
-                /* Channel */
-                int start = line.indexOf(' ') + 1;
-                int stop = line.indexOf(' ', start + 1);
-                stop = stop > 0 ? stop : line.length();
-                currentChannelID = line.substring(start, stop);
-                if(stop < line.length()) {
-                    start = stop + 1;
-                    currentChannelName = line.substring(start, line.length());
-                }
-                break;
-            case 'E':
-                /* EPG start */
-                epg = new EPGEntry();
-                epg.setChannelID(currentChannelID);
-                epg.setChannelName(currentChannelName);
-
-                StringTokenizer lt = new StringTokenizer(line, " ");
-                lt.nextToken(); // skip the e
-                epg.setEventID(Integer.parseInt(lt.nextToken()));
-                int startTime = Integer.parseInt(lt.nextToken());
-                int duration = Integer.parseInt(lt.nextToken());
-                int endTime = startTime + duration;
-                epg.setStartTime(startTime * 1000L);
-                epg.setEndTime(endTime * 1000L);
-                epg.setTableID(Integer.parseInt(lt.nextToken(), 16));
-                if(lt.hasMoreElements()) {
-                    epg.setVersion(Integer.parseInt(lt.nextToken(), 16));
-                }
-                break;
-            case 'T':
-                /* Title */
-                epg.setTitle(line.substring(2));
-                break;
-            case 'S':
-                /* Short text */
-                String shorttext = line.substring(2).replace('|', '\n');
-                epg.setShortText(shorttext);
-                break;
-            case 'D':
-                /* Description */
-                String desc = line.substring(2).replace('|', '\n');
-                epg.setDescription(desc);
-                break;
-            case 'V':
-                /* VPS */
-                int vps = Integer.parseInt(line.substring(2));
-                epg.setVpsTime(vps * 1000L);
-                break;
-            case 'X':
-                lt = new StringTokenizer(line, " ");
-                lt.nextToken(); // skip the X
-                int content = Integer.parseInt(lt.nextToken(), 16);
-                int type = Integer.parseInt(lt.nextToken(), 16);
-                String iso3code = lt.nextToken();
-                
-                // parse the description, if available
-                desc = "N/A";
-                if(lt.hasMoreElements()) {
-                    desc = lt.nextToken();
-                    while(lt.hasMoreElements()) {
-                        desc += ' ' + lt.nextToken(); 
-                    }
-                }
-                
-                Stream stream = new Stream();
-                switch(content) {
-                case 1:
-                    stream.setContent(Stream.CONTENT.MP2V);
-                    break;
-                case 2:
-                    stream.setContent(Stream.CONTENT.MP2A);
-                    break;
-                case 3:
-                    stream.setContent(Stream.CONTENT.SUBTITLE);
-                    break;
-                case 4:
-                    stream.setContent(Stream.CONTENT.AC3);
-                    break;
-                case 5:
-                    stream.setContent(Stream.CONTENT.H264);
-                    break;
-                case 6:
-                    stream.setContent(Stream.CONTENT.HEAAC);
-                    break;
-                default:
-                    stream.setContent(Stream.CONTENT.UNKNOWN);
-                    break;
-                }
-                stream.setType(type);
-                stream.setLanguage(iso3code);
-                stream.setDescription(desc);
-                epg.getStreams().add(stream);
-                break;
-            case 'P':
-            	epg.setPriority(Integer.parseInt(line.substring(2)));
-            	break;
-            case 'L':
-            	epg.setLifetime(Integer.parseInt(line.substring(2)));
-            	break;
-            case 'e':
-                /* end of Entry */
-                list.add(epg);
-                epg = null;
-                break;
-            case 'c':
-                /* end of Channel (multiple entries) */
-                break;
-            default:
-                break;
-            }
+            parseLine(line, list);
         }
         return list;
+    }
+
+    protected void parseLine(String line, List<EPGEntry> list) {
+        switch (line.charAt(0)) {
+        case 'C':
+            /* Channel */
+            int start = line.indexOf(' ') + 1;
+            int stop = line.indexOf(' ', start + 1);
+            stop = stop > 0 ? stop : line.length();
+            currentChannelID = line.substring(start, stop);
+            if(stop < line.length()) {
+                start = stop + 1;
+                currentChannelName = line.substring(start, line.length());
+            }
+            break;
+        case 'E':
+            /* EPG start */
+            epg = new EPGEntry();
+            epg.setChannelID(currentChannelID);
+            epg.setChannelName(currentChannelName);
+            
+            StringTokenizer lt = new StringTokenizer(line, " ");
+            lt.nextToken(); // skip the e
+            epg.setEventID(Integer.parseInt(lt.nextToken()));
+            int startTime = Integer.parseInt(lt.nextToken());
+            int duration = Integer.parseInt(lt.nextToken());
+            int endTime = startTime + duration;
+            epg.setStartTime(startTime * 1000L);
+            epg.setEndTime(endTime * 1000L);
+            epg.setTableID(Integer.parseInt(lt.nextToken(), 16));
+            if(lt.hasMoreElements()) {
+                epg.setVersion(Integer.parseInt(lt.nextToken(), 16));
+            }
+            break;
+        case 'T':
+            /* Title */
+            epg.setTitle(line.substring(2));
+            break;
+        case 'S':
+            /* Short text */
+            String shorttext = line.substring(2).replace('|', '\n');
+            epg.setShortText(shorttext);
+            break;
+        case 'D':
+            /* Description */
+            String desc = line.substring(2).replace('|', '\n');
+            epg.setDescription(desc);
+            break;
+        case 'V':
+            /* VPS */
+            int vps = Integer.parseInt(line.substring(2));
+            epg.setVpsTime(vps * 1000L);
+            break;
+        case 'X':
+            lt = new StringTokenizer(line, " ");
+            lt.nextToken(); // skip the X
+            int content = Integer.parseInt(lt.nextToken(), 16);
+            int type = Integer.parseInt(lt.nextToken(), 16);
+            String iso3code = lt.nextToken();
+            
+            // parse the description, if available
+            desc = "N/A";
+            if(lt.hasMoreElements()) {
+                desc = lt.nextToken();
+                while(lt.hasMoreElements()) {
+                    desc += ' ' + lt.nextToken(); 
+                }
+            }
+            
+            Stream stream = new Stream();
+            switch(content) {
+            case 1:
+                stream.setContent(Stream.CONTENT.MP2V);
+                break;
+            case 2:
+                stream.setContent(Stream.CONTENT.MP2A);
+                break;
+            case 3:
+                stream.setContent(Stream.CONTENT.SUBTITLE);
+                break;
+            case 4:
+                stream.setContent(Stream.CONTENT.AC3);
+                break;
+            case 5:
+                stream.setContent(Stream.CONTENT.H264);
+                break;
+            case 6:
+                stream.setContent(Stream.CONTENT.HEAAC);
+                break;
+            default:
+                stream.setContent(Stream.CONTENT.UNKNOWN);
+                break;
+            }
+            stream.setType(type);
+            stream.setLanguage(iso3code);
+            stream.setDescription(desc);
+            epg.getStreams().add(stream);
+            break;
+        case 'e':
+            /* end of Entry */
+            list.add(epg);
+            epg = null;
+            break;
+        case 'c':
+            /* end of Channel (multiple entries) */
+            break;
+        default:
+            break;
+        }
     }
 }

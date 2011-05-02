@@ -61,7 +61,7 @@ public class EpgParserTest {
     
     @Test
     public void testChannelParsing() {
-        List<EPGEntry> entries = EPGParser.parse(epgData);
+        List<EPGEntry> entries = new EPGParser().parse(epgData);
         EPGEntry first = entries.get(0);
         
         assertEquals("S19.2E-133-5-1793", first.getChannelID());
@@ -74,7 +74,7 @@ public class EpgParserTest {
             "D Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..\n" + 
             "e\nc";
     
-        entries = EPGParser.parse(epgDataWithoutChannelName);
+        entries = new EPGParser().parse(epgDataWithoutChannelName);
         first = entries.get(0);
         
         assertEquals("S19.2E-133-5-1793", first.getChannelID());
@@ -83,7 +83,7 @@ public class EpgParserTest {
     
     @Test
     public void testEntryParsing() {
-        List<EPGEntry> entries = EPGParser.parse(epgData);
+        List<EPGEntry> entries = new EPGParser().parse(epgData);
         EPGEntry first = entries.get(0);
 
         assertEquals(12667, first.getEventID());                    // event id
@@ -103,21 +103,21 @@ public class EpgParserTest {
             "D Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..\n" +
             "e\nc";
         
-        entries = EPGParser.parse(epgDataWithoutVersion);
+        entries = new EPGParser().parse(epgDataWithoutVersion);
         first = entries.get(0);
         assertEquals(0, first.getVersion());
     }
     
     @Test
     public void testTitleParsing() {
-        List<EPGEntry> entries = EPGParser.parse(epgData);
+        List<EPGEntry> entries = new EPGParser().parse(epgData);
         EPGEntry first = entries.get(0);
         assertEquals("Program Title", first.getTitle());
     }
     
     @Test
     public void testVpsTime() {
-        List<EPGEntry> entries = EPGParser.parse(epgData);
+        List<EPGEntry> entries = new EPGParser().parse(epgData);
         EPGEntry first = entries.get(0);
         Calendar vpsTime = GregorianCalendar.getInstance();
         vpsTime.setTimeInMillis(1274605200 * 1000L);
@@ -126,7 +126,7 @@ public class EpgParserTest {
     
     @Test
     public void testDescription() {
-        List<EPGEntry> entries = EPGParser.parse(epgData);
+        List<EPGEntry> entries = new EPGParser().parse(epgData);
         EPGEntry first = entries.get(0);
         String expected = "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..";        
         assertEquals(expected, first.getDescription());
@@ -135,7 +135,7 @@ public class EpgParserTest {
     
     @Test
     public void testShortDescription() {
-        List<EPGEntry> entries = EPGParser.parse(epgData);
+        List<EPGEntry> entries = new EPGParser().parse(epgData);
         EPGEntry first = entries.get(0);
         String expected = "Lorem ipsum dolor sit amet...";
         assertEquals(expected, first.getShortText());
@@ -143,7 +143,7 @@ public class EpgParserTest {
     
     @Test 
     public void testStreamTypes() {
-        List<EPGEntry> entries = EPGParser.parse(epgData);
+        List<EPGEntry> entries = new EPGParser().parse(epgData);
         EPGEntry entry = entries.get(0);
         
         assertEquals(6, entry.getStreams().size());

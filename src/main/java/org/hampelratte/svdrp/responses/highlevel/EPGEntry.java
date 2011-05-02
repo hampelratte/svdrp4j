@@ -69,12 +69,6 @@ public class EPGEntry {
     
     private List<Stream> streams = new ArrayList<Stream>();
 
-    // TODO move to Recording.java
-    private int priority = 0;
-    
-    // TODO move to Recording.java
-    private int lifetime = 0;
-    
     public EPGEntry() {
     }
 
@@ -215,22 +209,6 @@ public class EPGEntry {
     
     public void setStreams(List<Stream> streams) {
         this.streams = streams;
-    }
-    
-    public int getPriority() {
-    	return priority;
-    }
-    
-    public void setPriority(int priority) {
-    	this.priority = priority;
-    }
-    
-    public int getLifetime() {
-    	return lifetime;
-    }
-    
-    public void setLifetime(int lifetime) {
-    	this.lifetime = lifetime;
     }
     
     /**

@@ -4,7 +4,9 @@
 215-S Moderation: Catherine Vogel und Thomas Heyer
 215-D Themen u.a.:|* Suche nach Mirco wird fortgesetzt|* Amerikanischer Pastor will Koran verbrennen|* Aus für staatliches Glücksspiel-Monopol|* Frau gewürgt und vergewaltigt|* Glückwunsch Mario Adorf|* Wetten, wir kriegen's entspannter?|* NRW kompakt
 215-X 2 03 deu 
-215-X 2 03 2ch 
+215-X 2 03 2ch
+215-P 50
+215-L 99
 215-V 1283964600
 215-@ Themen u.a.:|* Suche nach Mirco wird fortgesetzt|* Amerikanischer Pastor will Koran verbrennen|* Aus für staatliches Glücksspiel-Monopol|* Frau gewürgt und vergewaltigt|* Glückwunsch Mario Adorf|* Wetten, wir kriegen's entspannter?|* NRW kompakt
 215 End of recording information

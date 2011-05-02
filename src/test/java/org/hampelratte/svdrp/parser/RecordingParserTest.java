@@ -76,7 +76,7 @@ public class RecordingParserTest {
         recordings = RecordingListParser.parse(conn.send(new LSTR()).getMessage());
         recording = recordings.get(2);
         String recordingData = conn.send(new LSTR(recording.getNumber())).getMessage();
-        recording = RecordingParser.parseRecording(recording, recordingData);
+        new RecordingParser().parseRecording(recording, recordingData);
     }
     
     @Test
@@ -175,6 +175,16 @@ public class RecordingParserTest {
     @Test
     public void testVersion() {
         assertEquals(0xFF, recording.getVersion());
+    }
+    
+    @Test
+    public void testPriority() {
+        assertEquals(50, recording.getPriority());
+    }
+    
+    @Test
+    public void testLifetime() {
+        assertEquals(99, recording.getLifetime());
     }
     
     @AfterClass 

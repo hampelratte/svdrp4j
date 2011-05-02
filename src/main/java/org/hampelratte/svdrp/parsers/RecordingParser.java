@@ -31,31 +31,29 @@ package org.hampelratte.svdrp.parsers;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.hampelratte.svdrp.responses.highlevel.EPGEntry;
 import org.hampelratte.svdrp.responses.highlevel.Recording;
 
+// MAYBE find a better design to reuse EPGParser
 public class RecordingParser extends EPGParser {
-    public static Recording parseRecording (String epgData) throws ParseException {
-        return parseRecording(null, epgData);
-    }
     
-    public static Recording parseRecording (Recording recording, String epgData) throws ParseException {
+    public void parseRecording (Recording recording, String epgData) throws ParseException {
         epgData = addEpgEntryEnd(epgData);
         List<EPGEntry> list = parse(epgData);
         if(!list.isEmpty()) {
             EPGEntry entry = list.get(0);
-            if(recording == null) {
-                recording = new Recording();
-            }
             recording.copyFrom(entry);
-            return recording;
+            recording.setPriority( ((Recording)entry).getPriority() );
+            recording.setLifetime( ((Recording)entry).getLifetime() );
+            recording.setDisplayTitle(entry.getTitle());
         } else {
             throw new ParseException("Couldn't parse recording. EPGParser returned an empty list.", -1); 
         }
     }
 
-    private static String addEpgEntryEnd(String epgData) {
+    private String addEpgEntryEnd(String epgData) {
         String[] lines = epgData.split("\n");
         StringBuffer mesg = new StringBuffer();
         for (int i = 0; i < lines.length; i++) {
@@ -65,5 +63,38 @@ public class RecordingParser extends EPGParser {
             mesg.append(lines[i] + "\n");
         };
         return mesg.toString();
+    }
+    
+    @Override
+    protected void parseLine(String line, List<EPGEntry> list) {
+        switch (line.charAt(0)) {
+        case 'E':
+            /* EPG start */
+            epg = new Recording();
+            epg.setChannelID(currentChannelID);
+            epg.setChannelName(currentChannelName);
+            
+            StringTokenizer lt = new StringTokenizer(line, " ");
+            lt.nextToken(); // skip the e
+            epg.setEventID(Integer.parseInt(lt.nextToken()));
+            int startTime = Integer.parseInt(lt.nextToken());
+            int duration = Integer.parseInt(lt.nextToken());
+            int endTime = startTime + duration;
+            epg.setStartTime(startTime * 1000L);
+            epg.setEndTime(endTime * 1000L);
+            epg.setTableID(Integer.parseInt(lt.nextToken(), 16));
+            if(lt.hasMoreElements()) {
+                epg.setVersion(Integer.parseInt(lt.nextToken(), 16));
+            }
+            break;
+        case 'P':
+            ((Recording)epg).setPriority(Integer.parseInt(line.substring(2)));
+            break;
+        case 'L':
+            ((Recording)epg).setLifetime(Integer.parseInt(line.substring(2)));
+            break;
+        default:
+            super.parseLine(line, list);
+        }
     }
 }
