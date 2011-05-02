@@ -27,62 +27,43 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.hampelratte.svdrp.util;
+package org.hampelratte.svdrp.parsers;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
+import org.hampelratte.svdrp.responses.highlevel.EPGEntry;
 import org.hampelratte.svdrp.responses.highlevel.Recording;
 
-
-public class RecordingsParser {
+public class RecordingParser extends EPGParser {
+    public static Recording parseRecording (String epgData) throws ParseException {
+        return parseRecording(null, epgData);
+    }
     
-    /**
-     * Parses a list of recordings and returns a List of Recordings
-     * @param response the response String of a LSTR
-     * @return a List of Recordings 
-     */
-    public static List<Recording> parse(String response) {
-        ArrayList<Recording> list = new ArrayList<Recording>();
-        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yy HH:mm");
-        StringBuffer title = new StringBuffer();
-        StringTokenizer st = new StringTokenizer(response, "\n");
-        while(st.hasMoreTokens()) {
-            String line = st.nextToken();
-            Recording recording = new Recording();
-            StringTokenizer st2 = new StringTokenizer(line);
-            // parse recording number
-            int number = Integer.parseInt(st2.nextToken());
-            recording.setNumber(number);
-            
-            // parse start date and time
-            String date = st2.nextToken() + " " + st2.nextToken();
-            if(date.endsWith("*")) {
-                recording.setNew(true);
-                date = date.substring(0, date.length()-1);
+    public static Recording parseRecording (Recording recording, String epgData) throws ParseException {
+        epgData = addEpgEntryEnd(epgData);
+        List<EPGEntry> list = parse(epgData);
+        if(!list.isEmpty()) {
+            EPGEntry entry = list.get(0);
+            if(recording == null) {
+                recording = new Recording();
             }
-
-            try {
-                recording.setStartTime(df.parse(date));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            
-            // parse title
-            title.setLength(0);
-            while(st2.hasMoreTokens()) {
-                title.append(st2.nextToken());
-                title.append(' ');
-            }
-            recording.setTitle(title.toString().trim());
-            
-            // add to result list
-            list.add(recording);
+            recording.copyFrom(entry);
+            return recording;
+        } else {
+            throw new ParseException("Couldn't parse recording. EPGParser returned an empty list.", -1); 
         }
-        
-        return list;
+    }
+
+    private static String addEpgEntryEnd(String epgData) {
+        String[] lines = epgData.split("\n");
+        StringBuffer mesg = new StringBuffer();
+        for (int i = 0; i < lines.length; i++) {
+            if (i == lines.length - 1) {
+                mesg.append("e\n");
+            }
+            mesg.append(lines[i] + "\n");
+        };
+        return mesg.toString();
     }
 }

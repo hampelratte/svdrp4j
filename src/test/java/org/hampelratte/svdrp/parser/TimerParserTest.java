@@ -27,7 +27,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.hampelratte.svdrp.util;
+package org.hampelratte.svdrp.parser;
 
 import static org.junit.Assert.*;
 
@@ -39,11 +39,13 @@ import java.util.List;
 import org.hampelratte.svdrp.Connection;
 import org.hampelratte.svdrp.commands.QUIT;
 import org.hampelratte.svdrp.mock.Server;
+import org.hampelratte.svdrp.parsers.TimerParser;
 import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 
 public class TimerParserTest {
 

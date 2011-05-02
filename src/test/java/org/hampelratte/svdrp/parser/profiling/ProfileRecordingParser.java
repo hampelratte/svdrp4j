@@ -27,7 +27,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.hampelratte.svdrp.util.profiling;
+package org.hampelratte.svdrp.parser.profiling;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -35,22 +35,23 @@ import java.util.List;
 
 import org.hampelratte.svdrp.Connection;
 import org.hampelratte.svdrp.Response;
-import org.hampelratte.svdrp.commands.LSTT;
-import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
-import org.hampelratte.svdrp.util.TimerParser;
+import org.hampelratte.svdrp.commands.LSTR;
+import org.hampelratte.svdrp.parsers.RecordingListParser;
+import org.hampelratte.svdrp.responses.highlevel.Recording;
 
-public class ProfileTimerParser {
 
-    public ProfileTimerParser() {
+public class ProfileRecordingParser {
+
+    public ProfileRecordingParser() {
         Connection conn = null;
         try {
             conn = new Connection("192.168.0.1", 2001, 500, "utf-8");
-            Response resp = conn.send(new LSTT());
+            Response resp = conn.send(new LSTR());
             for (int i = 0; i < 100; i++) {
                 long start = System.currentTimeMillis();
-                List<VDRTimer> timers = TimerParser.parse(resp.getMessage());
+                List<Recording> recordings = RecordingListParser.parse(resp.getMessage());
                 long stop = System.currentTimeMillis();
-                System.out.println("Parsed " + timers.size() + " timers in " + (stop - start) + " ms");
+                System.out.println("Parsed " + recordings.size() + " recordings in " + (stop - start) + " ms");
             }
         } catch (UnknownHostException e) {
             e.printStackTrace();
@@ -68,6 +69,6 @@ public class ProfileTimerParser {
     }
 
     public static void main(String[] args) {
-        new ProfileTimerParser();
+        new ProfileRecordingParser();
     }
 }

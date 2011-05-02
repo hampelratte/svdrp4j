@@ -27,37 +27,42 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.hampelratte.svdrp.util.profiling;
+package org.hampelratte.svdrp.parser.profiling;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.text.ParseException;
 import java.util.List;
 
 import org.hampelratte.svdrp.Connection;
 import org.hampelratte.svdrp.Response;
-import org.hampelratte.svdrp.commands.LSTR;
-import org.hampelratte.svdrp.responses.highlevel.Recording;
-import org.hampelratte.svdrp.util.RecordingsParser;
+import org.hampelratte.svdrp.commands.LSTC;
+import org.hampelratte.svdrp.parsers.ChannelParser;
+import org.hampelratte.svdrp.responses.highlevel.Channel;
 
-public class ProfileRecordingParser {
 
-    public ProfileRecordingParser() {
+public class ProfileChannelParser {
+    
+    public ProfileChannelParser() {
         Connection conn = null;
         try {
             conn = new Connection("192.168.0.1", 2001, 500, "utf-8");
-            Response resp = conn.send(new LSTR());
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 10; i++) {
+                Response resp = conn.send(new LSTC());
                 long start = System.currentTimeMillis();
-                List<Recording> recordings = RecordingsParser.parse(resp.getMessage());
+                List<Channel> chans = ChannelParser.parse(resp.getMessage(), false);
                 long stop = System.currentTimeMillis();
-                System.out.println("Parsed " + recordings.size() + " recordings in " + (stop - start) + " ms");
+                System.out.println("Parsed " + chans.size() + " channels in " + (stop - start) + " ms");
+
             }
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
         } finally {
-            if (conn != null) {
+            if(conn != null) {
                 try {
                     conn.close();
                 } catch (IOException e) {
@@ -65,9 +70,10 @@ public class ProfileRecordingParser {
                 }
             }
         }
+        
     }
-
+    
     public static void main(String[] args) {
-        new ProfileRecordingParser();
+        new ProfileChannelParser();
     }
 }

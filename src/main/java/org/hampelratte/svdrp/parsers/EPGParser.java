@@ -27,7 +27,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.hampelratte.svdrp.util;
+package org.hampelratte.svdrp.parsers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +49,7 @@ public class EPGParser {
             if (line.startsWith("End")) {
                 return list;
             }
+            
             switch (line.charAt(0)) {
             case 'C':
                 /* Channel */
@@ -144,6 +145,12 @@ public class EPGParser {
                 stream.setDescription(desc);
                 epg.getStreams().add(stream);
                 break;
+            case 'P':
+            	epg.setPriority(Integer.parseInt(line.substring(2)));
+            	break;
+            case 'L':
+            	epg.setLifetime(Integer.parseInt(line.substring(2)));
+            	break;
             case 'e':
                 /* end of Entry */
                 list.add(epg);

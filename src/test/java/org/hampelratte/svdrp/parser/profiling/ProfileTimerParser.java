@@ -27,7 +27,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.hampelratte.svdrp.util.profiling;
+package org.hampelratte.svdrp.parser.profiling;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -35,21 +35,24 @@ import java.util.List;
 
 import org.hampelratte.svdrp.Connection;
 import org.hampelratte.svdrp.Response;
-import org.hampelratte.svdrp.commands.LSTE;
-import org.hampelratte.svdrp.responses.highlevel.EPGEntry;
-import org.hampelratte.svdrp.util.EPGParser;
+import org.hampelratte.svdrp.commands.LSTT;
+import org.hampelratte.svdrp.parsers.TimerParser;
+import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
 
-public class ProfileEpgParser {
 
-    public ProfileEpgParser() {
+public class ProfileTimerParser {
+
+    public ProfileTimerParser() {
         Connection conn = null;
         try {
             conn = new Connection("192.168.0.1", 2001, 500, "utf-8");
-            Response resp = conn.send(new LSTE());
-            long start = System.currentTimeMillis();
-            List<EPGEntry> entries = EPGParser.parse(resp.getMessage());
-            long stop = System.currentTimeMillis();
-            System.out.println("Parsed " + entries.size() + " entries in " + (stop - start) + " ms");
+            Response resp = conn.send(new LSTT());
+            for (int i = 0; i < 100; i++) {
+                long start = System.currentTimeMillis();
+                List<VDRTimer> timers = TimerParser.parse(resp.getMessage());
+                long stop = System.currentTimeMillis();
+                System.out.println("Parsed " + timers.size() + " timers in " + (stop - start) + " ms");
+            }
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -66,6 +69,6 @@ public class ProfileEpgParser {
     }
 
     public static void main(String[] args) {
-        new ProfileEpgParser();
+        new ProfileTimerParser();
     }
 }

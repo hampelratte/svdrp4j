@@ -27,17 +27,19 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.hampelratte.svdrp.util;
+package org.hampelratte.svdrp.parser;
 
 import static junit.framework.Assert.*;
 
 import java.text.ParseException;
 import java.util.List;
 
+import org.hampelratte.svdrp.parsers.ChannelParser;
 import org.hampelratte.svdrp.responses.highlevel.Channel;
 import org.hampelratte.svdrp.responses.highlevel.DVBChannel;
 import org.hampelratte.svdrp.responses.highlevel.PvrInputChannel;
 import org.junit.Test;
+
 
 public class ChannelParserTest {
 
