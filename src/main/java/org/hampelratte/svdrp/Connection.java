@@ -94,7 +94,8 @@ public class Connection {
     private String encoding;
     
     /**
-     * Creates a new connection to host:port with timeout
+     * Creates a new connection to host:port with timeout and feault charset encoding UTF-8. Lazy Bones will try to detect the encoding of the VDR and override
+     * the default encoding, if a valid value is found.
      * 
      * @param host
      *            The host name or IP-address of the VDR
@@ -111,7 +112,8 @@ public class Connection {
     }
     
     /**
-     * Creates a new connection to host:port with timeout
+     * Creates a new connection to host:port with timeout and encoding. Lazy Bones will try to detect the encoding of the VDR and overrides the passed encoding,
+     * if a valid value is found. To disable this behaviour use {@link #Connection(String, int, int, String, boolean)} and set detectEncoding to false.
      * 
      * @param host
      *            The host name or IP-address of the VDR
@@ -124,17 +126,57 @@ public class Connection {
      * @throws UnknownHostException
      * @throws IOException
      */
-    public Connection(String host, int port, int timeout, String encoding) 
+    public Connection(String host, int port, int timeout, String encoding)
+    		throws UnknownHostException, IOException {
+    	this(host, port, timeout, "UTF-8", true);
+    }
+
+    /**
+     * Creates a new connection to host:port with timeout and encoding. If detectEncoding is set to true, Lazy Bones tries to detect the encoding of the VDR and
+     * overrides the passed encoding.
+     * 
+     * @param host
+     *            The host name or IP-address of the VDR
+     * @param port
+     *            The port of the SVDRP-server. Default is 2001
+     * @param timeout
+     *            The timeout for this connection
+     * @param encoding
+     *            The charset encoding used to talk to VDR
+     * @param detectEncoding
+     *            Enables the automatic detection of the charset encoding
+     * @throws UnknownHostException
+     * @throws IOException
+     */
+    public Connection(String host, int port, int timeout, String encoding, boolean detectEncoding) 
         throws UnknownHostException, IOException {
         this.encoding = encoding;
         socket = new Socket();
         InetSocketAddress sa = new InetSocketAddress(host, port);
+        
+        /*
+         * need SoTimeout to prevent blocking mode
+         */
         socket.connect(sa, timeout);
+        socket.setSoTimeout(timeout);
+
         out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), encoding));
         in = new BufferedReader(new InputStreamReader(socket.getInputStream(), encoding));
 
         // read the welcome message
-        Response res = readResponse();
+		Response res = null;
+		try {
+			res = readResponse();
+		} catch (IOException e1) {
+			// cleanup after timeout
+			out.close();
+			in.close();
+			try {
+				socket.close();
+			} catch (Exception e) {	}
+			throw (e1);
+		}
+		
         if (res.getCode() == 220) {
             String msg = res.getMessage().trim();
 
@@ -150,24 +192,26 @@ public class Connection {
             } catch (Exception e) {
                 version = new VDRVersion("1.0.0");
             }
-            
-            // try to parse the encoding
-            try {
-                int lastSemicolon = msg.lastIndexOf(';');
-                if(lastSemicolon > 0) {
-                    String lastSegment = msg.substring(lastSemicolon + 1).trim();
-                    if(Charset.availableCharsets().containsKey(lastSegment)) {
-                        logger.debug("VDR is running with charset {}", lastSegment);
-                        this.encoding = lastSegment;
-                        if(!this.encoding.equalsIgnoreCase(encoding)) {
-                            logger.debug("Connection has been established with encoding {}. Now switching to {}", encoding, this.encoding);
-                            out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), this.encoding));
-                            in = new BufferedReader(new InputStreamReader(socket.getInputStream(), this.encoding));
-                        }
-                    }
-                }
-            } catch (Exception e) { 
-                // fail silently 
+
+            if (detectEncoding) {
+	            // try to parse the encoding
+	            try {
+	                int lastSemicolon = msg.lastIndexOf(';');
+	                if(lastSemicolon > 0) {
+	                    String lastSegment = msg.substring(lastSemicolon + 1).trim();
+	                    if(Charset.availableCharsets().containsKey(lastSegment)) {
+	                        logger.debug("VDR is running with charset {}", lastSegment);
+	                        this.encoding = lastSegment;
+	                        if(!this.encoding.equalsIgnoreCase(encoding)) {
+	                            logger.debug("Connection has been established with encoding {}. Now switching to {}", encoding, this.encoding);
+	                            out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), this.encoding), 8192);
+	                            in = new BufferedReader(new InputStreamReader(socket.getInputStream(), this.encoding), 8192);
+	                        }
+	                    }
+	                }
+	            } catch (Exception e) { 
+	                // fail silently 
+	            }
             }
         } else {
             throw new IOException(res.getMessage());
@@ -175,16 +219,17 @@ public class Connection {
     }
 
     /**
+     * Creates a new connection to host:port with a timeout of 500ms and default charset encoding UTF-8. Lazy Bones will try to detect the encoding of the VDR
+     * and overrides the default encoding, if a valid value is found.
      * 
      * @param host
-     *            The host name or IP-address of the VDR
+     *            The host name or IP-address of the VDR.
      * @param port
-     *            The port of the SVDRP-server. Default is 2001
+     *            The port of the SVDRP-server. Default is 2001.
      * @throws UnknownHostException
      * @throws IOException
      */
-    public Connection(String host, int port) throws UnknownHostException,
-            IOException {
+    public Connection(String host, int port) throws UnknownHostException, IOException {
         this(host, port, 500);
     }
 
@@ -315,6 +360,18 @@ public class Connection {
      */
     public void close() throws IOException {
         send(new QUIT());
+        /*
+         * socket on vdr stays in FIN_WAIT2 without this
+         */
+        if (out != null) {
+        	out.close();
+        }
+        if (in != null) {
+        	in.close();
+        }
+		if (socket != null) {
+			socket.close();
+		}
     }
 
     /**
