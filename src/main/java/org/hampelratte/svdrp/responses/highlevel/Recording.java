@@ -39,25 +39,36 @@ import java.util.Date;
  *
  * Represents a recording of VDR
  */
-public class Recording implements Comparable<Recording> {
+public class Recording extends EPGEntry implements Comparable<Recording> {
     private int number;
-
-    private Calendar startTime;
     
     private boolean isNew = false;
-
-    private String title;
     
     private String display;
-
-    private EPGEntry epgInfo;
-
-    public EPGEntry getEpgInfo() {
-        return epgInfo;
+    
+    public Recording() { 
     }
-
-    public void setEpgInfo(EPGEntry epgInfo) {
-        this.epgInfo = epgInfo;
+    
+    public Recording(EPGEntry entry) {
+        copyFrom(entry);
+    }
+    
+    public void copyFrom(EPGEntry entry) {
+        // TODO write a unit test, which tests, if all values are set correct
+        super.setChannelID(entry.getChannelID());
+        super.setChannelName(entry.getChannelName());
+        super.setDescription(entry.getDescription());
+        super.setEndTime(entry.getEndTime());
+        super.setEventID(entry.getEventID());
+        super.setLifetime(entry.getLifetime());
+        super.setPriority(entry.getPriority());
+        super.setShortText(entry.getShortText());
+        super.setStartTime(entry.getStartTime());
+        super.setStreams(entry.getStreams());
+        super.setTableID(entry.getTableID());
+        display = entry.getTitle();
+        super.setVersion(entry.getVersion());
+        super.setVpsTime(entry.getVpsTime());
     }
 
     public int getNumber() {
@@ -67,23 +78,11 @@ public class Recording implements Comparable<Recording> {
     public void setNumber(int number) {
         this.number = number;
     }
-
-    public Calendar getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Calendar startTime) {
-        this.startTime = startTime;
-    }
     
     public void setStartTime(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(date.getTime());
         setStartTime(cal);
-    }
-
-    public String getTitle() {
-        return title;
     }
     
     public String getDisplayTitle() {
@@ -97,7 +96,7 @@ public class Recording implements Comparable<Recording> {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        super.setTitle(title);
         this.display = null; // reset the display name, so that it gets recalculated
     }
 
@@ -117,15 +116,10 @@ public class Recording implements Comparable<Recording> {
         return getNumber() + " "+ 
                 DateFormat.getDateTimeInstance().format(getStartTime().getTime()) + 
                 (isNew() ? "*" : "") + " " + 
-                getTitle() + 
-                (getEpgInfo() != null ? " - " + getEpgInfo() : "");
+                getTitle() + super.toString(); 
     }
 
     public int compareTo(Recording other) {
-        if(this.getEpgInfo() != null && other.getEpgInfo() != null) {
-            return this.getEpgInfo().getTitle().compareTo(other.getEpgInfo().getTitle());
-        } else {
-            return this.getTitle().compareTo(other.getTitle());
-        }
+        return this.getTitle().compareTo(other.getTitle());
     }
 }
