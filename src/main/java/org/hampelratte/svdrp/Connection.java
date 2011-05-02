@@ -101,34 +101,34 @@ public class Connection {
      *            The host name or IP-address of the VDR
      * @param port
      *            The port of the SVDRP-server. Default is 2001
-     * @param timeout
+     * @param connectTimeout
      *            The timeout for this connection
      * @throws UnknownHostException
      * @throws IOException
      */
-    public Connection(String host, int port, int timeout)
+    public Connection(String host, int port, int connectTimeout)
             throws UnknownHostException, IOException {
-        this(host, port, timeout, "UTF-8");
+        this(host, port, connectTimeout, "UTF-8");
     }
     
     /**
      * Creates a new connection to host:port with timeout and encoding. Lazy Bones will try to detect the encoding of the VDR and overrides the passed encoding,
-     * if a valid value is found. To disable this behaviour use {@link #Connection(String, int, int, String, boolean)} and set detectEncoding to false.
+     * if a valid value is found. To disable this behaviour use {@link #Connection(String, int, int, int, String, boolean)} and set detectEncoding to false.
      * 
      * @param host
      *            The host name or IP-address of the VDR
      * @param port
      *            The port of the SVDRP-server. Default is 2001
-     * @param timeout
+     * @param connectTimeout
      *            The timeout for this connection
      * @param encoding
      *            The charset encoding used to talk to VDR
      * @throws UnknownHostException
      * @throws IOException
      */
-    public Connection(String host, int port, int timeout, String encoding)
+    public Connection(String host, int port, int connectTimeout, String encoding)
     		throws UnknownHostException, IOException {
-    	this(host, port, timeout, "UTF-8", true);
+    	this(host, port, connectTimeout, 0, "UTF-8", true);
     }
 
     /**
@@ -139,8 +139,10 @@ public class Connection {
      *            The host name or IP-address of the VDR
      * @param port
      *            The port of the SVDRP-server. Default is 2001
-     * @param timeout
-     *            The timeout for this connection
+     * @param connectTimeout
+     *            The connect timeout for this connection
+     * @param readTimeout
+     *            The {@link Socket#setSoTimeout(int)} for this connection. Set to zero to disable.
      * @param encoding
      *            The charset encoding used to talk to VDR
      * @param detectEncoding
@@ -148,17 +150,14 @@ public class Connection {
      * @throws UnknownHostException
      * @throws IOException
      */
-    public Connection(String host, int port, int timeout, String encoding, boolean detectEncoding) 
+    public Connection(String host, int port, int connectTimeout, int readTimeout, String encoding, boolean detectEncoding) 
         throws UnknownHostException, IOException {
         this.encoding = encoding;
         socket = new Socket();
         InetSocketAddress sa = new InetSocketAddress(host, port);
         
-        /*
-         * need SoTimeout to prevent blocking mode
-         */
-        socket.connect(sa, timeout);
-        socket.setSoTimeout(timeout);
+        socket.connect(sa, connectTimeout);
+        socket.setSoTimeout(readTimeout);
 
         out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), encoding));
         in = new BufferedReader(new InputStreamReader(socket.getInputStream(), encoding));
