@@ -34,6 +34,12 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Represents one entry of a LSTE response.
+ * 
+ * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
+ * @author <a href="mailto:androvdr@googlemail.com">androvdr</a>
+ */
 public class EPGEntry {
 
     private String channelID = "";
@@ -63,6 +69,10 @@ public class EPGEntry {
     
     private List<Stream> streams = new ArrayList<Stream>();
 
+    private int priority = 0;
+    
+    private int lifetime = 0;
+    
     public EPGEntry() {
     }
 
@@ -104,6 +114,12 @@ public class EPGEntry {
      */
     public void setEndTime(long endTime) {
         this.endTime = endTime;
+        endTimeCal = null;
+    }
+    
+    public void setEndTime(Calendar endTime) {
+        this.endTime = endTime.getTimeInMillis();
+        this.endTimeCal = endTime;
     }
 
     public String getShortText() {
@@ -127,7 +143,14 @@ public class EPGEntry {
      * @param startTime as unix timestamp
      */
     public void setStartTime(long startTime) {
+        // TODO add a unit tests, which tests the reset of all setXxxTime methods
         this.startTime = startTime;
+        startTimeCal = null;
+    }
+    
+    public void setStartTime(Calendar startTime) {
+        this.startTime = startTime.getTimeInMillis();
+        this.startTimeCal = startTime;
     }
 
     public int getTableID() {
@@ -160,6 +183,12 @@ public class EPGEntry {
      */
     public void setVpsTime(long vpsTime) {
         this.vpsTime = vpsTime;
+        vpsTimeCal = null;
+    }
+    
+    public void setVpsTime(Calendar vpsTime) {
+        this.vpsTime = vpsTime.getTimeInMillis();
+        this.vpsTimeCal = vpsTime;
     }
 
     public int getEventID() {
@@ -180,6 +209,26 @@ public class EPGEntry {
     
     public List<Stream> getStreams() {
         return streams;
+    }
+    
+    public void setStreams(List<Stream> streams) {
+        this.streams = streams;
+    }
+    
+    public int getPriority() {
+    	return priority;
+    }
+    
+    public void setPriority(int priority) {
+    	this.priority = priority;
+    }
+    
+    public int getLifetime() {
+    	return lifetime;
+    }
+    
+    public void setLifetime(int lifetime) {
+    	this.lifetime = lifetime;
     }
     
     /**
