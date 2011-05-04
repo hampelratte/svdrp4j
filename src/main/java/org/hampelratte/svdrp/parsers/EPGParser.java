@@ -75,21 +75,7 @@ public class EPGParser {
         case 'E':
             /* EPG start */
             epg = new EPGEntry();
-            epg.setChannelID(currentChannelID);
-            epg.setChannelName(currentChannelName);
-            
-            StringTokenizer lt = new StringTokenizer(line, " ");
-            lt.nextToken(); // skip the e
-            epg.setEventID(Integer.parseInt(lt.nextToken()));
-            int startTime = Integer.parseInt(lt.nextToken());
-            int duration = Integer.parseInt(lt.nextToken());
-            int endTime = startTime + duration;
-            epg.setStartTime(startTime * 1000L);
-            epg.setEndTime(endTime * 1000L);
-            epg.setTableID(Integer.parseInt(lt.nextToken(), 16));
-            if(lt.hasMoreElements()) {
-                epg.setVersion(Integer.parseInt(lt.nextToken(), 16));
-            }
+            parseEventLine(line);
             break;
         case 'T':
             /* Title */
@@ -111,7 +97,7 @@ public class EPGParser {
             epg.setVpsTime(vps * 1000L);
             break;
         case 'X':
-            lt = new StringTokenizer(line, " ");
+            StringTokenizer lt = new StringTokenizer(line, " ");
             lt.nextToken(); // skip the X
             int content = Integer.parseInt(lt.nextToken(), 16);
             int type = Integer.parseInt(lt.nextToken(), 16);
@@ -165,6 +151,24 @@ public class EPGParser {
             break;
         default:
             break;
+        }
+    }
+
+    protected void parseEventLine(String line) {
+        epg.setChannelID(currentChannelID);
+        epg.setChannelName(currentChannelName);
+        
+        StringTokenizer lt = new StringTokenizer(line, " ");
+        lt.nextToken(); // skip the e
+        epg.setEventID(Integer.parseInt(lt.nextToken()));
+        int startTime = Integer.parseInt(lt.nextToken());
+        int duration = Integer.parseInt(lt.nextToken());
+        int endTime = startTime + duration;
+        epg.setStartTime(startTime * 1000L);
+        epg.setEndTime(endTime * 1000L);
+        epg.setTableID(Integer.parseInt(lt.nextToken(), 16));
+        if(lt.hasMoreElements()) {
+            epg.setVersion(Integer.parseInt(lt.nextToken(), 16));
         }
     }
 }

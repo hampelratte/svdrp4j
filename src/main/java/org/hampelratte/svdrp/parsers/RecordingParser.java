@@ -31,7 +31,6 @@ package org.hampelratte.svdrp.parsers;
 
 import java.text.ParseException;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import org.hampelratte.svdrp.responses.highlevel.EPGEntry;
 import org.hampelratte.svdrp.responses.highlevel.Recording;
@@ -71,21 +70,7 @@ public class RecordingParser extends EPGParser {
         case 'E':
             /* EPG start */
             epg = new Recording();
-            epg.setChannelID(currentChannelID);
-            epg.setChannelName(currentChannelName);
-            
-            StringTokenizer lt = new StringTokenizer(line, " ");
-            lt.nextToken(); // skip the e
-            epg.setEventID(Integer.parseInt(lt.nextToken()));
-            int startTime = Integer.parseInt(lt.nextToken());
-            int duration = Integer.parseInt(lt.nextToken());
-            int endTime = startTime + duration;
-            epg.setStartTime(startTime * 1000L);
-            epg.setEndTime(endTime * 1000L);
-            epg.setTableID(Integer.parseInt(lt.nextToken(), 16));
-            if(lt.hasMoreElements()) {
-                epg.setVersion(Integer.parseInt(lt.nextToken(), 16));
-            }
+            parseEventLine(line);
             break;
         case 'P':
             ((Recording)epg).setPriority(Integer.parseInt(line.substring(2)));
