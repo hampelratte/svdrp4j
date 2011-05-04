@@ -59,6 +59,14 @@ This version is compatible with VDR 1.6.0-2 and earlier. Maybe newer version wor
                     <include>LICENSE.txt</include>
                 </includes>
             </resource>
+            <resource>
+                <directory>${basedir}/src/test/resources</directory>
+                <targetPath>${project.build.directory}/test-classes</targetPath>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
         </resources>
         <plugins>
             <plugin>
