@@ -46,7 +46,6 @@ public class Recording extends EPGEntry implements Comparable<Recording> {
     
     private String display;
     
-    // TODO extend the unit test for lifetime and priority
     private int priority = 0;
     
     private int lifetime = 0;

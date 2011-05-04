@@ -139,7 +139,6 @@ public class EPGEntry {
      * @param startTime as unix timestamp
      */
     public void setStartTime(long startTime) {
-        // TODO add a unit tests, which tests the reset of all setXxxTime methods
         this.startTime = startTime;
         startTimeCal = null;
     }
