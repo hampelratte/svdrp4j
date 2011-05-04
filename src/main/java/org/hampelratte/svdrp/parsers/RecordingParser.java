@@ -35,7 +35,6 @@ import java.util.List;
 import org.hampelratte.svdrp.responses.highlevel.EPGEntry;
 import org.hampelratte.svdrp.responses.highlevel.Recording;
 
-// MAYBE find a better design to reuse EPGParser
 public class RecordingParser extends EPGParser {
     
     public void parseRecording (Recording recording, String epgData) throws ParseException {
@@ -67,11 +66,6 @@ public class RecordingParser extends EPGParser {
     @Override
     protected void parseLine(String line, List<EPGEntry> list) {
         switch (line.charAt(0)) {
-        case 'E':
-            /* EPG start */
-            epg = new Recording();
-            parseEventLine(line);
-            break;
         case 'P':
             ((Recording)epg).setPriority(Integer.parseInt(line.substring(2)));
             break;
@@ -81,5 +75,10 @@ public class RecordingParser extends EPGParser {
         default:
             super.parseLine(line, list);
         }
+    }
+    
+    @Override
+    protected EPGEntry createNewEpgEntry() {
+        return new Recording();
     }
 }
