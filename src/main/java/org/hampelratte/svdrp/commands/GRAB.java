@@ -74,32 +74,6 @@ public class GRAB extends Command {
     }
 
     /**
-     * Returns the format of the screenshot
-     * 
-     * @return The format of the screenshot ("jpeg" or "pnm")
-     * @deprecated
-     */
-    public String getFormat() {
-        return format;
-    }
-
-    /**
-     * Sets the format of the screenshot
-     * 
-     * @param format
-     *            The format of the screenshot ("jpeg" or "pnm")
-     * @deprecated format is determined from the filename suffix. If you want
-     *             the data to be sent to the SVDRP connection use the suffix
-     *             as filename, e.g. ".jpeg" or ".pnm"
-     * @see #setFilename(String)
-     */
-    public void setFormat(String format) {
-        if ("jpeg".equals(format) || "pnm".equals(format)) {
-            this.format = format;
-        }
-    }
-
-    /**
      * Returns the quality of the screenshot. This parameter only applies to the
      * jpeg format
      * 
