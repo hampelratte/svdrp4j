@@ -71,7 +71,7 @@ public class CLRE extends Command {
         if(param != null) {
             command += " " + param;
         }
-        return command;
+        return command.trim();
     }
     
     @Override
