@@ -40,11 +40,11 @@ import org.hampelratte.svdrp.Command;
 public class GRAB extends Command {
     private static final long serialVersionUID = 2L;
     
-    private int quality = 80;
+    private int quality = -1;
 
-    private Resolution resolution = new Resolution(400, 300);
+    private Resolution resolution;
 
-    private String filename = "/tmp/screen.jpg";
+    private String filename;
 
     public GRAB() {}
     
@@ -60,7 +60,23 @@ public class GRAB extends Command {
 
     @Override
     public String getCommand() {
-        String cmd = "GRAB " + filename + " " + quality + " " + resolution;
+        String cmd = "GRAB";
+        if(filename != null) {
+            cmd = cmd.concat(" ").concat(filename);
+        } else {
+            cmd = cmd.concat(" .jpg");
+        }
+        
+        // if quality or resolution is set, we have to add the quality and maybe the resolution, also.
+        if(quality > 0 || resolution != null) {
+            // if quality is set, use the defined value, else use 80 as default
+            cmd = cmd.concat(" ").concat(quality > 0 ? Integer.toString(quality) : "80");
+            
+            // if resolution is set, append it to the command
+            if(resolution != null) {
+                cmd += " " + Integer.toString(resolution.getWidth()) + " " + Integer.toString(resolution.getHeight()); 
+            }
+        }
         return cmd.trim();
     }
 
