@@ -38,18 +38,19 @@ import java.util.regex.Pattern;
 
 import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
 
-
 /**
  * Parses a list of timers received from VDR by the LSTT command
  * 
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
- *
+ * 
  */
-//FIXME für repeating timer die start und endzeit richtig setzen
+// FIXME für repeating timer die start und endzeit richtig setzen
 public class TimerParser {
     /**
      * Parses a list of timers received from VDR by the LSTT command
-     * @param timerData A list of timers received from VDR by LSTT command
+     * 
+     * @param timerData
+     *            A list of timers received from VDR by LSTT command
      * @return A list of VDRTimer objects
      */
     public static List<VDRTimer> parse(String timerData) {
@@ -74,7 +75,7 @@ public class TimerParser {
             String desc = "";
             while (st.hasMoreTokens()) {
                 desc += st.nextToken();
-                if(st.hasMoreTokens()) {
+                if (st.hasMoreTokens()) {
                     desc += ":";
                 }
             }
@@ -99,9 +100,8 @@ public class TimerParser {
     }
 
     /**
-     * Parses the day of a timer. this can have the following formats: 19 (1-31)
-     * 2005-03-19 MTWTFSS MTWTFSS@19 MTWTFSS@2005-03-19
-     * The results will be stored in the passed timer object
+     * Parses the day of a timer. This can have the following formats: 19 (1-31) 2005-03-19 MTWTFSS MTWTFSS@19 MTWTFSS@2005-03-19. The results will be stored in
+     * the passed timer object.
      */
     private static void parseDay(VDRTimer timer, String day, String startString, String endString) {
         Calendar startTime = timer.getStartTime();
