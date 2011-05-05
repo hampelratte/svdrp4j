@@ -143,6 +143,7 @@ public class GRAB extends Command {
         this.filename = filename;
     }
     
+    /** Container class to store the resolution of the requested screenshot. */
     public static class Resolution {
         private int width;
         private int height;

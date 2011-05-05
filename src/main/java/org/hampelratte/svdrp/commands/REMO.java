@@ -46,16 +46,14 @@ public class REMO extends Command {
     private String state = ""; 
     
     /**
-     * Turns the remote control on or off. Without a parameter, the current
-     * status of the remote control is reported.
+     * Receives the current status of the remote control.
      */
     public REMO() {
         super();
     }
 
     /**
-     * Turns the remote control on or off. Without a parameter, the current
-     * status of the remote control is reported.
+     * Turns the remote control on or off.
      * 
      * @param state
      *            {@link REMO#ON REMO.ON}, {@link REMO#OFF REMO.OFF}
