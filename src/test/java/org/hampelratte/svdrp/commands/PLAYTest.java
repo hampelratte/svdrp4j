@@ -29,7 +29,9 @@
  */
 package org.hampelratte.svdrp.commands;
 
-import static org.junit.Assert.*; 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import org.junit.Test;
 
 public class PLAYTest {
@@ -64,11 +66,12 @@ public class PLAYTest {
         play.setStartTime("00:01:02.10");
         assertEquals("PLAY 23 00:01:02.10", play.getCommand());
         
-        try {
-            play.setStartTime("00:01");
-        } catch(Exception e) {
-            assertTrue(e instanceof IllegalArgumentException);
-        }
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetTimeWithIllegalArgument() throws IllegalArgumentException {
+        PLAY play = new PLAY(23);
+        play.setStartTime("00:01");
     }
     
     @Test
