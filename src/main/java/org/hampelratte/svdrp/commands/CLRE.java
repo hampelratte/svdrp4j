@@ -42,6 +42,11 @@ public class CLRE extends Command {
     private String param;
     
     /**
+     * Clears the entire EPG.
+     */
+    public CLRE() {}
+    
+    /**
      * Create a CLRE with the channel number as param
      * @param channelNumber the channel number {@link org.hampelratte.svdrp.responses.highlevel.Channel#getChannelNumber()}
      */
