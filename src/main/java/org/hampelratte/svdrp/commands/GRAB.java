@@ -38,17 +38,14 @@ import org.hampelratte.svdrp.Command;
  * 
  */
 public class GRAB extends Command {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     
-    private String format = "";
-
     private int quality = 80;
 
-    private String resolution = "400 300";
+    private Resolution resolution = new Resolution(400, 300);
 
     private String filename = "/tmp/screen.jpg";
 
-    
     public GRAB() {}
     
     /**
@@ -63,8 +60,7 @@ public class GRAB extends Command {
 
     @Override
     public String getCommand() {
-        String cmd = "GRAB " + filename + " " + format + " " + quality + " "
-                + resolution;
+        String cmd = "GRAB " + filename + " " + quality + " " + resolution;
         return cmd.trim();
     }
 
@@ -99,7 +95,7 @@ public class GRAB extends Command {
      * 
      * @return The resolution of the screenshot
      */
-    public String getResolution() {
+    public Resolution getResolution() {
         return resolution;
     }
 
@@ -107,9 +103,9 @@ public class GRAB extends Command {
      * Sets the resolution of the screenshot
      * 
      * @param resolution
-     *            The resolution of the screenshot, e.g. "400 300"
+     *            The resolution of the screenshot.
      */
-    public void setResolution(String resolution) {
+    public void setResolution(Resolution resolution) {
         this.resolution = resolution;
     }
 
@@ -129,5 +125,36 @@ public class GRAB extends Command {
      */
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+    
+    public static class Resolution {
+        private int width;
+        private int height;
+        
+        public Resolution(int width, int height) {
+            this.width = width;
+            this.height = height;
+        }
+
+        public int getWidth() {
+            return width;
+        }
+
+        public void setWidth(int width) {
+            this.width = width;
+        }
+
+        public int getHeight() {
+            return height;
+        }
+
+        public void setHeight(int height) {
+            this.height = height;
+        }
+        
+        @Override
+        public String toString() {
+            return width + " " + height;
+        }
     }
 }
