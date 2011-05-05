@@ -103,8 +103,7 @@ public class TimerParser {
      * 2005-03-19 MTWTFSS MTWTFSS@19 MTWTFSS@2005-03-19
      * The results will be stored in the passed timer object
      */
-    private static void parseDay(VDRTimer timer, String day,
-            String startString, String endString) {
+    private static void parseDay(VDRTimer timer, String day, String startString, String endString) {
         Calendar startTime = timer.getStartTime();
         Calendar endTime = timer.getEndTime();
         Calendar firstTime = timer.getFirstTime();
@@ -137,10 +136,8 @@ public class TimerParser {
             }
             TimerParser.parseTime(startTime, startString);
             TimerParser.parseTime(endTime, endString);
-            // if the endTime lasts into the next day, we have to add 1 to the
-            // DAY_OF_MONTH
-            if (endTime.get(Calendar.HOUR_OF_DAY) < startTime
-                    .get(Calendar.HOUR_OF_DAY)) {
+            // if the endTime lasts into the next day, we have to add 1 to the DAY_OF_MONTH
+            if (endTime.get(Calendar.HOUR_OF_DAY) < startTime.get(Calendar.HOUR_OF_DAY)) {
                 endTime.add(Calendar.DAY_OF_MONTH, 1);
             }
         } else if ((matcher = datePattern.matcher(day)).matches()) {
@@ -155,10 +152,8 @@ public class TimerParser {
             endTime.set(Calendar.DAY_OF_MONTH, day_of_month);
             endTime.set(Calendar.MONTH, month);
             endTime.set(Calendar.YEAR, year);
-            // if the endTime lasts into the next day, we have to add 1 to the
-            // DAY_OF_MONTH
-            if (endTime.get(Calendar.HOUR_OF_DAY) < startTime
-                    .get(Calendar.HOUR_OF_DAY)) {
+            // if the endTime lasts into the next day, we have to add 1 to the DAY_OF_MONTH
+            if (endTime.get(Calendar.HOUR_OF_DAY) < startTime.get(Calendar.HOUR_OF_DAY)) {
                 endTime.add(Calendar.DAY_OF_MONTH, 1);
             }
         } else if ((matcher = simpleRepeating.matcher(day)).matches()) {
@@ -166,10 +161,8 @@ public class TimerParser {
             day_of_month = -1;
             TimerParser.parseTime(startTime, startString);
             TimerParser.parseTime(endTime, endString);
-            // if the endTime lasts into the next day, we have to add 1 to the
-            // DAY_OF_MONTH
-            if (endTime.get(Calendar.HOUR_OF_DAY) < startTime
-                    .get(Calendar.HOUR_OF_DAY)) {
+            // if the endTime lasts into the next day, we have to add 1 to the DAY_OF_MONTH
+            if (endTime.get(Calendar.HOUR_OF_DAY) < startTime.get(Calendar.HOUR_OF_DAY)) {
                 endTime.add(Calendar.DAY_OF_MONTH, 1);
             }
         } else if ((matcher = repeatingAtShort.matcher(day)).matches()) {
@@ -182,10 +175,8 @@ public class TimerParser {
             endTime.set(Calendar.DAY_OF_MONTH, day_of_month);
             TimerParser.parseTime(startTime, startString);
             TimerParser.parseTime(endTime, endString);
-            // if the endTime lasts into the next day, we have to add 1 to the
-            // DAY_OF_MONTH
-            if (endTime.get(Calendar.HOUR_OF_DAY) < startTime
-                    .get(Calendar.HOUR_OF_DAY)) {
+            // if the endTime lasts into the next day, we have to add 1 to the DAY_OF_MONTH
+            if (endTime.get(Calendar.HOUR_OF_DAY) < startTime.get(Calendar.HOUR_OF_DAY)) {
                 endTime.add(Calendar.DAY_OF_MONTH, 1);
             }
         } else if ((matcher = repeatingAt.matcher(day)).matches()) {
@@ -207,10 +198,8 @@ public class TimerParser {
             endTime.set(Calendar.DAY_OF_MONTH, day_of_month);
             endTime.set(Calendar.MONTH, month);
             endTime.set(Calendar.YEAR, year);
-            // if the endTime lasts into the next day, we have to add 1 to the
-            // DAY_OF_MONTH
-            if (endTime.get(Calendar.HOUR_OF_DAY) < startTime
-                    .get(Calendar.HOUR_OF_DAY)) {
+            // if the endTime lasts into the next day, we have to add 1 to the DAY_OF_MONTH
+            if (endTime.get(Calendar.HOUR_OF_DAY) < startTime.get(Calendar.HOUR_OF_DAY)) {
                 endTime.add(Calendar.DAY_OF_MONTH, 1);
             }
         }
