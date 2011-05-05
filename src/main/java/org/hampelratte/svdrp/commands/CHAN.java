@@ -39,7 +39,7 @@ import org.hampelratte.svdrp.Command;
 public class CHAN extends Command {
     private static final long serialVersionUID = 1L;
     
-    private String parameter = "";
+    private String parameter;
 
     /**
      * Command to request the current channel. If CHAN is used without a
@@ -71,7 +71,10 @@ public class CHAN extends Command {
     
     @Override
     public String getCommand() {
-        String cmd = "CHAN " + parameter;
+        String cmd = "CHAN";
+        if(parameter != null) {
+            cmd = cmd.concat(" ").concat(parameter.trim());
+        }
         return cmd.trim();
     }
 
