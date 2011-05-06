@@ -67,6 +67,7 @@ public class VDRTimerTest  {
         timer = new VDRTimer();
         timer.setTitle("TestTitle");
         timer.setChannelNumber(1);
+        timer.setDescription("Mehr-\nzeilige Be-\nschreibung");
         
         Calendar startTime = Calendar.getInstance();
         startTime.set(Calendar.DAY_OF_MONTH, 4); // 04.11.2010 is a thursday
@@ -219,6 +220,11 @@ public class VDRTimerTest  {
         assertEquals("1:-----SS:12:00:13:00", timer.getUniqueKey());
         timer.setRepeatingDays(new boolean[7]);
         assertEquals("1:2010-11-04:04.11.2010 12:00:04.11.2010 13:00", timer.getUniqueKey());
+    }
+    
+    @Test
+    public void testToNEWT() {
+        assertEquals("1:1:-----SS:1200:1300:0:0:TestTitle:Mehr-|zeilige Be-|schreibung", timer.toNEWT());
     }
     
     @AfterClass 
