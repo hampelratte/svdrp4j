@@ -7,11 +7,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>svdrp4j</artifactId>
-    <packaging>jar</packaging>
+    <packaging>bundle</packaging>
     <version>1.0.0-SNAPSHOT</version>
     <name>SVDRP4J</name>
     <description>An implementation of the Simple VDR Protocol.
-This version is compatible with VDR 1.6.0-2 and earlier. Maybe newer version work, too, but new features are not implemented.</description>
+        This version is compatible with VDR 1.6.0-2 and earlier. Maybe newer
+        version work, too, but new features are not implemented.</description>
     <url>http://developer.berlios.de/projects/lazybones</url>
 
     <dependencies>
@@ -23,33 +24,33 @@ This version is compatible with VDR 1.6.0-2 and earlier. Maybe newer version wor
             <scope>compile</scope>
         </dependency>
         <dependency>
-        	<groupId>org.slf4j</groupId>
-        	<artifactId>slf4j-jdk14</artifactId>
-        	<version>1.6.1</version>
-        	<type>jar</type>
-        	<scope>test</scope>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+            <version>1.6.1</version>
+            <type>jar</type>
+            <scope>test</scope>
         </dependency>
         <dependency>
-        	<groupId>junit</groupId>
-        	<artifactId>junit</artifactId>
-        	<version>4.8.1</version>
-        	<type>jar</type>
-        	<scope>test</scope>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.1</version>
+            <type>jar</type>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
     <issueManagement>
-    	<system>BerliOS Issue Trackers</system>
-    	<url>https://developer.berlios.de/bugs/?group_id=4483</url>
+        <system>BerliOS Issue Trackers</system>
+        <url>https://developer.berlios.de/bugs/?group_id=4483</url>
     </issueManagement>
     <ciManagement>
-    	<system>Jenkins CI</system>
-    	<url>http://hampelratte.org/ci/job/svdrp4j</url>
+        <system>Jenkins CI</system>
+        <url>http://hampelratte.org/ci/job/svdrp4j</url>
     </ciManagement>
     <scm>
-    	<connection>scm:cvs:pserver:anonymous@cvs.lazybones.berlios.de:/cvsroot/lazybones</connection>
-    	<developerConnection>scm:cvs:extssh:developername@cvs.lazybones.berlios.de:/cvsroot/lazybones</developerConnection>
-    	<url>https://cvs.berlios.de/cgi-bin/viewvc.cgi/lazybones/svdrp4j</url>
+        <connection>scm:cvs:pserver:anonymous@cvs.lazybones.berlios.de:/cvsroot/lazybones</connection>
+        <developerConnection>scm:cvs:extssh:developername@cvs.lazybones.berlios.de:/cvsroot/lazybones</developerConnection>
+        <url>https://cvs.berlios.de/cgi-bin/viewvc.cgi/lazybones/svdrp4j</url>
     </scm>
     <build>
         <resources>
@@ -109,11 +110,17 @@ This version is compatible with VDR 1.6.0-2 and earlier. Maybe newer version wor
                 </executions>
             </plugin>
             <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.1.0</version>
+                <extensions>true</extensions>
                 <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
+                        <Import-Package>!javax.swing.*,*</Import-Package>
+                        <_nouses>true</_nouses>
+                    </instructions>
                 </configuration>
             </plugin>
         </plugins>
