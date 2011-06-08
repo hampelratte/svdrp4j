@@ -94,7 +94,7 @@ public class Connection {
     private String encoding;
     
     /**
-     * Creates a new connection to host:port with timeout and feault charset encoding UTF-8. Lazy Bones will try to detect the encoding of the VDR and override
+     * Creates a new connection to host:port with timeout and default charset encoding UTF-8. Lazy Bones will try to detect the encoding of the VDR and override
      * the default encoding, if a valid value is found.
      * 
      * @param host
@@ -159,8 +159,8 @@ public class Connection {
         socket.connect(sa, connectTimeout);
         socket.setSoTimeout(readTimeout);
 
-        out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), encoding));
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream(), encoding));
+        out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), encoding), 8192);
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream(), encoding), 8192);
 
         // read the welcome message
 		Response res = null;
