@@ -47,8 +47,9 @@ public class ChannelParserTest {
     public void testNameParsing() throws ParseException {
         String channelData = 
               "1 Das Erste:11836:hC34:S19.2E:27500:101:102=deu,103=2ch;106=deu:104:0:28106:1:1101:0\n"
-            + "2 ZDF;ZDFvision:11953:hC34:S19.2E:27500:110:120=deu,121=2ch;125=deu:130:0:28006:1:1079:0\n"
-            + "3 WDR Bielefeld,WDR;ARD:12421:hC34:S19.2E:27500:101:102=deu,103=2ch:104:0:28306:1:1201:0";
+            + "2 Das Erste HD;ARD:11361:HC23M5O35S1:S19.2E:22000:6010=27:6020=deu@3,6021=mis@3;6022=deu@106:6030:0:11100:1:1011:0\n"
+            + "3 ZDF;ZDFvision:11953:hC34:S19.2E:27500:110:120=deu,121=2ch;125=deu:130:0:28006:1:1079:0\n"
+            + "4 WDR Bielefeld,WDR;ARD:12421:hC34:S19.2E:27500:101:102=deu,103=2ch:104:0:28306:1:1201:0";
         
         List<Channel> channels = ChannelParser.parse(channelData, false);
 
@@ -57,12 +58,17 @@ public class ChannelParserTest {
         assertEquals("", ard.getShortName());
         assertEquals("", ard.getServiceProviderName());
         
-        Channel zdf = channels.get(1);
+        Channel ardhd = channels.get(1);
+        assertEquals("Das Erste HD", ardhd.getName());
+        assertEquals("", ardhd.getShortName());
+        assertEquals("ARD", ardhd.getServiceProviderName());
+        
+        Channel zdf = channels.get(2);
         assertEquals("ZDF", zdf.getName());
         assertEquals("", zdf.getShortName());
         assertEquals("ZDFvision", zdf.getServiceProviderName());
         
-        Channel wdr = channels.get(2);
+        Channel wdr = channels.get(3);
         assertEquals("WDR Bielefeld", wdr.getName());
         assertEquals("WDR", wdr.getShortName());
         assertEquals("ARD", wdr.getServiceProviderName());
