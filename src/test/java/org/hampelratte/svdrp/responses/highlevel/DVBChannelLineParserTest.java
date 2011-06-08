@@ -34,6 +34,7 @@ import static junit.framework.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+// TODO add different channel lines (especially new HD formats)
 public class DVBChannelLineParserTest {
 
     private String channelData = "1 Das Erste:11836:B8C23D12M64T2G32Y0:S19.2E:27500:101:102=deu,103=2ch;106=deu:104:0:28106:1:1101:0";
