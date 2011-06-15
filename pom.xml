@@ -9,7 +9,7 @@
     <artifactId>svdrp4j</artifactId>
     <packaging>bundle</packaging>
     <version>1.0.0-SNAPSHOT</version>
-    <name>SVDRP4J</name>
+    <name>Simple Video Disk Recorder Protocol</name>
     <description>An implementation of the Simple VDR Protocol.
         This version is compatible with VDR 1.6.0-2 and earlier. Maybe newer
         version work, too, but new features are not implemented.</description>
@@ -52,6 +52,10 @@
         <developerConnection>scm:cvs:extssh:developername@cvs.lazybones.berlios.de:/cvsroot/lazybones</developerConnection>
         <url>https://cvs.berlios.de/cgi-bin/viewvc.cgi/lazybones/svdrp4j</url>
     </scm>
+    <organization>
+    	<name>hampelratte.org</name>
+    	<url>http://www.hampelratte.org</url>
+    </organization>
     <build>
         <resources>
             <resource>
