@@ -275,6 +275,11 @@ public class Connection {
         StringBuilder msg = new StringBuilder();
         boolean running = true;
         while (running && (line = in.readLine()) != null) {
+            // the svdrposd-Plugin sends an empty line after each "real" line. This is a workaround for that missbehaviour.
+            if (line.length() < 4) {
+                continue;
+            }
+            
             char fourthChar = line.charAt(3);
             int code = -1;
             try {
