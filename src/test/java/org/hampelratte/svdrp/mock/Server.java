@@ -174,6 +174,12 @@ public class Server implements Runnable {
             printEpg();
         } else if ("test_charset".equalsIgnoreCase(request)) {
             sendResponse("221 öüäß");
+        } else if ("too_short_lines_ll".equalsIgnoreCase(request)) {
+            sendResponse("920-S: 1 Programm\n\n920-I: 2 Kanäle\n\n920 I: 3 Befehle\n\n");
+        } else if ("too_short_lines_rr".equalsIgnoreCase(request)) {
+            sendResponse("920-S: 1 Programm\r\r920-I: 2 Kanäle\r\r920 I: 3 Befehle\r\r");
+        } else if ("too_short_lines_rrl".equalsIgnoreCase(request)) {
+            sendResponse("920-S: 1 Programm\r\r\n920-I: 2 Kanäle\r\r\n920 I: 3 Befehle\r\r\n");
         } else {
             sendResponse("502 Not implemented");
         }
