@@ -32,7 +32,6 @@ package org.hampelratte.svdrp;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 
 import org.hampelratte.svdrp.mock.Server;
 import org.junit.AfterClass;
@@ -53,16 +52,12 @@ public class DetectEncodingTest {
     }
     
     @Test
-    public void testCharsetDetectionUtf8() {
+    public void testCharsetDetectionUtf8() throws IOException {
         Connection con = null;
         try {
             server.loadWelcome("welcome-1.6.0_2-utf_8.txt");
             con = new Connection("localhost", 2001, 100);
             assertEquals("UTF-8", con.getEncoding());
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         } finally {
             if(con != null) {
                 try {
@@ -75,16 +70,12 @@ public class DetectEncodingTest {
     }
 
     @Test
-    public void testCharsetDetectionLatin1() {
+    public void testCharsetDetectionLatin1() throws IOException {
         Connection con = null;
         try {
             server.loadWelcome("welcome-1.6.0_2-iso_8859_1.txt");
             con = new Connection("localhost", 2001, 100);
             assertEquals("ISO-8859-1", con.getEncoding());
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         } finally {
             if(con != null) {
                 try {
@@ -97,16 +88,12 @@ public class DetectEncodingTest {
     }
     
     @Test
-    public void testCharsetDetectionUnknownCharset() {
+    public void testCharsetDetectionUnknownCharset() throws IOException {
         Connection con = null;
         try {
             server.loadWelcome("welcome-1.6.0_2-fantasy.txt");
             con = new Connection("localhost", 2001, 100);
             assertEquals("UTF-8", con.getEncoding());
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         } finally {
             if(con != null) {
                 try {
@@ -119,7 +106,25 @@ public class DetectEncodingTest {
     }
     
     @Test
-    public void testCharsetSwitch() {
+    public void testNoCharsetDefined() throws IOException {
+        Connection con = null;
+        try {
+            server.loadWelcome("welcome-1.6.0_2-nocharset.txt");
+            con = new Connection("localhost", 2001, 100);
+            // no exception hsould occur
+        } finally {
+            if(con != null) {
+                try {
+                    con.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    
+    @Test
+    public void testCharsetSwitch() throws IOException {
         Connection con = null;
         try {
             server.loadWelcome("welcome-1.6.0_2-utf_8.txt");
@@ -137,10 +142,6 @@ public class DetectEncodingTest {
                 }
             });
             assertEquals("öüäß", resp.getMessage().trim());
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         } finally {
             if(con != null) {
                 try {

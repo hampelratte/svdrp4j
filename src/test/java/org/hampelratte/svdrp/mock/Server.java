@@ -65,6 +65,9 @@ public class Server implements Runnable {
     private String timers;
     private String channels = "";
     
+    private long responseDelay = 0;
+    private boolean accessDenied = false;
+    
     public Server() {
         logger.info("Running in {}", System.getProperty("user.dir"));
     }
@@ -122,8 +125,16 @@ public class Server implements Runnable {
                 br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
                 bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "UTF-8"));
 
-                logger.debug("Sending welcome message.");
-                sendWelcomeMessage();
+                logger.debug("Access denied: {}", accessDenied);
+                if(accessDenied) {
+                    logger.debug("Access denied!");
+                    sendResponse("Access denied!");
+                    socket.close();
+                    return;
+                } else {
+                    logger.debug("Sending welcome message.");
+                    sendWelcomeMessage();
+                }
 
                 while (!socket.isClosed()) {
                     try {
@@ -151,10 +162,10 @@ public class Server implements Runnable {
             return false;
         }
             
-        String request = br.readLine().trim();
-        
+        String request = br.readLine();
         logger.debug("<-- {}", request);
         if(request == null) return false;
+        request = request.trim();
         
         if("quit".equalsIgnoreCase(request)) {
             sendResponse("221 vdr closing connection");
@@ -194,6 +205,7 @@ public class Server implements Runnable {
     }
 
     private void sendResponse(String resp) throws IOException {
+        if(responseDelay > 0) { try { Thread.sleep(responseDelay); } catch (InterruptedException e) { /* fail silently */ } }
         logger.debug("--> {}", resp);
         bw.write(resp);
         bw.write('\n');
@@ -328,6 +340,14 @@ public class Server implements Runnable {
         sendResponse(welcome);
     }
     
+    public void setResponseDelay(long responseDelay) {
+        this.responseDelay = responseDelay;
+    }
+    
+    public void setAccessDenied(boolean accessDenied) {
+        this.accessDenied = accessDenied;
+    }
+    
     public void shutdown() throws IOException, InterruptedException {
         logger.info("Shutting down server...");
         if(serverSocket!= null) serverSocket.close();
@@ -338,8 +358,9 @@ public class Server implements Runnable {
     public static void main(String[] args) throws IOException {
         Server server = new Server();
         server.loadWelcome("welcome-1.6.0_2-utf_8.txt");
-        server.loadTimers("lstt_doppelpack_fake.txt");
-        server.loadChannelsConf("pvrinput_channels.conf");
+        server.setAccessDenied(true);
+        //server.loadTimers("lstt_doppelpack_fake.txt");
+        //server.loadChannelsConf("pvrinput_channels.conf");
         new Thread(server).start();
     }
 }

@@ -112,4 +112,10 @@ public class EPGEntryTest {
         epg.setVpsTime(then.getTimeInMillis());
         assertEquals(then.getTimeInMillis(), epg.getVpsTime().getTimeInMillis());
     }
+    
+    @Test
+    public void testtoString() {
+        // call toString to make sure, no NPE is fired
+        epg.toString();
+    }
 }

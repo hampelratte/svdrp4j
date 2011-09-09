@@ -36,7 +36,7 @@ import org.junit.Test;
 
 public class PvrInputChannelLineParserTest {
 
-    private String channelData = "1 ARD;w_pvrscan:224250:TV|PAL:V:0:301+101=2:300=@4:305:0:3588:0:0:0";
+    private String channelData = "1 ARD;w_pvrscan:224250:TV|PAL|CARD0:V:0:301+101=2:300=@4:305:0:3588:0:0:0";
 
     private ChannelLineParser parser = new PvrInputChannelLineParser();
 
@@ -100,5 +100,20 @@ public class PvrInputChannelLineParserTest {
     @Test
     public void testRID() {
         assertEquals(0, chan.getRID());
+    }
+    
+    @Test
+    public void testVideoNorm() {
+        assertEquals("PAL", chan.getVideoNorm());
+    }
+    
+    @Test
+    public void testCard() {
+        assertEquals("CARD0", chan.getCard());
+    }
+    
+    @Test
+    public void testType() {
+        assertEquals("TV", chan.getType());
     }
 }
