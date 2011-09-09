@@ -108,4 +108,20 @@ public class ChannelParserTest {
         
         assertTrue(((DVBChannel)channels.get(1)).getConditionalAccess().contains(0x1702));
     }
+    
+    @Test(expected = ParseException.class)
+    public void testInvalidFormat() throws ParseException {
+        ChannelParser.parse("Invalid Data", false);
+    }
+    
+    @Test(expected = ParseException.class)
+    public void testInvalidvalues() throws ParseException {
+        ChannelParser.parse("1 Das Erste:11836:hC12345:S19.2E:27500:101:102=deu,103=2ch;106=deu:104:0:28106:1:1101:0", false);
+    }
+    
+    @Test
+    public void testIgnoreErrors() throws ParseException {
+        ChannelParser.parse("Invalid Data", true);
+        ChannelParser.parse("1 Das Erste:11836:hC12345:S19.2E:27500:101:102=deu,103=2ch;106=deu:104:0:28106:1:1101:0", true);
+    }
 }
