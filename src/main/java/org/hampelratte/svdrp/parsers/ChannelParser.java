@@ -82,8 +82,13 @@ public class ChannelParser {
 				    try {
                         ((DVBChannel)channel).validate();
                     } catch (Exception e) {
-                        logger.warn("DVB channel with invalid values on line {}", lineNumber);
-                        e.printStackTrace();
+                        ParseException pe = new ParseException("DVB channel with invalid values on line " + lineNumber + ": [" + line + "]", lineNumber);
+                        pe.initCause(e);
+                        if(!ignoreErrors) {
+                            throw pe;
+                        } else {
+                            logger.error(pe.getLocalizedMessage(), e);
+                        }
                     }
 				}
 	            list.add(channel);
@@ -93,7 +98,7 @@ public class ChannelParser {
 				if(!ignoreErrors) {
 					throw pe;
 				} else {
-				    pe.printStackTrace();
+				    logger.error(pe.getLocalizedMessage(), e);
 				}
 			}
 			lineNumber++;
