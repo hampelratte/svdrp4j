@@ -337,14 +337,15 @@ public class Connection {
                     response = new R554(msg.toString());
                     break;
                 default:
-                    response = new NotImplementedBySVDRP4J(code, msg.toString());
+                    // special case: plugin responses in the range between 900 and 999
+                    if(code >= 900 && code <= 999) {
+                        response = new PluginResponse(code, msg.toString());
+                    } else {
+                        response = new NotImplementedBySVDRP4J(code, msg.toString());
+                    }
                     break;
                 }
                 
-                // special case: plugin responses in the range between 900 and 999
-                if(code >= 900 && code <= 999) {
-                    response = new PluginResponse(code, msg.toString());
-                }
                 
                 line = "";
                 msg = new StringBuilder();

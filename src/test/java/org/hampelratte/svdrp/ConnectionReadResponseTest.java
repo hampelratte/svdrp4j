@@ -1,11 +1,14 @@
 package org.hampelratte.svdrp;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
 
 import org.hampelratte.svdrp.mock.Server;
+import org.hampelratte.svdrp.responses.NotImplementedBySVDRP4J;
+import org.hampelratte.svdrp.responses.R502;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -25,7 +28,7 @@ public class ConnectionReadResponseTest {
     }
     
     @Test
-    public void testTooShortLinesLineFeeds() {
+    public void testTooShortLinesLineFeeds() throws UnknownHostException, IOException {
         Connection con = null;
         try {
             con = new Connection("localhost", 2001, 100);
@@ -42,10 +45,6 @@ public class ConnectionReadResponseTest {
                 }
             });
             assertEquals("S: 1 Programm\nI: 2 Kanäle\nI: 3 Befehle\n", resp.getMessage());
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         } finally {
             if(con != null) {
                 try {
@@ -58,7 +57,7 @@ public class ConnectionReadResponseTest {
     }
     
     @Test
-    public void testTooShortLinesCarriageReturns() {
+    public void testTooShortLinesCarriageReturns() throws UnknownHostException, IOException {
         Connection con = null;
         try {
             con = new Connection("localhost", 2001, 100);
@@ -75,10 +74,6 @@ public class ConnectionReadResponseTest {
                 }
             });
             assertEquals("S: 1 Programm\nI: 2 Kanäle\nI: 3 Befehle\n", resp.getMessage());
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         } finally {
             if(con != null) {
                 try {
@@ -91,7 +86,7 @@ public class ConnectionReadResponseTest {
     }
     
     @Test
-    public void testTooShortLinesLineCarriageReturnsLineFeed() {
+    public void testTooShortLinesLineCarriageReturnsLineFeed() throws UnknownHostException, IOException {
         Connection con = null;
         try {
             con = new Connection("localhost", 2001, 100);
@@ -108,10 +103,66 @@ public class ConnectionReadResponseTest {
                 }
             });
             assertEquals("S: 1 Programm\nI: 2 Kanäle\nI: 3 Befehle\n", resp.getMessage());
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } finally {
+            if(con != null) {
+                try {
+                    con.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    
+    @Test
+    public void testResponseNotImplemented() throws UnknownHostException, IOException {
+        Connection con = null;
+        try {
+            con = new Connection("localhost", 2001, 100);
+            
+            Response resp = con.send(new Command() {
+                @Override
+                public String toString() {
+                    return getCommand();
+                }
+
+                @Override
+                public String getCommand() {
+                    return "not_implemented";
+                }
+            });
+            assertTrue(resp instanceof NotImplementedBySVDRP4J);
+            assertEquals("123 - This response code is not supported by SVDRP4J", resp.toString());
+        } finally {
+            if(con != null) {
+                try {
+                    con.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    
+    @Test
+    public void testCommandNotImplemented() throws UnknownHostException, IOException {
+        Connection con = null;
+        try {
+            con = new Connection("localhost", 2001, 100);
+            
+            Response resp = con.send(new Command() {
+                @Override
+                public String toString() {
+                    return getCommand();
+                }
+
+                @Override
+                public String getCommand() {
+                    return "dfhsdhgjfhgsjdgk";
+                }
+            });
+            assertTrue(resp instanceof R502);
+            assertEquals("502 - Command not implemented", resp.toString());
         } finally {
             if(con != null) {
                 try {

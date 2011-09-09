@@ -191,6 +191,8 @@ public class Server implements Runnable {
             sendResponse("920-S: 1 Programm\r\r920-I: 2 Kanäle\r\r920 I: 3 Befehle\r\r");
         } else if ("too_short_lines_rrl".equalsIgnoreCase(request)) {
             sendResponse("920-S: 1 Programm\r\r\n920-I: 2 Kanäle\r\r\n920 I: 3 Befehle\r\r\n");
+        } else if ("not_implemented".equalsIgnoreCase(request)) {
+            sendResponse("123 Kuddelmuddel");
         } else {
             sendResponse("502 Not implemented");
         }
