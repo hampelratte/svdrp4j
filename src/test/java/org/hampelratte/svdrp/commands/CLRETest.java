@@ -62,4 +62,11 @@ public class CLRETest {
         clre = new CLRE("ZDF ");
         assertEquals("CLRE ZDF", clre.getCommand());
     }
+    
+    @Test
+    public void testToString() {
+        assertEquals("CLRE", new CLRE().toString());
+        assertEquals("CLRE", new CLRE(1).toString());
+        assertEquals("CLRE", new CLRE("ARD").toString());
+    }
 }
