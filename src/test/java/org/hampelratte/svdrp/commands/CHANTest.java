@@ -57,6 +57,9 @@ public class CHANTest {
         
         chan = new CHAN("S19.2E-1-1101-28106");
         assertEquals("CHAN S19.2E-1-1101-28106", chan.getCommand());
+        
+        chan = new CHAN(1);
+        assertEquals("CHAN 1", chan.getCommand());
     }
     
     @Test
@@ -86,5 +89,12 @@ public class CHANTest {
         
         chan.setParameter(" ");
         assertEquals(" ", chan.getParameter());
+    }
+    
+    @Test
+    public void testToString() {
+        assertEquals("CHAN", new CHAN().toString());
+        assertEquals("CHAN", new CHAN("ZDF").toString());
+        assertEquals("CHAN", new CHAN(1).toString());
     }
 }
