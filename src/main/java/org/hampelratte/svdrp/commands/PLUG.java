@@ -32,7 +32,19 @@ package org.hampelratte.svdrp.commands;
 import org.hampelratte.svdrp.Command;
 
 /**
- * Send a command to a plugin.
+ * <pre>
+ * help plug
+ * 214-PLUG &lt;name&gt; [ help | main ] [ &lt;command&gt; [ &lt;options&gt; ]]
+ * 214-    Send a command to a plugin.
+ * 214-    The PLUG command without any parameters lists all plugins.
+ * 214-    If only a name is given, all commands known to that plugin are listed.
+ * 214-    If a command is given (optionally followed by parameters), that command
+ * 214-    is sent to the plugin, and the result will be displayed.
+ * 214-    The keyword 'help' lists all the SVDRP commands known to the named plugin.
+ * 214-    If 'help' is followed by a command, the detailed help for that command is
+ * 214-    given. The keyword 'main' initiates a call to the main menu function of the
+ * 214-    given plugin.
+ * </pre>
  * 
  * @author <a href="hampelratte@users.berlios.de">hampelratte@users.berlios.de</a>
  */
@@ -45,6 +57,8 @@ public class PLUG extends Command {
     private String pluginName = "";
     private String pluginCommand = "";
     private String options = "";
+    
+    public PLUG() {}
     
     /**
      * Send a command to a plugin.
@@ -79,26 +93,28 @@ public class PLUG extends Command {
         StringBuilder sb = new StringBuilder("PLUG ");
         
         // append plugin name
-        sb.append(pluginName);
-        
-        // append "main" or "help"
-        if(isMainSwitch()) {
-            sb.append(" MAIN");
-        } else if(isHelpSwitch()) {
-            sb.append(" HELP");
+        if(pluginName != null && pluginName.length() > 0) {
+            sb.append(pluginName);
+
+            // append "main" or "help"
+            if(mainSwitch) {
+                sb.append(" MAIN");
+            } else if(helpSwitch) {
+                sb.append(" HELP");
+            }
+            
+            // append command if not empty
+            if(pluginCommand != null && pluginCommand.length() > 0 && !mainSwitch) {
+                sb.append(" "); sb.append(pluginCommand);
+                
+                // append options if not empty
+                if(options != null && options.length() > 0 && !helpSwitch && !mainSwitch) {
+                    sb.append(" "); sb.append(options);
+                }
+            }
         }
         
-        // append command if not empty
-        if(pluginCommand.length() > 0) {
-            sb.append(" "); sb.append(pluginCommand);
-        }
-        
-        // append options if not empty
-        if(options.length() > 0) {
-            sb.append(" "); sb.append(options);
-        }
-        
-        return sb.toString();
+        return sb.toString().trim();
     }
 
     @Override
