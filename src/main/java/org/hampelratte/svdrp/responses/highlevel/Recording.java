@@ -137,7 +137,7 @@ public class Recording extends EPGEntry implements Comparable<Recording> {
         return getNumber() + " "+ 
                 DateFormat.getDateTimeInstance().format(getStartTime().getTime()) + 
                 (isNew() ? "*" : "") + " " + 
-                getTitle() + super.toString(); 
+                super.toString(); 
     }
 
     public int compareTo(Recording other) {
