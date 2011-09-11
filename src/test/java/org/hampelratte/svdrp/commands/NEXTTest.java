@@ -29,72 +29,32 @@
  */
 package org.hampelratte.svdrp.commands;
 
-import org.hampelratte.svdrp.Command;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
-/**
- * Command to show the next timer event
- * 
- * @author <a href="mailto:henrik.niehaus@gmx.de">Henrik Niehaus </a>
- * 
- */
-public class NEXT extends Command {
-    private static final long serialVersionUID = 1L;
-
-    public static final String ABS = "abs";
-    public static final String REL = "rel";
+public class NEXTTest {
+    @Test
+    public void testConstructor() {
+        assertEquals("NEXT", new NEXT().getCommand());
+    }
     
-    private String mode = "";
-
-    /**
-     * Command to show the next timer event in human readable format
-     * 
-     */
-    public NEXT() {
+    @Test
+    public void testConstructorWithMode() {
+        NEXT next = new NEXT("abs");
+        assertEquals("NEXT abs", next.getCommand());
+        assertEquals("abs", next.getMode());
+        assertEquals("NEXT rel", new NEXT("rel").getCommand());
     }
-
-    /**
-     * Command to show the next timer event
-     * 
-     * @see #setMode(String)
-     */
-    public NEXT(String mode) {
-        setMode(mode);
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidTime() {
+        new NEXT("bla");
     }
-
-    @Override
-    public String getCommand() {
-        String cmd = "NEXT " + mode;
-        return cmd.trim();
-    }
-
-    @Override
-    public String toString() {
-        return "NEXT";
-    }
-
-    /**
-     * Returns the mode
-     * 
-     * @return The mode
-     */
-    public String getMode() {
-        return mode;
-    }
-
-    /**
-     * Sets the mode
-     * 
-     * @param mode
-     *            {@link #ABS} or {@link #REL} <br>
-     *            <ul>
-     *            <li>{@link #ABS} queries the time in seconds since unix epoche </li>
-     *            <li>{@link #REL} queries the time in seconds until the next event relative to the actual time</li>
-     *            </ul>
-     */
-    public void setMode(String mode) {
-        if(!(ABS.equals(mode) || REL.equals(mode))) {
-            throw new IllegalArgumentException("Mode has to be one of abs or rel");
-        }
-        this.mode = mode;
+    
+    @Test
+    public void testToString() {
+        assertEquals("NEXT", new NEXT().toString());
+        assertEquals("NEXT", new NEXT("abs").toString());
+        assertEquals("NEXT", new NEXT("rel").toString());
     }
 }
