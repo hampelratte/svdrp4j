@@ -29,59 +29,26 @@
  */
 package org.hampelratte.svdrp.commands;
 
-import org.hampelratte.svdrp.Command;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
-/**
- * Command to put data into the EPG list of the VDR
- * 
- * @author <a href="mailto:henrik.niehaus@gmx.de">Henrik Niehaus </a>
- * 
- */
-public class PUTE extends Command {
-    private static final long serialVersionUID = 1L;
+public class PUTETest {
 
-    private String data = "";
-
-    /**
-     * Command to put data into the EPG list of the VDR
-     * 
-     * @param data
-     *            The EPG data to enter. The data entered has to strictly follow
-     *            the format defined in the man page vdr(5) for the 'epg.data'
-     *            file.
-     */
-    public PUTE(String data) {
-        this.data = data;
+    @Test
+    public void testConstructor() {
+        assertEquals("Data\n.", new PUTE("Data").getCommand());
     }
 
-    @Override
-    public String getCommand() {
-        return data + "\n.";
+    @Test
+    public void testSetData() {
+        PUTE pute = new PUTE("Data");
+        pute.setData("Other Data");
+        assertEquals("Other Data", pute.getData());
+        assertEquals("Other Data\n.", pute.getCommand());
     }
-
-    @Override
-    public String toString() {
-        return "PUTE";
-    }
-
-    /**
-     * Returns the EPG data to send to the VDR
-     * 
-     * @return The EPG data to send to the VDR
-     */
-    public String getData() {
-        return data;
-    }
-
-    /**
-     * Sets the EPG data to send to the VDR
-     * 
-     * @param data
-     *            The EPG data to enter. The data entered has to strictly follow
-     *            the format defined in the man page vdr(5) for the 'epg.data'
-     *            file.
-     */
-    public void setData(String data) {
-        this.data = data;
+    
+    @Test
+    public void testToString() {
+        assertEquals("PUTE", new PUTE("foo").toString());
     }
 }
