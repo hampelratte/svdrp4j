@@ -63,8 +63,12 @@ public class VDRTimerTest  {
     }
     
     @Before
-    public void createTimer() {
-        timer = new VDRTimer();
+    public void initTimer() {
+        timer = createTimer();
+    }
+    
+    public VDRTimer createTimer() {
+        VDRTimer timer = new VDRTimer();
         timer.setTitle("TestTitle");
         timer.setChannelNumber(1);
         timer.setDescription("Mehr-\nzeilige Be-\nschreibung");
@@ -94,7 +98,7 @@ public class VDRTimerTest  {
                 true // SUN
         });
         
-        
+        return timer;
     }
     
     @Test
