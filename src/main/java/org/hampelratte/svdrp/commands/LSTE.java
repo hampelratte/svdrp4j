@@ -117,8 +117,14 @@ public class LSTE extends Command {
 
     @Override
     public String getCommand() {
-        String cmd = "LSTE " + channel + " " + time;
-        return cmd.trim();
+        StringBuilder sb = new StringBuilder("LSTE");
+        if(channel != null && channel.trim().length() > 0) {
+            sb.append(' ').append(channel);
+        }
+        if(time != null && time.trim().length() > 0) {
+            sb.append(' ').append(time);
+        }
+        return sb.toString();
     }
 
     @Override
