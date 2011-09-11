@@ -107,4 +107,17 @@ public class PLAYTest {
         assertEquals("begin", play.getStartTime());
         assertEquals(-1, play.getStartFrame());
     }
+    
+    @Test
+    public void testToString() {
+        assertEquals("PLAY", new PLAY(1).toString());
+    }
+    
+    @Test
+    public void testSetRecordingNUmber() {
+        PLAY play = new PLAY(1);
+        play.setRecordingNumber(2);
+        assertEquals(2, play.getRecordingNumber());
+        assertEquals("PLAY 2", play.getCommand());
+    }
 }

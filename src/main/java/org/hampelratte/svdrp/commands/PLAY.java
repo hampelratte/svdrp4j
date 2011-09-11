@@ -117,6 +117,6 @@ public class PLAY extends Command {
 
     @Override
     public String toString() {
-        return getCommand();
+        return "PLAY";
     }
 }
