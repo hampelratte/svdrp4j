@@ -39,7 +39,7 @@ import org.hampelratte.svdrp.Command;
 public class EDIT extends Command {
     private static final long serialVersionUID = 1L;
     
-    private int number;
+    private int number = 1;
     
     /**
      * Command to start the cutting of a recording 
