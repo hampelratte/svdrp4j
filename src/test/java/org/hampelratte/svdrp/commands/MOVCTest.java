@@ -5,8 +5,6 @@ import org.junit.Test;
 
 public class MOVCTest {
 
-    String settings = "Das Erste;ARD:11837:h:S19.2E:27500:101:102=deu:104:0:28106:1:1101:0";
-    
     @Test
     public void testConstructor() {
         MOVC movc = new MOVC(1, 20);
