@@ -1,12 +1,14 @@
 package org.hampelratte.svdrp;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
+import org.hampelratte.svdrp.commands.PUTE;
 import org.hampelratte.svdrp.mock.Server;
+import org.hampelratte.svdrp.responses.R451;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -73,6 +75,25 @@ public class ConnectionTest {
             new Connection("localhost", 2001, 100, 100, "UTF-8", false);
         } finally {
             server.setResponseDelay(0);
+        }
+    }
+    
+    @Test
+    public void testSendPUTE() throws IOException {
+        Connection con = null;
+        try {
+            server.loadWelcome("welcome-1.6.0_2-utf_8.txt");
+            con = new Connection("localhost", 2001, 100);
+            Response res = con.send(new PUTE("dummy"));
+            assertTrue(res instanceof R451);
+        } finally {
+            if(con != null) {
+                try {
+                    con.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
     

@@ -67,6 +67,7 @@ public class Server implements Runnable {
     
     private long responseDelay = 0;
     private boolean accessDenied = false;
+    private boolean inPUTEmode = false;
     
     public Server() {
         logger.info("Running in {}", System.getProperty("user.dir"));
@@ -161,11 +162,16 @@ public class Server implements Runnable {
         if(socket.isClosed()) {
             return false;
         }
-            
+        
+        
         String request = br.readLine();
         logger.debug("<-- {}", request);
         if(request == null) return false;
         request = request.trim();
+        
+        if(inPUTEmode) {
+            sendResponse("451 Error while processing EPG data");
+        }
         
         if("quit".equalsIgnoreCase(request)) {
             sendResponse("221 vdr closing connection");
@@ -176,6 +182,9 @@ public class Server implements Runnable {
             sendResponse(timers);
         } else if ("lstr".equalsIgnoreCase(request)) {
             printRecordingsList();
+        } else if ("pute".equalsIgnoreCase(request)) {
+            inPUTEmode = true;
+            sendResponse("354 Enter EPG data, end with \".\" on a line by itself");
         } else if (request.toLowerCase().matches("lstr \\d+.*")) {
             Matcher m = Pattern.compile("lstr (\\d+).*").matcher(request.toLowerCase());
             if(m.matches()) {

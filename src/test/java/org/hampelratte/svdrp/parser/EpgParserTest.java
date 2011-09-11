@@ -44,7 +44,7 @@ import org.junit.Test;
 
 public class EpgParserTest {
 
-    private static final String epgData = 
+    public static final String epgData = 
         "C S19.2E-133-5-1793 Channel Name\n" + 
         "E 12667 1274605200 7200 50 FF\n" + 
         "T Program Title\n" + 
