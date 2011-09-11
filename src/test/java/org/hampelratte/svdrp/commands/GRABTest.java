@@ -31,6 +31,7 @@ package org.hampelratte.svdrp.commands;
 
 import static org.junit.Assert.*;
 
+import org.hampelratte.svdrp.commands.GRAB.Resolution;
 import org.junit.Test;
 
 public class GRABTest {
@@ -51,9 +52,11 @@ public class GRABTest {
     public void testQuality() {
         GRAB grab = new GRAB();
         grab.setQuality(75);
+        assertEquals(75, grab.getQuality());
         assertEquals("GRAB .jpg 75", grab.getCommand());
         
         grab.setQuality(-1);
+        assertEquals(-1, grab.getQuality());
         assertEquals("GRAB .jpg", grab.getCommand());
     }
     
@@ -61,6 +64,8 @@ public class GRABTest {
     public void testResolution() {
         GRAB grab = new GRAB();
         grab.setResolution(new GRAB.Resolution(640, 480));
+        assertEquals(640, grab.getResolution().getWidth());
+        assertEquals(480, grab.getResolution().getHeight());
         assertEquals("GRAB .jpg 80 640 480", grab.getCommand());
     }
     
@@ -81,6 +86,25 @@ public class GRABTest {
         assertEquals("GRAB .jpg", grab.getCommand());
         
         grab.setFilename("dingens.jpg");
+        assertEquals("dingens.jpg", grab.getFilename());
         assertEquals("GRAB dingens.jpg", grab.getCommand());
+    }
+    
+    @Test
+    public void testResolutionClass() {
+        Resolution res = new Resolution(1, 1);
+        assertEquals("1 1", res.toString());
+        
+        res.setHeight(800);
+        assertEquals(800, res.getHeight());
+        
+        res.setWidth(600);
+        assertEquals(600, res.getWidth());
+    }
+    
+    @Test
+    public void testToString() {
+        GRAB grab = new GRAB("/tmp/screenshot.jpg");
+        assertEquals("GRAB", grab.toString());
     }
 }
