@@ -29,74 +29,42 @@
  */
 package org.hampelratte.svdrp.commands;
 
-import org.hampelratte.svdrp.Command;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
-/**
- * Turns the remote control on or off. Without a parameter, the current
- * status of the remote control is reported.
- * 
- * @author <a href="hampelratte@users.berlios.de">hampelratte@users.berlios.de</a>
- */
-public class REMO extends Command {
-    private static final long serialVersionUID = 1L;
-
-    public static final String ON = "on";
-    public static final String OFF = "off";
+public class REMOTest {
+    @Test
+    public void testConstructor() {
+        assertEquals("REMO", new REMO().getCommand());
+    }
     
-    private String state = ""; 
+    @Test(expected = IllegalArgumentException.class)
+    public void testConstructorIllegalArgument() {
+        new REMO("foo");
+    }
     
-    /**
-     * Receives the current status of the remote control.
-     */
-    public REMO() {
-        super();
+    @Test
+    public void testStateConstructor() {
+        assertEquals("REMO on", new REMO(REMO.ON).getCommand());
     }
 
-    /**
-     * Turns the remote control on or off.
-     * 
-     * @param state
-     *            {@link REMO#ON REMO.ON}, {@link REMO#OFF REMO.OFF}
-     * @see REMO#ON
-     * @see REMO#OFF
-     */
-    public REMO(String state) {
-        super();
-        setState(state);
+    @Test
+    public void testSetState() {
+        REMO remo = new REMO();
+        remo.setState(REMO.OFF);
+        assertEquals("off", remo.getState());
+        assertEquals("REMO off", remo.getCommand());
     }
-
-    @Override
-    public String getCommand() {
-        return ("REMO " + state).trim();
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetStateIllegalArgument() {
+        REMO remo = new REMO();
+        remo.setState("foo");
     }
-
-    @Override
-    public String toString() {
-        return "REMO";
+    
+    @Test
+    public void testToString() {
+        assertEquals("REMO", new REMO().toString());
+        assertEquals("REMO", new REMO(REMO.ON).toString());
     }
-
-    /**
-     * Returns the state
-     * @return the state
-     */
-    public String getState() {
-        return state;
-    }
-
-    /**
-     * Sets the state to ON, OFF or resets the state.
-     * 
-     * @param state
-     *            {@link REMO#ON REMO.ON}, {@link REMO#OFF REMO.OFF} or an empty String to reset
-     *            the parameter
-     * @see REMO#ON
-     * @see REMO#OFF
-     */
-    public void setState(String state) {
-        if( !(ON.equals(state) || OFF.equals(state)) ) {
-            throw new IllegalArgumentException("State has to be " + ON + " or " + OFF);
-        }
-        this.state = state;
-    }
-
 }
