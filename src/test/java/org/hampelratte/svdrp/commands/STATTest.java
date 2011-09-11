@@ -29,23 +29,18 @@
  */
 package org.hampelratte.svdrp.commands;
 
-import org.hampelratte.svdrp.Command;
+import static org.junit.Assert.assertEquals;
 
-/**
- * Command to list system statistics like disk space
- * 
- * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
- */
-public class STAT extends Command {
-    private static final long serialVersionUID = 1L;
+import org.junit.Test;
 
-    @Override
-    public String getCommand() {
-        return "STAT disk";
+public class STATTest {
+    @Test
+    public void testConstructor() {
+        assertEquals("STAT disk", new STAT().getCommand());
     }
-
-    @Override
-    public String toString() {
-        return "STAT";
+    
+    @Test
+    public void testToString() {
+        assertEquals("STAT", new STAT().toString());
     }
 }
