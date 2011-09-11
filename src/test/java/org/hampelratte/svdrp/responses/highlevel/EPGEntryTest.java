@@ -114,8 +114,9 @@ public class EPGEntryTest {
     }
     
     @Test
-    public void testtoString() {
+    public void testToString() {
         // call toString to make sure, no NPE is fired
+        epg = new EPGEntry();
         epg.toString();
     }
 }
