@@ -31,6 +31,7 @@ package org.hampelratte.svdrp.responses.highlevel;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import org.hampelratte.svdrp.parser.EpgParserTest;
@@ -65,6 +66,7 @@ public class RecordingTest {
     
     @Test
     public void testToString() {
+        Locale.setDefault(Locale.GERMANY);
         Recording rec = new Recording();
         rec.setTitle("Test");
         rec.setNumber(1);
