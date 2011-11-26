@@ -369,9 +369,9 @@ public class Server implements Runnable {
     public static void main(String[] args) throws IOException {
         Server server = new Server();
         server.loadWelcome("welcome-1.6.0_2-utf_8.txt");
-        server.setAccessDenied(true);
-        //server.loadTimers("lstt_doppelpack_fake.txt");
-        //server.loadChannelsConf("pvrinput_channels.conf");
+        server.setAccessDenied(false);
+        server.loadTimers("lstt.txt");
+        server.loadChannelsConf("pvrinput_channels.conf");
         new Thread(server).start();
     }
 }
