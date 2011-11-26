@@ -14,7 +14,6 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore("Connection tests disabled for now")
 public class ConnectionTest {
     
     private static Server server;
@@ -70,6 +69,7 @@ public class ConnectionTest {
         }
     }
     
+    @Ignore("Read timeout test disabled for now, because it crashes the build on jenkins")
     @Test(expected = SocketTimeoutException.class)
     public void testReadTimeout() throws UnknownHostException, IOException {
         server.setResponseDelay(200);
