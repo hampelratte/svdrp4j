@@ -36,12 +36,15 @@ import java.util.List;
 import java.util.TimerTask;
 
 import org.hampelratte.svdrp.commands.LSTC;
+import org.hampelratte.svdrp.commands.LSTE;
 import org.hampelratte.svdrp.commands.LSTR;
 import org.hampelratte.svdrp.commands.LSTT;
 import org.hampelratte.svdrp.parsers.ChannelParser;
+import org.hampelratte.svdrp.parsers.EPGParser;
 import org.hampelratte.svdrp.parsers.RecordingListParser;
 import org.hampelratte.svdrp.parsers.TimerParser;
 import org.hampelratte.svdrp.responses.highlevel.Channel;
+import org.hampelratte.svdrp.responses.highlevel.EPGEntry;
 import org.hampelratte.svdrp.responses.highlevel.Recording;
 import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
 import org.slf4j.Logger;
@@ -135,6 +138,39 @@ public class VDR {
         return recordings;
     }
 
+    /**
+     * Get the whole EPG. To get the epg of one channel, call getEpg(int channel) or manually filter this list.
+     * 
+     * @return A list of all epg entries of all channels.
+     * @throws UnknownHostException
+     * @throws IOException
+     */
+    public List<EPGEntry> getEpg() throws UnknownHostException, IOException {
+        return getEpg(new LSTE());
+    }
+
+    public List<EPGEntry> getEpg(int channelNumber) throws UnknownHostException, IOException {
+        return getEpg(new LSTE(channelNumber));
+    }
+
+    private List<EPGEntry> getEpg(LSTE lste) throws UnknownHostException, IOException {
+        List<EPGEntry> epg = null;
+        Response res = send(lste);
+
+        if (res != null) {
+            if (res.getCode() == 215) {
+                epg = new EPGParser().parse(res.getMessage());
+            } else {
+                // something went wrong
+                throw new RuntimeException(res.getMessage());
+            }
+        } else {
+            throw new RuntimeException("Response object is null");
+        }
+
+        return epg;
+    }
+
     private Response send(Command cmd) throws UnknownHostException, IOException {
         Response res = null;
 
@@ -182,7 +218,8 @@ public class VDR {
 
     public static void main(String[] args) throws UnknownHostException, IOException, ParseException {
         VDR.persistentConnection = false;
-        VDR vdr = new VDR("localhost", 2001, 5000);
+        // VDR vdr = new VDR("localhost", 2001, 5000);
+        VDR vdr = new VDR("vdr", 6419, 5000);
         // List<VDRTimer> timers = vdr.getTimers();
         // if(timers.size() > 0) {
         // for (VDRTimer timer : timers) {
@@ -201,9 +238,14 @@ public class VDR {
         // System.out.println("No channels defined");
         // }
 
-        List<Recording> recs = vdr.getRecordings();
-        for (Recording rec : recs) {
-            System.out.println(rec.getNumber() + " " + rec.getDisplayTitle());
+        // List<Recording> recs = vdr.getRecordings();
+        // for (Recording rec : recs) {
+        // System.out.println(rec.getNumber() + " " + rec.getDisplayTitle());
+        // }
+
+        List<EPGEntry> epg = vdr.getEpg(1);
+        for (EPGEntry entry : epg) {
+            System.out.println(entry.getChannelName() + " " + entry.getStartTime().getTime() + " " + entry.getTitle());
         }
     }
 }
