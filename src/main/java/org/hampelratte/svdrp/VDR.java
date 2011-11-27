@@ -139,7 +139,7 @@ public class VDR {
     }
 
     /**
-     * Get the whole EPG. To get the epg of one channel, call getEpg(int channel) or manually filter this list.
+     * Get the whole EPG. To get the epg of one channel, call {@link #getEpg(int)} or filter this list manually.
      * 
      * @return A list of all epg entries of all channels.
      * @throws UnknownHostException
@@ -218,8 +218,8 @@ public class VDR {
 
     public static void main(String[] args) throws UnknownHostException, IOException, ParseException {
         VDR.persistentConnection = false;
-        // VDR vdr = new VDR("localhost", 2001, 5000);
-        VDR vdr = new VDR("vdr", 6419, 5000);
+        VDR vdr = new VDR("localhost", 2001, 5000);
+        // VDR vdr = new VDR("vdr", 6419, 5000);
         // List<VDRTimer> timers = vdr.getTimers();
         // if(timers.size() > 0) {
         // for (VDRTimer timer : timers) {
@@ -243,7 +243,7 @@ public class VDR {
         // System.out.println(rec.getNumber() + " " + rec.getDisplayTitle());
         // }
 
-        List<EPGEntry> epg = vdr.getEpg(1);
+        List<EPGEntry> epg = vdr.getEpg();
         for (EPGEntry entry : epg) {
             System.out.println(entry.getChannelName() + " " + entry.getStartTime().getTime() + " " + entry.getTitle());
         }
