@@ -38,14 +38,13 @@ import java.util.GregorianCalendar;
 import org.hampelratte.svdrp.Connection;
 import org.hampelratte.svdrp.VDRVersion;
 
-
 /**
  * @author <a href="hampelratte@users.sf.net">hampelratte@users.sf.net </a>
  * 
- * Represents a timer of the VDR software
+ *         Represents a timer of the VDR software
  */
 public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
-    
+
     private static final long serialVersionUID = 1L;
 
     public static final int INACTIVE = 0;
@@ -53,22 +52,22 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
     public static final int INSTANT_TIMER = 2;
     public static final int VPS = 4;
     public static final int RECORDING = 8;
-    
+
     private int state = ACTIVE;
-    
+
     private Calendar startTime = GregorianCalendar.getInstance();
 
     private Calendar endTime = GregorianCalendar.getInstance();
 
     // start date for repeating timers
     private Calendar firstTime = GregorianCalendar.getInstance();
-    
+
     private boolean hasFirstTime;
 
     private boolean[] repeatingDays = new boolean[7];
 
     private int channelNumber;
-    
+
     private int ID;
 
     private int priority;
@@ -80,17 +79,19 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
     private String path = "";
 
     private String description = "";
-    
+
     public VDRTimer() {
     }
 
     public boolean isActive() {
         return hasState(ACTIVE);
     }
-    
+
     /**
      * Returns, if a timer has a specific state
-     * @param STATE One of INACTIVE, ACTIVE, INSTANT_TIMER, VPS, RECORDING
+     * 
+     * @param STATE
+     *            One of INACTIVE, ACTIVE, INSTANT_TIMER, VPS, RECORDING
      * @return true, if the timer has the state
      * @see VDRTimer#ACTIVE
      * @see VDRTimer#INACTIVE
@@ -99,7 +100,7 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
      * @see VDRTimer#RECORDING
      */
     public boolean hasState(int STATE) {
-        if(STATE == INACTIVE) {
+        if (STATE == INACTIVE) {
             return !isActive();
         } else {
             return (state & STATE) == STATE;
@@ -159,16 +160,17 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
 
     /**
      * Returns a unique key, which consits of the channel, the day, the start time and the end time
+     * 
      * @return a String which identifies this Timer
      */
     public String getUniqueKey() {
         SimpleDateFormat sdf;
-        if(isRepeating()) {
+        if (isRepeating()) {
             sdf = new SimpleDateFormat("HH:mm");
         } else {
             sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         }
-        
+
         String startTime = sdf.format(getStartTime().getTime());
         String endTime = sdf.format(getEndTime().getTime());
         StringBuffer sb = new StringBuffer();
@@ -181,9 +183,10 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
         sb.append(endTime);
         return sb.toString();
     }
-    
+
     /**
      * Returns a settings string, which can be used to create or update timers
+     * 
      * @return a settings string, which can be used to create or update timers
      */
     public String toNEWT() {
@@ -212,41 +215,43 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
         return sb.toString();
     }
 
+    @Override
     public String toString() {
-            String start = createTimeString(getStartTime());
-            String end = createTimeString(getEndTime());
-            
-            StringBuffer sb = new StringBuffer();
-            sb.append(getState());
-            sb.append(':');
-            sb.append(channelNumber);
-            sb.append(':');
-            sb.append(getDayString());
-            if(isRepeating()) {
-                sb.append(" [instance:"+createDateString(startTime, false)+"]");
-            }
-            sb.append(':');
-            sb.append(start);
-            sb.append(':');
-            sb.append(end);
-            sb.append(':');
-            sb.append(priority);
-            sb.append(':');
-            sb.append(lifetime);
-            sb.append(':');
-            sb.append(getFile());
-            sb.append(':');
-            
-            String desc = description.replaceAll("\n", "\\|");
-            if(desc.length() > 15) {
-                desc = desc.substring(0,15) + "...";
-            }
-            sb.append(desc);
+        String start = createTimeString(getStartTime());
+        String end = createTimeString(getEndTime());
 
-            return sb.toString();
-        
+        StringBuffer sb = new StringBuffer();
+        sb.append(getState());
+        sb.append(':');
+        sb.append(channelNumber);
+        sb.append(':');
+        sb.append(getDayString());
+        if (isRepeating()) {
+            sb.append(" [instance:" + createDateString(startTime, false) + "]");
+        }
+        sb.append(':');
+        sb.append(start);
+        sb.append(':');
+        sb.append(end);
+        sb.append(':');
+        sb.append(priority);
+        sb.append(':');
+        sb.append(lifetime);
+        sb.append(':');
+        sb.append(getFile());
+        sb.append(':');
+
+        String desc = description.replaceAll("\n", "\\|");
+        if (desc.length() > 15) {
+            desc = desc.substring(0, 15) + "...";
+        }
+        sb.append(desc);
+
+        return sb.toString();
+
     }
 
+    @Override
     public boolean equals(Object o) {
         if (o instanceof VDRTimer) {
             VDRTimer timer = (VDRTimer) o;
@@ -256,6 +261,7 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
         }
     }
 
+    @Override
     public int compareTo(VDRTimer that) {
         return that.toNEWT().compareTo(this.toNEWT());
     }
@@ -270,8 +276,9 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
 
     public boolean isRepeating() {
         for (int i = 0; i < repeatingDays.length; i++) {
-            if (repeatingDays[i])
+            if (repeatingDays[i]) {
                 return true;
+            }
         }
         return false;
     }
@@ -321,15 +328,14 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
         int minor = v.getMinor();
         int rev = v.getRevision();
 
-        boolean newFormat = (major == 1 && (minor > 3 || minor == 3 && rev >= 23) ) | isRepeating();
+        boolean newFormat = (major == 1 && (minor > 3 || minor == 3 && rev >= 23)) | isRepeating();
 
         String date = "";
         if (newFormat) {
             int day = cal.get(Calendar.DAY_OF_MONTH);
             String dayString = day < 10 ? ("0" + day) : Integer.toString(day);
             int month = cal.get(Calendar.MONTH) + 1;
-            String monthString = month < 10 ? ("0" + month) : Integer
-                    .toString(month);
+            String monthString = month < 10 ? ("0" + month) : Integer.toString(month);
             date = cal.get(Calendar.YEAR) + "-" + monthString + "-" + dayString;
         } else {
             date = Integer.toString(cal.get(Calendar.DAY_OF_MONTH));
@@ -337,7 +343,7 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
 
         return date;
     }
-    
+
     private String createTimeString(Calendar time) {
         SimpleDateFormat df = new SimpleDateFormat("HHmm");
         Date date = new Date(time.getTimeInMillis());
@@ -346,23 +352,13 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
 
     private String createRepeatingString() {
         StringBuffer day = new StringBuffer();
-        char c = 'M';
-
-        c = repeatingDays[0] ? 'M' : '-';
-        day.append(c);
-        c = repeatingDays[1] ? 'T' : '-';
-        day.append(c);
-        c = repeatingDays[2] ? 'W' : '-';
-        day.append(c);
-        c = repeatingDays[3] ? 'T' : '-';
-        day.append(c);
-        c = repeatingDays[4] ? 'F' : '-';
-        day.append(c);
-        c = repeatingDays[5] ? 'S' : '-';
-        day.append(c);
-        c = repeatingDays[6] ? 'S' : '-';
-        day.append(c);
-
+        day.append(repeatingDays[0] ? 'M' : '-');
+        day.append(repeatingDays[1] ? 'T' : '-');
+        day.append(repeatingDays[2] ? 'W' : '-');
+        day.append(repeatingDays[3] ? 'T' : '-');
+        day.append(repeatingDays[4] ? 'F' : '-');
+        day.append(repeatingDays[5] ? 'S' : '-');
+        day.append(repeatingDays[6] ? 'S' : '-');
         return day.toString();
     }
 
@@ -410,22 +406,23 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
         return days[(cal.get(Calendar.DAY_OF_WEEK) + 5) % 7];
     }
 
+    @Override
     public Object clone() {
         VDRTimer timer = new VDRTimer();
         timer.setID(getID());
         timer.setState(getState());
         timer.setChannelNumber(getChannelNumber());
         timer.setDescription(getDescription());
-        timer.setEndTime((Calendar)getEndTime().clone());
+        timer.setEndTime((Calendar) getEndTime().clone());
         timer.setFile(getFile());
-        timer.setFirstTime((Calendar)getFirstTime().clone());
+        timer.setFirstTime((Calendar) getFirstTime().clone());
         timer.setHasFirstTime(hasFirstTime());
         timer.setChannelNumber(getChannelNumber());
         timer.setLifetime(getLifetime());
         timer.setPath(getPath());
         timer.setPriority(getPriority());
         timer.setRepeatingDays(getRepeatingDays().clone());
-        timer.setStartTime((Calendar)getStartTime().clone());
+        timer.setStartTime((Calendar) getStartTime().clone());
         timer.setTitle(getTitle());
         return timer;
     }
@@ -441,44 +438,46 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
     public int getState() {
         return state;
     }
-    
+
     /**
-     * Sets the state of a timer. To change a single part of the state, 
-     * e.g. VPS or ACTIVE, please use {@link VDRTimer#changeStateTo(int, boolean)}
-     * @param state The new state for the timer. 
-     *          Bitwise OR of multiple states is possible. 
-     *          E.g. setState(ACTIVE | VPS) sets the timer to ACTIVE and enables VPS
+     * Sets the state of a timer. To change a single part of the state, e.g. VPS or ACTIVE, please use {@link VDRTimer#changeStateTo(int, boolean)}
+     * 
+     * @param state
+     *            The new state for the timer. Bitwise OR of multiple states is possible. E.g. setState(ACTIVE | VPS) sets the timer to ACTIVE and enables VPS
      */
     public void setState(int state) {
         this.state = state;
     }
-    
+
     /**
      * Sets the given state to the given value. All other states are not touched.
-     * @param STATE the state to change
-     * @param enabled the new value of the state
+     * 
+     * @param STATE
+     *            the state to change
+     * @param enabled
+     *            the new value of the state
      */
     public void changeStateTo(int STATE, boolean enabled) {
-        if(enabled && hasState(STATE) || !enabled && !hasState(STATE)) {
-            // we don't have to change anything, because the timer already 
-            // has the requested state 
+        if (enabled && hasState(STATE) || !enabled && !hasState(STATE)) {
+            // we don't have to change anything, because the timer already
+            // has the requested state
             return;
         }
-        
+
         int sign = enabled ? 1 : -1;
         state += sign * STATE;
     }
-    
+
     public boolean isRecording() {
-        if(hasState(ACTIVE) && hasState(RECORDING)) {
+        if (hasState(ACTIVE) && hasState(RECORDING)) {
             return true;
         }
-        
+
         Calendar now = Calendar.getInstance();
-        if(now.after(getStartTime()) && now.before(getEndTime())) {
+        if (now.after(getStartTime()) && now.before(getEndTime())) {
             return hasState(ACTIVE);
         }
-        
+
         return false;
     }
 }
