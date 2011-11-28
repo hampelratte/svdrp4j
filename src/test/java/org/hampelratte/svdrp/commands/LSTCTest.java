@@ -29,7 +29,8 @@
  */
 package org.hampelratte.svdrp.commands;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
 public class LSTCTest {
@@ -37,17 +38,23 @@ public class LSTCTest {
     public void testConstructor() {
         assertEquals("LSTC", new LSTC().getCommand());
     }
-    
+
     @Test
     public void testStringConstructor() {
         assertEquals("LSTC 1", new LSTC("1").getCommand());
     }
-    
+
     @Test
     public void testIntConstructor() {
         assertEquals("LSTC 1", new LSTC(1).getCommand());
     }
-    
+
+    @Test
+    public void testBooleanConstructor() {
+        assertEquals("LSTC :groups", new LSTC(true).getCommand());
+        assertEquals("LSTC", new LSTC(false).getCommand());
+    }
+
     @Test
     public void testSetChannel() {
         LSTC lstc = new LSTC();
@@ -55,7 +62,7 @@ public class LSTCTest {
         assertEquals("LSTC 1", lstc.getCommand());
         assertEquals("1", lstc.getChannel());
     }
-    
+
     @Test
     public void testToString() {
         assertEquals("LSTC", new LSTC().toString());

@@ -38,14 +38,23 @@ import org.hampelratte.svdrp.Command;
  * 
  */
 public class LSTC extends Command {
-    private static final long serialVersionUID = 1L;
-    
+    private static final long serialVersionUID = 2L;
+
     private String channel = "";
+
+    private boolean withGroups = false;
 
     /**
      * Command to list all channels
      */
     public LSTC() {
+    }
+
+    /**
+     * Command to list all channels including the group separators
+     */
+    public LSTC(boolean withGroups) {
+        this.withGroups = withGroups;
     }
 
     /**
@@ -57,14 +66,19 @@ public class LSTC extends Command {
     public LSTC(String channel) {
         this.channel = channel;
     }
-    
+
     public LSTC(int channel) {
         this.channel = Integer.toString(channel);
     }
 
     @Override
     public String getCommand() {
-        String cmd = "LSTC " + channel;
+        String cmd = "LSTC ";
+        if (withGroups) {
+            cmd += ":groups";
+        } else {
+            cmd += channel;
+        }
         return cmd.trim();
     }
 
