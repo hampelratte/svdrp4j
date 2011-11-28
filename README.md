@@ -11,4 +11,4 @@ in `org.hampelratte.svdrp.parsers`, which can be used to parse the responses.
 
 Download and Maven Repo
 -----------------------
-svdrp4j is build with Maven. You can find the binary, source and javadoc packages in my [maven reposiory](http://hampelratte.org/maven/org/hampelratte/svdrp4j/)
+svdrp4j is build with Maven. You can find the binary, source and javadoc packages in my [maven reposiory](http://hampelratte.org/maven/org/hampelratte/svdrp4j/).
