@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Henrik Niehaus & Lazy Bones development team
+ * Copyright (c) Henrik Niehaus
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
