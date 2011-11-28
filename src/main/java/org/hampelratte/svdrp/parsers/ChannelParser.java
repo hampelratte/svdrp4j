@@ -35,8 +35,6 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import org.hampelratte.svdrp.responses.highlevel.Channel;
-import org.hampelratte.svdrp.responses.highlevel.ChannelLineParser;
-import org.hampelratte.svdrp.responses.highlevel.ChannelLineParserFactory;
 import org.hampelratte.svdrp.responses.highlevel.DVBChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

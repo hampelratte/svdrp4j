@@ -27,58 +27,73 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.hampelratte.svdrp.responses.highlevel;
+package org.hampelratte.svdrp.parsers;
 
 public class ChannelLineParserFactory {
-	
-	private static DVBChannelLineParser dvb;
-	
-	private static PvrInputChannelLineParser pvr;
-	
-	//private static IPTVChannelLineParser iptv;
-	
-	public static ChannelLineParser createChannelParser(String chanConfLine) throws Exception {
-	    if(isDvbChannel(chanConfLine)) { 
-			if(dvb == null) dvb = new DVBChannelLineParser();
-			return dvb;
-		/* TODO enable if IPTV is fully supported if(chanConfLine.toLowerCase().contains("iptv")) {
-		} else if(iptv == null) iptv = new IPTVChannelLineParser();
-			return iptv;
-		*/ 
-	    } else if(isPvrInputChannel(chanConfLine)) {
-	        if(pvr == null) pvr = new PvrInputChannelLineParser();
-            return pvr;
-	    } else {
-			throw new Exception("Unknown format for channels.conf lines: " + chanConfLine);
-		}
-	}
 
-	private static boolean isPvrInputChannel(String chanConfLine) {
+    private static DVBChannelLineParser dvb;
+
+    private static PvrInputChannelLineParser pvr;
+
+    // private static IPTVChannelLineParser iptv;
+
+    private static GroupChannelLineParser group;
+
+    public static ChannelLineParser createChannelParser(String chanConfLine) throws Exception {
+        if (isDvbChannel(chanConfLine)) {
+            if (dvb == null) {
+                dvb = new DVBChannelLineParser();
+            }
+            return dvb;
+            /*
+             * TODO enable if IPTV is fully supported if(chanConfLine.toLowerCase().contains("iptv")) { } else if(iptv == null) iptv = new
+             * IPTVChannelLineParser(); return iptv;
+             */
+        } else if (isPvrInputChannel(chanConfLine)) {
+            if (pvr == null) {
+                pvr = new PvrInputChannelLineParser();
+            }
+            return pvr;
+        } else if (isGroup(chanConfLine)) {
+            if (group == null) {
+                group = new GroupChannelLineParser();
+            }
+            return group;
+        } else {
+            throw new Exception("Unknown format for channels.conf lines: " + chanConfLine);
+        }
+    }
+
+    private static boolean isGroup(String chanConfLine) {
+        return chanConfLine.startsWith("0 :");
+    }
+
+    private static boolean isPvrInputChannel(String chanConfLine) {
         return chanConfLine.toLowerCase().contains("pvrinput") || chanConfLine.contains("w_pvrscan");
     }
 
     private static boolean isDvbChannel(String chanConfLine) {
         int pos = -1;
         for (int i = 0; i < 3; i++) {
-            pos = chanConfLine.indexOf(':', pos+1);
+            pos = chanConfLine.indexOf(':', pos + 1);
         }
         pos += 1;
-        
+
         // we check, if the source part starts with S, C or T
-        // if every column in name:freq:params:source has at least length 1, 
-        // S, C or T may start at least at pos 7  
-        if(pos >= 7) { 
+        // if every column in name:freq:params:source has at least length 1,
+        // S, C or T may start at least at pos 7
+        if (pos >= 7) {
             char first = chanConfLine.charAt(pos);
             if (first == 'S' || first == 'C' || first == 'T') {
                 return true;
             }
         }
-	    
-//        String[] parts = chanConfLine.split(":");
-//        if (parts.length >= 4 && (parts[3].charAt(0) == 'S' || parts[3].charAt(0) == 'C' || parts[3].charAt(0) == 'T')) {
-//            return true;
-//        }
-        
+
+        // String[] parts = chanConfLine.split(":");
+        // if (parts.length >= 4 && (parts[3].charAt(0) == 'S' || parts[3].charAt(0) == 'C' || parts[3].charAt(0) == 'T')) {
+        // return true;
+        // }
+
         return false;
-	}
+    }
 }

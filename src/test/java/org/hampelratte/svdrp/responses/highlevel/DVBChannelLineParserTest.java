@@ -31,6 +31,8 @@ package org.hampelratte.svdrp.responses.highlevel;
 
 import static junit.framework.Assert.*;
 
+import org.hampelratte.svdrp.parsers.ChannelLineParser;
+import org.hampelratte.svdrp.parsers.DVBChannelLineParser;
 import org.junit.Before;
 import org.junit.Test;
 

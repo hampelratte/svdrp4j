@@ -1,5 +1,4 @@
-/* $Id$
- * 
+/*
  * Copyright (c) Henrik Niehaus & Lazy Bones development team
  * All rights reserved.
  * 
@@ -29,21 +28,11 @@
  */
 package org.hampelratte.svdrp.responses.highlevel;
 
-public abstract class ChannelLineParser {
+/**
+ * This is a workaround for channel groups.
+ * 
+ * @author <a href="mailto:hampelratte@users.berlios.de">hampelratte@users.berlios.de</a>
+ */
+public class ChannelGroup extends Channel {
 
-	public abstract Channel parse(String chanConfLine);
-	
-	protected static int parseNumberParam(String string, int startIndex) {
-        StringBuilder number = new StringBuilder();
-        for(int j=startIndex+1; j<string.length(); j++) {
-            char c = string.charAt(j);
-            if(Character.isDigit(c)) {
-                number.append(c);
-            } else {
-                break;
-            }
-        }
-        
-        return Integer.parseInt(number.toString());
-    }
 }

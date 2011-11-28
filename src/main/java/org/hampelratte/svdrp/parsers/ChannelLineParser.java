@@ -27,32 +27,25 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.hampelratte.svdrp.responses.highlevel;
+package org.hampelratte.svdrp.parsers;
 
-import static org.junit.Assert.assertEquals;
+import org.hampelratte.svdrp.responses.highlevel.Channel;
 
-import org.hampelratte.svdrp.parsers.DVBChannelLineParser;
-import org.junit.Test;
+public abstract class ChannelLineParser {
 
-
-public class DVBChannelTest  {
-    
-    private DVBChannelLineParser parser = new DVBChannelLineParser();
-    
-    @Test
-    public void testID() {
-        DVBChannel channel = (DVBChannel) parser.parse("1 Das Erste:11836:B8C23D12M64T2G32Y0:S19.2E:27500:101:102=deu,103=2ch;106=deu:104:0:28106:1:1101:0");
-        assertEquals("S19.2E-1-1101-28106-0", channel.getID());
-
-        channel.setTID(0);
-        channel.setNID(0);
-        assertEquals("S19.2E-0-11836-28106-0", channel.getID());
+	public abstract Channel parse(String chanConfLine);
+	
+	protected static int parseNumberParam(String string, int startIndex) {
+        StringBuilder number = new StringBuilder();
+        for(int j=startIndex+1; j<string.length(); j++) {
+            char c = string.charAt(j);
+            if(Character.isDigit(c)) {
+                number.append(c);
+            } else {
+                break;
+            }
+        }
         
-        channel.setHorizontalPolarization(true);
-        assertEquals("S19.2E-0-111836-28106-0", channel.getID());
-        
-        channel.setHorizontalPolarization(false);
-        channel.setLeftCircularPolarization(true);
-        assertEquals("S19.2E-0-311836-28106-0", channel.getID());
+        return Integer.parseInt(number.toString());
     }
 }

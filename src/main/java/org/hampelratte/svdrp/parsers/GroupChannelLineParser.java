@@ -27,38 +27,19 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.hampelratte.svdrp.responses.highlevel;
+package org.hampelratte.svdrp.parsers;
 
-import java.util.StringTokenizer;
+import org.hampelratte.svdrp.responses.highlevel.Channel;
+import org.hampelratte.svdrp.responses.highlevel.ChannelGroup;
 
-public class PvrInputChannelLineParser extends DVBChannelLineParser {
+public class GroupChannelLineParser extends ChannelLineParser {
 
     @Override
     public Channel parse(String chanConfLine) {
-        DVBChannel dvb = (DVBChannel) super.parse(chanConfLine);
-        PvrInputChannel channel = new PvrInputChannel(dvb);
-        parseParameters(channel, chanConfLine);
-        return channel;
-    }
-
-    @Override
-    protected void parseParameters(String string) {
-        // override method from DVBChannelLineParser with no operation
-    }
-    
-    private void parseParameters(PvrInputChannel channel, String chanConfLine) {
-        String[] parts = chanConfLine.split(":");
-        String params = parts[2];
-        StringTokenizer st = new StringTokenizer(params, "|");
-        if(params.startsWith("PVRINPUT|")) {
-            st.nextToken(); // skip PVRINPUT
-        }
-        channel.setType(st.nextToken()); // set type (TV, RADIO, COMPOSITE0..COMPOSITE4, SVIDEO0..SVIDEO3)
-        if(st.hasMoreElements()) {
-            channel.setVideoNorm(st.nextToken());
-        }
-        if(st.hasMoreElements()) {
-            channel.setCard(st.nextToken());
-        }
+        ChannelGroup cg = new ChannelGroup();
+        String name = chanConfLine.substring(chanConfLine.indexOf(':') + 1);
+        cg.setName(name);
+        cg.setChannelNumber(0);
+        return cg;
     }
 }

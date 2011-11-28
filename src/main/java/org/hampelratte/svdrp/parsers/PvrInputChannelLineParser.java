@@ -27,27 +27,42 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.hampelratte.svdrp.responses.highlevel;
+package org.hampelratte.svdrp.parsers;
 
-public class IPTVChannelLineParser extends ChannelLineParser {
+import java.util.StringTokenizer;
 
-	@Override
-	public Channel parse(String chanConfLine) {
-	    IPTVChannel channel = new IPTVChannel();
-        String line = chanConfLine;
-        // parse channelNumber
-        channel.setChannelNumber(Integer.parseInt(line.substring(0, line.indexOf(" "))));
-        // remove channelNumber
-        line = line.substring(line.indexOf(" ") + 1);
-        
-        // parse other parts
-        String[] parts = line.split(":");
-        // name
-        channel.setName(parts[0]);
-        
-        // TODO parse the other parameters
-        
-		return channel;
-	}
+import org.hampelratte.svdrp.responses.highlevel.Channel;
+import org.hampelratte.svdrp.responses.highlevel.DVBChannel;
+import org.hampelratte.svdrp.responses.highlevel.PvrInputChannel;
 
+public class PvrInputChannelLineParser extends DVBChannelLineParser {
+
+    @Override
+    public Channel parse(String chanConfLine) {
+        DVBChannel dvb = (DVBChannel) super.parse(chanConfLine);
+        PvrInputChannel channel = new PvrInputChannel(dvb);
+        parseParameters(channel, chanConfLine);
+        return channel;
+    }
+
+    @Override
+    protected void parseParameters(String string) {
+        // override method from DVBChannelLineParser with no operation
+    }
+    
+    private void parseParameters(PvrInputChannel channel, String chanConfLine) {
+        String[] parts = chanConfLine.split(":");
+        String params = parts[2];
+        StringTokenizer st = new StringTokenizer(params, "|");
+        if(params.startsWith("PVRINPUT|")) {
+            st.nextToken(); // skip PVRINPUT
+        }
+        channel.setType(st.nextToken()); // set type (TV, RADIO, COMPOSITE0..COMPOSITE4, SVIDEO0..SVIDEO3)
+        if(st.hasMoreElements()) {
+            channel.setVideoNorm(st.nextToken());
+        }
+        if(st.hasMoreElements()) {
+            channel.setCard(st.nextToken());
+        }
+    }
 }
