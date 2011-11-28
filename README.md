@@ -8,3 +8,7 @@ To get started with svdrp4j have a look at the `VDR` class. This is a facade, wh
 more control have a look at the `org.hampelratte.svdrp.commands` package, which contains all available SVDRP commands, the 
 `org.hampelratte.svdrp.responses` package, which contains all possible responses, the `Connection` class, which is used to send the commands and the parsers 
 in `org.hampelratte.svdrp.parsers`, which can be used to parse the responses.
+
+Download and Maven Repo
+-----------------------
+svdrp4j is build with Maven. You can find the binary, source and javadoc packages in my [maven reposiory](http://hampelratte.org/maven/org/hampelratte/svdrp4j/)
