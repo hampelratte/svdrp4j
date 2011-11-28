@@ -1,6 +1,5 @@
-/* $Id$
- * 
- * Copyright (c) Henrik Niehaus & Lazy Bones development team
+/* 
+ * Copyright (c) Henrik Niehaus
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -36,14 +35,14 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.hampelratte.svdrp.Connection;
-import org.hampelratte.svdrp.VDRVersion;
+import org.hampelratte.svdrp.Version;
 
 /**
  * @author <a href="hampelratte@users.sf.net">hampelratte@users.sf.net </a>
  * 
  *         Represents a timer of the VDR software
  */
-public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
+public class Timer implements Serializable, Comparable<Timer>, Cloneable {
 
     private static final long serialVersionUID = 1L;
 
@@ -80,7 +79,7 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
 
     private String description = "";
 
-    public VDRTimer() {
+    public Timer() {
     }
 
     public boolean isActive() {
@@ -93,11 +92,11 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
      * @param STATE
      *            One of INACTIVE, ACTIVE, INSTANT_TIMER, VPS, RECORDING
      * @return true, if the timer has the state
-     * @see VDRTimer#ACTIVE
-     * @see VDRTimer#INACTIVE
-     * @see VDRTimer#INSTANT_TIMER
-     * @see VDRTimer#VPS
-     * @see VDRTimer#RECORDING
+     * @see Timer#ACTIVE
+     * @see Timer#INACTIVE
+     * @see Timer#INSTANT_TIMER
+     * @see Timer#VPS
+     * @see Timer#RECORDING
      */
     public boolean hasState(int STATE) {
         if (STATE == INACTIVE) {
@@ -253,8 +252,8 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof VDRTimer) {
-            VDRTimer timer = (VDRTimer) o;
+        if (o instanceof Timer) {
+            Timer timer = (Timer) o;
             return timer.toNEWT().equals(toNEWT());
         } else {
             return false;
@@ -262,7 +261,7 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
     }
 
     @Override
-    public int compareTo(VDRTimer that) {
+    public int compareTo(Timer that) {
         return that.toNEWT().compareTo(this.toNEWT());
     }
 
@@ -319,9 +318,9 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
     private String createDateString(Calendar cal, boolean repeating) {
         // shall we use the new format?
         // if no connection is available, we have to use a dummy version
-        VDRVersion v = Connection.getVersion();
+        Version v = Connection.getVersion();
         if (v == null) {
-            v = new VDRVersion("1.0.0");
+            v = new Version("1.0.0");
         }
 
         int major = v.getMajor();
@@ -408,7 +407,7 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
 
     @Override
     public Object clone() {
-        VDRTimer timer = new VDRTimer();
+        Timer timer = new Timer();
         timer.setID(getID());
         timer.setState(getState());
         timer.setChannelNumber(getChannelNumber());
@@ -440,7 +439,7 @@ public class VDRTimer implements Serializable, Comparable<VDRTimer>, Cloneable {
     }
 
     /**
-     * Sets the state of a timer. To change a single part of the state, e.g. VPS or ACTIVE, please use {@link VDRTimer#changeStateTo(int, boolean)}
+     * Sets the state of a timer. To change a single part of the state, e.g. VPS or ACTIVE, please use {@link Timer#changeStateTo(int, boolean)}
      * 
      * @param state
      *            The new state for the timer. Bitwise OR of multiple states is possible. E.g. setState(ACTIVE | VPS) sets the timer to ACTIVE and enables VPS

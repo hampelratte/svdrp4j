@@ -1,6 +1,5 @@
-/* $Id$
- * 
- * Copyright (c) Henrik Niehaus & Lazy Bones development team
+/* 
+ * Copyright (c) Henrik Niehaus
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -62,10 +61,8 @@ import org.hampelratte.svdrp.responses.R554;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
- * The connection to VDR. I recommend to use only one connection at a time,
- * since VDR just accepts one client.
+ * The connection to VDR. I recommend to use only one connection at a time, since VDR just accepts one client.
  * 
  * You may set Connection.DEBUG to true to get debug output on System.out
  * 
@@ -73,12 +70,12 @@ import org.slf4j.LoggerFactory;
  */
 public class Connection {
     private static transient Logger logger = LoggerFactory.getLogger(Connection.class);
-    
+
     /**
      * The socket used to talk to VDR
      */
-    private Socket socket;
-    
+    private final Socket socket;
+
     /**
      * The BufferedWriter to send commands to VDR
      */
@@ -89,10 +86,10 @@ public class Connection {
      */
     private BufferedReader in;
 
-    private static VDRVersion version;
+    private static Version version;
 
     private String encoding;
-    
+
     /**
      * Creates a new connection to host:port with timeout and default charset encoding UTF-8. Lazy Bones will try to detect the encoding of the VDR and override
      * the default encoding, if a valid value is found.
@@ -106,11 +103,10 @@ public class Connection {
      * @throws UnknownHostException
      * @throws IOException
      */
-    public Connection(String host, int port, int connectTimeout)
-            throws UnknownHostException, IOException {
+    public Connection(String host, int port, int connectTimeout) throws UnknownHostException, IOException {
         this(host, port, connectTimeout, "UTF-8");
     }
-    
+
     /**
      * Creates a new connection to host:port with timeout and encoding. Lazy Bones will try to detect the encoding of the VDR and overrides the passed encoding,
      * if a valid value is found. To disable this behaviour use {@link #Connection(String, int, int, int, String, boolean)} and set detectEncoding to false.
@@ -126,9 +122,8 @@ public class Connection {
      * @throws UnknownHostException
      * @throws IOException
      */
-    public Connection(String host, int port, int connectTimeout, String encoding)
-    		throws UnknownHostException, IOException {
-    	this(host, port, connectTimeout, 0, "UTF-8", true);
+    public Connection(String host, int port, int connectTimeout, String encoding) throws UnknownHostException, IOException {
+        this(host, port, connectTimeout, 0, "UTF-8", true);
     }
 
     /**
@@ -150,12 +145,12 @@ public class Connection {
      * @throws UnknownHostException
      * @throws IOException
      */
-    public Connection(String host, int port, int connectTimeout, int readTimeout, String encoding, boolean detectEncoding) 
-        throws UnknownHostException, IOException {
+    public Connection(String host, int port, int connectTimeout, int readTimeout, String encoding, boolean detectEncoding) throws UnknownHostException,
+            IOException {
         this.encoding = encoding;
         socket = new Socket();
         InetSocketAddress sa = new InetSocketAddress(host, port);
-        
+
         socket.connect(sa, connectTimeout);
         socket.setSoTimeout(readTimeout);
 
@@ -163,19 +158,20 @@ public class Connection {
         in = new BufferedReader(new InputStreamReader(socket.getInputStream(), encoding), 8192);
 
         // read the welcome message
-		Response res = null;
-		try {
-			res = readResponse();
-		} catch (IOException e1) {
-			// cleanup after timeout
-			out.close();
-			in.close();
-			try {
-				socket.close();
-			} catch (Exception e) {	}
-			throw (e1);
-		}
-		
+        Response res = null;
+        try {
+            res = readResponse();
+        } catch (IOException e1) {
+            // cleanup after timeout
+            out.close();
+            in.close();
+            try {
+                socket.close();
+            } catch (Exception e) {
+            }
+            throw (e1);
+        }
+
         if (res.getCode() == 220) {
             String msg = res.getMessage().trim();
 
@@ -184,33 +180,33 @@ public class Connection {
                 Pattern pattern = Pattern.compile(".*((?:\\d)+\\.(?:\\d)+\\.(?:\\d)+).*");
                 Matcher m = pattern.matcher(msg);
                 if (m.matches()) {
-                    version = new VDRVersion(m.group(1));
+                    version = new Version(m.group(1));
                 } else {
                     throw new Exception("No Version String found in welcome message");
                 }
             } catch (Exception e) {
-                version = new VDRVersion("1.0.0");
+                version = new Version("1.0.0");
             }
 
             if (detectEncoding) {
-	            // try to parse the encoding
-	            try {
-	                int lastSemicolon = msg.lastIndexOf(';');
-	                if(lastSemicolon > 0) {
-	                    String lastSegment = msg.substring(lastSemicolon + 1).trim();
-	                    if(Charset.availableCharsets().containsKey(lastSegment)) {
-	                        logger.debug("VDR is running with charset {}", lastSegment);
-	                        this.encoding = lastSegment;
-	                        if(!this.encoding.equalsIgnoreCase(encoding)) {
-	                            logger.debug("Connection has been established with encoding {}. Now switching to {}", encoding, this.encoding);
-	                            out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), this.encoding), 8192);
-	                            in = new BufferedReader(new InputStreamReader(socket.getInputStream(), this.encoding), 8192);
-	                        }
-	                    }
-	                }
-	            } catch (Exception e) { 
-	                // fail silently 
-	            }
+                // try to parse the encoding
+                try {
+                    int lastSemicolon = msg.lastIndexOf(';');
+                    if (lastSemicolon > 0) {
+                        String lastSegment = msg.substring(lastSemicolon + 1).trim();
+                        if (Charset.availableCharsets().containsKey(lastSegment)) {
+                            logger.debug("VDR is running with charset {}", lastSegment);
+                            this.encoding = lastSegment;
+                            if (!this.encoding.equalsIgnoreCase(encoding)) {
+                                logger.debug("Connection has been established with encoding {}. Now switching to {}", encoding, this.encoding);
+                                out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), this.encoding), 8192);
+                                in = new BufferedReader(new InputStreamReader(socket.getInputStream(), this.encoding), 8192);
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    // fail silently
+                }
             }
         } else {
             throw new IOException(res.getMessage());
@@ -244,15 +240,19 @@ public class Connection {
      */
     public synchronized Response send(Command cmd) throws IOException {
         // send the command
-        if(cmd instanceof PUTE) {
-            out.write("PUTE"); out.newLine(); out.flush();
+        if (cmd instanceof PUTE) {
+            out.write("PUTE");
+            out.newLine();
+            out.flush();
             Response res = readResponse();
-            if(res.getCode() != 354) {
+            if (res.getCode() != 354) {
                 return res;
             }
         }
-        
-        out.write(cmd.getCommand()); out.newLine(); out.flush();
+
+        out.write(cmd.getCommand());
+        out.newLine();
+        out.flush();
         logger.debug("--> {}", cmd.getCommand());
 
         // read the response
@@ -279,7 +279,7 @@ public class Connection {
             if (line.length() < 4) {
                 continue;
             }
-            
+
             char fourthChar = line.charAt(3);
             int code = -1;
             try {
@@ -338,15 +338,14 @@ public class Connection {
                     break;
                 default:
                     // special case: plugin responses in the range between 900 and 999
-                    if(code >= 900 && code <= 999) {
+                    if (code >= 900 && code <= 999) {
                         response = new PluginResponse(code, msg.toString());
                     } else {
                         response = new NotImplementedBySVDRP4J(code, msg.toString());
                     }
                     break;
                 }
-                
-                
+
                 line = "";
                 msg = new StringBuilder();
             } else {
@@ -358,8 +357,7 @@ public class Connection {
     }
 
     /**
-     * Closes the connection to VDR. After closing a connection you have to
-     * create a new connection to talk to VDR.
+     * Closes the connection to VDR. After closing a connection you have to create a new connection to talk to VDR.
      * 
      * @throws IOException
      */
@@ -369,14 +367,14 @@ public class Connection {
          * socket on vdr stays in FIN_WAIT2 without this
          */
         if (out != null) {
-        	out.close();
+            out.close();
         }
         if (in != null) {
-        	in.close();
+            in.close();
         }
-		if (socket != null) {
-			socket.close();
-		}
+        if (socket != null) {
+            socket.close();
+        }
     }
 
     /**
@@ -384,10 +382,10 @@ public class Connection {
      * 
      * @return The version of the VDR we are talking to.
      */
-    public static VDRVersion getVersion() {
+    public static Version getVersion() {
         return version;
     }
-    
+
     public String getEncoding() {
         return encoding;
     }

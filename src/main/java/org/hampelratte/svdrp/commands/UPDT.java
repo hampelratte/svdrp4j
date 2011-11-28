@@ -1,6 +1,5 @@
-/* $Id$
- * 
- * Copyright (c) Henrik Niehaus & Lazy Bones development team
+/* 
+ * Copyright (c) Henrik Niehaus
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -30,7 +29,7 @@
 package org.hampelratte.svdrp.commands;
 
 import org.hampelratte.svdrp.Command;
-import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
+import org.hampelratte.svdrp.responses.highlevel.Timer;
 
 /**
  * Command to update a timer
@@ -56,7 +55,7 @@ public class UPDT extends Command {
         this.settings = settings;
     }
 
-    public UPDT(VDRTimer timer) {
+    public UPDT(Timer timer) {
         this(timer.toNEWT());
     }
 

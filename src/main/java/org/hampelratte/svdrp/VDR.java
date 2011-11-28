@@ -32,21 +32,27 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.TimerTask;
 
+import org.hampelratte.svdrp.commands.DELR;
+import org.hampelratte.svdrp.commands.DELT;
 import org.hampelratte.svdrp.commands.LSTC;
 import org.hampelratte.svdrp.commands.LSTE;
 import org.hampelratte.svdrp.commands.LSTR;
 import org.hampelratte.svdrp.commands.LSTT;
+import org.hampelratte.svdrp.commands.MODT;
+import org.hampelratte.svdrp.commands.NEWT;
 import org.hampelratte.svdrp.parsers.ChannelParser;
 import org.hampelratte.svdrp.parsers.EPGParser;
 import org.hampelratte.svdrp.parsers.RecordingListParser;
+import org.hampelratte.svdrp.parsers.RecordingParser;
 import org.hampelratte.svdrp.parsers.TimerParser;
 import org.hampelratte.svdrp.responses.highlevel.Channel;
 import org.hampelratte.svdrp.responses.highlevel.EPGEntry;
 import org.hampelratte.svdrp.responses.highlevel.Recording;
-import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
+import org.hampelratte.svdrp.responses.highlevel.Timer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,16 +84,45 @@ public class VDR {
         this.connectTimeout = connectTimeout;
     }
 
-    public List<VDRTimer> getTimers() throws UnknownHostException, IOException {
-        List<VDRTimer> timers = null;
-        Response res = send(new LSTT());
+    /**
+     * Requests a list of all defined timers.
+     * 
+     * @return A list of all defined timers.
+     * @throws UnknownHostException
+     * @throws IOException
+     */
+    public List<Timer> getTimers() throws UnknownHostException, IOException {
+        return getTimers(new LSTT());
+    }
+
+    /**
+     * Request a single timer.
+     * 
+     * @param number
+     *            The number of the timer to erturn.
+     * @return A Timer object, which represents the timer settings.
+     * @throws UnknownHostException
+     * @throws IOException
+     */
+    public Timer getTimer(int number) throws UnknownHostException, IOException {
+        List<Timer> timers = getTimers(new LSTT(number));
+        if (timers.size() > 0) {
+            return timers.get(0);
+        } else {
+            throw new RuntimeException("Timer " + number + " is not defined");
+        }
+    }
+
+    private List<Timer> getTimers(LSTT lstt) throws UnknownHostException, IOException {
+        List<Timer> timers = null;
+        Response res = send(lstt);
 
         if (res != null) {
             if (res.getCode() == 250) {
                 timers = TimerParser.parse(res.getMessage());
-            } else if (res != null && res.getCode() == 550) {
+            } else if (res != null && (res.getCode() == 550 || res.getCode() == 501)) {
                 // no timers defined, return an empty list
-                timers = new ArrayList<VDRTimer>();
+                timers = new ArrayList<Timer>();
             } else {
                 // something went wrong
                 throw new RuntimeException(res.getMessage());
@@ -99,6 +134,56 @@ public class VDR {
         return timers;
     }
 
+    /**
+     * Modifies an existing timer.
+     * 
+     * @param number
+     *            The number of the timer to modify.
+     * @param timer
+     *            A Timer, which represents the new timer settings.
+     * @return The response from VDR.
+     * 
+     * @throws UnknownHostException
+     * @throws IOException
+     */
+    public Response modifyTimer(int number, Timer timer) throws UnknownHostException, IOException {
+        return send(new MODT(number, timer));
+    }
+
+    /**
+     * Deletes an existing timer.
+     * 
+     * @param number
+     *            The number of the timer to delete.
+     * @return The response from VDR.
+     * @throws UnknownHostException
+     * @throws IOException
+     */
+    public Response deleteTimer(int number) throws UnknownHostException, IOException {
+        return send(new DELT(number));
+    }
+
+    /**
+     * Creates a new timer.
+     * 
+     * @param timer
+     *            A {@link Timer}, which represents the timer settings.
+     * @return The response from VDR.
+     * @throws UnknownHostException
+     * @throws IOException
+     */
+    public Response newTimer(Timer timer) throws UnknownHostException, IOException {
+        return send(new NEWT(timer));
+    }
+
+    /**
+     * Requests the list of all channels.
+     * 
+     * @return A list of all channels.
+     * @throws UnknownHostException
+     * @throws IOException
+     * @throws ParseException
+     */
     public List<Channel> getChannels() throws UnknownHostException, IOException, ParseException {
         List<Channel> channels = null;
         Response res = send(new LSTC());
@@ -117,6 +202,13 @@ public class VDR {
         return channels;
     }
 
+    /**
+     * Requests a list of all recordings.
+     * 
+     * @return A list of all recordings.
+     * @throws UnknownHostException
+     * @throws IOException
+     */
     public List<Recording> getRecordings() throws UnknownHostException, IOException {
         List<Recording> recordings = null;
         Response res = send(new LSTR());
@@ -139,6 +231,46 @@ public class VDR {
     }
 
     /**
+     * This method returns the details of one recording. You first have to obtain a Recording by calling {@link #getRecordings()} and then pass this object as
+     * parameter.
+     * 
+     * @param rec
+     *            The recording to load the details for.
+     * @return The same object with the details loaded.
+     * @throws UnknownHostException
+     * @throws IOException
+     * @throws ParseException
+     */
+    public Recording getRecordingDetails(Recording rec) throws UnknownHostException, IOException, ParseException {
+        Response res = send(new LSTR(rec.getNumber()));
+        if (res != null) {
+            if (res.getCode() == 215) {
+                new RecordingParser().parseRecording(rec, res.getMessage());
+            } else {
+                // something went wrong
+                throw new RuntimeException(res.getMessage());
+            }
+        } else {
+            throw new RuntimeException("Response object is null");
+        }
+
+        return rec;
+    }
+
+    /**
+     * Deletes a recording. You first have to obtain a Recording by calling {@link #getRecordings()} and then pass this object as parameter.
+     * 
+     * @param rec
+     *            The recording to delete.
+     * @return The response from VDR.
+     * @throws UnknownHostException
+     * @throws IOException
+     */
+    public Response deleteRecording(Recording rec) throws UnknownHostException, IOException {
+        return send(new DELR(rec.getNumber()));
+    }
+
+    /**
      * Get the whole EPG. To get the epg of one channel, call {@link #getEpg(int)} or filter this list manually.
      * 
      * @return A list of all epg entries of all channels.
@@ -149,6 +281,15 @@ public class VDR {
         return getEpg(new LSTE());
     }
 
+    /**
+     * Request the EPG of a single channel.
+     * 
+     * @param channelNumber
+     *            The channel number of the channel.
+     * @return A list of all EPG entries available for the given channel.
+     * @throws UnknownHostException
+     * @throws IOException
+     */
     public List<EPGEntry> getEpg(int channelNumber) throws UnknownHostException, IOException {
         return getEpg(new LSTE(channelNumber));
     }
@@ -180,7 +321,6 @@ public class VDR {
         } else {
             logger.trace("old connection");
         }
-        logger.debug("-->{}", cmd.getCommand());
 
         res = connection.send(cmd);
         lastTransmissionTime = System.currentTimeMillis();
@@ -194,7 +334,6 @@ public class VDR {
                 timer.schedule(new ConnectionCloser(), 0, 100);
             }
         }
-        logger.debug("<--{}", res.getMessage());
 
         return res;
     }
@@ -217,35 +356,22 @@ public class VDR {
     }
 
     public static void main(String[] args) throws UnknownHostException, IOException, ParseException {
-        VDR.persistentConnection = false;
+        VDR.persistentConnection = true;
         VDR vdr = new VDR("localhost", 2001, 5000);
         // VDR vdr = new VDR("vdr", 6419, 5000);
-        // List<VDRTimer> timers = vdr.getTimers();
-        // if(timers.size() > 0) {
-        // for (VDRTimer timer : timers) {
-        // System.out.println(timer.getID() + " " + timer.getStartTime().getTime() + " " + timer.getTitle());
-        // }
-        // } else {
-        // System.out.println("No timers defined");
-        // }
-        //
-        // List<Channel> channels = vdr.getChannels();
-        // if(channels.size() > 0) {
-        // for (Channel channel : channels) {
-        // System.out.println(channel.getChannelNumber() + " " + channel.getName());
-        // }
-        // } else {
-        // System.out.println("No channels defined");
-        // }
 
-        // List<Recording> recs = vdr.getRecordings();
-        // for (Recording rec : recs) {
-        // System.out.println(rec.getNumber() + " " + rec.getDisplayTitle());
-        // }
+        Timer timer = new Timer();
+        timer.setTitle("Testimer");
+        Calendar startTime = Calendar.getInstance();
+        startTime.set(2011, 10, 30, 20, 15);
+        Calendar endTime = (Calendar) startTime.clone();
+        endTime.add(Calendar.MINUTE, 90);
+        timer.setStartTime(startTime);
+        timer.setEndTime(endTime);
+        timer.setChannelNumber(2);
+        vdr.newTimer(timer);
 
-        List<EPGEntry> epg = vdr.getEpg();
-        for (EPGEntry entry : epg) {
-            System.out.println(entry.getChannelName() + " " + entry.getStartTime().getTime() + " " + entry.getTitle());
-        }
+        VDR.timer.cancel();
+        vdr.connection.close();
     }
 }

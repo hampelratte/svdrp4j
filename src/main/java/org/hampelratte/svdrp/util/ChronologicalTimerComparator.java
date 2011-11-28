@@ -31,10 +31,10 @@ package org.hampelratte.svdrp.util;
 
 import java.util.Comparator;
 
-import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
+import org.hampelratte.svdrp.responses.highlevel.Timer;
 
-public class ChronologicalTimerComparator implements Comparator<VDRTimer> {
-    public int compare(VDRTimer t1, VDRTimer t2) {
+public class ChronologicalTimerComparator implements Comparator<Timer> {
+    public int compare(Timer t1, Timer t2) {
         return t1.getStartTime().compareTo(t2.getStartTime());
     }
 }

@@ -1,6 +1,5 @@
-/* $Id$
- * 
- * Copyright (c) Henrik Niehaus & Lazy Bones development team
+/* 
+ * Copyright (c) Henrik Niehaus
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -31,8 +30,8 @@ package org.hampelratte.svdrp.commands;
 
 import static org.junit.Assert.assertEquals;
 
-import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
-import org.hampelratte.svdrp.responses.highlevel.VDRTimerTest;
+import org.hampelratte.svdrp.responses.highlevel.Timer;
+import org.hampelratte.svdrp.responses.highlevel.TimerTest;
 import org.junit.Test;
 
 public class DELTTest {
@@ -41,27 +40,27 @@ public class DELTTest {
         DELT delt = new DELT(1);
         assertEquals("DELT 1", delt.getCommand());
     }
-    
+
     @Test
     public void testTimerConstructor() {
-        VDRTimer timer = new VDRTimerTest().createTimer();
+        Timer timer = new TimerTest().createTimer();
         timer.setID(2);
         DELT delt = new DELT(timer);
         assertEquals("DELT 2", delt.getCommand());
     }
-    
+
     @Test
     public void testSetNumber() {
         DELT delt = new DELT(1);
-        
+
         delt.setNumber(2);
         assertEquals(2, delt.getNumber());
         assertEquals("DELT 2", delt.getCommand());
     }
-    
+
     @Test
     public void testToString() {
         assertEquals("DELT", new DELT(2).toString());
-        assertEquals("DELT", new DELT(new VDRTimerTest().createTimer()).toString());
+        assertEquals("DELT", new DELT(new TimerTest().createTimer()).toString());
     }
 }

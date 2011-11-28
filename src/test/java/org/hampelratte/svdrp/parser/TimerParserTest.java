@@ -40,7 +40,7 @@ import org.hampelratte.svdrp.Connection;
 import org.hampelratte.svdrp.commands.QUIT;
 import org.hampelratte.svdrp.mock.Server;
 import org.hampelratte.svdrp.parsers.TimerParser;
-import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
+import org.hampelratte.svdrp.responses.highlevel.Timer;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -64,7 +64,7 @@ public class TimerParserTest {
         "5 0:2:M-----S@2010-12-31:2330:0030:50:50:Happy New Year:\n" +
         "6 13:2:--W----@2010-11-02:2330:0011:50:50:Ganz spät:";
     
-    private List<VDRTimer> timers;
+    private List<Timer> timers;
     
     @BeforeClass
     public static void startMockServer() throws IOException, InterruptedException {
@@ -86,17 +86,17 @@ public class TimerParserTest {
     
     @Test
     public void testState() {
-        assertTrue(timers.get(0).hasState(VDRTimer.ACTIVE));
-        assertTrue(timers.get(1).hasState(VDRTimer.INSTANT_TIMER));
-        assertTrue(timers.get(2).hasState(VDRTimer.VPS));
-        assertTrue(timers.get(3).hasState(VDRTimer.RECORDING));
-        assertTrue(timers.get(4).hasState(VDRTimer.INACTIVE));
+        assertTrue(timers.get(0).hasState(Timer.ACTIVE));
+        assertTrue(timers.get(1).hasState(Timer.INSTANT_TIMER));
+        assertTrue(timers.get(2).hasState(Timer.VPS));
+        assertTrue(timers.get(3).hasState(Timer.RECORDING));
+        assertTrue(timers.get(4).hasState(Timer.INACTIVE));
         
-        assertTrue(timers.get(5).hasState(VDRTimer.ACTIVE));
-        assertTrue(timers.get(5).hasState(VDRTimer.VPS));
-        assertTrue(timers.get(5).hasState(VDRTimer.RECORDING));
-        assertFalse(timers.get(5).hasState(VDRTimer.INACTIVE));
-        assertFalse(timers.get(5).hasState(VDRTimer.INSTANT_TIMER));
+        assertTrue(timers.get(5).hasState(Timer.ACTIVE));
+        assertTrue(timers.get(5).hasState(Timer.VPS));
+        assertTrue(timers.get(5).hasState(Timer.RECORDING));
+        assertFalse(timers.get(5).hasState(Timer.INACTIVE));
+        assertFalse(timers.get(5).hasState(Timer.INSTANT_TIMER));
     }
     
     @Test
@@ -114,13 +114,13 @@ public class TimerParserTest {
     
     @Test
     public void testDayParsing() {
-        VDRTimer timer = timers.get(0);
+        Timer timer = timers.get(0);
         assertEquals(day.get(Calendar.DAY_OF_MONTH), timer.getStartTime().get(Calendar.DAY_OF_MONTH));
     }
     
     @Test
     public void testDateParsing() {
-        VDRTimer timer = timers.get(1);
+        Timer timer = timers.get(1);
         assertEquals(2, timer.getStartTime().get(Calendar.DAY_OF_MONTH));
         assertEquals(10, timer.getStartTime().get(Calendar.MONTH)); // 10 because Calendar begins counting with 0 for months 
         assertEquals(2010, timer.getStartTime().get(Calendar.YEAR));
@@ -128,7 +128,7 @@ public class TimerParserTest {
     
     @Test
     public void testRepeatingDays() {
-        VDRTimer timer = timers.get(2);
+        Timer timer = timers.get(2);
         assertTrue(timer.isRepeating());
         assertEquals("MTWTF--", timer.getDayString());
         assertTrue(timer.getRepeatingDays()[0]);
@@ -142,7 +142,7 @@ public class TimerParserTest {
     
     @Test
     public void testRepeatingTimerStartingOnDay() {
-        VDRTimer timer = timers.get(3);
+        Timer timer = timers.get(3);
         assertTrue(timer.isRepeating());
         assertEquals(day.get(Calendar.DAY_OF_MONTH), timer.getStartTime().get(Calendar.DAY_OF_MONTH));
         assertTrue(timer.getRepeatingDays()[0]);
@@ -156,7 +156,7 @@ public class TimerParserTest {
     
     @Test
     public void testRepeatingTimerStartingOnDate() {
-        VDRTimer timer = timers.get(4);
+        Timer timer = timers.get(4);
         assertTrue(timer.isRepeating());
         assertEquals(31, timer.getStartTime().get(Calendar.DAY_OF_MONTH));
         assertEquals(11, timer.getStartTime().get(Calendar.MONTH)); // 11 because Calendar begins counting with 0 for months 
@@ -172,7 +172,7 @@ public class TimerParserTest {
     
     @Test
     public void testLastToNextDay() {
-        VDRTimer timer = timers.get(5);
+        Timer timer = timers.get(5);
         assertEquals(2, timer.getStartTime().get(Calendar.DAY_OF_MONTH));
         assertEquals(10, timer.getStartTime().get(Calendar.MONTH)); // 10 because Calendar begins counting with 0 for months 
         assertEquals(2010, timer.getStartTime().get(Calendar.YEAR));
@@ -188,7 +188,7 @@ public class TimerParserTest {
     
     @Test
     public void testLastToNextYear() {
-        VDRTimer timer = timers.get(4);
+        Timer timer = timers.get(4);
         assertEquals(31, timer.getStartTime().get(Calendar.DAY_OF_MONTH));
         assertEquals(11, timer.getStartTime().get(Calendar.MONTH)); // 11 because Calendar begins counting with 0 for months 
         assertEquals(2010, timer.getStartTime().get(Calendar.YEAR));

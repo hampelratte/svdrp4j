@@ -1,5 +1,4 @@
-/* $Id$
- * 
+/*
  * Copyright (c) Henrik Niehaus & Lazy Bones development team
  * All rights reserved.
  * 
@@ -39,18 +38,18 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class DetectEncodingTest {
-    
+
     private static Server server;
-    
+
     @BeforeClass
     public static void startMockServer() throws IOException, InterruptedException {
         server = new Server();
         new Thread(server).start();
-        
+
         // wait for the server
         Thread.sleep(1000);
     }
-    
+
     @Test
     public void testCharsetDetectionUtf8() throws IOException {
         Connection con = null;
@@ -59,7 +58,7 @@ public class DetectEncodingTest {
             con = new Connection("localhost", 2001, 100);
             assertEquals("UTF-8", con.getEncoding());
         } finally {
-            if(con != null) {
+            if (con != null) {
                 try {
                     con.close();
                 } catch (IOException e) {
@@ -77,7 +76,7 @@ public class DetectEncodingTest {
             con = new Connection("localhost", 2001, 100);
             assertEquals("ISO-8859-1", con.getEncoding());
         } finally {
-            if(con != null) {
+            if (con != null) {
                 try {
                     con.close();
                 } catch (IOException e) {
@@ -86,7 +85,7 @@ public class DetectEncodingTest {
             }
         }
     }
-    
+
     @Test
     public void testCharsetDetectionUnknownCharset() throws IOException {
         Connection con = null;
@@ -95,7 +94,7 @@ public class DetectEncodingTest {
             con = new Connection("localhost", 2001, 100);
             assertEquals("UTF-8", con.getEncoding());
         } finally {
-            if(con != null) {
+            if (con != null) {
                 try {
                     con.close();
                 } catch (IOException e) {
@@ -104,7 +103,7 @@ public class DetectEncodingTest {
             }
         }
     }
-    
+
     @Test
     public void testNoCharsetDefined() throws IOException {
         Connection con = null;
@@ -113,7 +112,7 @@ public class DetectEncodingTest {
             con = new Connection("localhost", 2001, 100);
             // no exception hsould occur
         } finally {
-            if(con != null) {
+            if (con != null) {
                 try {
                     con.close();
                 } catch (IOException e) {
@@ -122,7 +121,7 @@ public class DetectEncodingTest {
             }
         }
     }
-    
+
     @Test
     public void testCharsetSwitch() throws IOException {
         Connection con = null;
@@ -135,7 +134,7 @@ public class DetectEncodingTest {
                 public String toString() {
                     return "Charset Test";
                 }
-                
+
                 @Override
                 public String getCommand() {
                     return "test_charset";
@@ -143,7 +142,7 @@ public class DetectEncodingTest {
             });
             assertEquals("öüäß", resp.getMessage().trim());
         } finally {
-            if(con != null) {
+            if (con != null) {
                 try {
                     con.close();
                 } catch (IOException e) {
@@ -152,8 +151,8 @@ public class DetectEncodingTest {
             }
         }
     }
-    
-    @AfterClass 
+
+    @AfterClass
     public static void shutdownServer() throws IOException, InterruptedException {
         server.shutdown();
     }

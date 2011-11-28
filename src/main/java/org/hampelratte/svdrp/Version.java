@@ -1,6 +1,5 @@
-/* $Id$
- * 
- * Copyright (c) Henrik Niehaus & Lazy Bones development team
+/* 
+ * Copyright (c) Henrik Niehaus
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -35,9 +34,9 @@ import java.util.regex.Pattern;
 /**
  * @author <a href="hampelratte@users.sf.net">hampelratte@users.sf.net </a>
  * 
- * Holds the version of the VDR, which we are talking to
+ *         Holds the version of the VDR, which we are talking to
  */
-public class VDRVersion {
+public class Version {
 
     int major = 0;
 
@@ -45,9 +44,8 @@ public class VDRVersion {
 
     int revision = 0;
 
-    public VDRVersion(String versionString) {
-        Pattern pattern = Pattern
-                .compile("((?:\\d)+)\\.((?:\\d)+)\\.((?:\\d)+)");
+    public Version(String versionString) {
+        Pattern pattern = Pattern.compile("((?:\\d)+)\\.((?:\\d)+)\\.((?:\\d)+)");
         Matcher m = pattern.matcher(versionString);
 
         if (m.matches()) {
@@ -83,6 +81,7 @@ public class VDRVersion {
         this.major = version;
     }
 
+    @Override
     public String toString() {
         return major + "." + minor + "." + revision;
     }

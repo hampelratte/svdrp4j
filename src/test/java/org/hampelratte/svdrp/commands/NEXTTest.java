@@ -1,6 +1,5 @@
-/* $Id$
- * 
- * Copyright (c) Henrik Niehaus & Lazy Bones development team
+/* 
+ * Copyright (c) Henrik Niehaus
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +28,8 @@
  */
 package org.hampelratte.svdrp.commands;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
 public class NEXTTest {
@@ -37,7 +37,7 @@ public class NEXTTest {
     public void testConstructor() {
         assertEquals("NEXT", new NEXT().getCommand());
     }
-    
+
     @Test
     public void testConstructorWithMode() {
         NEXT next = new NEXT("abs");
@@ -45,12 +45,12 @@ public class NEXTTest {
         assertEquals("abs", next.getMode());
         assertEquals("NEXT rel", new NEXT("rel").getCommand());
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
     public void testInvalidTime() {
         new NEXT("bla");
     }
-    
+
     @Test
     public void testToString() {
         assertEquals("NEXT", new NEXT().toString());

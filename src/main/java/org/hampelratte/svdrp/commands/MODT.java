@@ -1,6 +1,5 @@
-/* $Id$
- * 
- * Copyright (c) Henrik Niehaus & Lazy Bones development team
+/*
+ * Copyright (c) Henrik Niehaus
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -30,7 +29,7 @@
 package org.hampelratte.svdrp.commands;
 
 import org.hampelratte.svdrp.Command;
-import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
+import org.hampelratte.svdrp.responses.highlevel.Timer;
 
 /**
  * Command to modify a timer
@@ -60,7 +59,7 @@ public class MODT extends Command {
         this.settings = settings;
         this.number = number;
     }
-    
+
     /**
      * Command to modify a timer
      * 
@@ -69,7 +68,7 @@ public class MODT extends Command {
      * @param timer
      *            The timer with the new settings
      */
-    public MODT(int number, VDRTimer timer) {
+    public MODT(int number, Timer timer) {
         this.settings = timer.toNEWT();
         this.number = number;
     }

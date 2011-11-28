@@ -1,6 +1,5 @@
-/* $Id$
- * 
- * Copyright (c) Henrik Niehaus & Lazy Bones development team
+/* 
+ * Copyright (c) Henrik Niehaus
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +35,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
+import org.hampelratte.svdrp.responses.highlevel.Timer;
 
 /**
  * Parses a list of timers received from VDR by the LSTT command
@@ -51,13 +50,13 @@ public class TimerParser {
      * 
      * @param timerData
      *            A list of timers received from VDR by LSTT command
-     * @return A list of VDRTimer objects
+     * @return A list of Timer objects
      */
-    public static List<VDRTimer> parse(String timerData) {
-        ArrayList<VDRTimer> list = new ArrayList<VDRTimer>();
+    public static List<Timer> parse(String timerData) {
+        ArrayList<Timer> list = new ArrayList<Timer>();
         StringTokenizer st1 = new StringTokenizer(timerData, "\n");
         while (st1.hasMoreTokens()) {
-            VDRTimer timer = new VDRTimer();
+            Timer timer = new Timer();
             String line = st1.nextToken();
             int pos = line.indexOf(" ");
             String id = line.substring(0, pos);
@@ -103,7 +102,7 @@ public class TimerParser {
      * Parses the day of a timer. This can have the following formats: 19 (1-31) 2005-03-19 MTWTFSS MTWTFSS@19 MTWTFSS@2005-03-19. The results will be stored in
      * the passed timer object.
      */
-    private static void parseDay(VDRTimer timer, String day, String startString, String endString) {
+    private static void parseDay(Timer timer, String day, String startString, String endString) {
         Calendar startTime = timer.getStartTime();
         Calendar endTime = timer.getEndTime();
         Calendar firstTime = timer.getFirstTime();

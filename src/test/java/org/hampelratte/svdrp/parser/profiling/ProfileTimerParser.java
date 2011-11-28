@@ -37,7 +37,7 @@ import org.hampelratte.svdrp.Connection;
 import org.hampelratte.svdrp.Response;
 import org.hampelratte.svdrp.commands.LSTT;
 import org.hampelratte.svdrp.parsers.TimerParser;
-import org.hampelratte.svdrp.responses.highlevel.VDRTimer;
+import org.hampelratte.svdrp.responses.highlevel.Timer;
 
 
 public class ProfileTimerParser {
@@ -49,7 +49,7 @@ public class ProfileTimerParser {
             Response resp = conn.send(new LSTT());
             for (int i = 0; i < 100; i++) {
                 long start = System.currentTimeMillis();
-                List<VDRTimer> timers = TimerParser.parse(resp.getMessage());
+                List<Timer> timers = TimerParser.parse(resp.getMessage());
                 long stop = System.currentTimeMillis();
                 System.out.println("Parsed " + timers.size() + " timers in " + (stop - start) + " ms");
             }

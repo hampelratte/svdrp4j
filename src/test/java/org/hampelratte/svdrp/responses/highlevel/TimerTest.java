@@ -46,9 +46,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-public class VDRTimerTest  {
+public class TimerTest  {
     
-    private VDRTimer timer;
+    private Timer timer;
     
     private static Server server;
     
@@ -67,8 +67,8 @@ public class VDRTimerTest  {
         timer = createTimer();
     }
     
-    public VDRTimer createTimer() {
-        VDRTimer timer = new VDRTimer();
+    public Timer createTimer() {
+        Timer timer = new Timer();
         timer.setTitle("TestTitle");
         timer.setChannelNumber(1);
         timer.setDescription("Mehr-\nzeilige Be-\nschreibung");
@@ -157,58 +157,58 @@ public class VDRTimerTest  {
     
     @Test
     public void testChangeState() {
-        timer.changeStateTo(VDRTimer.ACTIVE, true);
-        timer.changeStateTo(VDRTimer.RECORDING, true);
-        timer.changeStateTo(VDRTimer.VPS, true);
+        timer.changeStateTo(Timer.ACTIVE, true);
+        timer.changeStateTo(Timer.RECORDING, true);
+        timer.changeStateTo(Timer.VPS, true);
         
-        assertTrue(timer.hasState(VDRTimer.ACTIVE));
-        assertTrue(timer.hasState(VDRTimer.RECORDING));
-        assertTrue(timer.hasState(VDRTimer.VPS));
+        assertTrue(timer.hasState(Timer.ACTIVE));
+        assertTrue(timer.hasState(Timer.RECORDING));
+        assertTrue(timer.hasState(Timer.VPS));
         
-        timer.changeStateTo(VDRTimer.RECORDING, false);
+        timer.changeStateTo(Timer.RECORDING, false);
         
-        assertTrue(timer.hasState(VDRTimer.ACTIVE));
-        assertFalse(timer.hasState(VDRTimer.RECORDING));
-        assertTrue(timer.hasState(VDRTimer.VPS));
+        assertTrue(timer.hasState(Timer.ACTIVE));
+        assertFalse(timer.hasState(Timer.RECORDING));
+        assertTrue(timer.hasState(Timer.VPS));
         
-        timer.changeStateTo(VDRTimer.ACTIVE, false);
-        timer.changeStateTo(VDRTimer.VPS, false);
-        timer.changeStateTo(VDRTimer.INSTANT_TIMER, true);
+        timer.changeStateTo(Timer.ACTIVE, false);
+        timer.changeStateTo(Timer.VPS, false);
+        timer.changeStateTo(Timer.INSTANT_TIMER, true);
         
-        assertFalse(timer.hasState(VDRTimer.ACTIVE));
-        assertFalse(timer.hasState(VDRTimer.RECORDING));
-        assertFalse(timer.hasState(VDRTimer.VPS));
-        assertTrue(timer.hasState(VDRTimer.INSTANT_TIMER));
+        assertFalse(timer.hasState(Timer.ACTIVE));
+        assertFalse(timer.hasState(Timer.RECORDING));
+        assertFalse(timer.hasState(Timer.VPS));
+        assertTrue(timer.hasState(Timer.INSTANT_TIMER));
     }
     
     @Test
     public void testSetState() {
-        timer.setState(VDRTimer.ACTIVE | VDRTimer.VPS);
+        timer.setState(Timer.ACTIVE | Timer.VPS);
         
-        assertTrue(timer.hasState(VDRTimer.ACTIVE));
-        assertFalse(timer.hasState(VDRTimer.RECORDING));
-        assertTrue(timer.hasState(VDRTimer.VPS));
-        assertFalse(timer.hasState(VDRTimer.INSTANT_TIMER));
+        assertTrue(timer.hasState(Timer.ACTIVE));
+        assertFalse(timer.hasState(Timer.RECORDING));
+        assertTrue(timer.hasState(Timer.VPS));
+        assertFalse(timer.hasState(Timer.INSTANT_TIMER));
     }
     
     @Test
     public void testIsActive() {
-        timer.setState(VDRTimer.ACTIVE);
+        timer.setState(Timer.ACTIVE);
         assertTrue(timer.isActive());
     }
     
     @Test
     public void testIsRecording() {
-        timer.setState(VDRTimer.ACTIVE | VDRTimer.RECORDING);
+        timer.setState(Timer.ACTIVE | Timer.RECORDING);
         assertTrue(timer.isRecording());
         
-        timer.setState(VDRTimer.ACTIVE);
+        timer.setState(Timer.ACTIVE);
         assertFalse(timer.isRecording());
         
-        timer.setState(VDRTimer.RECORDING);
+        timer.setState(Timer.RECORDING);
         assertFalse(timer.isRecording());
         
-        timer.setState(VDRTimer.ACTIVE);
+        timer.setState(Timer.ACTIVE);
         assertFalse(timer.isRecording());
         Calendar start = Calendar.getInstance();
         start.add(Calendar.HOUR, -1);
