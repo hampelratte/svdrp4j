@@ -7,11 +7,11 @@
  * 
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
  * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -111,7 +111,7 @@ public class ChannelParserTest {
 
     @Test(expected = ParseException.class)
     public void testInvalidvalues() throws ParseException {
-        ChannelParser.parse("1 Das Erste:11836:hC12345:S19.2E:27500:101:102=deu,103=2ch;106=deu:104:0:28106:1:1101:0", false);
+        ChannelParser.parse("1 Das Erste:11836:hC12345:S19.2E:27500:101:102=deu,103=2ch;106=deu:104:0:28106:1:1101:0", true, false);
     }
 
     @Test
@@ -119,7 +119,7 @@ public class ChannelParserTest {
         ChannelParser.parse("Invalid Data", true);
         ChannelParser.parse("1 Das Erste:11836:hC12345:S19.2E:27500:101:102=deu,103=2ch;106=deu:104:0:28106:1:1101:0", true);
     }
-    
+
     @Test
     public void testGroupSeparators() throws ParseException {
         String channelData = "1 Das Erste:11836:hC34:S19.2E:27500:101:102=deu,103=2ch;106=deu:104:0:28106:1:1101:0\n"
@@ -127,7 +127,7 @@ public class ChannelParserTest {
                 + "0 :Group\n"
                 + "3 ZDF;ZDFvision:11953:hC34:S19.2E:27500:110:120=deu,121=2ch;125=deu:130:0:28006:1:1079:0\n"
                 + "4 WDR Bielefeld,WDR;ARD:12421:hC34:S19.2E:27500:101:102=deu,103=2ch:104:0:28306:1:1201:0";
-        
+
         List<Channel> channels = ChannelParser.parse(channelData, false);
         assertEquals(5, channels.size());
         assertTrue(channels.get(2) instanceof ChannelGroup);
