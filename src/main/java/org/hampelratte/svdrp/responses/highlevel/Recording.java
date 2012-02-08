@@ -7,11 +7,11 @@
  * 
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
  * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -39,23 +39,25 @@ import java.util.Date;
  * Represents a recording of VDR
  */
 public class Recording extends EPGEntry implements Comparable<Recording> {
+    private static final long serialVersionUID = 1L;
+
     private int number;
-    
+
     private boolean isNew = false;
-    
+
     private String display;
-    
+
     private int priority = 0;
-    
+
     private int lifetime = 0;
-    
-    public Recording() { 
+
+    public Recording() {
     }
-    
+
     public Recording(EPGEntry entry) {
         copyFrom(entry);
     }
-    
+
     public void copyFrom(EPGEntry entry) {
         super.setChannelID(entry.getChannelID());
         super.setChannelName(entry.getChannelName());
@@ -78,13 +80,13 @@ public class Recording extends EPGEntry implements Comparable<Recording> {
     public void setNumber(int number) {
         this.number = number;
     }
-    
+
     public void setStartTime(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(date.getTime());
         setStartTime(cal);
     }
-    
+
     public String getDisplayTitle() {
         if(display == null) {
             display = getTitle();
@@ -94,11 +96,12 @@ public class Recording extends EPGEntry implements Comparable<Recording> {
         }
         return display;
     }
-    
+
     public void setDisplayTitle(String display) {
         this.display = display;
     }
 
+    @Override
     public void setTitle(String title) {
         super.setTitle(title);
         this.display = null; // reset the display name, so that it gets recalculated
@@ -111,34 +114,36 @@ public class Recording extends EPGEntry implements Comparable<Recording> {
     public void setNew(boolean isNew) {
         this.isNew = isNew;
     }
-    
+
     public boolean isCut() {
         return getTitle().startsWith("%") || getTitle().contains("~%");
     }
-    
+
     public int getPriority() {
         return priority;
     }
-    
+
     public void setPriority(int priority) {
         this.priority = priority;
     }
-    
+
     public int getLifetime() {
         return lifetime;
     }
-    
+
     public void setLifetime(int lifetime) {
         this.lifetime = lifetime;
     }
-    
+
+    @Override
     public String toString() {
-        return getNumber() + " "+ 
-                DateFormat.getDateTimeInstance().format(getStartTime().getTime()) + 
-                (isNew() ? "*" : "") + " " + 
-                super.toString(); 
+        return getNumber() + " "+
+                DateFormat.getDateTimeInstance().format(getStartTime().getTime()) +
+                (isNew() ? "*" : "") + " " +
+                super.toString();
     }
 
+    @Override
     public int compareTo(Recording other) {
         return this.getTitle().compareTo(other.getTitle());
     }

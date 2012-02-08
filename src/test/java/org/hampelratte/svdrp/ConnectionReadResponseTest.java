@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
  * 
@@ -7,11 +7,11 @@
  * 
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
  * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -62,6 +62,8 @@ public class ConnectionReadResponseTest {
             con = new Connection("localhost", 2001, 100);
 
             Response resp = con.send(new Command() {
+                private static final long serialVersionUID = 1L;
+
                 @Override
                 public String toString() {
                     return getCommand();
@@ -91,6 +93,8 @@ public class ConnectionReadResponseTest {
             con = new Connection("localhost", 2001, 100);
 
             Response resp = con.send(new Command() {
+                private static final long serialVersionUID = 1L;
+
                 @Override
                 public String toString() {
                     return getCommand();
@@ -120,6 +124,8 @@ public class ConnectionReadResponseTest {
             con = new Connection("localhost", 2001, 100);
 
             Response resp = con.send(new Command() {
+                private static final long serialVersionUID = 1L;
+
                 @Override
                 public String toString() {
                     return getCommand();
@@ -149,6 +155,8 @@ public class ConnectionReadResponseTest {
             con = new Connection("localhost", 2001, 100);
 
             Response resp = con.send(new Command() {
+                private static final long serialVersionUID = 1L;
+
                 @Override
                 public String toString() {
                     return getCommand();
@@ -179,6 +187,8 @@ public class ConnectionReadResponseTest {
             con = new Connection("localhost", 2001, 100);
 
             Response resp = con.send(new Command() {
+                private static final long serialVersionUID = 1L;
+
                 @Override
                 public String toString() {
                     return getCommand();

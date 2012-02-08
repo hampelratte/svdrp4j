@@ -7,11 +7,11 @@
  * 
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
  * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -28,6 +28,7 @@
  */
 package org.hampelratte.svdrp.responses.highlevel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -39,7 +40,9 @@ import java.util.List;
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  * @author <a href="mailto:androvdr@googlemail.com">androvdr</a>
  */
-public class EPGEntry {
+public class EPGEntry implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String channelID = "";
 
@@ -54,7 +57,7 @@ public class EPGEntry {
     private Calendar endTimeCal;
 
     private int tableID = 0;
-    
+
     private int version = 0;
 
     private String title = "";
@@ -65,7 +68,7 @@ public class EPGEntry {
 
     private long vpsTime;
     private Calendar vpsTimeCal;
-    
+
     private List<Stream> streams = new ArrayList<Stream>();
 
     public EPGEntry() {
@@ -111,7 +114,7 @@ public class EPGEntry {
         this.endTime = endTime;
         endTimeCal = null;
     }
-    
+
     public void setEndTime(Calendar endTime) {
         this.endTime = endTime.getTimeInMillis();
         this.endTimeCal = endTime;
@@ -141,7 +144,7 @@ public class EPGEntry {
         this.startTime = startTime;
         startTimeCal = null;
     }
-    
+
     public void setStartTime(Calendar startTime) {
         this.startTime = startTime.getTimeInMillis();
         this.startTimeCal = startTime;
@@ -179,7 +182,7 @@ public class EPGEntry {
         this.vpsTime = vpsTime;
         vpsTimeCal = null;
     }
-    
+
     public void setVpsTime(Calendar vpsTime) {
         this.vpsTime = vpsTime.getTimeInMillis();
         this.vpsTimeCal = vpsTime;
@@ -192,7 +195,7 @@ public class EPGEntry {
     public void setEventID(int eventID) {
         this.eventID = eventID;
     }
-    
+
     public int getVersion() {
         return version;
     }
@@ -200,15 +203,15 @@ public class EPGEntry {
     public void setVersion(int version) {
         this.version = version;
     }
-    
+
     public List<Stream> getStreams() {
         return streams;
     }
-    
+
     public void setStreams(List<Stream> streams) {
         this.streams = streams;
     }
-    
+
     /**
      * Convenience method which returns only audio streams. Other streams are filtered.
      * @return A list of audio streams. Other streams are filtered.
@@ -224,6 +227,7 @@ public class EPGEntry {
         return audioStreams;
     }
 
+    @Override
     public String toString() {
         return getTitle() + " starts: " + getStartTime().get(Calendar.HOUR_OF_DAY)
                 + ":" + getStartTime().get(Calendar.MINUTE) + " ends: "
