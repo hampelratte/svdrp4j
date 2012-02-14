@@ -36,7 +36,7 @@ import org.hampelratte.svdrp.responses.highlevel.Recording;
 import org.hampelratte.svdrp.responses.highlevel.Timer;
 import org.junit.Test;
 
-public class ComparatorTests {
+public class ComparatorTest {
 
     @Test
     public void testAlphabeticalRecordingComparator() {
