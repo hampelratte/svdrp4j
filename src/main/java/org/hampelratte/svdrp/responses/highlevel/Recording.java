@@ -33,12 +33,13 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
+ * TODO split up display title into display title and folder for recordings, which contain ~ in the title
  * 
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
- *
- * Represents a recording of VDR
+ * 
+ *         Represents a recording of VDR
  */
-public class Recording extends EPGEntry implements Comparable<Recording> {
+public class Recording extends EPGEntry implements Comparable<Recording>, TreeNode {
     private static final long serialVersionUID = 2L;
 
     private int number;
@@ -46,6 +47,7 @@ public class Recording extends EPGEntry implements Comparable<Recording> {
     private boolean isNew = false;
 
     private String display;
+    private String folder;
 
     private int priority = 0;
 
@@ -89,14 +91,38 @@ public class Recording extends EPGEntry implements Comparable<Recording> {
         setStartTime(cal);
     }
 
+    @Override
     public String getDisplayTitle() {
         if(display == null) {
             display = getTitle();
+
+            if (display.contains("~")) {
+                display = display.substring(display.lastIndexOf('~') + 1);
+            }
+
             while(display.charAt(0) == ('%')) {
                 display = display.substring(1);
             }
         }
         return display;
+    }
+
+    public String getFolder() {
+        if (folder == null) {
+            folder = getTitle();
+
+            if (folder.contains("~")) {
+                folder = folder.substring(0, folder.lastIndexOf('~'));
+            }
+
+            while (folder.charAt(0) == ('%')) {
+                folder = folder.substring(1);
+            }
+
+            folder = folder.replaceAll("~%", "/");
+            folder = folder.replaceAll("~", "/");
+        }
+        return folder;
     }
 
     public void setDisplayTitle(String display) {
@@ -107,6 +133,7 @@ public class Recording extends EPGEntry implements Comparable<Recording> {
     public void setTitle(String title) {
         super.setTitle(title);
         this.display = null; // reset the display name, so that it gets recalculated
+        this.folder = null; // reset the calculated folder, so that it gets recalculated
     }
 
     public boolean isNew() {

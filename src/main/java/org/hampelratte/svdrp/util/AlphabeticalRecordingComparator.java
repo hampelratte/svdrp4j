@@ -7,11 +7,11 @@
  * 
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
  * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -30,10 +30,11 @@ package org.hampelratte.svdrp.util;
 
 import java.util.Comparator;
 
-import org.hampelratte.svdrp.responses.highlevel.Recording;
+import org.hampelratte.svdrp.responses.highlevel.TreeNode;
 
-public class AlphabeticalRecordingComparator implements Comparator<Recording> {
-    public int compare(Recording r1, Recording r2) {
+public class AlphabeticalRecordingComparator implements Comparator<TreeNode> {
+    @Override
+    public int compare(TreeNode r1, TreeNode r2) {
         String title1 = r1.getDisplayTitle();
         String title2 = r2.getDisplayTitle();
         return title1.toLowerCase().compareTo(title2.toLowerCase());
