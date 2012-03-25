@@ -1,0 +1,1 @@
+220 vdr SVDRP VideoDiskRecorder 1.7.25; Sun Mar 25 14:38:28 2012; UTF-8
