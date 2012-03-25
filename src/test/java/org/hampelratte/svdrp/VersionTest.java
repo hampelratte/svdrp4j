@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
  * 
@@ -7,11 +7,11 @@
  * 
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
  * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -28,7 +28,8 @@
  */
 package org.hampelratte.svdrp;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
 public class VersionTest {
@@ -40,28 +41,38 @@ public class VersionTest {
         assertEquals(7, v.getMinor());
         assertEquals(14, v.getRevision());
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
     public void testInvalidString() {
         new Version("InvalidVersion");
     }
-    
+
     @Test
     public void testSetter() {
         Version v = new Version("1.7.14");
         v.setMajor(2);
         v.setMinor(8);
         v.setRevision(15);
-        
+
         assertEquals(2, v.getMajor());
         assertEquals(8, v.getMinor());
         assertEquals(15, v.getRevision());
     }
-    
+
     @Test
     public void testToString() {
         String version = "1.7.14";
         Version v = new Version(version);
         assertEquals(version, v.toString());
+    }
+
+    @Test
+    public void testCompareTo() {
+        Version older = new Version("1.6.0");
+        Version newer = new Version("1.7.15");
+
+        assertEquals(1, newer.compareTo(older));
+        assertEquals(-1, older.compareTo(newer));
+        assertEquals(0, older.compareTo(older));
     }
 }
