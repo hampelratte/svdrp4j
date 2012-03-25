@@ -7,11 +7,11 @@
  * 
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
  * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -28,7 +28,9 @@
  */
 package org.hampelratte.svdrp.parser;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -47,56 +49,57 @@ import org.junit.Test;
 
 
 public class RecordingListParserTest {
-    
+
     private static Server server;
-    
+
     private List<Recording> recordings;
-    
+
     private static Connection conn;
-    
+
     @BeforeClass
     public static void startMockServer() throws IOException, InterruptedException {
         server = new Server();
         server.loadWelcome("welcome-1.6.0_2-utf_8.txt");
+        server.loadRecordings("lstr.txt");
         new Thread(server).start();
-        
+
         // wait for the server
         Thread.sleep(1000);
-        
+
         conn = new Connection("localhost", 2001, 5000);
     }
-    
+
     @Before
     public void parseRecordings() throws IOException {
         recordings = RecordingListParser.parse(conn.send(new LSTR()).getMessage());
     }
-    
+
     @Test
     public void testListSize() {
         assertEquals(5, recordings.size());
     }
-    
+
     @Test
     public void testTitle() {
         assertEquals("%Tagesthemen", recordings.get(3).getTitle());
         assertEquals("%%Zweimal geschnitten", recordings.get(4).getTitle());
     }
-        
+
     @Test
     public void testDisplayTitle() {
         assertEquals("Tagesthemen", recordings.get(3).getDisplayTitle());
         assertEquals("Zweimal geschnitten", recordings.get(4).getDisplayTitle());
     }
-    
+
     @Test
     public void testIsNew() {
         assertTrue(recordings.get(0).isNew());
         assertFalse(recordings.get(1).isNew());
-        assertTrue(recordings.get(2).isNew());
+        assertFalse(recordings.get(2).isNew());
         assertTrue(recordings.get(3).isNew());
         assertTrue(recordings.get(4).isNew());
     }
-    
+
     @Test
     public void testIsCut() {
         assertFalse(recordings.get(0).isCut());
@@ -105,7 +108,7 @@ public class RecordingListParserTest {
         assertTrue(recordings.get(3).isCut());
         assertTrue(recordings.get(4).isCut());
     }
-    
+
     @Test
     public void testGetNumber() {
         assertEquals(1, recordings.get(0).getNumber());
@@ -114,7 +117,7 @@ public class RecordingListParserTest {
         assertEquals(4, recordings.get(3).getNumber());
         assertEquals(5, recordings.get(4).getNumber());
     }
-    
+
     @Test
     public void testGetStarttime() {
         Calendar starttime = recordings.get(0).getStartTime();
@@ -124,8 +127,8 @@ public class RecordingListParserTest {
         assertEquals(19, starttime.get(Calendar.HOUR_OF_DAY));
         assertEquals(55, starttime.get(Calendar.MINUTE));
     }
-    
-    @AfterClass 
+
+    @AfterClass
     public static void shutdownServer() throws IOException, InterruptedException {
         conn.send(new QUIT());
         server.shutdown();

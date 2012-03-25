@@ -39,7 +39,7 @@ import java.util.Date;
  * Represents a recording of VDR
  */
 public class Recording extends EPGEntry implements Comparable<Recording> {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
     private int number;
 
@@ -50,6 +50,8 @@ public class Recording extends EPGEntry implements Comparable<Recording> {
     private int priority = 0;
 
     private int lifetime = 0;
+
+    private int duration = 0;
 
     public Recording() {
     }
@@ -133,6 +135,14 @@ public class Recording extends EPGEntry implements Comparable<Recording> {
 
     public void setLifetime(int lifetime) {
         this.lifetime = lifetime;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 
     @Override

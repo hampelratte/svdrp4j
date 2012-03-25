@@ -7,11 +7,11 @@
  * 
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
  * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -29,6 +29,7 @@
 package org.hampelratte.svdrp.parser;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -51,25 +52,26 @@ import org.junit.Test;
 
 
 public class RecordingParserTest {
-    
+
     private static Server server;
-    
+
     private List<Recording> recordings;
     private Recording recording;
     private static Connection conn;
-    
+
     @BeforeClass
     public static void startMockServer() throws IOException, InterruptedException {
         server = new Server();
         server.loadWelcome("welcome-1.6.0_2-utf_8.txt");
+        server.loadRecordings("lstr.txt");
         new Thread(server).start();
-        
+
         // wait for the server
         Thread.sleep(1000);
-        
+
         conn = new Connection("localhost", 2001, 5000);
     }
-    
+
     @Before
     public void parseRecording() throws IOException, ParseException {
         recordings = RecordingListParser.parse(conn.send(new LSTR()).getMessage());
@@ -77,65 +79,65 @@ public class RecordingParserTest {
         String recordingData = conn.send(new LSTR(recording.getNumber())).getMessage();
         new RecordingParser().parseRecording(recording, recordingData);
     }
-    
+
     @Test
     public void testTitle() {
         assertEquals("%Aktuelle Stunde", recording.getTitle());
     }
-        
+
     @Test
     public void testDisplayTitle() {
         assertEquals("Aktuelle Stunde", recording.getDisplayTitle());
     }
-    
+
     @Test
     public void testIsNew() {
-        assertTrue(recording.isNew());
+        assertFalse(recording.isNew());
     }
-    
+
     @Test
     public void testIsCut() {
         assertTrue(recording.isCut());
     }
-    
+
     @Test
     public void testNumber() {
         assertEquals(3, recording.getNumber());
     }
-    
+
     @Test
     public void testDescription() {
         assertEquals("Themen u.a.:\n* Suche nach Mirco wird fortgesetzt\n* Amerikanischer Pastor will Koran verbrennen\n* Aus für staatliches Glücksspiel-Monopol\n* Frau gewürgt und vergewaltigt\n* Glückwunsch Mario Adorf\n* Wetten, wir kriegen's entspannter?\n* NRW kompakt", recording.getDescription());
     }
-    
+
     @Test
     public void testShortText() {
         assertEquals("Moderation: Catherine Vogel und Thomas Heyer", recording.getShortText());
     }
-    
+
     @Test
     public void testStreams() {
         assertEquals(2, recording.getStreams().size());
         assertEquals(2, recording.getAudioStreams().size());
-        
+
         Stream deu = recording.getStreams().get(0);
         assertEquals("deu", deu.getLanguage());
         assertEquals(Stream.CONTENT.MP2A, deu.getContent());
         assertEquals(3, deu.getType());
         assertEquals("N/A", deu.getDescription());
-        
+
         Stream twoch = recording.getStreams().get(1);
         assertEquals("2ch", twoch.getLanguage());
         assertEquals(Stream.CONTENT.MP2A, twoch.getContent());
         assertEquals(3, twoch.getType());
         assertEquals("N/A", twoch.getDescription());
     }
-    
+
     @Test
     public void testVps() {
         assertEquals(1283964600000l, recording.getVpsTime().getTimeInMillis());
     }
-    
+
     @Test
     public void testStarttime() {
         Calendar starttime = recording.getStartTime();
@@ -145,17 +147,17 @@ public class RecordingParserTest {
         assertEquals(18, starttime.get(Calendar.HOUR_OF_DAY));
         assertEquals(50, starttime.get(Calendar.MINUTE));
     }
-    
+
     @Test
     public void testChannelId() {
         assertEquals("S19.2E-1-1201-28306", recording.getChannelID());
     }
-    
+
     @Test
     public void testChannelName() {
         assertEquals("WDR Bielefeld", recording.getChannelName());
     }
-    
+
     @Test
     public void testEndTime() {
         Calendar end = recording.getEndTime();
@@ -165,7 +167,7 @@ public class RecordingParserTest {
         assertEquals(19, end.get(Calendar.HOUR_OF_DAY));
         assertEquals(30, end.get(Calendar.MINUTE));
     }
-    
+
     @Test
     public void testTableId() {
         assertEquals(0x4E, recording.getTableID());
@@ -175,18 +177,18 @@ public class RecordingParserTest {
     public void testVersion() {
         assertEquals(0xFF, recording.getVersion());
     }
-    
+
     @Test
     public void testPriority() {
         assertEquals(50, recording.getPriority());
     }
-    
+
     @Test
     public void testLifetime() {
         assertEquals(99, recording.getLifetime());
     }
-    
-    @AfterClass 
+
+    @AfterClass
     public static void shutdownServer() throws IOException, InterruptedException {
         conn.send(new QUIT());
         server.shutdown();

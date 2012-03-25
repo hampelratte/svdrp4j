@@ -1,5 +1,5 @@
 250-1 29.08.10 19:55* Tagesschau
 250-2 02.03.09 00:38  Der Teufel trägt Prada
-250-3 08.09.10 18:45* %Aktuelle Stunde
-250-4 09.03.07 16:12* %Tagesthemen
+250-3 08.09.10 18:45X %Aktuelle Stunde
+250-4 09.03.07 16:12 %Tagesthemen
 250 5 09.03.07 16:12* %%Zweimal geschnitten
