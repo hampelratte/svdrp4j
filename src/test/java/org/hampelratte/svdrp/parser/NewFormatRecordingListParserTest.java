@@ -81,7 +81,7 @@ public class NewFormatRecordingListParserTest {
 
     @Test
     public void testTitle() {
-        assertEquals("%Breaking Bad~S04E04", recordings.get(3).getTitle());
+        assertEquals("%Breaking Bad~Season 4~S04E04", recordings.get(3).getTitle());
         assertEquals("%%Zweimal geschnitten", recordings.get(4).getTitle());
     }
 
@@ -89,6 +89,12 @@ public class NewFormatRecordingListParserTest {
     public void testDisplayTitle() {
         assertEquals("S04E04", recordings.get(3).getDisplayTitle());
         assertEquals("Zweimal geschnitten", recordings.get(4).getDisplayTitle());
+    }
+    
+    @Test
+    public void testFolder() {
+    	assertEquals("Breaking Bad", recordings.get(2).getFolder());
+        assertEquals("Breaking Bad/Season 4", recordings.get(3).getFolder());
     }
 
     @Test
