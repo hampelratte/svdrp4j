@@ -7,11 +7,11 @@
  * 
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
  * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -46,7 +46,7 @@ public class EPGParser {
         currentChannelName = null;
         epg = null;
         list = new ArrayList<EPGEntry>();
-        
+
         StringTokenizer st = new StringTokenizer(epgData, "\n");
         while (st.hasMoreTokens()) {
             String line = st.nextToken();
@@ -76,10 +76,10 @@ public class EPGParser {
             epg = createNewEpgEntry();
             epg.setChannelID(currentChannelID);
             epg.setChannelName(currentChannelName);
-            
+
             StringTokenizer lt = new StringTokenizer(line, " ");
             lt.nextToken(); // skip the e
-            epg.setEventID(Integer.parseInt(lt.nextToken()));
+            epg.setEventID(Long.parseLong(lt.nextToken()));
             int startTime = Integer.parseInt(lt.nextToken());
             int duration = Integer.parseInt(lt.nextToken());
             int endTime = startTime + duration;
@@ -115,16 +115,16 @@ public class EPGParser {
             int content = Integer.parseInt(lt.nextToken(), 16);
             int type = Integer.parseInt(lt.nextToken(), 16);
             String iso3code = lt.nextToken();
-            
+
             // parse the description, if available
             desc = "N/A";
             if(lt.hasMoreElements()) {
                 desc = lt.nextToken();
                 while(lt.hasMoreElements()) {
-                    desc += ' ' + lt.nextToken(); 
+                    desc += ' ' + lt.nextToken();
                 }
             }
-            
+
             Stream stream = new Stream();
             switch(content) {
             case 1:

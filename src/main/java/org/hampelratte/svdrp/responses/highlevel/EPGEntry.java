@@ -48,7 +48,7 @@ public class EPGEntry implements Serializable {
 
     private String channelName = "";
 
-    private int eventID = 0;
+    private long eventID = 0;
 
     private long startTime;
     private Calendar startTimeCal;
@@ -188,11 +188,11 @@ public class EPGEntry implements Serializable {
         this.vpsTimeCal = vpsTime;
     }
 
-    public int getEventID() {
+    public long getEventID() {
         return eventID;
     }
 
-    public void setEventID(int eventID) {
+    public void setEventID(long eventID) {
         this.eventID = eventID;
     }
 
