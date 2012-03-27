@@ -1,6 +1,10 @@
 package org.hampelratte.svdrp.responses.highlevel;
 
-public class Genre {
+import java.io.Serializable;
+
+public class Genre implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     private final int code;
     private final String category;
     private final String description;
