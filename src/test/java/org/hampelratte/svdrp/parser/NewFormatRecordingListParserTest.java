@@ -87,7 +87,7 @@ public class NewFormatRecordingListParserTest {
 
     @Test
     public void testDisplayTitle() {
-        assertEquals("Breaking Bad~S04E04", recordings.get(3).getDisplayTitle());
+        assertEquals("S04E04", recordings.get(3).getDisplayTitle());
         assertEquals("Zweimal geschnitten", recordings.get(4).getDisplayTitle());
     }
 
