@@ -42,7 +42,7 @@ import java.util.List;
  */
 public class EPGEntry implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
     private String channelID = "";
 
@@ -70,6 +70,8 @@ public class EPGEntry implements Serializable {
     private Calendar vpsTimeCal;
 
     private List<Stream> streams = new ArrayList<Stream>();
+
+    private List<Genre> genres = new ArrayList<Genre>();
 
     public EPGEntry() {
     }
@@ -210,6 +212,14 @@ public class EPGEntry implements Serializable {
 
     public void setStreams(List<Stream> streams) {
         this.streams = streams;
+    }
+
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
     }
 
     /**

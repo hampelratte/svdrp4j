@@ -33,6 +33,8 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import org.hampelratte.svdrp.responses.highlevel.EPGEntry;
+import org.hampelratte.svdrp.responses.highlevel.Genre;
+import org.hampelratte.svdrp.responses.highlevel.GenreTable;
 import org.hampelratte.svdrp.responses.highlevel.Stream;
 
 
@@ -40,6 +42,8 @@ public class EPGParser {
     protected String currentChannelID, currentChannelName;
     protected EPGEntry epg;
     protected List<EPGEntry> list;
+
+    private final GenreTable genreTable = new GenreTable();
 
     public List<EPGEntry> parse(String epgData) {
         currentChannelID = null;
@@ -153,6 +157,17 @@ public class EPGParser {
             stream.setLanguage(iso3code);
             stream.setDescription(desc);
             epg.getStreams().add(stream);
+            break;
+        case 'G':
+            lt = new StringTokenizer(line, " ");
+            lt.nextToken(); // skip the G
+            while (lt.hasMoreElements()) {
+                int genreCode = Integer.parseInt(lt.nextToken(), 16);
+                Genre genre = genreTable.get(genreCode);
+                if (genre != null) {
+                    epg.getGenres().add(genre);
+                }
+            }
             break;
         case 'e':
             /* end of Entry */
