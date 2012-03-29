@@ -52,6 +52,8 @@ public class ChannelParser {
      * 
      * @param channelData
      *            A list of channels received from VDR by LSTC command
+     * @param validate
+     *            If set to true, the parameters of DVBChannels will be validated.
      * @param ignoreErrors
      *            If set to true, all exceptions, which occure during parsing will be ignored. The channels.conf line, which threw the exception will be lost.
      *            If set to false, the parsing will stop immediately, if an exception occurs.
