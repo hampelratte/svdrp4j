@@ -7,11 +7,11 @@
  * 
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
  * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -26,17 +26,23 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.hampelratte.svdrp.util;
+package org.hampelratte.svdrp.sorting;
 
 import java.util.Comparator;
 
-import org.hampelratte.svdrp.responses.highlevel.Timer;
+import org.hampelratte.svdrp.responses.highlevel.Recording;
 
-public class AlphabeticalTimerComparator implements Comparator<Timer> {
-    public int compare(Timer t1, Timer t2) {
-        String title1 = t1.getTitle();
-        String title2 = t2.getTitle();
-
+/**
+ * Sorts Recordings by their title. The folder structure is taken into account: Abc~Zyx comes before Bcd. For the title, the comparator uses the display title,
+ * so the "cut" indicator % is ignored. If the display titles are equal, the short text is taken into account, because it sometimes contains the episode title.
+ * 
+ * @author <a href="mailto:hampelratte@users.berlios.de">hampelratte@users.berlios.de</a>
+ */
+public class RecordingAlphabeticalComparator implements Comparator<Recording> {
+    @Override
+    public int compare(Recording r1, Recording r2) {
+        String title1 = ((r1.getFolder() != null) ? r1.getFolder() + '/' : "") + r1.getDisplayTitle() + " - " + r1.getShortText();
+        String title2 = ((r2.getFolder() != null) ? r2.getFolder() + '/' : "") + r2.getDisplayTitle() + " - " + r2.getShortText();
         return title1.toLowerCase().compareTo(title2.toLowerCase());
     }
 }

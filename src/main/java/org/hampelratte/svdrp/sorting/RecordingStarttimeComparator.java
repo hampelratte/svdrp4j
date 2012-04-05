@@ -26,17 +26,30 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.hampelratte.svdrp.util;
+package org.hampelratte.svdrp.sorting;
 
 import java.util.Comparator;
 
-import org.hampelratte.svdrp.responses.highlevel.TreeNode;
+import org.hampelratte.svdrp.responses.highlevel.Recording;
 
-public class AlphabeticalRecordingComparator implements Comparator<TreeNode> {
+/**
+ * Sorts Recordings by their start time. If both have the same start time, they are compared with the RecordingAlphabeticalComparator
+ * 
+ * @author <a href="mailto:hampelratte@users.berlios.de">hampelratte@users.berlios.de</a>
+ */
+public class RecordingStarttimeComparator implements Comparator<Recording> {
+
+    private final RecordingAlphabeticalComparator alphabet = new RecordingAlphabeticalComparator();
+
     @Override
-    public int compare(TreeNode r1, TreeNode r2) {
-        String title1 = r1.getDisplayTitle();
-        String title2 = r2.getDisplayTitle();
-        return title1.toLowerCase().compareTo(title2.toLowerCase());
+    public int compare(Recording r1, Recording r2) {
+        Recording rec1 = r1;
+        Recording rec2 = r2;
+        int result = rec1.getStartTime().compareTo(rec2.getStartTime());
+        if (result == 0) {
+            return alphabet.compare(r1, r2);
+        } else {
+            return result;
+        }
     }
 }
