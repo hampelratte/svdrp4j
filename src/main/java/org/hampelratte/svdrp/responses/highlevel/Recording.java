@@ -33,11 +33,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * TODO split up display title into display title and folder for recordings, which contain ~ in the title
+ * Represents a recording of VDR.
  * 
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  * 
- *         Represents a recording of VDR
  */
 public class Recording extends EPGEntry implements Comparable<Recording>, TreeNode {
     private static final long serialVersionUID = 2L;
@@ -109,18 +108,15 @@ public class Recording extends EPGEntry implements Comparable<Recording>, TreeNo
 
     public String getFolder() {
         if (folder == null) {
-            folder = getTitle();
+            if (getTitle().contains("~")) {
+                folder = getTitle().substring(0, getTitle().lastIndexOf('~'));
+                while (folder.charAt(0) == ('%')) {
+                    folder = folder.substring(1);
+                }
 
-            if (folder.contains("~")) {
-                folder = folder.substring(0, folder.lastIndexOf('~'));
+                folder = folder.replaceAll("~%", "/");
+                folder = folder.replaceAll("~", "/");
             }
-
-            while (folder.charAt(0) == ('%')) {
-                folder = folder.substring(1);
-            }
-
-            folder = folder.replaceAll("~%", "/");
-            folder = folder.replaceAll("~", "/");
         }
         return folder;
     }
