@@ -1,8 +1,6 @@
 package org.hampelratte.svdrp.responses.highlevel;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -78,15 +76,6 @@ public class Folder implements TreeNode {
             }
         } else {
             getChildren().add(subtree);
-        }
-    }
-
-    public void sort(Comparator<TreeNode> comparator) {
-        Collections.sort(getChildren(), comparator);
-        for (TreeNode child : getChildren()) {
-            if (child instanceof Folder) {
-                ((Folder) child).sort(comparator);
-            }
         }
     }
 
