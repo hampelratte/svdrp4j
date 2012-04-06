@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
  * 
@@ -7,11 +7,11 @@
  * 
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
  * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -34,13 +34,16 @@ import java.util.Calendar;
 
 import org.hampelratte.svdrp.responses.highlevel.Recording;
 import org.hampelratte.svdrp.responses.highlevel.Timer;
+import org.hampelratte.svdrp.sorting.AlphabeticalTimerComparator;
+import org.hampelratte.svdrp.sorting.ChronologicalTimerComparator;
+import org.hampelratte.svdrp.sorting.RecordingAlphabeticalComparator;
 import org.junit.Test;
 
 public class ComparatorTest {
 
     @Test
-    public void testAlphabeticalRecordingComparator() {
-        AlphabeticalRecordingComparator comp = new AlphabeticalRecordingComparator();
+    public void testRecordingAlphabeticalComparator() {
+        RecordingAlphabeticalComparator comp = new RecordingAlphabeticalComparator();
         Recording r1 = new Recording();
         r1.setTitle("A");
         Recording r2 = new Recording();
@@ -52,6 +55,8 @@ public class ComparatorTest {
         assertEquals(0, comp.compare(r2, r1));
         assertEquals(0, comp.compare(r1, r2));
     }
+
+    // TODO add test for the other comparators
 
     @Test
     public void testAlphabeticalTimerComparator() {
