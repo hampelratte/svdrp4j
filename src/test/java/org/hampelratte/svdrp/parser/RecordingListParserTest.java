@@ -76,7 +76,7 @@ public class RecordingListParserTest {
 
     @Test
     public void testListSize() {
-        assertEquals(5, recordings.size());
+        assertEquals(7, recordings.size());
     }
 
     @Test
@@ -126,6 +126,21 @@ public class RecordingListParserTest {
         assertEquals(2010, starttime.get(Calendar.YEAR));
         assertEquals(19, starttime.get(Calendar.HOUR_OF_DAY));
         assertEquals(55, starttime.get(Calendar.MINUTE));
+    }
+
+    @Test
+    public void testGetFolder() {
+        Recording rec6 = recordings.get(5);
+        assertEquals("Folder", rec6.getFolder());
+        assertTrue(rec6.isCut());
+        assertTrue(rec6.isNew());
+        assertEquals("Title", rec6.getDisplayTitle());
+
+        Recording rec7 = recordings.get(6);
+        assertEquals("Parent/Child", rec7.getFolder());
+        assertTrue(rec7.isCut());
+        assertFalse(rec7.isNew());
+        assertEquals("Title", rec7.getDisplayTitle());
     }
 
     @AfterClass

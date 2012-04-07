@@ -50,7 +50,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-// TODO test getFolder()
 public class RecordingParserTest {
 
     private static Server server;
