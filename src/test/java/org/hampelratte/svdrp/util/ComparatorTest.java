@@ -37,6 +37,9 @@ import org.hampelratte.svdrp.responses.highlevel.Timer;
 import org.hampelratte.svdrp.sorting.AlphabeticalTimerComparator;
 import org.hampelratte.svdrp.sorting.ChronologicalTimerComparator;
 import org.hampelratte.svdrp.sorting.RecordingAlphabeticalComparator;
+import org.hampelratte.svdrp.sorting.RecordingIsCutComparator;
+import org.hampelratte.svdrp.sorting.RecordingIsNewComparator;
+import org.hampelratte.svdrp.sorting.RecordingStarttimeComparator;
 import org.junit.Test;
 
 public class ComparatorTest {
@@ -56,7 +59,68 @@ public class ComparatorTest {
         assertEquals(0, comp.compare(r1, r2));
     }
 
-    // TODO add test for the other comparators
+    @Test
+    public void testRecordingStarttimeComparator() {
+        RecordingStarttimeComparator comp = new RecordingStarttimeComparator();
+
+        Calendar now = Calendar.getInstance();
+        Calendar yesterday = (Calendar) now.clone();
+        yesterday.add(Calendar.DAY_OF_MONTH, -1);
+
+        Recording r1 = new Recording();
+        r1.setTitle("B");
+        r1.setStartTime(yesterday);
+        Recording r2 = new Recording();
+        r2.setTitle("A");
+        r2.setStartTime(now);
+
+        assertEquals(-1, comp.compare(r1, r2));
+        assertEquals(1, comp.compare(r2, r1));
+        r2.setStartTime(yesterday);
+        assertEquals(1, comp.compare(r1, r2));
+        assertEquals(-1, comp.compare(r2, r1));
+    }
+
+    @Test
+    public void testRecordingIsCutComparator() {
+        RecordingIsCutComparator comp = new RecordingIsCutComparator();
+
+        Recording r1 = new Recording();
+        r1.setTitle("%B");
+        Recording r2 = new Recording();
+        r2.setTitle("A");
+
+        assertEquals(-1, comp.compare(r1, r2));
+        assertEquals(1, comp.compare(r2, r1));
+
+        r2.setTitle("%A");
+        assertEquals(1, comp.compare(r1, r2));
+        assertEquals(-1, comp.compare(r2, r1));
+    }
+
+    @Test
+    public void testRecordingIsNewComparator() {
+        RecordingIsNewComparator comp = new RecordingIsNewComparator();
+
+        Calendar now = Calendar.getInstance();
+        Calendar yesterday = (Calendar) now.clone();
+        yesterday.add(Calendar.DAY_OF_MONTH, -1);
+
+        Recording r1 = new Recording();
+        r1.setTitle("B");
+        r1.setNew(true);
+        r1.setStartTime(yesterday);
+        Recording r2 = new Recording();
+        r2.setTitle("A");
+        r2.setStartTime(now);
+
+        assertEquals(-1, comp.compare(r1, r2));
+        assertEquals(1, comp.compare(r2, r1));
+
+        r2.setNew(true);
+        assertEquals(1, comp.compare(r1, r2));
+        assertEquals(-1, comp.compare(r2, r1));
+    }
 
     @Test
     public void testAlphabeticalTimerComparator() {
