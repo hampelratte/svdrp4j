@@ -10,7 +10,7 @@
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ * 3. Neither the name of the project nor the names of its
  *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
  * 
@@ -75,9 +75,17 @@ public class ChannelParserTest {
 
     @Test
     public void testDifferentInputDevices() throws ParseException {
-        String channelData = "1 NICK AUSTRIA;MTV Networks:362000:M64:C:6900:513=2:661=deu:577:0:28640:1:1091:0\n"
-                + "2 DSF:783250:PVRINPUT|TV|PAL:P:0:301:300:305:0:1:0:3499:0\n" + "3 Composite 0;pvrinput:1:COMPOSITE0:V:0:301=2:300=@4:0:0:9000:0:0:0\n"
-                + "4 S-Video 0;pvrinput:1:SVIDEO0:V:0:301=2:300=@4:0:0:9005:0:0:0\n" + "5 DMAX;w_pvrscan:343250:PVRINPUT|TV|PAL:P:0:301=2:300:305:0:5492:0:0:0";
+        // @formatter:off
+        String channelData =
+                "1 NICK AUSTRIA;MTV Networks:362000:M64:C:6900:513=2:661=deu:577:0:28640:1:1091:0\n" +
+                        "2 DSF:783250:PVRINPUT|TV|PAL:P:0:301:300:305:0:1:0:3499:0\n" +
+                        "3 Composite 0;pvrinput:1:COMPOSITE0:V:0:301=2:300=@4:0:0:9000:0:0:0\n" +
+                        "4 S-Video 0;pvrinput:1:SVIDEO0:V:0:301=2:300=@4:0:0:9005:0:0:0\n" +
+                        "5 DMAX;w_pvrscan:343250:PVRINPUT|TV|PAL:P:0:301=2:300:305:0:5492:0:0:0\n" +
+                        "6 Sky Cinema,Cinema;SKY:11798:hC34:S19.2E:27500:511:512=deu:32:1702,1722,1833,1834,1836,9C4,9C7:10:133:2:0\n" +
+                        "7 ZDF;ZDFmobil:482000000:B8C23D12G4M16T8Y0:T:0:545=2:546=deu@3,547=mis@3:551:0:514:8468:514:0\n" +
+                        "8 Pro7;ProSiebenSat.1:280250:C0D45:V:0:301+101=2:300=@4:0:0:1:0:4484:0";
+        // @formatter:on
 
         List<Channel> channels = ChannelParser.parse(channelData, false);
         assertTrue(channels.get(0) instanceof DVBChannel);

@@ -10,7 +10,7 @@
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ * 3. Neither the name of the project nor the names of its
  *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
  * 
@@ -68,8 +68,23 @@ public class ChannelLineParserFactory {
     }
 
     private static boolean isPvrInputChannel(String chanConfLine) {
-        return chanConfLine.toLowerCase().contains("pvrinput") || chanConfLine.toLowerCase().contains("w_pvrscan")
-                || chanConfLine.toLowerCase().contains("analog");
+        int pos = -1;
+        for (int i = 0; i < 3; i++) {
+            pos = chanConfLine.indexOf(':', pos + 1);
+        }
+        pos += 1;
+
+        // we check, if the source part starts with V or P
+        // if every column in name:freq:params:source has at least length 1,
+        // V may start at least at pos 7
+        if (pos >= 7) {
+            char first = chanConfLine.charAt(pos);
+            if (first == 'V' || first == 'P') {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static boolean isDvbChannel(String chanConfLine) {
@@ -88,11 +103,6 @@ public class ChannelLineParserFactory {
                 return true;
             }
         }
-
-        // String[] parts = chanConfLine.split(":");
-        // if (parts.length >= 4 && (parts[3].charAt(0) == 'S' || parts[3].charAt(0) == 'C' || parts[3].charAt(0) == 'T')) {
-        // return true;
-        // }
 
         return false;
     }
