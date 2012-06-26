@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
  * 
@@ -7,11 +7,11 @@
  * 
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
  * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import org.hampelratte.svdrp.commands.DELR;
 import org.hampelratte.svdrp.commands.DELT;
@@ -44,6 +45,7 @@ import org.hampelratte.svdrp.commands.LSTR;
 import org.hampelratte.svdrp.commands.LSTT;
 import org.hampelratte.svdrp.commands.MODT;
 import org.hampelratte.svdrp.commands.NEWT;
+import org.hampelratte.svdrp.commands.STAT;
 import org.hampelratte.svdrp.parsers.ChannelParser;
 import org.hampelratte.svdrp.parsers.EPGParser;
 import org.hampelratte.svdrp.parsers.RecordingListParser;
@@ -63,6 +65,8 @@ public class VDR {
     private final int port;
     private final int connectTimeout;
     private Connection connection = null;
+    // private ConnectionTester tester = null;
+    private boolean vdrAvailable = false;
 
     /**
      * If set, the connection will be kept open for some time, so that consecutive request will be much faster
@@ -82,6 +86,8 @@ public class VDR {
         this.host = host;
         this.port = port;
         this.connectTimeout = connectTimeout;
+        // tester = new ConnectionTester();
+        // tester.start();
     }
 
     /**
@@ -322,16 +328,19 @@ public class VDR {
             logger.trace("old connection");
         }
 
-        res = connection.send(cmd);
-        lastTransmissionTime = System.currentTimeMillis();
-        if (!persistentConnection) {
-            connection.close();
-            connection = null;
-        } else {
-            if (timer == null) {
-                logger.debug("Starting connection closer");
-                timer = new java.util.Timer("SVDRP connection closer");
-                timer.schedule(new ConnectionCloser(), 0, 100);
+        try {
+            res = connection.send(cmd);
+        } finally {
+            lastTransmissionTime = System.currentTimeMillis();
+            if (!persistentConnection) {
+                connection.close();
+                connection = null;
+            } else {
+                if (timer == null) {
+                    logger.debug("Starting connection closer");
+                    timer = new java.util.Timer("SVDRP connection closer");
+                    timer.schedule(new ConnectionCloser(), 0, 100);
+                }
             }
         }
 
@@ -373,5 +382,45 @@ public class VDR {
 
         VDR.timer.cancel();
         vdr.connection.close();
+    }
+
+    public boolean isAvailable() {
+        return vdrAvailable;
+    }
+
+    public class ConnectionTester extends Thread {
+
+        private boolean running = false;
+
+        @Override
+        public void run() {
+            running = true;
+            while (running) {
+                try {
+                    send(new STAT());
+                    vdrAvailable = true;
+                } catch (UnknownHostException e1) {
+                    vdrAvailable = false;
+                } catch (IOException e1) {
+                    vdrAvailable = false;
+                }
+
+                try {
+                    Thread.sleep(TimeUnit.SECONDS.toMillis(30));
+                } catch (InterruptedException e) {
+                    logger.warn("ConnectionTester interrupted while sleeping. Will stop now!");
+                    running = false;
+                }
+            }
+        }
+
+        public boolean isRunning() {
+            return running;
+        }
+
+        public void stopNow() {
+            running = false;
+            interrupt();
+        }
     }
 }
