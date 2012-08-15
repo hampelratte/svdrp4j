@@ -142,23 +142,24 @@ public class Server implements Runnable {
                     sendWelcomeMessage();
                 }
 
-                while (!socket.isClosed()) {
-                    try {
-                        if (!readRequest()) {
-                            break;
+                try {
+                    while (!socket.isClosed()) {
+                        try {
+                            if (!readRequest()) {
+                                break;
+                            }
+                        } catch (SocketTimeoutException e) {
+                            logger.error("Read timeout. Closing connection {}", socket.getRemoteSocketAddress());
+                            socket.close();
                         }
-                    } catch (SocketTimeoutException e) {
-                        logger.error("Read timeout. Closing connection {}", socket.getRemoteSocketAddress());
-                        socket.close();
-                    } catch (SocketException e) {
-                        if (serverSocket != null && !serverSocket.isClosed()) {
-                            logger.error("Error while serving clients", e);
-                        }
-                    } catch (IOException e) {
+                    }
+                } catch (SocketException e) {
+                    if (serverSocket != null && !serverSocket.isClosed()) {
                         logger.error("Error while serving clients", e);
                     }
+                } catch (IOException e) {
+                    logger.error("Error while serving clients", e);
                 }
-
             }
         } catch (SocketException e) {
             if(serverSocket != null && !serverSocket.isClosed()) {
