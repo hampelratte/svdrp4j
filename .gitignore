@@ -1,6 +1,6 @@
 target
 *~
 *.log
-/.settings
-/.classpath
-/.project
+.settings
+.classpath
+.project
