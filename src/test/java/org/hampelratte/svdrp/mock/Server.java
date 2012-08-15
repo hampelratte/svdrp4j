@@ -150,6 +150,12 @@ public class Server implements Runnable {
                     } catch (SocketTimeoutException e) {
                         logger.error("Read timeout. Closing connection {}", socket.getRemoteSocketAddress());
                         socket.close();
+                    } catch (SocketException e) {
+                        if (serverSocket != null && !serverSocket.isClosed()) {
+                            logger.error("Error while serving clients", e);
+                        }
+                    } catch (IOException e) {
+                        logger.error("Error while serving clients", e);
                     }
                 }
 
@@ -382,7 +388,8 @@ public class Server implements Runnable {
         server.setAccessDenied(false);
         server.loadTimers("lstt.txt");
         server.loadRecordings("lstr.txt");
-        server.loadChannelsConf("pvrinput_channels.conf");
+        // server.loadChannelsConf("pvrinput_channels.conf");
+        server.loadChannelsConf("channels-sagebiel.conf");
         new Thread(server).start();
     }
 }
