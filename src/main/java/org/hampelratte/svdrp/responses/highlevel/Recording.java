@@ -96,10 +96,14 @@ public class Recording extends EPGEntry implements Comparable<Recording>, TreeNo
             display = getTitle();
 
             if (display.contains("~")) {
-                display = display.substring(display.lastIndexOf('~') + 1);
+                if (display.endsWith("~")) {
+                    display = display.substring(0, display.length() - 1);
+                } else {
+                    display = display.substring(display.lastIndexOf('~') + 1);
+                }
             }
 
-            while(display.charAt(0) == ('%')) {
+            while (display.charAt(0) == ('%')) {
                 display = display.substring(1);
             }
         }
