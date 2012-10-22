@@ -3,7 +3,7 @@
     <parent>
         <artifactId>master</artifactId>
         <groupId>org.hampelratte</groupId>
-        <version>6</version>
+        <version>7</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>svdrp4j</artifactId>
@@ -119,14 +119,12 @@
             </plugin>
         </plugins>
     </build>
-
+    
     <repositories>
         <repository>
-            <id>hampelratte</id>
+            <id>hampelratte-repo</id>
             <name>hampelratte.org</name>
-            <url>http://hampelratte.org/nexus/content/groups/public</url>
-            <layout>default</layout>
+            <url>http://www.hampelratte.org/maven</url>
         </repository>
     </repositories>
-
 </project>
