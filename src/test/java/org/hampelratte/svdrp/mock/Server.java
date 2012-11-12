@@ -242,8 +242,15 @@ public class Server implements Runnable {
     }
 
     private void printRecording(int i) throws IOException {
-        String lstr = readFile("lstr_"+i+".txt");
-        sendResponse(lstr);
+        String filename = "lstr_" + i + ".txt";
+        String lstr = "";
+        try {
+            lstr = readFile(filename);
+            sendResponse(lstr);
+        } catch (Exception e) {
+            logger.warn("Recordings file {} does not exist", filename);
+            sendResponse("451 Recordings file " + filename + " not found");
+        }
     }
 
     private void printChannelList() throws IOException {
@@ -385,12 +392,13 @@ public class Server implements Runnable {
 
     public static void main(String[] args) throws IOException {
         Server server = new Server();
-        server.loadWelcome("welcome-1.6.0_2-utf_8.txt");
+        // server.responseDelay = 2000;
+        server.loadWelcome("welcome-1.7.25-utf_8.txt");
         server.setAccessDenied(false);
-        server.loadTimers("lstt.txt");
-        server.loadRecordings("lstr.txt");
+        server.loadTimers("lstt_fabian.txt");
+        server.loadRecordings("lstr-fabian.txt");
         // server.loadChannelsConf("pvrinput_channels.conf");
-        server.loadChannelsConf("channels-sagebiel.conf");
+        server.loadChannelsConf("channels-fabian.conf");
         new Thread(server).start();
     }
 }
