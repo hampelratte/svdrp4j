@@ -29,6 +29,7 @@
 package org.hampelratte.svdrp.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
 
@@ -48,15 +49,27 @@ public class ComparatorTest {
     public void testRecordingAlphabeticalComparator() {
         RecordingAlphabeticalComparator comp = new RecordingAlphabeticalComparator();
         Recording r1 = new Recording();
-        r1.setTitle("A");
         Recording r2 = new Recording();
-        r2.setTitle("B");
 
+        r1.setTitle("A");
+        r2.setTitle("B");
         assertEquals(-1, comp.compare(r1, r2));
         assertEquals(1, comp.compare(r2, r1));
+
+        r1.setTitle("A");
         r2.setTitle("A");
         assertEquals(0, comp.compare(r2, r1));
         assertEquals(0, comp.compare(r1, r2));
+
+        r1.setTitle("ABC~XYZ");
+        r2.setTitle("BCD~ABC");
+        assertEquals(-1, comp.compare(r1, r2));
+        assertEquals(1, comp.compare(r2, r1));
+
+        r1.setTitle("ABC");
+        r2.setTitle("ABC~XYZ");
+        assertTrue(comp.compare(r1, r2) < 0);
+        assertTrue(comp.compare(r2, r1) > 0);
     }
 
     @Test
@@ -86,14 +99,29 @@ public class ComparatorTest {
         RecordingIsCutComparator comp = new RecordingIsCutComparator();
 
         Recording r1 = new Recording();
-        r1.setTitle("%B");
         Recording r2 = new Recording();
-        r2.setTitle("A");
 
+        // r1 is cut
+        r1.setTitle("%B");
+        r2.setTitle("A");
         assertEquals(-1, comp.compare(r1, r2));
         assertEquals(1, comp.compare(r2, r1));
 
+        // r2 is cut
+        r1.setTitle("B");
         r2.setTitle("%A");
+        assertEquals(1, comp.compare(r1, r2));
+        assertEquals(-1, comp.compare(r2, r1));
+
+        // both are cut
+        r1.setTitle("%B");
+        r2.setTitle("%A");
+        assertEquals(1, comp.compare(r1, r2));
+        assertEquals(-1, comp.compare(r2, r1));
+
+        // both are uncut
+        r1.setTitle("B");
+        r2.setTitle("A");
         assertEquals(1, comp.compare(r1, r2));
         assertEquals(-1, comp.compare(r2, r1));
     }
@@ -106,18 +134,33 @@ public class ComparatorTest {
         Calendar yesterday = (Calendar) now.clone();
         yesterday.add(Calendar.DAY_OF_MONTH, -1);
 
+        // only r1 new
         Recording r1 = new Recording();
         r1.setTitle("B");
         r1.setNew(true);
         r1.setStartTime(yesterday);
         Recording r2 = new Recording();
         r2.setTitle("A");
+        r2.setNew(false);
         r2.setStartTime(now);
-
         assertEquals(-1, comp.compare(r1, r2));
         assertEquals(1, comp.compare(r2, r1));
 
+        // both new
+        r1.setNew(true);
         r2.setNew(true);
+        assertEquals(1, comp.compare(r1, r2));
+        assertEquals(-1, comp.compare(r2, r1));
+
+        // only r2 new
+        r1.setNew(false);
+        r2.setNew(true);
+        assertEquals(1, comp.compare(r1, r2));
+        assertEquals(-1, comp.compare(r2, r1));
+
+        // both not new
+        r1.setNew(false);
+        r2.setNew(false);
         assertEquals(1, comp.compare(r1, r2));
         assertEquals(-1, comp.compare(r2, r1));
     }
@@ -126,12 +169,14 @@ public class ComparatorTest {
     public void testAlphabeticalTimerComparator() {
         AlphabeticalTimerComparator comp = new AlphabeticalTimerComparator();
         Timer t1 = new Timer();
-        t1.setTitle("A");
         Timer t2 = new Timer();
-        t2.setTitle("B");
 
+        t1.setTitle("A");
+        t2.setTitle("B");
         assertEquals(-1, comp.compare(t1, t2));
         assertEquals(1, comp.compare(t2, t1));
+
+        t1.setTitle("A");
         t2.setTitle("A");
         assertEquals(0, comp.compare(t2, t1));
         assertEquals(0, comp.compare(t1, t2));
