@@ -278,7 +278,12 @@ public class DVBChannel extends BroadcastChannel {
     }
 
     public String getChannelID() {
-        return getSource()+"-"+getNID()+"-"+getTID()+"-"+getSID()+"-"+getRID();
+    	StringBuffer sb = new StringBuffer();
+    	sb.append(getSource()).append("-").append(getNID()).append("-").append(getTID()).append("-").append(getSID());
+    	if(getRID() != 0){
+            sb.append("-").append(getRID());
+    	}
+    	return sb.toString();
     }
     
     @Override
@@ -357,14 +362,14 @@ public class DVBChannel extends BroadcastChannel {
         }
         
         // validate codeRateHP
-        validValues = new int[] {-1, 0, 12, 23, 34, 45, 56, 67, 78, 89, AUTOMATIC};
+        validValues = new int[] {-1, 0, 12, 23, 34, 45, 56, 67, 78, 89, 910, AUTOMATIC};
         valid = validateArray(validValues, codeRateHP);
         if(!valid) {
             throwIllegalArgumentException("Code rate HP", codeRateHP, validValues);
         }
         
         // validate codeRateLP
-        validValues = new int[] {-1, 0, 12, 23, 34, 45, 56, 67, 78, 89, AUTOMATIC};
+        validValues = new int[] {-1, 0, 12, 23, 34, 45, 56, 67, 78, 89, 910, AUTOMATIC};
         valid = validateArray(validValues, codeRateLP);
         if(!valid) {
             throwIllegalArgumentException("Code rate LP", codeRateLP, validValues);
