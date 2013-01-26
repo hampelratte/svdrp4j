@@ -52,7 +52,7 @@ public class Server implements Runnable {
 
     private static transient Logger logger = LoggerFactory.getLogger(Server.class);
 
-    private final int port = 6419;
+    private final int port = 2001;
 
     private BufferedReader br;
 
