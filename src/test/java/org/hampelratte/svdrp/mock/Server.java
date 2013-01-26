@@ -44,6 +44,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.hampelratte.svdrp.responses.highlevel.Timer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,7 +52,7 @@ public class Server implements Runnable {
 
     private static transient Logger logger = LoggerFactory.getLogger(Server.class);
 
-    private final int port = 2001;
+    private final int port = 6419;
 
     private BufferedReader br;
 
@@ -61,7 +62,7 @@ public class Server implements Runnable {
     private Socket socket;
 
     private String welcome;
-    private String timers;
+    // private String timers;
     private String channels = "";
     private String recordings;
 
@@ -69,8 +70,13 @@ public class Server implements Runnable {
     private boolean accessDenied = false;
     private boolean inPUTEmode = false;
 
+    NewtHandler newtHandler;
+    private TimerManager timerManager;
+
     public Server() {
         logger.info("Running in {}", System.getProperty("user.dir"));
+        timerManager = new TimerManager();
+        newtHandler = new NewtHandler(timerManager);
     }
 
     @Override
@@ -83,7 +89,8 @@ public class Server implements Runnable {
     }
 
     public void loadTimers(String timersFile) throws IOException {
-        timers = readFile(timersFile);
+        String timerData = readFile(timersFile);
+        timerManager.parseData(timerData);
     }
 
     public void loadRecordings(String recordingsFile) throws IOException {
@@ -193,7 +200,7 @@ public class Server implements Runnable {
         } else if ("lstc".equalsIgnoreCase(request)) {
             printChannelList();
         } else if ("lstt".equalsIgnoreCase(request)) {
-            sendResponse(timers);
+            sendResponse(timerManager.printTimersList());
         } else if ("lstr".equalsIgnoreCase(request)) {
             printRecordingsList();
         } else if ("pute".equalsIgnoreCase(request)) {
@@ -216,6 +223,30 @@ public class Server implements Runnable {
             sendResponse("920-S: 1 Programm\r\r\n920-I: 2 Kanäle\r\r\n920 I: 3 Befehle\r\r\n");
         } else if ("not_implemented".equalsIgnoreCase(request)) {
             sendResponse("123 Kuddelmuddel");
+        } else if (newtHandler.accept(request)) {
+            sendResponse(newtHandler.process(request));
+        } else if (request.matches("[Dd][Ee][Ll][Tt] (.*)")) {
+            Matcher m = Pattern.compile("[Dd][Ee][Ll][Tt] (.*)").matcher(request);
+            if (m.matches()) {
+                int id = Integer.parseInt(m.group(1));
+                boolean removed = timerManager.removeTimer(id);
+                if (removed) {
+                    sendResponse("250 Timer \"" + id + "\" deleted");
+                } else {
+                    sendResponse("501 Timer \"" + id + "\" not defined");
+                }
+            }
+        } else if (request.matches("[Ll][Ss][Tt][Tt] (.*)")) {
+            Matcher m = Pattern.compile("[Ll][Ss][Tt][Tt] (.*)").matcher(request);
+            if (m.matches()) {
+                int id = Integer.parseInt(m.group(1));
+                Timer timer = timerManager.getTimer(id);
+                if (timer != null) {
+                    sendResponse("250 " + id + " " + timer.toNEWT());
+                } else {
+                    sendResponse("501 Timer \"" + id + "\" not defined");
+                }
+            }
         } else {
             sendResponse("502 Not implemented");
         }
