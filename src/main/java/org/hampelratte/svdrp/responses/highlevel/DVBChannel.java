@@ -277,15 +277,11 @@ public class DVBChannel extends BroadcastChannel {
         this.verticalPolarization = verticalPolarization;
     }
 
-    public String getChannelID() {
-        return getSource()+"-"+getNID()+"-"+getTID()+"-"+getSID()+"-"+getRID();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o instanceof DVBChannel) {
             DVBChannel c = (DVBChannel) o;
-            return c.getChannelID().equals(getChannelID());
+            return c.getID().equals(getID());
         }
         return false;
     }
@@ -468,7 +464,9 @@ public class DVBChannel extends BroadcastChannel {
             id += getTID();
         }
         id += "-" + getSID();
-        id += "-" + getRID();
+        if (getRID() != 0) {
+            id += "-" + getRID();
+        }
         return id;
     }
 }
