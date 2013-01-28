@@ -7,11 +7,11 @@
  * 
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
  * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -32,14 +32,14 @@ import java.util.Arrays;
 
 
 /**
- * Represents a DVB channel of vdr. See man 5 vdr for details 
+ * Represents a DVB channel of vdr. See man 5 vdr for details
  * 
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  * @author <a href="mailto:androvdr@googlemail.com">androvdr</a>
  */
 public class DVBChannel extends BroadcastChannel {
     private static final long serialVersionUID = 1L;
-    
+
     public static final int QAM = 998;
     public static final int AUTOMATIC = 999;
 
@@ -59,7 +59,7 @@ public class DVBChannel extends BroadcastChannel {
     private int hierarchy = -1;
     private int rolloff = -1;
     private int priority = -1;
-    
+
     /**
      * @return The string representation of this channel in the channels.conf format
      */
@@ -86,10 +86,10 @@ public class DVBChannel extends BroadcastChannel {
         sb.append(getNID()); sb.append(':');
         sb.append(getTID()); sb.append(':');
         sb.append(getRID());
-        
+
         return sb.toString();
     }
-    
+
     private String getParameterString() {
         StringBuffer sb = new StringBuffer();
         if(getAlpha() > -1) {
@@ -137,7 +137,7 @@ public class DVBChannel extends BroadcastChannel {
         if(getHierarchy() > -1) {
             sb.append('Y'); sb.append(getHierarchy());
         }
-        
+
         return sb.toString();
     }
 
@@ -277,20 +277,11 @@ public class DVBChannel extends BroadcastChannel {
         this.verticalPolarization = verticalPolarization;
     }
 
-    public String getChannelID() {
-    	StringBuffer sb = new StringBuffer();
-    	sb.append(getSource()).append("-").append(getNID()).append("-").append(getTID()).append("-").append(getSID());
-    	if(getRID() != 0){
-            sb.append("-").append(getRID());
-    	}
-    	return sb.toString();
-    }
-    
     @Override
     public boolean equals(Object o) {
         if (o instanceof DVBChannel) {
             DVBChannel c = (DVBChannel) o;
-            return c.getChannelID().equals(getChannelID());
+            return c.getID().equals(getID());
         }
         return false;
     }
@@ -339,7 +330,7 @@ public class DVBChannel extends BroadcastChannel {
     public void setPriority(int priority) {
         this.priority = priority;
     }
-    
+
     /**
      * Validates the parameters of this channel.
      * 
@@ -355,68 +346,68 @@ public class DVBChannel extends BroadcastChannel {
         }
 
         // validate bandwidth
-        validValues = new int[] {-1, 6, 7, 8, AUTOMATIC};
+        validValues = new int[] { -1, 1712, 5, 6, 7, 8, 10, AUTOMATIC };
         valid = validateArray(validValues, bandwidth);
         if(!valid) {
             throwIllegalArgumentException("Bandwidth", bandwidth, validValues);
         }
-        
+
         // validate codeRateHP
-        validValues = new int[] {-1, 0, 12, 23, 34, 45, 56, 67, 78, 89, 910, AUTOMATIC};
+        validValues = new int[] { -1, 0, 12, 23, 34, 35, 45, 56, 67, 78, 89, 910, AUTOMATIC };
         valid = validateArray(validValues, codeRateHP);
         if(!valid) {
             throwIllegalArgumentException("Code rate HP", codeRateHP, validValues);
         }
-        
+
         // validate codeRateLP
-        validValues = new int[] {-1, 0, 12, 23, 34, 45, 56, 67, 78, 89, 910, AUTOMATIC};
+        validValues = new int[] { -1, 0, 12, 23, 34, 35, 45, 56, 67, 78, 89, 910, AUTOMATIC };
         valid = validateArray(validValues, codeRateLP);
         if(!valid) {
             throwIllegalArgumentException("Code rate LP", codeRateLP, validValues);
         }
-        
+
         // validate guardInterval
-        validValues = new int[] {-1, 4, 8, 16, 32, AUTOMATIC};
+        validValues = new int[] { -1, 4, 8, 16, 32, 128, 19128, 19256, AUTOMATIC };
         valid = validateArray(validValues, guardInterval);
         if(!valid) {
             throwIllegalArgumentException("Guard interval", guardInterval, validValues);
         }
-        
+
         // validate hierarchy
         validValues = new int[] {-1, 0, 1, 2, 4, AUTOMATIC};
         valid = validateArray(validValues, hierarchy);
         if(!valid) {
             throwIllegalArgumentException("Hierarchy", hierarchy, validValues);
         }
-        
+
         // validate inversion
         validValues = new int[] {-1, 0, 1, AUTOMATIC};
         valid = validateArray(validValues, inversion);
         if(!valid) {
             throwIllegalArgumentException("Inversion", inversion, validValues);
         }
-        
+
         // validate modulation
-        validValues = new int[] {-1, 0, 2, 5, 6, 10, 11, 16, 32, 64, 128, 256, QAM, AUTOMATIC};
+        validValues = new int[] { -1, 0, 2, 5, 6, 7, 10, 11, 12, 16, 32, 64, 128, 256, QAM, AUTOMATIC };
         valid = validateArray(validValues, modulation);
         if(!valid) {
             throwIllegalArgumentException("Modulation", modulation, validValues);
         }
-        
+
         // validate priority
         validValues = new int[] {-1, 0, 1, AUTOMATIC};
         valid = validateArray(validValues, priority);
         if(!valid) {
             throwIllegalArgumentException("Priority", priority, validValues);
         }
-        
+
         // validate rolloff
         validValues = new int[] {-1, 0, 20, 25, 35, AUTOMATIC};
         valid = validateArray(validValues, rolloff);
         if(!valid) {
             throwIllegalArgumentException("Rolloff", rolloff, validValues);
         }
-        
+
         // validate transmission mode
         validValues = new int[] {-1, 2, 8, AUTOMATIC};
         valid = validateArray(validValues, transmissionMode);
@@ -424,11 +415,11 @@ public class DVBChannel extends BroadcastChannel {
             throwIllegalArgumentException("Transmission mode", transmissionMode, validValues);
         }
     }
-    
+
     private void throwIllegalArgumentException (String name, int value, int[] validValues) throws IllegalArgumentException {
         throw new IllegalArgumentException(name + " value [" + value + "] is invalid. Valid values are " + Arrays.toString(validValues));
     }
-    
+
     /**
      * 
      * @param validValues an array with valid values
@@ -441,10 +432,10 @@ public class DVBChannel extends BroadcastChannel {
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
     /**
      * Copied from "man 5 vdr"
      * 
@@ -473,7 +464,9 @@ public class DVBChannel extends BroadcastChannel {
             id += getTID();
         }
         id += "-" + getSID();
-        id += "-" + getRID();
+        if (getRID() != 0) {
+            id += "-" + getRID();
+        }
         return id;
     }
 }

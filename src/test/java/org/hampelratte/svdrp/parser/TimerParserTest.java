@@ -7,11 +7,11 @@
  * 
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
  * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -28,7 +28,9 @@
  */
 package org.hampelratte.svdrp.parser;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -52,37 +54,37 @@ public class TimerParserTest {
     static {
         day.add(Calendar.DAY_OF_MONTH, 1);
     }
-    
+
     private static Server server;
-    
-    private final String timerData = 
-        "1 1:1:"+day.get(Calendar.DAY_OF_MONTH)+":1945:2030:43:67:Doppel|Punkt:Mehrzeilige|nichtssagende|Beschreibung der Sendung mit Doppel:Punkt.\n" + 
-        "2 2:1:2010-11-02:1945:2030:50:50:Tagesschau~Tagesschau am 2.11.2010:\n" + 
-        "3 4:1:MTWTF--:2225:2310:50:50:Tagesthemen:\n" + 
-        "4 8:2:MTWTFSS@"+day.get(Calendar.DAY_OF_MONTH)+":2130:2227:50:50:heute-journal:\n" + 
-        "5 0:2:M-----S@2010-12-31:2330:0030:50:50:Happy New Year:\n" +
-        "6 13:2:--W----@2010-11-02:2330:0011:50:50:Ganz spät:";
-    
+
+    private final String timerData =
+            "1 1:1:"+day.get(Calendar.DAY_OF_MONTH)+":1945:2030:43:67:Doppel|Punkt:Mehrzeilige|nichtssagende|Beschreibung der Sendung mit Doppel:Punkt.\n" +
+                    "2 2:1:2010-11-02:1945:2030:50:50:Tagesschau~Tagesschau am 2.11.2010:\n" +
+                    "3 4:1:MTWTF--:2225:2310:50:50:Tagesthemen:\n" +
+                    "4 8:2:MTWTFSS@"+day.get(Calendar.DAY_OF_MONTH)+":2130:2227:50:50:heute-journal:\n" +
+                    "5 0:2:M-----S@2010-12-31:2330:0030:50:50:Happy New Year:\n" +
+                    "6 13:2:--W----@2010-11-02:2330:0011:50:50:Ganz spät:";
+
     private List<Timer> timers;
-    
+
     @BeforeClass
     public static void startMockServer() throws IOException, InterruptedException {
         server = new Server();
         server.loadWelcome("welcome-1.6.0_2-utf_8.txt");
         new Thread(server).start();
-        
+
         // wait for the server
         Thread.sleep(1000);
-        
+
         Connection conn = new Connection("localhost", 2001);
         conn.send(new QUIT());
     }
-    
+
     @Before
     public void parseTimers() {
         timers = TimerParser.parse(timerData);
     }
-    
+
     @Test
     public void testState() {
         assertTrue(timers.get(0).hasState(Timer.ACTIVE));
@@ -90,41 +92,41 @@ public class TimerParserTest {
         assertTrue(timers.get(2).hasState(Timer.VPS));
         assertTrue(timers.get(3).hasState(Timer.RECORDING));
         assertTrue(timers.get(4).hasState(Timer.INACTIVE));
-        
+
         assertTrue(timers.get(5).hasState(Timer.ACTIVE));
         assertTrue(timers.get(5).hasState(Timer.VPS));
         assertTrue(timers.get(5).hasState(Timer.RECORDING));
         assertFalse(timers.get(5).hasState(Timer.INACTIVE));
         assertFalse(timers.get(5).hasState(Timer.INSTANT_TIMER));
     }
-    
+
     @Test
     public void testNumber() {
         for (int i = 0; i < timers.size(); i++) {
             assertEquals(i+1, timers.get(i).getID());
         }
     }
-    
+
     @Test
     public void testChannel() {
         assertEquals(1, timers.get(0).getChannelNumber());
         assertEquals(2, timers.get(5).getChannelNumber());
     }
-    
+
     @Test
     public void testDayParsing() {
         Timer timer = timers.get(0);
         assertEquals(day.get(Calendar.DAY_OF_MONTH), timer.getStartTime().get(Calendar.DAY_OF_MONTH));
     }
-    
+
     @Test
     public void testDateParsing() {
         Timer timer = timers.get(1);
         assertEquals(2, timer.getStartTime().get(Calendar.DAY_OF_MONTH));
-        assertEquals(10, timer.getStartTime().get(Calendar.MONTH)); // 10 because Calendar begins counting with 0 for months 
+        assertEquals(10, timer.getStartTime().get(Calendar.MONTH)); // 10 because Calendar begins counting with 0 for months
         assertEquals(2010, timer.getStartTime().get(Calendar.YEAR));
     }
-    
+
     @Test
     public void testRepeatingDays() {
         Timer timer = timers.get(2);
@@ -138,7 +140,7 @@ public class TimerParserTest {
         assertFalse(timer.getRepeatingDays()[5]);
         assertFalse(timer.getRepeatingDays()[6]);
     }
-    
+
     @Test
     public void testRepeatingTimerStartingOnDay() {
         Timer timer = timers.get(3);
@@ -152,13 +154,13 @@ public class TimerParserTest {
         assertTrue(timer.getRepeatingDays()[5]);
         assertTrue(timer.getRepeatingDays()[6]);
     }
-    
+
     @Test
     public void testRepeatingTimerStartingOnDate() {
         Timer timer = timers.get(4);
         assertTrue(timer.isRepeating());
         assertEquals(31, timer.getStartTime().get(Calendar.DAY_OF_MONTH));
-        assertEquals(11, timer.getStartTime().get(Calendar.MONTH)); // 11 because Calendar begins counting with 0 for months 
+        assertEquals(11, timer.getStartTime().get(Calendar.MONTH)); // 11 because Calendar begins counting with 0 for months
         assertEquals(2010, timer.getStartTime().get(Calendar.YEAR));
         assertTrue(timer.getRepeatingDays()[0]);
         assertFalse(timer.getRepeatingDays()[1]);
@@ -168,79 +170,79 @@ public class TimerParserTest {
         assertFalse(timer.getRepeatingDays()[5]);
         assertTrue(timer.getRepeatingDays()[6]);
     }
-    
+
     @Test
     public void testLastToNextDay() {
         Timer timer = timers.get(5);
         assertEquals(2, timer.getStartTime().get(Calendar.DAY_OF_MONTH));
-        assertEquals(10, timer.getStartTime().get(Calendar.MONTH)); // 10 because Calendar begins counting with 0 for months 
+        assertEquals(10, timer.getStartTime().get(Calendar.MONTH)); // 10 because Calendar begins counting with 0 for months
         assertEquals(2010, timer.getStartTime().get(Calendar.YEAR));
         assertEquals(23, timer.getStartTime().get(Calendar.HOUR_OF_DAY));
         assertEquals(30, timer.getStartTime().get(Calendar.MINUTE));
-        
+
         assertEquals(3, timer.getEndTime().get(Calendar.DAY_OF_MONTH));
-        assertEquals(10, timer.getEndTime().get(Calendar.MONTH)); // 10 because Calendar begins counting with 0 for months 
+        assertEquals(10, timer.getEndTime().get(Calendar.MONTH)); // 10 because Calendar begins counting with 0 for months
         assertEquals(2010, timer.getEndTime().get(Calendar.YEAR));
         assertEquals(0, timer.getEndTime().get(Calendar.HOUR_OF_DAY));
         assertEquals(11, timer.getEndTime().get(Calendar.MINUTE));
     }
-    
+
     @Test
     public void testLastToNextYear() {
         Timer timer = timers.get(4);
         assertEquals(31, timer.getStartTime().get(Calendar.DAY_OF_MONTH));
-        assertEquals(11, timer.getStartTime().get(Calendar.MONTH)); // 11 because Calendar begins counting with 0 for months 
+        assertEquals(11, timer.getStartTime().get(Calendar.MONTH)); // 11 because Calendar begins counting with 0 for months
         assertEquals(2010, timer.getStartTime().get(Calendar.YEAR));
         assertEquals(23, timer.getStartTime().get(Calendar.HOUR_OF_DAY));
         assertEquals(30, timer.getStartTime().get(Calendar.MINUTE));
-        
+
         assertEquals(1, timer.getEndTime().get(Calendar.DAY_OF_MONTH));
-        assertEquals(0, timer.getEndTime().get(Calendar.MONTH)); // 0 because Calendar begins counting with 0 for months 
+        assertEquals(0, timer.getEndTime().get(Calendar.MONTH)); // 0 because Calendar begins counting with 0 for months
         assertEquals(2011, timer.getEndTime().get(Calendar.YEAR));
         assertEquals(0, timer.getEndTime().get(Calendar.HOUR_OF_DAY));
         assertEquals(30, timer.getEndTime().get(Calendar.MINUTE));
     }
-    
+
     @Test
     public void testPrio() {
         assertEquals(43, timers.get(0).getPriority());
     }
-    
+
     @Test
     public void testLifetime() {
         assertEquals(67, timers.get(0).getLifetime());
     }
-    
+
     @Test
     public void testTitle() {
         assertEquals("Doppel:Punkt", timers.get(0).getTitle());
         assertEquals("Tagesschau am 2.11.2010", timers.get(1).getTitle());
     }
-    
+
     @Test
     public void testPath() {
         assertEquals("", timers.get(0).getPath());
         assertEquals("Tagesschau", timers.get(1).getPath());
     }
-    
+
     @Test
     public void testFile() {
         assertEquals("Doppel|Punkt", timers.get(0).getFile());
         assertEquals("Tagesschau~Tagesschau am 2.11.2010", timers.get(1).getFile());
     }
-    
+
     @Test
     public void testDescription() {
         assertEquals("Mehrzeilige\nnichtssagende\nBeschreibung der Sendung mit Doppel:Punkt.", timers.get(0).getDescription());
     }
-    
+
     @Test
     public void testToNEWT() {
         String dayString = new SimpleDateFormat("yyyy-MM-dd").format(day.getTime());
         assertEquals("1:1:"+dayString+":1945:2030:43:67:Doppel|Punkt:Mehrzeilige|nichtssagende|Beschreibung der Sendung mit Doppel:Punkt.", timers.get(0).toNEWT());
     }
-    
-    @AfterClass 
+
+    @AfterClass
     public static void shutdownServer() throws IOException, InterruptedException {
         server.shutdown();
     }
