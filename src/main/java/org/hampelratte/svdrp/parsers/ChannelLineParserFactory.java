@@ -34,7 +34,7 @@ public class ChannelLineParserFactory {
 
     private static PvrInputChannelLineParser pvr;
 
-    // private static IPTVChannelLineParser iptv;
+    private static IPTVChannelLineParser iptv;
 
     private static GroupChannelLineParser group;
 
@@ -44,10 +44,11 @@ public class ChannelLineParserFactory {
                 dvb = new DVBChannelLineParser();
             }
             return dvb;
-            /*
-             * TODO enable if IPTV is fully supported if(chanConfLine.toLowerCase().contains("iptv")) { } else if(iptv == null) iptv = new
-             * IPTVChannelLineParser(); return iptv;
-             */
+        } else if (isIptvChannel(chanConfLine)) {
+            if (iptv == null) {
+                iptv = new IPTVChannelLineParser();
+            }
+            return iptv;
         } else if (isPvrInputChannel(chanConfLine)) {
             if (pvr == null) {
                 pvr = new PvrInputChannelLineParser();
@@ -68,42 +69,37 @@ public class ChannelLineParserFactory {
     }
 
     private static boolean isPvrInputChannel(String chanConfLine) {
-        int pos = -1;
-        for (int i = 0; i < 3; i++) {
-            pos = chanConfLine.indexOf(':', pos + 1);
-        }
-        pos += 1;
-
-        // we check, if the source part starts with V or P
-        // if every column in name:freq:params:source has at least length 1,
-        // V may start at least at pos 7
-        if (pos >= 7) {
-            char first = chanConfLine.charAt(pos);
-            if (first == 'V' || first == 'P') {
-                return true;
-            }
-        }
-
-        return false;
+        return hasSource(chanConfLine, 'V', 'P');
     }
 
     private static boolean isDvbChannel(String chanConfLine) {
+        return hasSource(chanConfLine, 'S', 'C', 'T');
+    }
+
+    private static boolean isIptvChannel(String chanConfLine) {
+        return hasSource(chanConfLine, 'I');
+    }
+
+    private static boolean hasSource(String chanConfLine, char... source) {
         int pos = -1;
         for (int i = 0; i < 3; i++) {
             pos = chanConfLine.indexOf(':', pos + 1);
         }
         pos += 1;
 
-        // we check, if the source part starts with S, C or T
+        // we check, if the source part starts with one of of the characters in 'source'
         // if every column in name:freq:params:source has at least length 1,
-        // S, C or T may start at least at pos 7
+        // the source character may start at least at pos 7
         if (pos >= 7) {
             char first = chanConfLine.charAt(pos);
-            if (first == 'S' || first == 'C' || first == 'T') {
-                return true;
+            for (int i = 0; i < source.length; i++) {
+                char sourceCharacter = source[i];
+
+                if (first == sourceCharacter) {
+                    return true;
+                }
             }
         }
-
         return false;
     }
 }

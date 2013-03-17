@@ -10,7 +10,7 @@
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ * 3. Neither the name of the project nor the names of its
  *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
  * 
@@ -26,70 +26,47 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.hampelratte.svdrp.responses.highlevel;
+package org.hampelratte.svdrp.parser;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 
-public class IPTVChannel extends Channel {
+import org.hampelratte.svdrp.parsers.IPTVChannelLineParser;
+import org.hampelratte.svdrp.responses.highlevel.IPTVChannel;
+import org.junit.Before;
+import org.junit.Test;
 
-    private static final long serialVersionUID = 2L;
+public class IPTVChannelLineParserTest {
 
-    private int uniqueEnum;
+    private String channelData = "1 Das Erste HD;IPTV:1:S=0|P=0|F=UDP|U=239.35.10.1|A=10000:I:0:256=27:257=deu@4;258=AC3@106:2321:0:28106:0:0:0";
 
-    private boolean sectionIdScanner;
+    private IPTVChannelLineParser parser = new IPTVChannelLineParser();
 
-    private boolean pidScanner;
+    private IPTVChannel chan;
 
-    private String protocol;
-
-    private String streamAddress;
-
-    private String streamParameters;
-
-    public int getUniqueEnum() {
-        return uniqueEnum;
+    @Before
+    public void parseLine() {
+        chan = (IPTVChannel) parser.parse(channelData);
     }
 
-    public void setUniqueEnum(int uniqueEnum) {
-        this.uniqueEnum = uniqueEnum;
+    @Test
+    public void testChannelNumber() {
+        assertEquals(1, chan.getChannelNumber());
     }
 
-    public boolean isSectionIdScanner() {
-        return sectionIdScanner;
+    @Test
+    public void testNameParsing() {
+        assertEquals("Das Erste HD", chan.getName());
+        assertEquals("", chan.getShortName());
+        assertEquals("IPTV", chan.getServiceProviderName());
     }
 
-    public void setSectionIdScanner(boolean sectionIdScanner) {
-        this.sectionIdScanner = sectionIdScanner;
-    }
-
-    public boolean isPidScanner() {
-        return pidScanner;
-    }
-
-    public void setPidScanner(boolean pidScanner) {
-        this.pidScanner = pidScanner;
-    }
-
-    public String getProtocol() {
-        return protocol;
-    }
-
-    public void setProtocol(String protocol) {
-        this.protocol = protocol;
-    }
-
-    public String getStreamAddress() {
-        return streamAddress;
-    }
-
-    public void setStreamAddress(String streamAddress) {
-        this.streamAddress = streamAddress;
-    }
-
-    public String getStreamParameters() {
-        return streamParameters;
-    }
-
-    public void setStreamParameters(String streamParameters) {
-        this.streamParameters = streamParameters;
+    @Test
+    public void testStreamParsing() {
+        assertEquals("239.35.10.1", chan.getStreamAddress());
+        assertEquals("10000", chan.getStreamParameters());
+        assertEquals("UDP", chan.getProtocol());
+        assertFalse(chan.isSectionIdScanner());
+        assertFalse(chan.isPidScanner());
     }
 }

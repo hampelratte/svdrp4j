@@ -7,11 +7,11 @@
  * 
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
  * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -33,23 +33,46 @@ import org.hampelratte.svdrp.responses.highlevel.IPTVChannel;
 
 public class IPTVChannelLineParser extends ChannelLineParser {
 
-	@Override
-	public Channel parse(String chanConfLine) {
-	    IPTVChannel channel = new IPTVChannel();
+    @Override
+    public Channel parse(String chanConfLine) {
+        IPTVChannel channel = new IPTVChannel();
         String line = chanConfLine;
         // parse channelNumber
         channel.setChannelNumber(Integer.parseInt(line.substring(0, line.indexOf(" "))));
         // remove channelNumber
         line = line.substring(line.indexOf(" ") + 1);
-        
+
         // parse other parts
         String[] parts = line.split(":");
         // name
         channel.setName(parts[0]);
-        
+        // unique enumeration
+        channel.setUniqueEnum(Integer.parseInt(parts[1]));
+
+        // parse the stream settings
+        String streamSettings = parts[2];
+        String[] streamParts = streamSettings.split("\\|");
+        for (String streamPart : streamParts) {
+            String[] param = streamPart.split("=");
+            String key = param[0];
+            String value = param[1];
+
+            if("A".equalsIgnoreCase(key)) {
+                channel.setStreamParameters(value);
+            } else if ("S".equalsIgnoreCase(key)) {
+                channel.setSectionIdScanner("1".equals(value));
+            } else if ("P".equalsIgnoreCase(key)) {
+                channel.setPidScanner("1".equals(value));
+            } else if ("F".equalsIgnoreCase(key)) {
+                channel.setProtocol(value);
+            } else if ("U".equalsIgnoreCase(key)) {
+                channel.setStreamAddress(value);
+            }
+        }
+
         // TODO parse the other parameters
-        
-		return channel;
-	}
+
+        return channel;
+    }
 
 }
