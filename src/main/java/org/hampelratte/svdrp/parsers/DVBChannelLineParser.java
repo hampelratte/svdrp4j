@@ -71,9 +71,13 @@ public class DVBChannelLineParser extends ChannelLineParser {
         StringTokenizer st = new StringTokenizer(ca, ",");
         while (st.hasMoreElements()) {
             String token = st.nextToken();
+
+            // Workaround for Reelbox. Apparently they store, which CA slot to use in the ca field of the channel.
+            // S11 and S12 are values, which have been reported by users.
             if (token.toLowerCase().startsWith("s")) {
                 token = token.substring(1);
             }
+
             caList.add(Integer.parseInt(token, 16));
         }
         return caList;
