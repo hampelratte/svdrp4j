@@ -7,11 +7,11 @@
  * 
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
  * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -39,6 +39,7 @@ public class DVBChannelLineParser extends ChannelLineParser {
 
     private DVBChannel channel;
 
+    @Override
     public Channel parse(String chanConfLine) {
         channel = new DVBChannel();
         String line = chanConfLine;
@@ -64,12 +65,16 @@ public class DVBChannelLineParser extends ChannelLineParser {
 
         return channel;
     }
-    
+
     protected List<Integer> parseConditionalAccess(String ca) {
         List<Integer> caList = new ArrayList<Integer>();
         StringTokenizer st = new StringTokenizer(ca, ",");
-        while(st.hasMoreElements()) {
-            caList.add(Integer.parseInt(st.nextToken(), 16));
+        while (st.hasMoreElements()) {
+            String token = st.nextToken();
+            if (token.toLowerCase().startsWith("s")) {
+                token = token.substring(1);
+            }
+            caList.add(Integer.parseInt(token, 16));
         }
         return caList;
     }
