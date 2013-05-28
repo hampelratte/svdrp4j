@@ -45,6 +45,7 @@ import org.hampelratte.svdrp.commands.LSTR;
 import org.hampelratte.svdrp.commands.LSTT;
 import org.hampelratte.svdrp.commands.MODT;
 import org.hampelratte.svdrp.commands.NEWT;
+import org.hampelratte.svdrp.commands.QUIT;
 import org.hampelratte.svdrp.commands.STAT;
 import org.hampelratte.svdrp.parsers.ChannelParser;
 import org.hampelratte.svdrp.parsers.EPGParser;
@@ -345,6 +346,14 @@ public class VDR {
         }
 
         return res;
+    }
+
+    /**
+     * Close the connection to VDR.
+     */
+    public void close() throws IOException {
+        send(new QUIT());
+        connection = null;
     }
 
     class ConnectionCloser extends TimerTask {
