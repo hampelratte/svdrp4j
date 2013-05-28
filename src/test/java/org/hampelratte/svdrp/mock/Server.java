@@ -71,12 +71,14 @@ public class Server implements Runnable {
     private boolean inPUTEmode = false;
 
     NewtHandler newtHandler;
+    DeltHandler deltHandler;
     private TimerManager timerManager;
 
     public Server() {
         logger.info("Running in {}", System.getProperty("user.dir"));
         timerManager = new TimerManager();
         newtHandler = new NewtHandler(timerManager);
+        deltHandler = new DeltHandler(timerManager);
     }
 
     @Override
@@ -98,6 +100,7 @@ public class Server implements Runnable {
     }
 
     public void loadChannelsConf(String channelsFile) throws IOException {
+        channels = "";
         String channelsConf = readFile(channelsFile);
         StringTokenizer st = new StringTokenizer(channelsConf, "\n");
         int channelNumber = 0;
@@ -108,6 +111,10 @@ public class Server implements Runnable {
             if(st.hasMoreElements()) {
                 channels += '\n';
             }
+        }
+
+        if (channels.isEmpty()) {
+            channels = "550 No channels defined.";
         }
     }
 
@@ -182,12 +189,13 @@ public class Server implements Runnable {
             return false;
         }
 
-
         String request = br.readLine();
-        logger.debug("<-- {}", request);
         if(request == null) {
+            logger.info("Connection closed by client");
             return false;
         }
+
+        logger.debug("<-- {}", request);
         request = request.trim();
 
         if(inPUTEmode) {
@@ -225,17 +233,8 @@ public class Server implements Runnable {
             sendResponse("123 Kuddelmuddel");
         } else if (newtHandler.accept(request)) {
             sendResponse(newtHandler.process(request));
-        } else if (request.matches("[Dd][Ee][Ll][Tt] (.*)")) {
-            Matcher m = Pattern.compile("[Dd][Ee][Ll][Tt] (.*)").matcher(request);
-            if (m.matches()) {
-                int id = Integer.parseInt(m.group(1));
-                boolean removed = timerManager.removeTimer(id);
-                if (removed) {
-                    sendResponse("250 Timer \"" + id + "\" deleted");
-                } else {
-                    sendResponse("501 Timer \"" + id + "\" not defined");
-                }
-            }
+        } else if (deltHandler.accept(request)) {
+            sendResponse(deltHandler.process(request));
         } else if (request.matches("[Ll][Ss][Tt][Tt] (.*)")) {
             Matcher m = Pattern.compile("[Ll][Ss][Tt][Tt] (.*)").matcher(request);
             if (m.matches()) {
@@ -280,7 +279,7 @@ public class Server implements Runnable {
             sendResponse(lstr);
         } catch (Exception e) {
             logger.warn("Recordings file {} does not exist", filename);
-            sendResponse("451 Recordings file " + filename + " not found");
+            sendResponse("550 Recording " + i + " not found");
         }
     }
 
