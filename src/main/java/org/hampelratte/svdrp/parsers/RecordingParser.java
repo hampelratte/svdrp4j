@@ -7,11 +7,11 @@
  * 
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
  * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -35,10 +35,10 @@ import org.hampelratte.svdrp.responses.highlevel.EPGEntry;
 import org.hampelratte.svdrp.responses.highlevel.Recording;
 
 public class RecordingParser extends EPGParser {
-    
+
     public void parseRecording (Recording recording, String epgData) throws ParseException {
-        epgData = addEpgEntryEnd(epgData);
-        List<EPGEntry> list = parse(epgData);
+        String epg = addEpgEntryEnd(epgData);
+        List<EPGEntry> list = parse(epg);
         if(!list.isEmpty()) {
             EPGEntry entry = list.get(0);
             recording.copyFrom(entry);
@@ -46,7 +46,7 @@ public class RecordingParser extends EPGParser {
             recording.setLifetime( ((Recording)entry).getLifetime() );
             recording.setDisplayTitle(entry.getTitle());
         } else {
-            throw new ParseException("Couldn't parse recording. EPGParser returned an empty list.", -1); 
+            throw new ParseException("Couldn't parse recording. EPGParser returned an empty list.", -1);
         }
     }
 
@@ -61,7 +61,7 @@ public class RecordingParser extends EPGParser {
         };
         return mesg.toString();
     }
-    
+
     @Override
     protected void parseLine(String line, List<EPGEntry> list) {
         switch (line.charAt(0)) {
@@ -75,7 +75,7 @@ public class RecordingParser extends EPGParser {
             super.parseLine(line, list);
         }
     }
-    
+
     @Override
     protected EPGEntry createNewEpgEntry() {
         return new Recording();
