@@ -28,6 +28,8 @@
  */
 package org.hampelratte.svdrp.parsers;
 
+import java.text.ParseException;
+
 public class ChannelLineParserFactory {
 
     private static DVBChannelLineParser dvb;
@@ -60,7 +62,7 @@ public class ChannelLineParserFactory {
             }
             return group;
         } else {
-            throw new Exception("Unknown format for channels.conf lines: " + chanConfLine);
+            throw new ParseException("Unknown format for channels.conf lines: " + chanConfLine, 1);
         }
     }
 
