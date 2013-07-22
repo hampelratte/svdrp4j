@@ -7,11 +7,11 @@
  * 
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
  * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -28,7 +28,7 @@
  */
 package org.hampelratte.svdrp.parser;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
 
 import org.hampelratte.svdrp.parsers.ChannelLineParser;
 import org.hampelratte.svdrp.parsers.PvrInputChannelLineParser;
@@ -78,10 +78,10 @@ public class PvrInputChannelLineParserTest {
     public void testTPID() {
         assertEquals("305", chan.getTPID());
     }
-    
+
     @Test
     public void testConditionalAccess() {
-        assertEquals(new Integer(0), chan.getConditionalAccess().get(0));
+        assertEquals(Integer.valueOf(0), chan.getConditionalAccess().get(0));
     }
 
     @Test
@@ -103,17 +103,17 @@ public class PvrInputChannelLineParserTest {
     public void testRID() {
         assertEquals(0, chan.getRID());
     }
-    
+
     @Test
     public void testVideoNorm() {
         assertEquals("PAL", chan.getVideoNorm());
     }
-    
+
     @Test
     public void testCard() {
         assertEquals("CARD0", chan.getCard());
     }
-    
+
     @Test
     public void testType() {
         assertEquals("TV", chan.getType());
