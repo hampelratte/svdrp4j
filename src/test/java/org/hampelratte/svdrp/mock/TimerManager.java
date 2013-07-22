@@ -65,9 +65,20 @@ public class TimerManager {
     public boolean removeTimer(int id) {
         Timer timer = getTimer(id);
         if (timer != null) {
-            return timers.remove(timer);
+            boolean removed = timers.remove(timer);
+            if (removed) {
+                renumberTimers();
+            }
+            return removed;
         } else {
             return false;
+        }
+    }
+
+    private void renumberTimers() {
+        for (int i = 0; i < timers.size(); i++) {
+            Timer timer = timers.get(i);
+            timer.setID(i + 1);
         }
     }
 
