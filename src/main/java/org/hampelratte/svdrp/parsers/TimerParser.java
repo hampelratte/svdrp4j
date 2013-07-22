@@ -123,13 +123,13 @@ public class TimerParser {
         Pattern repeatingAt = Pattern.compile("((?:\\p{Upper}|-){7})@((?:19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])");
 
         Matcher matcher;
-        int day_of_month;
+        int dayOfMonth;
         if ((matcher = dayPattern.matcher(day)).matches()) {
-            day_of_month = Integer.parseInt(day);
+            dayOfMonth = Integer.parseInt(day);
             int today = startTime.get(Calendar.DAY_OF_MONTH);
-            startTime.set(Calendar.DAY_OF_MONTH, day_of_month);
-            endTime.set(Calendar.DAY_OF_MONTH, day_of_month);
-            if (day_of_month < today) {
+            startTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            endTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            if (dayOfMonth < today) {
                 startTime.add(Calendar.MONTH, 1);
                 endTime.add(Calendar.MONTH, 1);
             }
@@ -140,15 +140,15 @@ public class TimerParser {
                 endTime.add(Calendar.DAY_OF_MONTH, 1);
             }
         } else if ((matcher = datePattern.matcher(day)).matches()) {
-            day_of_month = Integer.parseInt(matcher.group(3));
+            dayOfMonth = Integer.parseInt(matcher.group(3));
             int month = Integer.parseInt(matcher.group(2)) - 1;
             int year = Integer.parseInt(matcher.group(1));
             TimerParser.parseTime(startTime, startString);
             TimerParser.parseTime(endTime, endString);
-            startTime.set(Calendar.DAY_OF_MONTH, day_of_month);
+            startTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             startTime.set(Calendar.MONTH, month);
             startTime.set(Calendar.YEAR, year);
-            endTime.set(Calendar.DAY_OF_MONTH, day_of_month);
+            endTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             endTime.set(Calendar.MONTH, month);
             endTime.set(Calendar.YEAR, year);
             // if the endTime lasts into the next day, we have to add 1 to the DAY_OF_MONTH
@@ -157,7 +157,7 @@ public class TimerParser {
             }
         } else if ((matcher = simpleRepeating.matcher(day)).matches()) {
             timer.setRepeatingDays(TimerParser.determineDays(day));
-            day_of_month = -1;
+            dayOfMonth = -1;
             TimerParser.parseTime(startTime, startString);
             TimerParser.parseTime(endTime, endString);
             // if the endTime lasts into the next day, we have to add 1 to the DAY_OF_MONTH
@@ -168,10 +168,10 @@ public class TimerParser {
             timer.setHasFirstTime(true);
             String days = matcher.group(1);
             timer.setRepeatingDays(TimerParser.determineDays(days));
-            day_of_month = Integer.parseInt(matcher.group(2));
-            firstTime.set(Calendar.DAY_OF_MONTH, day_of_month);
-            startTime.set(Calendar.DAY_OF_MONTH, day_of_month);
-            endTime.set(Calendar.DAY_OF_MONTH, day_of_month);
+            dayOfMonth = Integer.parseInt(matcher.group(2));
+            firstTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            startTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            endTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             TimerParser.parseTime(startTime, startString);
             TimerParser.parseTime(endTime, endString);
             // if the endTime lasts into the next day, we have to add 1 to the DAY_OF_MONTH
@@ -183,18 +183,18 @@ public class TimerParser {
             String days = matcher.group(1);
             timer.setRepeatingDays(TimerParser.determineDays(days));
 
-            day_of_month = Integer.parseInt(matcher.group(4));
+            dayOfMonth = Integer.parseInt(matcher.group(4));
             int month = Integer.parseInt(matcher.group(3)) - 1;
             int year = Integer.parseInt(matcher.group(2));
             TimerParser.parseTime(startTime, startString);
             TimerParser.parseTime(endTime, endString);
-            firstTime.set(Calendar.DAY_OF_MONTH, day_of_month);
+            firstTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             firstTime.set(Calendar.MONTH, month);
             firstTime.set(Calendar.YEAR, year);
-            startTime.set(Calendar.DAY_OF_MONTH, day_of_month);
+            startTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             startTime.set(Calendar.MONTH, month);
             startTime.set(Calendar.YEAR, year);
-            endTime.set(Calendar.DAY_OF_MONTH, day_of_month);
+            endTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             endTime.set(Calendar.MONTH, month);
             endTime.set(Calendar.YEAR, year);
             // if the endTime lasts into the next day, we have to add 1 to the DAY_OF_MONTH
