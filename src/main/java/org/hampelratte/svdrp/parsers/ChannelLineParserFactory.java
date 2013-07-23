@@ -67,7 +67,7 @@ public class ChannelLineParserFactory {
     }
 
     private static boolean isGroup(String chanConfLine) {
-        return chanConfLine.startsWith("0 :");
+        return chanConfLine.matches("\\d+ :.*$");
     }
 
     private static boolean isPvrInputChannel(String chanConfLine) {
