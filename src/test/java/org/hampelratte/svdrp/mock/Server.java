@@ -321,8 +321,8 @@ public class Server implements Runnable {
         // server.responseDelay = 2000;
         server.loadWelcome("welcome-1.7.25-utf_8.txt");
         server.setAccessDenied(false);
-        server.loadTimers("lstt.txt");
-        server.loadRecordings("lstr.txt");
+        server.loadTimers("lstt_no_timers.txt");
+        server.loadRecordings("lstr_1.7.21.txt");
         server.loadChannelsConf("channels-mixed.conf");
         new Thread(server).start();
     }
