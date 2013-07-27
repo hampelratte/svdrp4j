@@ -67,6 +67,7 @@ public class VdrFacadeTest {
 
     @Test
     public void testGetTimers() throws UnknownHostException, IOException {
+        server.loadTimers("lstt.txt");
         List<Timer> timers = vdr.getTimers();
         assertEquals(4, timers.size());
 
