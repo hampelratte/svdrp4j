@@ -32,9 +32,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import org.hampelratte.svdrp.Connection;
+import org.hampelratte.svdrp.Version;
 import org.hampelratte.svdrp.parsers.TimerParser;
 import org.hampelratte.svdrp.responses.highlevel.Timer;
 import org.junit.Before;
@@ -216,8 +219,8 @@ public class TimerParserTest {
 
     @Test
     public void testToNEWT() {
-        // String dayString = new SimpleDateFormat("yyyy-MM-dd").format(day.getTime());
-        String dayString = Integer.toString(day.get(Calendar.DAY_OF_MONTH));
+        Connection.setVersion(new Version("1.7.22"));
+        String dayString = new SimpleDateFormat("yyyy-MM-dd").format(day.getTime());
         assertEquals("1:1:"+dayString+":1945:2030:43:67:Doppel|Punkt:Mehrzeilige|nichtssagende|Beschreibung der Sendung mit Doppel:Punkt.", timers.get(0).toNEWT());
     }
 }
