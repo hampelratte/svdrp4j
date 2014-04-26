@@ -1,10 +1,10 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  * 3. Neither the name of the project (Lazy Bones) nor the names of its
  *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -63,9 +63,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The connection to VDR. I recommend to use only one connection at a time, since VDR just accepts one client.
- * 
+ *
  * You may set Connection.DEBUG to true to get debug output on System.out
- * 
+ *
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  */
 public class Connection {
@@ -86,14 +86,14 @@ public class Connection {
      */
     private BufferedReader in;
 
-    private static Version version;
+    private static Version version = new Version("1.0.0");
 
     private String encoding;
 
     /**
      * Creates a new connection to host:port with timeout and default charset encoding UTF-8. Lazy Bones will try to detect the encoding of the VDR and override
      * the default encoding, if a valid value is found.
-     * 
+     *
      * @param host
      *            The host name or IP-address of the VDR
      * @param port
@@ -110,7 +110,7 @@ public class Connection {
     /**
      * Creates a new connection to host:port with timeout and encoding. Lazy Bones will try to detect the encoding of the VDR and overrides the passed encoding,
      * if a valid value is found. To disable this behaviour use {@link #Connection(String, int, int, int, String, boolean)} and set detectEncoding to false.
-     * 
+     *
      * @param host
      *            The host name or IP-address of the VDR
      * @param port
@@ -129,7 +129,7 @@ public class Connection {
     /**
      * Creates a new connection to host:port with timeout and encoding. If detectEncoding is set to true, Lazy Bones tries to detect the encoding of the VDR and
      * overrides the passed encoding.
-     * 
+     *
      * @param host
      *            The host name or IP-address of the VDR
      * @param port
@@ -216,7 +216,7 @@ public class Connection {
     /**
      * Creates a new connection to host:port with a timeout of 500ms and default charset encoding UTF-8. Lazy Bones will try to detect the encoding of the VDR
      * and overrides the default encoding, if a valid value is found.
-     * 
+     *
      * @param host
      *            The host name or IP-address of the VDR.
      * @param port
@@ -230,7 +230,7 @@ public class Connection {
 
     /**
      * Sends a command to VDR and returns the response from VDR.
-     * 
+     *
      * @param cmd
      *            The {@link Command}, which should be sent to VDR
      * @return A {@link Response} object
@@ -265,7 +265,7 @@ public class Connection {
 
     /**
      * Reads the response for a sent command. Used by send()
-     * 
+     *
      * @return A Response object
      * @see Response
      */
@@ -358,7 +358,7 @@ public class Connection {
 
     /**
      * Closes the connection to VDR. After closing a connection you have to create a new connection to talk to VDR.
-     * 
+     *
      * @throws IOException
      */
     public void close() throws IOException {
@@ -379,7 +379,7 @@ public class Connection {
 
     /**
      * Returns the version of the VDR we are talking to.
-     * 
+     *
      * @return The version of the VDR we are talking to.
      */
     public static Version getVersion() {
