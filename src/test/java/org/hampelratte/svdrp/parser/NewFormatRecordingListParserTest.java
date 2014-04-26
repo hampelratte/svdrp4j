@@ -58,11 +58,7 @@ public class NewFormatRecordingListParserTest {
     public void parseRecordings() throws IOException {
         Connection.setVersion(new Version("1.7.22"));
         Connection conn = mock(Connection.class);
-        //@formatter:off
-        when(conn.send(isA(LSTR.class))).thenReturn(
-                new R250(TestData.readFile("lstr_1.7.21.txt"))
-        );
-        //@formatter:on
+        when(conn.send(isA(LSTR.class))).thenReturn(new R250(TestData.readFile("lstr_1.7.21.txt")));
 
         recordings = RecordingListParser.parse(conn.send(new LSTR()).getMessage());
     }
