@@ -1,10 +1,10 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  * 3. Neither the name of the project (Lazy Bones) nor the names of its
  *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -32,19 +32,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-import org.hampelratte.svdrp.Connection;
-import org.hampelratte.svdrp.commands.QUIT;
-import org.hampelratte.svdrp.mock.Server;
 import org.hampelratte.svdrp.parsers.TimerParser;
 import org.hampelratte.svdrp.responses.highlevel.Timer;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 
@@ -55,8 +48,6 @@ public class TimerParserTest {
         day.add(Calendar.DAY_OF_MONTH, 1);
     }
 
-    private static Server server;
-
     private final String timerData =
             "1 1:1:"+day.get(Calendar.DAY_OF_MONTH)+":1945:2030:43:67:Doppel|Punkt:Mehrzeilige|nichtssagende|Beschreibung der Sendung mit Doppel:Punkt.\n" +
                     "2 2:1:2010-11-02:1945:2030:50:50:Tagesschau~Tagesschau am 2.11.2010:\n" +
@@ -66,19 +57,6 @@ public class TimerParserTest {
                     "6 13:2:--W----@2010-11-02:2330:0011:50:50:Ganz spät:";
 
     private List<Timer> timers;
-
-    @BeforeClass
-    public static void startMockServer() throws IOException, InterruptedException {
-        server = new Server();
-        server.loadWelcome("welcome-1.6.0_2-utf_8.txt");
-        new Thread(server).start();
-
-        // wait for the server
-        Thread.sleep(1000);
-
-        Connection conn = new Connection("localhost", 2001);
-        conn.send(new QUIT());
-    }
 
     @Before
     public void parseTimers() {
@@ -238,13 +216,9 @@ public class TimerParserTest {
 
     @Test
     public void testToNEWT() {
-        String dayString = new SimpleDateFormat("yyyy-MM-dd").format(day.getTime());
+        // String dayString = new SimpleDateFormat("yyyy-MM-dd").format(day.getTime());
+        String dayString = Integer.toString(day.get(Calendar.DAY_OF_MONTH));
         assertEquals("1:1:"+dayString+":1945:2030:43:67:Doppel|Punkt:Mehrzeilige|nichtssagende|Beschreibung der Sendung mit Doppel:Punkt.", timers.get(0).toNEWT());
-    }
-
-    @AfterClass
-    public static void shutdownServer() throws IOException, InterruptedException {
-        server.shutdown();
     }
 }
 
