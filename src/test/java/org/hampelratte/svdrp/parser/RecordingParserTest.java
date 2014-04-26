@@ -41,6 +41,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.hampelratte.svdrp.Connection;
+import org.hampelratte.svdrp.Version;
 import org.hampelratte.svdrp.commands.LSTR;
 import org.hampelratte.svdrp.parsers.RecordingListParser;
 import org.hampelratte.svdrp.parsers.RecordingParser;
@@ -59,6 +60,7 @@ public class RecordingParserTest {
 
     @Before
     public void parseRecording() throws IOException, ParseException {
+        Connection.setVersion(new Version("1.0.0"));
         Connection conn = mock(Connection.class);
         //@formatter:off
         when(conn.send(isA(LSTR.class))).thenReturn(
