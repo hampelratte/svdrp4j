@@ -386,6 +386,15 @@ public class Connection {
         return version;
     }
 
+    /**
+     * For testing purposes only. Don't call this method!!!
+     * 
+     * @param version
+     */
+    public static void setVersion(Version version) {
+        Connection.version = version;
+    }
+
     public String getEncoding() {
         return encoding;
     }
