@@ -58,7 +58,7 @@ public class RecordingListParserTest {
     public void parseRecordings() throws IOException {
         Connection.setVersion(new Version("1.0.0"));
         Connection conn = mock(Connection.class);
-        when(conn.send(isA(LSTR.class))).thenReturn(new R250(TestData.readFile("lstr.txt")));
+        when(conn.send(isA(LSTR.class))).thenReturn(new R250(TestData.readFile("unittests/lstr.txt")));
 
         recordings = RecordingListParser.parse(conn.send(new LSTR()).getMessage());
     }
