@@ -7,18 +7,13 @@ import java.util.List;
 
 public class Folder implements TreeNode {
     private String title;
+    private String displayTitle;
 
     private List<TreeNode> children = new ArrayList<TreeNode>();
 
     public Folder(String title) {
         super();
-
-        if (!title.isEmpty()) {
-            while (title.charAt(0) == ('%')) {
-                title = title.substring(1);
-            }
-        }
-        this.title = title;
+        setTitle(title);
     }
 
     public String getTitle() {
@@ -27,11 +22,18 @@ public class Folder implements TreeNode {
 
     public void setTitle(String title) {
         this.title = title;
+
+        displayTitle = title;
+        if (!displayTitle.isEmpty()) {
+            while (displayTitle.charAt(0) == ('%')) {
+                displayTitle = displayTitle.substring(1);
+            }
+        }
     }
 
     @Override
     public String getDisplayTitle() {
-        return title;
+        return displayTitle;
     }
 
     public List<TreeNode> getChildren() {
@@ -44,7 +46,7 @@ public class Folder implements TreeNode {
 
     /**
      * Merges the given subtree into this tree.
-     * 
+     *
      * @param subtree
      */
     public void merge(TreeNode subtree) {
