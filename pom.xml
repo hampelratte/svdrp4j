@@ -3,7 +3,7 @@
     <parent>
         <artifactId>master</artifactId>
         <groupId>org.hampelratte</groupId>
-        <version>7</version>
+        <version>8</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>svdrp4j</artifactId>
