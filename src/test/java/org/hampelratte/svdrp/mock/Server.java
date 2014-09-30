@@ -31,20 +31,19 @@ package org.hampelratte.svdrp.mock;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
-import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.hampelratte.svdrp.responses.highlevel.Timer;
+import org.hampelratte.svdrp.util.IOUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -87,21 +86,21 @@ public class Server implements Runnable {
     }
 
     public void loadWelcome(String welcomeTextFile) throws IOException {
-        welcome = readFile(welcomeTextFile);
+        welcome = IOUtil.readFile(welcomeTextFile);
     }
 
     public void loadTimers(String timersFile) throws IOException {
-        String timerData = readFile(timersFile);
+        String timerData = IOUtil.readFile(timersFile);
         timerManager.parseData(timerData);
     }
 
     public void loadRecordings(String recordingsFile) throws IOException {
-        recordings = readFile(recordingsFile);
+        recordings = IOUtil.readFile(recordingsFile);
     }
 
     public void loadChannelsConf(String channelsFile) throws IOException {
         channels = "";
-        String channelsConf = readFile(channelsFile);
+        String channelsConf = IOUtil.readFile(channelsFile);
         StringTokenizer st = new StringTokenizer(channelsConf, "\n");
         int channelNumber = 0;
         while(st.hasMoreElements()) {
@@ -122,20 +121,6 @@ public class Server implements Runnable {
         if (channels.isEmpty()) {
             channels = "550 No channels defined.";
         }
-    }
-
-    private String readFile(String textFile) throws IOException {
-        logger.debug("Trying to load file {}", textFile);
-        InputStream in = getClass().getResourceAsStream("/" + textFile);
-        Scanner scanner = new Scanner(in, "UTF-8");
-        StringBuilder sb = new StringBuilder();
-        while(scanner.hasNext()) {
-            sb.append(scanner.nextLine());
-            if(scanner.hasNext()) {
-                sb.append('\n');
-            }
-        }
-        return sb.toString();
     }
 
     private void serveClients() {
@@ -261,7 +246,7 @@ public class Server implements Runnable {
 
     private void printEpg() throws IOException {
         //String lste = readFile("lste_1.txt");
-        String lste = readFile("lste_empty.txt");
+        String lste = IOUtil.readFile("lste_empty.txt");
         sendResponse(lste);
     }
 
@@ -281,7 +266,7 @@ public class Server implements Runnable {
         String filename = "lstr_" + i + ".txt";
         String lstr = "";
         try {
-            lstr = readFile(filename);
+            lstr = IOUtil.readFile(filename);
             sendResponse(lstr);
         } catch (Exception e) {
             logger.warn("Recordings file {} does not exist", filename);
