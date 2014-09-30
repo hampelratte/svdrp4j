@@ -204,6 +204,7 @@ public class TimerTest  {
 
     @Test
     public void testUniqueKey() {
+        Connection.setVersion(new Version("1.7.0"));
         assertEquals("1:-----SS:12:00:13:00", timer.getUniqueKey());
         timer.setRepeatingDays(new boolean[7]);
         assertEquals("1:2010-11-04:04.11.2010 12:00:04.11.2010 13:00", timer.getUniqueKey());
@@ -212,5 +213,16 @@ public class TimerTest  {
     @Test
     public void testToNEWT() {
         assertEquals("1:1:-----SS:1200:1300:0:0:TestTitle:Mehr-|zeilige Be-|schreibung", timer.toNEWT());
+    }
+
+    @Test
+    public void testTimerAtMidnight() {
+        Timer timer = createTimer();
+        timer.getStartTime().set(Calendar.HOUR_OF_DAY, 23);
+        Calendar endTime = timer.getEndTime();
+        endTime.set(Calendar.HOUR_OF_DAY, 01);
+        timer.setEndTime(endTime);
+
+        assertEquals(timer.getStartTime().get(Calendar.DAY_OF_MONTH) + 1, timer.getEndTime().get(Calendar.DAY_OF_MONTH));
     }
 }
