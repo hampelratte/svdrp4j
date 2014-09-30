@@ -95,7 +95,6 @@ public class SimpleResponsesTest {
     @Test
     public void testResponse504() {
         testResponse(new R504("Test"), 504);
-        testResponse(new R504(504, "Test"), 504);
     }
 
     @Test

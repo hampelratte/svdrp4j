@@ -40,20 +40,8 @@ public class R504 extends Response {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * @param code
-     * @param message
-     */
     public R504(String message) {
         super(504, message);
-    }
-
-    /**
-     * @param code
-     * @param message
-     */
-    public R504(int code, String message) {
-        super(code, message);
     }
 
     @Override
