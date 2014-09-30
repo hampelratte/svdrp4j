@@ -1,10 +1,10 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  * 3. Neither the name of the project nor the names of its
  *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -91,9 +91,14 @@ public class VDR {
         // tester.start();
     }
 
+    public VDR(String host, int port, int connectTimeout, Connection conn) {
+        this(host, port, connectTimeout);
+        this.connection = conn;
+    }
+
     /**
      * Requests a list of all defined timers.
-     * 
+     *
      * @return A list of all defined timers.
      * @throws UnknownHostException
      * @throws IOException
@@ -104,7 +109,7 @@ public class VDR {
 
     /**
      * Request a single timer.
-     * 
+     *
      * @param number
      *            The number of the timer to erturn.
      * @return A Timer object, which represents the timer settings.
@@ -143,13 +148,13 @@ public class VDR {
 
     /**
      * Modifies an existing timer.
-     * 
+     *
      * @param number
      *            The number of the timer to modify.
      * @param timer
      *            A Timer, which represents the new timer settings.
      * @return The response from VDR.
-     * 
+     *
      * @throws UnknownHostException
      * @throws IOException
      */
@@ -159,7 +164,7 @@ public class VDR {
 
     /**
      * Deletes an existing timer.
-     * 
+     *
      * @param number
      *            The number of the timer to delete.
      * @return The response from VDR.
@@ -172,7 +177,7 @@ public class VDR {
 
     /**
      * Creates a new timer.
-     * 
+     *
      * @param timer
      *            A {@link Timer}, which represents the timer settings.
      * @return The response from VDR.
@@ -185,7 +190,7 @@ public class VDR {
 
     /**
      * Requests the list of all channels.
-     * 
+     *
      * @return A list of all channels.
      * @throws UnknownHostException
      * @throws IOException
@@ -211,7 +216,7 @@ public class VDR {
 
     /**
      * Requests a list of all recordings.
-     * 
+     *
      * @return A list of all recordings.
      * @throws UnknownHostException
      * @throws IOException
@@ -240,7 +245,7 @@ public class VDR {
     /**
      * This method returns the details of one recording. You first have to obtain a Recording by calling {@link #getRecordings()} and then pass this object as
      * parameter.
-     * 
+     *
      * @param rec
      *            The recording to load the details for.
      * @return The same object with the details loaded.
@@ -266,7 +271,7 @@ public class VDR {
 
     /**
      * Deletes a recording. You first have to obtain a Recording by calling {@link #getRecordings()} and then pass this object as parameter.
-     * 
+     *
      * @param rec
      *            The recording to delete.
      * @return The response from VDR.
@@ -279,7 +284,7 @@ public class VDR {
 
     /**
      * Get the whole EPG. To get the epg of one channel, call {@link #getEpg(int)} or filter this list manually.
-     * 
+     *
      * @return A list of all epg entries of all channels.
      * @throws UnknownHostException
      * @throws IOException
@@ -290,7 +295,7 @@ public class VDR {
 
     /**
      * Request the EPG of a single channel.
-     * 
+     *
      * @param channelNumber
      *            The channel number of the channel.
      * @return A list of all EPG entries available for the given channel.
