@@ -70,6 +70,7 @@ public class Server implements Runnable {
     private boolean inPUTEmode = false;
 
     NewtHandler newtHandler;
+    ModtHandler modtHandler;
     DeltHandler deltHandler;
     private TimerManager timerManager;
 
@@ -77,6 +78,7 @@ public class Server implements Runnable {
         logger.info("Running in {}", System.getProperty("user.dir"));
         timerManager = new TimerManager();
         newtHandler = new NewtHandler(timerManager);
+        modtHandler = new ModtHandler(timerManager);
         deltHandler = new DeltHandler(timerManager);
     }
 
@@ -224,6 +226,8 @@ public class Server implements Runnable {
             sendResponse("123 Kuddelmuddel");
         } else if (newtHandler.accept(request)) {
             sendResponse(newtHandler.process(request));
+        } else if (modtHandler.accept(request)) {
+            sendResponse(modtHandler.process(request));
         } else if (deltHandler.accept(request)) {
             sendResponse(deltHandler.process(request));
         } else if (request.matches("[Ll][Ss][Tt][Tt] (.*)")) {

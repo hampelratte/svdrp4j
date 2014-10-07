@@ -76,4 +76,20 @@ public class TimerManager {
         }
         return null;
     }
+
+    public void modifyTimer(Timer modifiedTimer) {
+        int index = -1;
+        for (int i = 0; i < timers.size(); i++) {
+            Timer t = timers.get(i);
+            if (t.getID() == modifiedTimer.getID()) {
+                index = i;
+            }
+        }
+
+        if (index >= 0) {
+            timers.set(index, modifiedTimer);
+        } else {
+            throw new RuntimeException("Timer with ID " + modifiedTimer.getID() + " not found");
+        }
+    }
 }
