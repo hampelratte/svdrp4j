@@ -59,16 +59,20 @@ public class RecordingTreeBuilder {
         String title = recording.getTitle();
         String[] folders = title.split("~");
 
-        if (folders.length > 1) {
+        if (folders.length > 1 || title.endsWith("~")) {
             Folder subtree = new Folder(folders[0]);
             Folder currentFolder = subtree;
-            for (int i = 1; i < folders.length; i++) {
-                if (i < folders.length - 1) {
-                    Folder child = new Folder(folders[i]);
-                    currentFolder.getChildren().add(child);
-                    currentFolder = child;
-                } else {
-                    currentFolder.getChildren().add(recording);
+            if (title.endsWith("~")) {
+                currentFolder.getChildren().add(recording);
+            } else {
+                for (int i = 1; i < folders.length; i++) {
+                    if (i < folders.length - 1) {
+                        Folder child = new Folder(folders[i]);
+                        currentFolder.getChildren().add(child);
+                        currentFolder = child;
+                    } else {
+                        currentFolder.getChildren().add(recording);
+                    }
                 }
             }
             return subtree;
