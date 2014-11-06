@@ -32,7 +32,6 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -376,26 +375,6 @@ public class VDR {
                 }
             }
         }
-    }
-
-    public static void main(String[] args) throws UnknownHostException, IOException, ParseException {
-        VDR.persistentConnection = true;
-        VDR vdr = new VDR("localhost", 2001, 5000);
-        // VDR vdr = new VDR("vdr", 6419, 5000);
-
-        Timer timer = new Timer();
-        timer.setTitle("Testimer");
-        Calendar startTime = Calendar.getInstance();
-        startTime.set(2011, 10, 30, 20, 15);
-        Calendar endTime = (Calendar) startTime.clone();
-        endTime.add(Calendar.MINUTE, 90);
-        timer.setStartTime(startTime);
-        timer.setEndTime(endTime);
-        timer.setChannelNumber(2);
-        vdr.newTimer(timer);
-
-        VDR.timer.cancel();
-        vdr.connection.close();
     }
 
     public boolean isAvailable() {
