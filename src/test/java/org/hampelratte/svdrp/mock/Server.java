@@ -37,11 +37,16 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.hampelratte.svdrp.Response;
+import org.hampelratte.svdrp.responses.R250;
+import org.hampelratte.svdrp.responses.R501;
 import org.hampelratte.svdrp.responses.highlevel.Timer;
 import org.hampelratte.svdrp.util.IOUtil;
 import org.slf4j.Logger;
@@ -69,17 +74,19 @@ public class Server implements Runnable {
     private boolean accessDenied = false;
     private boolean inPUTEmode = false;
 
-    NewtHandler newtHandler;
-    ModtHandler modtHandler;
-    DeltHandler deltHandler;
+    private List<RequestHandler> requestHandlers = new ArrayList<RequestHandler>();
     private TimerManager timerManager;
 
     public Server() {
         logger.info("Running in {}", System.getProperty("user.dir"));
         timerManager = new TimerManager();
-        newtHandler = new NewtHandler(timerManager);
-        modtHandler = new ModtHandler(timerManager);
-        deltHandler = new DeltHandler(timerManager);
+        addRequestHandler(new NewtHandler(timerManager));
+        addRequestHandler(new ModtHandler(timerManager));
+        addRequestHandler(new DeltHandler(timerManager));
+    }
+
+    private void addRequestHandler(RequestHandler handler) {
+        requestHandlers.add(handler);
     }
 
     @Override
@@ -224,25 +231,35 @@ public class Server implements Runnable {
             sendResponse("920-S: 1 Programm\r\r\n920-I: 2 Kanäle\r\r\n920 I: 3 Befehle\r\r\n");
         } else if ("not_implemented".equalsIgnoreCase(request)) {
             sendResponse("123 Kuddelmuddel");
-        } else if (newtHandler.accept(request)) {
-            sendResponse(newtHandler.process(request));
-        } else if (modtHandler.accept(request)) {
-            sendResponse(modtHandler.process(request));
-        } else if (deltHandler.accept(request)) {
-            sendResponse(deltHandler.process(request));
+        } else if ("stat disk".equalsIgnoreCase(request)) {
+            sendResponse("250 1855618MB 393490MB 78%");
         } else if (request.matches("[Ll][Ss][Tt][Tt] (.*)")) {
             Matcher m = Pattern.compile("[Ll][Ss][Tt][Tt] (.*)").matcher(request);
             if (m.matches()) {
-                int id = Integer.parseInt(m.group(1));
-                Timer timer = timerManager.getTimer(id);
-                if (timer != null) {
-                    sendResponse("250 " + id + " " + timer.toNEWT());
-                } else {
-                    sendResponse("501 Timer \"" + id + "\" not defined");
+                try {
+                    int id = Integer.parseInt(m.group(1));
+                    Timer timer = timerManager.getTimer(id);
+                    if (timer != null) {
+                        sendResponse(new R250(id + " " + timer.toNEWT()));
+                    } else {
+                        sendResponse(new R501("Timer \"" + id + "\" not defined"));
+                    }
+                } catch (NumberFormatException e) {
+                    sendResponse(new R501("Given argument is not a number"));
                 }
             }
         } else {
-            sendResponse("502 Not implemented");
+            boolean hasBeenHandled = false;
+            for (RequestHandler handler : requestHandlers) {
+                if (handler.accept(request)) {
+                    hasBeenHandled = true;
+                    sendResponse(handler.process(request));
+                }
+            }
+
+            if (!hasBeenHandled) {
+                sendResponse("502 Not implemented");
+            }
         }
 
         return true;
@@ -258,6 +275,14 @@ public class Server implements Runnable {
         if(responseDelay > 0) { try { Thread.sleep(responseDelay); } catch (InterruptedException e) { /* fail silently */ } }
         logger.debug("--> {}", resp);
         bw.write(resp);
+        bw.write('\n');
+        bw.flush();
+    }
+
+    private void sendResponse(Response resp) throws IOException {
+        if(responseDelay > 0) { try { Thread.sleep(responseDelay); } catch (InterruptedException e) { /* fail silently */ } }
+        logger.debug("--> {}", resp);
+        bw.write(resp.getCode() + " " + resp.getMessage());
         bw.write('\n');
         bw.flush();
     }
