@@ -34,20 +34,28 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
+import org.hampelratte.svdrp.commands.DELR;
 import org.hampelratte.svdrp.commands.DELT;
 import org.hampelratte.svdrp.commands.LSTC;
 import org.hampelratte.svdrp.commands.LSTE;
 import org.hampelratte.svdrp.commands.LSTR;
 import org.hampelratte.svdrp.commands.LSTT;
+import org.hampelratte.svdrp.commands.MODT;
+import org.hampelratte.svdrp.commands.NEWT;
+import org.hampelratte.svdrp.commands.QUIT;
 import org.hampelratte.svdrp.responses.AccessDenied;
 import org.hampelratte.svdrp.responses.R215;
+import org.hampelratte.svdrp.responses.R221;
 import org.hampelratte.svdrp.responses.R250;
+import org.hampelratte.svdrp.responses.R451;
+import org.hampelratte.svdrp.responses.R501;
 import org.hampelratte.svdrp.responses.R550;
 import org.hampelratte.svdrp.responses.highlevel.Channel;
 import org.hampelratte.svdrp.responses.highlevel.EPGEntry;
@@ -83,8 +91,28 @@ public class VdrFacadeTest {
         when(conn.send(isA(LSTT.class))).thenReturn(new R550("No timers defined"));
         vdr = new VDR("localhost", 2001, 5000, conn);
 
+        conn = mock(Connection.class);
+        when(conn.send(isA(LSTT.class))).thenReturn(new R501("Syntax error in arguments"));
+        vdr = new VDR("localhost", 2001, 5000, conn);
+
         timers = vdr.getTimers();
         assertEquals(0, timers.size());
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testGetTimersException() throws IOException {
+        Connection conn = mock(Connection.class);
+        when(conn.send(isA(LSTT.class))).thenReturn(new R451("Fake error"));
+        vdr = new VDR("localhost", 2001, 5000, conn);
+        vdr.getTimers();
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testGetTimersError() throws IOException {
+        Connection conn = mock(Connection.class);
+        when(conn.send(isA(LSTT.class))).thenReturn(null);
+        vdr = new VDR("localhost", 2001, 5000, conn);
+        vdr.getTimers();
     }
 
     @Test
@@ -106,18 +134,30 @@ public class VdrFacadeTest {
         vdr.getTimer(1);
     }
 
-    // @Test
-    // public void testModifyTimer() throws UnknownHostException, IOException {
-    // server.loadTimers("lstt.txt");
-    //
-    // Timer timer = vdr.getTimer(1);
-    // timer.setTitle("ABCDEF");
-    // Response response = vdr.modifyTimer(timer.getID(), timer);
-    // assertEquals(250, response.getCode());
-    //
-    // timer = vdr.getTimer(1);
-    // assertEquals("ABCDEF", timer.getTitle());
-    // }
+    @Test
+    public void testNewTimer() throws IOException {
+        Connection conn = mock(Connection.class);
+        when(conn.send(isA(NEWT.class))).thenReturn(new R250("Timer has been created"));
+        vdr = new VDR("localhost", 2001, 5000, conn);
+
+        Timer timer = new Timer();
+        Response response = vdr.newTimer(timer);
+        assertEquals(250, response.getCode());
+    }
+
+    @Test
+    public void testModifyTimer() throws IOException {
+        Connection conn = mock(Connection.class);
+        when(conn.send(isA(LSTT.class))).thenReturn(new R250(IOUtil.readFile("unittests/lstt.txt")));
+        when(conn.send(isA(MODT.class))).thenReturn(new R250("Timer has been changed"));
+        vdr = new VDR("localhost", 2001, 5000, conn);
+
+        Timer timer = vdr.getTimer(1);
+        timer.setTitle("ABCDEF");
+        vdr = new VDR("localhost", 2001, 5000, conn);
+        Response response = vdr.modifyTimer(timer.getID(), timer);
+        assertEquals(250, response.getCode());
+    }
 
     @Test
     public void testDeleteTimer() throws IOException {
@@ -145,6 +185,7 @@ public class VdrFacadeTest {
         recordings = vdr.getRecordings();
         assertEquals(0, recordings.size());
     }
+
 
     @Test(expected = RuntimeException.class)
     public void testGetRecordingException() throws IOException, ParseException {
@@ -249,12 +290,53 @@ public class VdrFacadeTest {
     }
 
     @Test
+    public void testDeleteRecording() throws IOException {
+        Connection conn = mock(Connection.class);
+        when(conn.send(isA(DELR.class))).thenReturn(new R250("Recording deleted"));
+        vdr = new VDR("localhost", 2001, 5000, conn);
+
+        Recording fakeRecording = createRecording();
+        Response response = vdr.deleteRecording(fakeRecording);
+        assertEquals(250, response.getCode());
+    }
+
+    @Test
     public void testGetEpg() throws IOException {
         Connection conn = mock(Connection.class);
         when(conn.send(isA(LSTE.class))).thenReturn(new R215(IOUtil.readFile("unittests/lste.txt")));
         vdr = new VDR("localhost", 2001, 5000, conn);
 
         List<EPGEntry> epg = vdr.getEpg();
+        assertEquals(18557, epg.size());
+    }
+
+    @Test
+    public void testGetEpgForChannel() throws IOException {
+        Connection conn = mock(Connection.class);
+        when(conn.send(isA(LSTE.class))).thenReturn(new R215(IOUtil.readFile("unittests/lste.txt")));
+        vdr = new VDR("localhost", 2001, 5000, conn);
+
+        List<EPGEntry> epg = vdr.getEpg(1);
+        assertEquals(18557, epg.size());
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testGetEpgForChannelException() throws IOException {
+        Connection conn = mock(Connection.class);
+        when(conn.send(isA(LSTE.class))).thenReturn(new R451("EPG file not found"));
+        vdr = new VDR("localhost", 2001, 5000, conn);
+
+        List<EPGEntry> epg = vdr.getEpg(1);
+        assertEquals(18557, epg.size());
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testGetEpgForChannelError() throws IOException {
+        Connection conn = mock(Connection.class);
+        when(conn.send(isA(LSTE.class))).thenReturn(null);
+        vdr = new VDR("localhost", 2001, 5000, conn);
+
+        List<EPGEntry> epg = vdr.getEpg(1);
         assertEquals(18557, epg.size());
     }
 
@@ -284,6 +366,20 @@ public class VdrFacadeTest {
         vdr = new VDR("localhost", 2001, 5000, conn);
 
         vdr.getChannels();
+    }
+
+    @Test
+    public void testClose() throws IOException {
+        Connection conn = mock(Connection.class);
+        when(conn.send(isA(QUIT.class))).thenReturn(new R221("vdr closing connection"));
+        vdr = new VDR("localhost", 2001, 5000, conn);
+        vdr.close();
+    }
+
+    @Test(expected = ConnectException.class)
+    public void testConnectionEstablishment() throws IOException {
+        vdr = new VDR("localhost", 2001, 1, null);
+        vdr.close();
     }
 }
 
