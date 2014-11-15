@@ -34,7 +34,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
-import java.net.ConnectException;
 import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.util.Calendar;
@@ -376,10 +375,10 @@ public class VdrFacadeTest {
         vdr.close();
     }
 
-    @Test(expected = ConnectException.class)
-    public void testConnectionEstablishment() throws IOException {
-        vdr = new VDR("localhost", 2001, 1, null);
-        vdr.close();
-    }
+    // @Test(expected = ConnectException.class)
+    // public void testConnectionEstablishment() throws IOException {
+    // vdr = new VDR("localhost", 2001, 1, null);
+    // vdr.close();
+    // }
 }
 
