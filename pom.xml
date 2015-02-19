@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
-        <artifactId>master</artifactId>
+        <artifactId>parent</artifactId>
         <groupId>org.hampelratte</groupId>
-        <version>8</version>
+        <version>9</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>svdrp4j</artifactId>
@@ -128,9 +128,14 @@
     
     <repositories>
         <repository>
-            <id>hampelratte-repo</id>
-            <name>hampelratte.org</name>
-            <url>http://www.hampelratte.org/maven</url>
+            <id>hampelratte-releases</id>
+            <name>hampelratte.org releases</name>
+            <url>http://hampelratte.org/nexus/content/groups/releases</url>
+        </repository>
+        <repository>
+            <id>hampelratte-snapshots</id>
+            <name>hampelratte.org snapshots</name>
+            <url>http://hampelratte.org/nexus/content/groups/snapshots</url>
         </repository>
     </repositories>
 </project>
