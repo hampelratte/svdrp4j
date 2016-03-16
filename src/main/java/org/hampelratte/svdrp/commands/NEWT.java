@@ -46,7 +46,7 @@ public class NEWT extends Command {
      * Command to create a new timer
      * 
      * @param settings
-     *            1:7:8:0704:0938:50:50:Quarks & Co:<br>
+     *            1:7:8:0704:0938:50:50:Quarks &amp; Co:<br>
      *            Status:Channel:Day:Start:Stop:Priority:Lifetime:File:Summary<br>
      *            In the summary newline characters have to be replaced by |<br>
      *            More details in the man page vdr(5)
@@ -83,7 +83,7 @@ public class NEWT extends Command {
      * Sets the settings of the timer
      * 
      * @param settings
-     *            1:7:8:0704:0938:50:50:Quarks & Co:<br>
+     *            1:7:8:0704:0938:50:50:Quarks &amp; Co:<br>
      *            Status:Channel:Day:Start:Stop:Priority:Lifetime:File:Summary<br>
      *            In the summary newline characters have to be replaced by |<br>
      *            More details in the man page vdr(5)

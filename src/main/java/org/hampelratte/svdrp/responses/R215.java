@@ -40,9 +40,9 @@ public class R215 extends Response {
 
     private static final long serialVersionUID = 1L;
     
-    /**
-     * @param message
-     */
+   /**
+    * @param message message to show
+    */
     public R215(String message) {
         super(215, message);
     }

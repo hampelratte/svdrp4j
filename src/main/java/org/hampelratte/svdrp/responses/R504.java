@@ -40,6 +40,9 @@ public class R504 extends Response {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+    * @param message message to show
+    */
     public R504(String message) {
         super(504, message);
     }

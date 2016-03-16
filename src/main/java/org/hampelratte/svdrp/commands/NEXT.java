@@ -53,7 +53,7 @@ public class NEXT extends Command {
 
     /**
      * Command to show the next timer event
-     * 
+     * @param mode Mode
      * @see #setMode(String)
      */
     public NEXT(String mode) {

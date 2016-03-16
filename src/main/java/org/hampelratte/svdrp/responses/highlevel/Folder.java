@@ -75,7 +75,7 @@ public class Folder implements TreeNode {
     /**
      * Merges the given subtree into this tree.
      *
-     * @param subtree
+     * @param subtree to merge
      */
     public void merge(TreeNode subtree) {
         if (subtree instanceof Folder) {
