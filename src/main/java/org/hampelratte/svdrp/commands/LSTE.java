@@ -78,7 +78,7 @@ public class LSTE extends Command {
      * @param time
      *            "now", "next" or "at &lt;time&gt;" , where &lt;time&gt; is in
      *            time_t format, which is equal to the unix time stamp without
-     *            the milliseconds -> unix time stamp / 1000, e.g. 1115484780
+     *            the milliseconds -&gt; unix time stamp / 1000, e.g. 1115484780
      */
     public LSTE(int channel, String time) {
         this.channel = Integer.toString(channel);
@@ -93,7 +93,7 @@ public class LSTE extends Command {
      * @param time
      *            "now", "next" or "at &lt;time&gt;" , where &lt;time&gt; is in
      *            time_t format, which is equal to the unix time stamp without
-     *            the milliseconds -> unix time stamp / 1000, e.g. 1115484780
+     *            the milliseconds -&gt; unix time stamp / 1000, e.g. 1115484780
      */
     public LSTE(String channel, String time) {
         this.channel = channel;
@@ -107,7 +107,7 @@ public class LSTE extends Command {
      *            The number of the channel
      * @param time_t
      *            The time in time_t format, which is equal to the unix time stamp
-     *            without the milliseconds -> unix time stamp / 1000, e.g.
+     *            without the milliseconds -&gt; unix time stamp / 1000, e.g.
      *            1115484780
      */
     public LSTE(int number, long time_t) {
@@ -166,7 +166,7 @@ public class LSTE extends Command {
      * @param time
      *            "now", "next" or "at &lt;time&gt;" , where &lt;time&gt; is in
      *            time_t format, which is equal to the unix time stamp without
-     *            the milliseconds -> unix time stamp / 1000, e.g. 1115484780
+     *            the milliseconds -&gt; unix time stamp / 1000, e.g. 1115484780
      */
     public void setTime(String time) {
         this.time = time;

@@ -100,8 +100,8 @@ public class Connection {
      *            The port of the SVDRP-server. Default is 2001
      * @param connectTimeout
      *            The timeout for this connection
-     * @throws UnknownHostException
-     * @throws IOException
+     * @throws UnknownHostException if the target host is uknown
+     * @throws IOException if an IO Error occurs
      */
     public Connection(String host, int port, int connectTimeout) throws UnknownHostException, IOException {
         this(host, port, connectTimeout, "UTF-8");
@@ -119,8 +119,8 @@ public class Connection {
      *            The timeout for this connection
      * @param encoding
      *            The charset encoding used to talk to VDR
-     * @throws UnknownHostException
-     * @throws IOException
+     * @throws UnknownHostException if the target host is uknown
+     * @throws IOException if an IO Error occurs
      */
     public Connection(String host, int port, int connectTimeout, String encoding) throws UnknownHostException, IOException {
         this(host, port, connectTimeout, 0, encoding, true);
@@ -142,8 +142,8 @@ public class Connection {
      *            The charset encoding used to talk to VDR
      * @param detectEncoding
      *            Enables the automatic detection of the charset encoding
-     * @throws UnknownHostException
-     * @throws IOException
+     * @throws UnknownHostException if the target host is uknown
+     * @throws IOException if an IO Error occurs
      */
     public Connection(String host, int port, int connectTimeout, int readTimeout, String encoding, boolean detectEncoding) throws UnknownHostException,
     IOException {
@@ -221,8 +221,8 @@ public class Connection {
      *            The host name or IP-address of the VDR.
      * @param port
      *            The port of the SVDRP-server. Default is 2001.
-     * @throws UnknownHostException
-     * @throws IOException
+     * @throws UnknownHostException if the target host is uknown
+     * @throws IOException if an IO Error occurs
      */
     public Connection(String host, int port) throws UnknownHostException, IOException {
         this(host, port, 500);
@@ -234,7 +234,7 @@ public class Connection {
      * @param cmd
      *            The {@link Command}, which should be sent to VDR
      * @return A {@link Response} object
-     * @throws IOException
+     * @throws IOException if an IO Error occurs
      * @see Command
      * @see Response
      */
@@ -359,7 +359,7 @@ public class Connection {
     /**
      * Closes the connection to VDR. After closing a connection you have to create a new connection to talk to VDR.
      *
-     * @throws IOException
+     * @throws IOException if an IO Error occurs
      */
     public void close() throws IOException {
         send(new QUIT());
@@ -389,7 +389,7 @@ public class Connection {
     /**
      * For testing purposes only. Don't call this method!!!
      * 
-     * @param version
+     * @param version Version
      */
     public static void setVersion(Version version) {
         Connection.version = version;

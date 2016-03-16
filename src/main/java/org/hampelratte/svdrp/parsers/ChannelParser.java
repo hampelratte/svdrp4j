@@ -58,7 +58,7 @@ public class ChannelParser {
      *            If set to true, all exceptions, which occure during parsing will be ignored. The channels.conf line, which threw the exception will be lost.
      *            If set to false, the parsing will stop immediately, if an exception occurs.
      * @return A list of Channel objects
-     * @throws ParseException
+     * @throws ParseException if parsing fails
      */
     public static List<Channel> parse(String channelData, boolean validate, boolean ignoreErrors) throws ParseException {
         ArrayList<Channel> list = new ArrayList<Channel>();

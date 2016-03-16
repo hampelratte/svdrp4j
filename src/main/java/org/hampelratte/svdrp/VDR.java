@@ -99,8 +99,8 @@ public class VDR {
      * Requests a list of all defined timers.
      *
      * @return A list of all defined timers.
-     * @throws UnknownHostException
-     * @throws IOException
+     * @throws UnknownHostException if the target host is uknown
+     * @throws IOException if an IO Error occurs
      */
     public List<Timer> getTimers() throws UnknownHostException, IOException {
         return getTimers(new LSTT());
@@ -112,8 +112,8 @@ public class VDR {
      * @param number
      *            The number of the timer to erturn.
      * @return A Timer object, which represents the timer settings.
-     * @throws UnknownHostException
-     * @throws IOException
+     * @throws UnknownHostException if the target host is uknown
+     * @throws IOException if an IO Error occurs
      */
     public Timer getTimer(int number) throws UnknownHostException, IOException {
         List<Timer> timers = getTimers(new LSTT(number));
@@ -154,8 +154,8 @@ public class VDR {
      *            A Timer, which represents the new timer settings.
      * @return The response from VDR.
      *
-     * @throws UnknownHostException
-     * @throws IOException
+     * @throws UnknownHostException if the target host is uknown
+     * @throws IOException if an IO Error occurs
      */
     public Response modifyTimer(int number, Timer timer) throws UnknownHostException, IOException {
         return send(new MODT(number, timer));
@@ -167,8 +167,8 @@ public class VDR {
      * @param number
      *            The number of the timer to delete.
      * @return The response from VDR.
-     * @throws UnknownHostException
-     * @throws IOException
+     * @throws UnknownHostException if the target host is uknown
+     * @throws IOException if an IO Error occurs
      */
     public Response deleteTimer(int number) throws UnknownHostException, IOException {
         return send(new DELT(number));
@@ -180,8 +180,8 @@ public class VDR {
      * @param timer
      *            A {@link Timer}, which represents the timer settings.
      * @return The response from VDR.
-     * @throws UnknownHostException
-     * @throws IOException
+     * @throws UnknownHostException if the target host is uknown
+     * @throws IOException if an IO Error occurs
      */
     public Response newTimer(Timer timer) throws UnknownHostException, IOException {
         return send(new NEWT(timer));
@@ -191,9 +191,9 @@ public class VDR {
      * Requests the list of all channels.
      *
      * @return A list of all channels.
-     * @throws UnknownHostException
-     * @throws IOException
-     * @throws ParseException
+     * @throws UnknownHostException if the target host is uknown
+     * @throws IOException if an IO Error occurs
+     * @throws ParseException if a parsing error occurs
      */
     public List<Channel> getChannels() throws UnknownHostException, IOException, ParseException {
         List<Channel> channels = null;
@@ -217,8 +217,8 @@ public class VDR {
      * Requests a list of all recordings.
      *
      * @return A list of all recordings.
-     * @throws UnknownHostException
-     * @throws IOException
+     * @throws UnknownHostException if the target host is uknown
+     * @throws IOException if an IO Error occurs
      */
     public List<Recording> getRecordings() throws UnknownHostException, IOException {
         List<Recording> recordings = null;
@@ -248,9 +248,9 @@ public class VDR {
      * @param rec
      *            The recording to load the details for.
      * @return The same object with the details loaded.
-     * @throws UnknownHostException
-     * @throws IOException
-     * @throws ParseException
+     * @throws UnknownHostException if the target host is uknown
+     * @throws IOException if an IO Error occurs
+     * @throws ParseException if a parsing error occurs
      */
     public Recording getRecordingDetails(Recording rec) throws UnknownHostException, IOException, ParseException {
         Response res = send(new LSTR(rec.getNumber()));
@@ -274,8 +274,8 @@ public class VDR {
      * @param rec
      *            The recording to delete.
      * @return The response from VDR.
-     * @throws UnknownHostException
-     * @throws IOException
+     * @throws UnknownHostException if the target host is uknown
+     * @throws IOException if an IO Error occurs
      */
     public Response deleteRecording(Recording rec) throws UnknownHostException, IOException {
         return send(new DELR(rec.getNumber()));
@@ -285,8 +285,8 @@ public class VDR {
      * Get the whole EPG. To get the epg of one channel, call {@link #getEpg(int)} or filter this list manually.
      *
      * @return A list of all epg entries of all channels.
-     * @throws UnknownHostException
-     * @throws IOException
+     * @throws UnknownHostException if the target host is uknown
+     * @throws IOException if an IO Error occurs
      */
     public List<EPGEntry> getEpg() throws UnknownHostException, IOException {
         return getEpg(new LSTE());
@@ -298,8 +298,8 @@ public class VDR {
      * @param channelNumber
      *            The channel number of the channel.
      * @return A list of all EPG entries available for the given channel.
-     * @throws UnknownHostException
-     * @throws IOException
+     * @throws UnknownHostException if the target host is uknown
+     * @throws IOException if an IO Error occurs
      */
     public List<EPGEntry> getEpg(int channelNumber) throws UnknownHostException, IOException {
         return getEpg(new LSTE(channelNumber));
@@ -354,6 +354,7 @@ public class VDR {
 
     /**
      * Close the connection to VDR.
+     * @throws IOException if an IO Error occurs
      */
     public void close() throws IOException {
         send(new QUIT());

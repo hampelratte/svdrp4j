@@ -38,7 +38,10 @@ import org.hampelratte.svdrp.Response;
 public class R214 extends Response {
 
     private static final long serialVersionUID = 1L;
-    
+
+    /**
+     * @param msg message to show
+     */
     public R214(String msg) {
         super(214, msg);
     }

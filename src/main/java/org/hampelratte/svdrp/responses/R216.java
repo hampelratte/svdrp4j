@@ -44,7 +44,11 @@ import org.hampelratte.svdrp.util.Base64;
 public class R216 extends Response {
     
     private static final long serialVersionUID = 1L;
+
     
+   /**
+    * @param message message to show
+    */
     public R216(String message) {
         super(216, message);
     }
@@ -57,7 +61,7 @@ public class R216 extends Response {
     /**
      * Returns the grabbed image as {@link ImageIcon}
      * @return the grabbed image as {@link ImageIcon}
-     * @throws IOException
+     * @throws IOException if an IO Error occurs
      */
     public ImageIcon getImage() throws IOException {
         ImageIcon icon = new ImageIcon();
