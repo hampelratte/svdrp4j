@@ -1,19 +1,19 @@
-/* 
+/*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -39,15 +39,15 @@ import org.hampelratte.svdrp.responses.highlevel.Timer;
 
 /**
  * Parses a list of timers received from VDR by the LSTT command
- * 
+ *
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
- * 
+ *
  */
 // FIXME für repeating timer die start und endzeit richtig setzen
 public class TimerParser {
     /**
      * Parses a list of timers received from VDR by the LSTT command
-     * 
+     *
      * @param timerData
      *            A list of timers received from VDR by LSTT command
      * @return A list of Timer objects
@@ -96,6 +96,8 @@ public class TimerParser {
         int minutes = Integer.parseInt(timeString.substring(2));
         time.set(Calendar.HOUR_OF_DAY, hours);
         time.set(Calendar.MINUTE, minutes);
+        time.set(Calendar.SECOND, 0);
+        time.set(Calendar.MILLISECOND, 0);
     }
 
     /**
@@ -123,13 +125,13 @@ public class TimerParser {
         Pattern repeatingAt = Pattern.compile("((?:\\p{Upper}|-){7})@((?:19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])");
 
         Matcher matcher;
-        int day_of_month;
+        int dayOfMonth;
         if ((matcher = dayPattern.matcher(day)).matches()) {
-            day_of_month = Integer.parseInt(day);
+            dayOfMonth = Integer.parseInt(day);
             int today = startTime.get(Calendar.DAY_OF_MONTH);
-            startTime.set(Calendar.DAY_OF_MONTH, day_of_month);
-            endTime.set(Calendar.DAY_OF_MONTH, day_of_month);
-            if (day_of_month < today) {
+            startTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            endTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            if (dayOfMonth < today) {
                 startTime.add(Calendar.MONTH, 1);
                 endTime.add(Calendar.MONTH, 1);
             }
@@ -140,15 +142,15 @@ public class TimerParser {
                 endTime.add(Calendar.DAY_OF_MONTH, 1);
             }
         } else if ((matcher = datePattern.matcher(day)).matches()) {
-            day_of_month = Integer.parseInt(matcher.group(3));
+            dayOfMonth = Integer.parseInt(matcher.group(3));
             int month = Integer.parseInt(matcher.group(2)) - 1;
             int year = Integer.parseInt(matcher.group(1));
             TimerParser.parseTime(startTime, startString);
             TimerParser.parseTime(endTime, endString);
-            startTime.set(Calendar.DAY_OF_MONTH, day_of_month);
+            startTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             startTime.set(Calendar.MONTH, month);
             startTime.set(Calendar.YEAR, year);
-            endTime.set(Calendar.DAY_OF_MONTH, day_of_month);
+            endTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             endTime.set(Calendar.MONTH, month);
             endTime.set(Calendar.YEAR, year);
             // if the endTime lasts into the next day, we have to add 1 to the DAY_OF_MONTH
@@ -157,7 +159,7 @@ public class TimerParser {
             }
         } else if ((matcher = simpleRepeating.matcher(day)).matches()) {
             timer.setRepeatingDays(TimerParser.determineDays(day));
-            day_of_month = -1;
+            dayOfMonth = -1;
             TimerParser.parseTime(startTime, startString);
             TimerParser.parseTime(endTime, endString);
             // if the endTime lasts into the next day, we have to add 1 to the DAY_OF_MONTH
@@ -168,10 +170,10 @@ public class TimerParser {
             timer.setHasFirstTime(true);
             String days = matcher.group(1);
             timer.setRepeatingDays(TimerParser.determineDays(days));
-            day_of_month = Integer.parseInt(matcher.group(2));
-            firstTime.set(Calendar.DAY_OF_MONTH, day_of_month);
-            startTime.set(Calendar.DAY_OF_MONTH, day_of_month);
-            endTime.set(Calendar.DAY_OF_MONTH, day_of_month);
+            dayOfMonth = Integer.parseInt(matcher.group(2));
+            firstTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            startTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            endTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             TimerParser.parseTime(startTime, startString);
             TimerParser.parseTime(endTime, endString);
             // if the endTime lasts into the next day, we have to add 1 to the DAY_OF_MONTH
@@ -183,18 +185,18 @@ public class TimerParser {
             String days = matcher.group(1);
             timer.setRepeatingDays(TimerParser.determineDays(days));
 
-            day_of_month = Integer.parseInt(matcher.group(4));
+            dayOfMonth = Integer.parseInt(matcher.group(4));
             int month = Integer.parseInt(matcher.group(3)) - 1;
             int year = Integer.parseInt(matcher.group(2));
             TimerParser.parseTime(startTime, startString);
             TimerParser.parseTime(endTime, endString);
-            firstTime.set(Calendar.DAY_OF_MONTH, day_of_month);
+            firstTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             firstTime.set(Calendar.MONTH, month);
             firstTime.set(Calendar.YEAR, year);
-            startTime.set(Calendar.DAY_OF_MONTH, day_of_month);
+            startTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             startTime.set(Calendar.MONTH, month);
             startTime.set(Calendar.YEAR, year);
-            endTime.set(Calendar.DAY_OF_MONTH, day_of_month);
+            endTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             endTime.set(Calendar.MONTH, month);
             endTime.set(Calendar.YEAR, year);
             // if the endTime lasts into the next day, we have to add 1 to the DAY_OF_MONTH

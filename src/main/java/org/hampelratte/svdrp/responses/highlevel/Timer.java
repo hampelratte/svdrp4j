@@ -1,19 +1,19 @@
-/* 
+/*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -39,18 +39,21 @@ import org.hampelratte.svdrp.Version;
 
 /**
  * @author <a href="hampelratte@users.sf.net">hampelratte@users.sf.net </a>
- * 
+ *
  *         Represents a timer of the VDR software
  */
 public class Timer implements Serializable, Comparable<Timer>, Cloneable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
     public static final int INACTIVE = 0;
     public static final int ACTIVE = 1;
     public static final int INSTANT_TIMER = 2;
     public static final int VPS = 4;
     public static final int RECORDING = 8;
+
+    public static final boolean ENABLED = true;
+    public static final boolean DISABLED = false;
 
     private int state = ACTIVE;
 
@@ -88,7 +91,7 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
 
     /**
      * Returns, if a timer has a specific state
-     * 
+     *
      * @param STATE
      *            One of INACTIVE, ACTIVE, INSTANT_TIMER, VPS, RECORDING
      * @return true, if the timer has the state
@@ -159,7 +162,7 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
 
     /**
      * Returns a unique key, which consits of the channel, the day, the start time and the end time
-     * 
+     *
      * @return a String which identifies this Timer
      */
     public String getUniqueKey() {
@@ -185,7 +188,7 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
 
     /**
      * Returns a settings string, which can be used to create or update timers
-     * 
+     *
      * @return a settings string, which can be used to create or update timers
      */
     public String toNEWT() {
@@ -440,7 +443,7 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
 
     /**
      * Sets the state of a timer. To change a single part of the state, e.g. VPS or ACTIVE, please use {@link Timer#changeStateTo(int, boolean)}
-     * 
+     *
      * @param state
      *            The new state for the timer. Bitwise OR of multiple states is possible. E.g. setState(ACTIVE | VPS) sets the timer to ACTIVE and enables VPS
      */
@@ -450,7 +453,7 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
 
     /**
      * Sets the given state to the given value. All other states are not touched.
-     * 
+     *
      * @param STATE
      *            the state to change
      * @param enabled

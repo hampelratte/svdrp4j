@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory;
  * 
  */
 public class ChannelParser {
-    private static transient Logger logger = LoggerFactory.getLogger(ChannelParser.class);
+    private static final transient Logger logger = LoggerFactory.getLogger(ChannelParser.class);
 
     /**
      * Parses a list of channels received from VDR by the LSTC command
@@ -90,7 +90,9 @@ public class ChannelParser {
                 list.add(channel);
             } catch (Exception e) {
                 ParseException pe = new ParseException("Unknown channels.conf line format on line " + lineNumber + ": [" + line + "]", lineNumber);
-                pe.initCause(e);
+                if (!(pe instanceof ParseException)) {
+                    pe.initCause(e);
+                }
                 if (!ignoreErrors) {
                     throw pe;
                 } else {

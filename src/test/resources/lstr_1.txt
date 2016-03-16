@@ -1,9 +1,16 @@
 215-C S19.2E-1-1101-28106 Das Erste
 215-E 30780 1283104800 900 4E FF
 215-T Tagesschau
-215-D * Bundeskanzlerin Merkel zur Zukunft der schwarz-gelben Koalition * Gewerkschaften fordern höhere Gehälter * Sport: Bundesliga, Basketball-WM und Formel 1
-215-X 2 03 deu 
-215-X 2 03 2ch 
-215-X 2 05 deu 
-215-V 1283104800
+215-D * Bundeskanzlerin Merkel zur Zukunft der schwarz-gelben Koalition |* Gewerkschaften fordern höhere Gehälter |* Sport: Bundesliga, Basketball-WM und Formel 1
+215-X 2 03 deu stereo
+215-X 4 44 deu Dolby Digital 5.1
+215-X 3 01 deu 
+215-X 2 03 deu ohne Audiodeskription
+215-X 3 20 deu DVB-Untertitel
+215-X 5 0B deu HD-Video
+215-X 3 03 deu 
+215-V 1258917300
+215-F 25
+215-P 99
+215-L 99
 215 End of recording information

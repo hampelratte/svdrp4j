@@ -1,19 +1,19 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -26,27 +26,27 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.hampelratte.svdrp.responses.highlevel;
+package org.hampelratte.svdrp.parser;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.hampelratte.svdrp.parsers.ChannelLineParser;
-import org.hampelratte.svdrp.parsers.DVBChannelLineParser;
+import org.hampelratte.svdrp.parsers.PvrInputChannelLineParser;
+import org.hampelratte.svdrp.responses.highlevel.PvrInputChannel;
 import org.junit.Before;
 import org.junit.Test;
 
-// TODO add different channel lines (especially new HD formats)
-public class DVBChannelLineParserTest {
+public class PvrInputChannelLineParserTest {
 
-    private String channelData = "1 Das Erste:11836:B8C23D12M64T2G32Y0:S19.2E:27500:101:102=deu,103=2ch;106=deu:104:0:28106:1:1101:0";
+    private String channelData = "1 ARD;w_pvrscan:224250:TV|PAL|CARD0:V:0:301+101=2:300=@4:305:0:3588:0:0:0";
 
-    private ChannelLineParser parser = new DVBChannelLineParser();
+    private ChannelLineParser parser = new PvrInputChannelLineParser();
 
-    private DVBChannel chan;
+    private PvrInputChannel chan;
 
     @Before
     public void parseLine() {
-        chan = (DVBChannel) parser.parse(channelData);
+        chan = (PvrInputChannel) parser.parse(channelData);
     }
 
     @Test
@@ -56,69 +56,66 @@ public class DVBChannelLineParserTest {
 
     @Test
     public void testFrequency() {
-        assertEquals(11836, chan.getFrequency());
-    }
-
-    @Test
-    public void testParameters() {
-        assertEquals(8, chan.getBandwidth());
-        assertEquals(23, chan.getCodeRateHP());
-        assertEquals(12, chan.getCodeRateLP());
-        assertEquals(32, chan.getGuardInterval());
-        assertFalse(chan.isHorizontalPolarization());
-        assertEquals(64, chan.getModulation());
-        assertEquals(2, chan.getTransmissionMode());
-        assertFalse(chan.isVerticalPolarization());
-        assertEquals(0, chan.getHierarchy());
+        assertEquals(224250, chan.getFrequency());
     }
 
     @Test
     public void testSource() {
-        assertEquals("S19.2E", chan.getSource());
-    }
-
-    @Test
-    public void testSymbolRate() {
-        assertEquals(27500, chan.getSymbolRate());
+        assertEquals("V", chan.getSource());
     }
 
     @Test
     public void testVPID() {
-        assertEquals("101", chan.getVPID());
+        assertEquals("301+101=2", chan.getVPID());
     }
 
     @Test
     public void testAPID() {
-        assertEquals("102=deu,103=2ch;106=deu", chan.getAPID());
+        assertEquals("300=@4", chan.getAPID());
     }
 
     @Test
     public void testTPID() {
-        assertEquals("104", chan.getTPID());
+        assertEquals("305", chan.getTPID());
     }
-    
+
     @Test
     public void testConditionalAccess() {
-        assertEquals(new Integer(0), chan.getConditionalAccess().get(0));
+        assertEquals(Integer.valueOf(0), chan.getConditionalAccess().get(0));
     }
 
     @Test
     public void testSID() {
-        assertEquals(28106, chan.getSID());
+        assertEquals(3588, chan.getSID());
     }
 
     @Test
     public void testNID() {
-        assertEquals(1, chan.getNID());
+        assertEquals(0, chan.getNID());
     }
 
     @Test
     public void testTID() {
-        assertEquals(1101, chan.getTID());
+        assertEquals(0, chan.getTID());
     }
 
     @Test
     public void testRID() {
         assertEquals(0, chan.getRID());
+    }
+
+    @Test
+    public void testVideoNorm() {
+        assertEquals("PAL", chan.getVideoNorm());
+    }
+
+    @Test
+    public void testCard() {
+        assertEquals("CARD0", chan.getCard());
+    }
+
+    @Test
+    public void testType() {
+        assertEquals("TV", chan.getType());
     }
 }

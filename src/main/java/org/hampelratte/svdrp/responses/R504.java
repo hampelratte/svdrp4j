@@ -1,19 +1,19 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -32,20 +32,16 @@ import org.hampelratte.svdrp.Response;
 
 /**
  * VDR Response: Command parameter not implemented
- * 
+ *
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
- * 
+ *
  */
 public class R504 extends Response {
 
     private static final long serialVersionUID = 1L;
-    
-    /**
-     * @param code
-     * @param message
-     */
-    public R504(int code, String message) {
-        super(code, message);
+
+    public R504(String message) {
+        super(504, message);
     }
 
     @Override

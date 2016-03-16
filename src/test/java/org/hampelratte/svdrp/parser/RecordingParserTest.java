@@ -1,10 +1,10 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  * 3. Neither the name of the project (Lazy Bones) nor the names of its
  *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -31,6 +31,9 @@ package org.hampelratte.svdrp.parser;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -38,44 +41,61 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.hampelratte.svdrp.Connection;
+import org.hampelratte.svdrp.Version;
 import org.hampelratte.svdrp.commands.LSTR;
-import org.hampelratte.svdrp.commands.QUIT;
-import org.hampelratte.svdrp.mock.Server;
 import org.hampelratte.svdrp.parsers.RecordingListParser;
 import org.hampelratte.svdrp.parsers.RecordingParser;
+import org.hampelratte.svdrp.responses.R215;
+import org.hampelratte.svdrp.responses.R250;
 import org.hampelratte.svdrp.responses.highlevel.Recording;
 import org.hampelratte.svdrp.responses.highlevel.Stream;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+
 
 public class RecordingParserTest {
 
-    private static Server server;
-
     private List<Recording> recordings;
     private Recording recording;
-    private static Connection conn;
-
-    @BeforeClass
-    public static void startMockServer() throws IOException, InterruptedException {
-        server = new Server();
-        server.loadWelcome("welcome-1.6.0_2-utf_8.txt");
-        server.loadRecordings("lstr.txt");
-        new Thread(server).start();
-
-        // wait for the server
-        Thread.sleep(1000);
-
-        conn = new Connection("localhost", 2001, 5000);
-    }
 
     @Before
     public void parseRecording() throws IOException, ParseException {
+        Connection.setVersion(new Version("1.0.0"));
+        Connection conn = mock(Connection.class);
+        //@formatter:off
+        when(conn.send(isA(LSTR.class))).thenReturn(
+                new R250("1 29.08.10 19:55* Tagesschau\n" +
+                        "2 02.03.09 00:38  Der Teufel trägt Prada\n" +
+                        "3 08.09.10 18:45X %Aktuelle Stunde\n" +
+                        "4 09.03.07 16:12 %Tagesthemen\n" +
+                        "5 09.03.07 16:12* %%Zweimal geschnitten\n" +
+                        "6 09.03.07 16:12* %Folder~Title\n" +
+                        "7 09.03.07 16:12  Parent~Child~%Title")
+        );
+        //@formatter:on
+
         recordings = RecordingListParser.parse(conn.send(new LSTR()).getMessage());
         recording = recordings.get(2);
-        String recordingData = conn.send(new LSTR(recording.getNumber())).getMessage();
+
+        LSTR lstr2 = new LSTR(recording.getNumber());
+        //@formatter:off
+        when(conn.send(lstr2)).thenReturn(
+                new R215("C S19.2E-1-1201-28306 WDR Bielefeld\n" +
+                        "E 54090 1283964600 2400 4E FF\n" +
+                        "T Aktuelle Stunde\n" +
+                        "S Moderation: Catherine Vogel und Thomas Heyer\n" +
+                        "D Themen u.a.:|* Suche nach Mirco wird fortgesetzt|* Amerikanischer Pastor will Koran verbrennen|* Aus für staatliches Glücksspiel-Monopol|* Frau gewürgt und vergewaltigt|* Glückwunsch Mario Adorf|* Wetten, wir kriegen's entspannter?|* NRW kompakt\n" +
+                        "X 2 03 deu \n" +
+                        "X 2 03 2ch\n" +
+                        "P 50\n" +
+                        "L 99\n" +
+                        "V 1283964600\n" +
+                        "@ Themen u.a.:|* Suche nach Mirco wird fortgesetzt|* Amerikanischer Pastor will Koran verbrennen|* Aus für staatliches Glücksspiel-Monopol|* Frau gewürgt und vergewaltigt|* Glückwunsch Mario Adorf|* Wetten, wir kriegen's entspannter?|* NRW kompakt\n" +
+                        "End of recording information")
+        );
+        //@formatter:on
+
+        String recordingData = conn.send(lstr2).getMessage();
         new RecordingParser().parseRecording(recording, recordingData);
     }
 
@@ -185,12 +205,6 @@ public class RecordingParserTest {
     @Test
     public void testLifetime() {
         assertEquals(99, recording.getLifetime());
-    }
-
-    @AfterClass
-    public static void shutdownServer() throws IOException, InterruptedException {
-        conn.send(new QUIT());
-        server.shutdown();
     }
 }
 

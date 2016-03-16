@@ -7,11 +7,11 @@
  * 
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
  * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -41,14 +41,25 @@ public class REMO extends Command {
 
     public static final String ON = "on";
     public static final String OFF = "off";
-    
-    private String state = ""; 
-    
+
+    private String state = "";
+
     /**
      * Receives the current status of the remote control.
      */
     public REMO() {
         super();
+    }
+
+    /**
+     * Turns the remote control on or off.
+     * 
+     * @param state
+     *            <code>true</code> to turn the RC on, <code>false</code> to turn the RC off
+     * 
+     */
+    public REMO(boolean state) {
+        this.state = state ? ON : OFF;
     }
 
     /**
@@ -92,10 +103,19 @@ public class REMO extends Command {
      * @see REMO#OFF
      */
     public void setState(String state) {
-        if( !(ON.equals(state) || OFF.equals(state)) ) {
-            throw new IllegalArgumentException("State has to be " + ON + " or " + OFF);
+        if (!(ON.equals(state) || OFF.equals(state) || state.isEmpty())) {
+            throw new IllegalArgumentException("State has to be " + ON + " or " + OFF + " or an empty String");
         }
         this.state = state;
     }
 
+    /**
+     * Sets the state to ON or OFF.
+     * 
+     * @param state
+     *            <code>true</code> to turn the RC on, <code>false</code> to turn the RC off
+     */
+    public void setState(boolean state) {
+        this.state = state ? ON : OFF;
+    }
 }
