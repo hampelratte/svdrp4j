@@ -46,7 +46,7 @@ public class UPDT extends Command {
      * Command to update a timer
      * 
      * @param settings
-     *            1:7:8:0704:0938:50:50:Quarks & Co:<br>
+     *            1:7:8:0704:0938:50:50:Quarks &amp; Co:<br>
      *            Status:Channel:Day:Start:Stop:Priority:Lifetime:File:Summary<br>
      *            In the summary newline characters have to be replaced by |<br>
      *            More details in the man page vdr(5)
@@ -82,7 +82,7 @@ public class UPDT extends Command {
      * Sets the settings for the timer
      * 
      * @param settings
-     *            1:7:8:0704:0938:50:50:Quarks & Co:<br>
+     *            1:7:8:0704:0938:50:50:Quarks &amp; Co:<br>
      *            Status:Channel:Day:Start:Stop:Priority:Lifetime:File:Summary<br>
      *            In the summary newline characters have to be replaced by |<br>
      *            More details in the man page vdr(5)

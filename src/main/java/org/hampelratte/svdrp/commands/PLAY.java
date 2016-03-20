@@ -47,7 +47,7 @@ public class PLAY extends Command {
     int recordingNumber;
     
     /**
-     * @param recordingNumber
+     * @param recordingNumber Number of a recording
      */
     public PLAY(int recordingNumber) {
         this(recordingNumber, -1);
@@ -78,7 +78,7 @@ public class PLAY extends Command {
     /**
      * Sets the frame to begin with. A previously set start time will be reset.
      * 
-     * @param startFrame
+     * @param startFrame Frame start
      */
     public void setStartFrame(int startFrame) {
         this.startFrame = startFrame;

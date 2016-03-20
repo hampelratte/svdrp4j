@@ -1,14 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <parent>
-        <artifactId>parent</artifactId>
-        <groupId>org.hampelratte</groupId>
-        <version>9</version>
-    </parent>
+    <groupId>org.hampelratte</groupId>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>svdrp4j</artifactId>
     <packaging>bundle</packaging>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1.2-SNAPSHOT</version>
     <name>Simple Video Disk Recorder Protocol</name>
     <description>An implementation of the Simple VDR Protocol. This version is compatible with VDR 1.6.0-2 and earlier. Maybe newer version work, too, but new features are not implemented.</description>
     <url>https://github.com/hampelratte/svdrp4j</url>
@@ -60,6 +56,7 @@
     	<name>hampelratte.org</name>
     	<url>http://www.hampelratte.org</url>
     </organization>
+
     <build>
         <resources>
             <resource>
@@ -138,4 +135,10 @@
             <url>http://hampelratte.org/nexus/content/groups/snapshots</url>
         </repository>
     </repositories>
+    <distributionManagement>
+        <repository>
+      <id>bintray-herrlado</id>
+      <url>https://api.bintray.com/maven/herrlado/herrlado/org.hampelratte.svdrp4j/;publish=1</url>
+  </repository>
+</distributionManagement>
 </project>

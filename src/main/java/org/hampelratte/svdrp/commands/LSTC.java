@@ -51,6 +51,8 @@ public class LSTC extends Command {
 
     /**
      * Command to list all channels including the group separators
+     *
+     * @param withGroups  true if the groups should be included
      */
     public LSTC(boolean withGroups) {
         this.withGroups = withGroups;

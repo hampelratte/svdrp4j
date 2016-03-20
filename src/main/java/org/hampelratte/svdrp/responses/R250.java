@@ -41,7 +41,7 @@ public class R250 extends Response {
     private static final long serialVersionUID = 1L;
     
     /**
-     * @param message
+     * @param message message to show
      */
     public R250(String message) {
         super(250, message);
