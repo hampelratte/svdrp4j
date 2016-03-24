@@ -1,19 +1,19 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -31,78 +31,78 @@ package org.hampelratte.svdrp.commands;
 import org.hampelratte.svdrp.Command;
 
 /**
- * Command to move a timer to a new position
- * 
+ * Command to rename a recording
+ *
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
- * 
+ *
  */
-public class MOVT extends Command {
-    private static final long serialVersionUID = 2L;
+public class MOVR extends Command {
+    private static final long serialVersionUID = 1L;
 
-    private int timer;
+    private int recording;
 
-    private int position;
+    private String newName;
 
     /**
-     * Command to move a timer to a new position
-     * 
-     * @param timer
-     *            The timer number
-     * @param to
-     *            The new postion of the timer
+     * Command to move a recording to a new position
+     *
+     * @param recording
+     *            The recording number
+     * @param newName
+     *            The new name of the recording
      */
-    public MOVT(int timer, int to) {
-        this.timer = timer;
-        this.position = to;
-    }
-    
-    /**
-     * Returns the timer number
-     * 
-     * @return The timer number
-     */
-    public int getTimer() {
-        return timer;
+    public MOVR(int recording, String newName) {
+        this.recording = recording;
+        this.newName = newName;
     }
 
     /**
-     * Sets the timer number
-     * 
+     * Returns the recording number
+     *
+     * @return The recording number
+     */
+    public int getRecording() {
+        return recording;
+    }
+
+    /**
+     * Sets the recording number
+     *
      * @param number
-     *            The timer number
+     *            The recording number
      */
-    public void setTimer(int number) {
-        this.timer = number;
+    public void setRecording(int number) {
+        this.recording = number;
     }
 
     /**
-     * Returns the new postion of the timer
-     * 
-     * @return The new postion of the timer
+     * Returns the new name of the recording
+     *
+     * @return The new name of the recording
      */
-    public int getPosition() {
-        return position;
+    public String getNewName() {
+        return newName;
     }
 
     /**
-     * Sets the new position of the timer
-     * 
+     * Sets the new name of the recording
+     *
      * @param setting
-     *            The new position of the timer
+     *            The new name of the recording
      */
-    public void setPosition(int setting) {
-        this.position = setting;
+    public void setNewName(String newName) {
+        this.newName = newName;
     }
 
     @Override
     public String getCommand() {
-        String cmd = "MOVT " + timer + " " + position;
+        String cmd = "MOVR " + recording + " " + newName;
         return cmd.trim();
     }
 
     @Override
     public String toString() {
-        return "MOVT";
+        return "MOVR";
     }
 
 }

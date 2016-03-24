@@ -1,19 +1,19 @@
-/* 
+/*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERDELTTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -32,33 +32,33 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-public class MOVTTest {
+public class MOVRTest {
 
     @Test
     public void testConstructor() {
-        MOVT movt = new MOVT(1, 20);
-        assertEquals("MOVT 1 20", movt.getCommand());
+        MOVR movr = new MOVR(1, "Test");
+        assertEquals("MOVR 1 Test", movr.getCommand());
     }
 
     @Test
-    public void testSetTimer() {
-        MOVT movt = new MOVT(1, 20);
-        movt.setTimer(2);
-        assertEquals(2, movt.getTimer());
-        assertEquals("MOVT 2 20", movt.getCommand());
+    public void testSetRecording() {
+        MOVR movr = new MOVR(1, "Test");
+        movr.setRecording(2);
+        assertEquals(2, movr.getRecording());
+        assertEquals("MOVR 2 Test", movr.getCommand());
     }
 
     @Test
     public void testSetPosition() {
-        MOVT movt = new MOVT(1, 20);
-        movt.setPosition(23);
-        assertEquals(23, movt.getPosition());
-        assertEquals("MOVT 1 23", movt.getCommand());
+        MOVR movr = new MOVR(1, "Test");
+        movr.setNewName("Foobar");
+        assertEquals("Foobar", movr.getNewName());
+        assertEquals("MOVR 1 Foobar", movr.getCommand());
     }
 
     @Test
     public void testToString() {
-        MOVT movt = new MOVT(1, 23);
-        assertEquals("MOVT", movt.toString());
+        MOVR movr = new MOVR(1, "Test");
+        assertEquals("MOVR", movr.toString());
     }
 }
