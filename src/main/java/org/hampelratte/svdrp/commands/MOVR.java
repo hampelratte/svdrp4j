@@ -87,7 +87,7 @@ public class MOVR extends Command {
     /**
      * Sets the new name of the recording
      *
-     * @param setting
+     * @param newName
      *            The new name of the recording
      */
     public void setNewName(String newName) {
