@@ -1,10 +1,10 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  * 3. Neither the name of the project (Lazy Bones) nor the names of its
  *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -31,6 +31,7 @@ package org.hampelratte.svdrp.responses.highlevel;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import org.hampelratte.svdrp.parser.EpgParserTest;
@@ -66,16 +67,17 @@ public class RecordingTest {
     @Test
     public void testToString() {
         Locale.setDefault(Locale.GERMANY);
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
         Recording rec = new Recording();
         rec.setTitle("Test");
         rec.setNumber(1);
         rec.setNew(true);
         rec.setStartTime(1315761692053L);
         rec.setEndTime(rec.getStartTime().getTimeInMillis() + TimeUnit.MINUTES.toMillis(60));
-        assertEquals("1 11.09.2011 19:21:32* Test starts: 19:21 ends: 20:21", rec.toString());
+        assertEquals("1 11.09.2011 17:21:32* Test starts: 17:21 ends: 18:21", rec.toString());
 
         rec.setNew(false);
-        assertEquals("1 11.09.2011 19:21:32 Test starts: 19:21 ends: 20:21", rec.toString());
+        assertEquals("1 11.09.2011 17:21:32 Test starts: 17:21 ends: 18:21", rec.toString());
     }
 
     @Test

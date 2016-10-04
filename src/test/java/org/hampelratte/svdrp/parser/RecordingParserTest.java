@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.hampelratte.svdrp.Connection;
 import org.hampelratte.svdrp.Version;
@@ -60,6 +61,7 @@ public class RecordingParserTest {
 
     @Before
     public void parseRecording() throws IOException, ParseException {
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
         Connection.setVersion(new Version("1.0.0"));
         Connection conn = mock(Connection.class);
         //@formatter:off
@@ -71,7 +73,7 @@ public class RecordingParserTest {
                         "5 09.03.07 16:12* %%Zweimal geschnitten\n" +
                         "6 09.03.07 16:12* %Folder~Title\n" +
                         "7 09.03.07 16:12  Parent~Child~%Title")
-        );
+                );
         //@formatter:on
 
         recordings = RecordingListParser.parse(conn.send(new LSTR()).getMessage());
@@ -92,7 +94,7 @@ public class RecordingParserTest {
                         "V 1283964600\n" +
                         "@ Themen u.a.:|* Suche nach Mirco wird fortgesetzt|* Amerikanischer Pastor will Koran verbrennen|* Aus für staatliches Glücksspiel-Monopol|* Frau gewürgt und vergewaltigt|* Glückwunsch Mario Adorf|* Wetten, wir kriegen's entspannter?|* NRW kompakt\n" +
                         "End of recording information")
-        );
+                );
         //@formatter:on
 
         String recordingData = conn.send(lstr2).getMessage();
@@ -163,7 +165,7 @@ public class RecordingParserTest {
         assertEquals(8, starttime.get(Calendar.DAY_OF_MONTH));
         assertEquals(8, starttime.get(Calendar.MONTH));
         assertEquals(2010, starttime.get(Calendar.YEAR));
-        assertEquals(18, starttime.get(Calendar.HOUR_OF_DAY));
+        assertEquals(16, starttime.get(Calendar.HOUR_OF_DAY));
         assertEquals(50, starttime.get(Calendar.MINUTE));
     }
 
@@ -183,7 +185,7 @@ public class RecordingParserTest {
         assertEquals(8, end.get(Calendar.DAY_OF_MONTH));
         assertEquals(8, end.get(Calendar.MONTH));
         assertEquals(2010, end.get(Calendar.YEAR));
-        assertEquals(19, end.get(Calendar.HOUR_OF_DAY));
+        assertEquals(17, end.get(Calendar.HOUR_OF_DAY));
         assertEquals(30, end.get(Calendar.MINUTE));
     }
 
