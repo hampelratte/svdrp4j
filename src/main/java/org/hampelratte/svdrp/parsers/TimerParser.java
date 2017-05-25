@@ -81,7 +81,7 @@ public class TimerParser {
             desc = desc.replaceAll("\\|", "\n");
             timer.setID(Integer.parseInt(id));
             timer.setState(Integer.parseInt(active));
-            timer.setChannelNumber(Integer.parseInt(channel));
+            setChannel(timer, channel);
             timer.setPriority(Integer.parseInt(priority));
             timer.setLifetime(Integer.parseInt(lifetime));
             timer.setFile(file);
@@ -89,6 +89,14 @@ public class TimerParser {
             list.add(timer);
         }
         return list;
+    }
+
+    private static void setChannel(Timer timer, String channel) {
+        if(channel.matches("\\d+")) {
+            timer.setChannelNumber(Integer.parseInt(channel));
+        } else {
+            timer.setChannelId(channel);
+        }
     }
 
     private static void parseTime(Calendar time, String timeString) {

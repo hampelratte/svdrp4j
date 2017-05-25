@@ -69,6 +69,7 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
     private boolean[] repeatingDays = new boolean[7];
 
     private int channelNumber;
+    private String channelId;
 
     private int ID;
 
@@ -109,12 +110,33 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
         }
     }
 
+    /**
+     * Returns the channel number returned by a LSTC command. In some cases, this is not set by the parser, but instead the channelId is set.
+     *
+     * @return the channel number returned as in LSTC as integer
+     * @see #getChannelId()
+     */
     public int getChannelNumber() {
         return channelNumber;
     }
 
     public void setChannelNumber(int channel) {
         this.channelNumber = channel;
+    }
+
+    /**
+     * Returns the channel id as described in man 5 vdr (tupel of Source, NID, TID, SID and RID).
+     * In some cases, this is not set by the parser, but instead the channelNumber is set.
+     *
+     * @return the channel id as described in man 5 vdr
+     * @see #getChannelNumber()
+     */
+    public String getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(String channelId) {
+        this.channelId = channelId;
     }
 
     public int getLifetime() {
@@ -414,6 +436,7 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
         timer.setID(getID());
         timer.setState(getState());
         timer.setChannelNumber(getChannelNumber());
+        timer.setChannelId(getChannelId());
         timer.setDescription(getDescription());
         timer.setEndTime((Calendar) getEndTime().clone());
         timer.setFile(getFile());
