@@ -49,21 +49,35 @@ public class ModtHandler implements RequestHandler {
 
     @Override
     public boolean accept(String request) {
-        return request.matches("[Mm][Oo][Dd][Tt] (.*)");
+        return request.matches("[Mm][Oo][Dd][Tt]\\s+(\\d+)\\s+(.*?)");
     }
 
     @Override
     public String process(String request) {
-        Matcher m = Pattern.compile("[Mm][Oo][Dd][Tt] (.*)").matcher(request);
+        Matcher m = Pattern.compile("[Mm][Oo][Dd][Tt]\\s+(\\d+)\\s+(.*?)").matcher(request);
         if (m.matches()) {
-            Timer timer = TimerParser.parse(m.group(1)).get(0);
-            logger.info("Modify timer with number {}", timer.getID());
-            try {
-                timerManager.modifyTimer(timer);
+            int id = Integer.parseInt(m.group(1));
+            String settings = m.group(2);
+
+            if(settings.equalsIgnoreCase("on")) {
+                Timer timer = timerManager.getTimer(id);
+                timer.changeStateTo(Timer.ACTIVE, true);
                 return "250 Timer modified";
-            } catch (RuntimeException e) {
-                return "451 Cannot modify timer: " + e.getLocalizedMessage();
+            } else if(settings.equalsIgnoreCase("off")) {
+                Timer timer = timerManager.getTimer(id);
+                timer.changeStateTo(Timer.ACTIVE, false);
+                return "250 Timer modified";
+            } else {
+                Timer timer = TimerParser.parse(m.group(1)).get(0);
+                logger.info("Modify timer with number {}", timer.getID());
+                try {
+                    timerManager.modifyTimer(timer);
+                    return "250 Timer modified";
+                } catch (RuntimeException e) {
+                    return "451 Cannot modify timer: " + e.getLocalizedMessage();
+                }
             }
+
         } else {
             return "451 Cannot handle request with MODT handler";
         }
