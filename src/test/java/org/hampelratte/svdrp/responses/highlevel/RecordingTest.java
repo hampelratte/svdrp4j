@@ -70,7 +70,7 @@ public class RecordingTest {
         TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
         Recording rec = new Recording();
         rec.setTitle("Test");
-        rec.setNumber(1);
+        rec.setId(1);
         rec.setNew(true);
         rec.setStartTime(1315761692053L);
         rec.setEndTime(rec.getStartTime().getTimeInMillis() + TimeUnit.MINUTES.toMillis(60));

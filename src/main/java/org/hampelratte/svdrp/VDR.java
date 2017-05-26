@@ -253,7 +253,7 @@ public class VDR {
      * @throws ParseException if a parsing error occurs
      */
     public Recording getRecordingDetails(Recording rec) throws UnknownHostException, IOException, ParseException {
-        Response res = send(new LSTR(rec.getNumber()));
+        Response res = send(new LSTR(rec.getId()));
         if (res != null) {
             if (res.getCode() == 215) {
                 new RecordingParser().parseRecording(rec, res.getMessage());
@@ -278,7 +278,7 @@ public class VDR {
      * @throws IOException if an IO Error occurs
      */
     public Response deleteRecording(Recording rec) throws UnknownHostException, IOException {
-        return send(new DELR(rec.getNumber()));
+        return send(new DELR(rec.getId()));
     }
 
     /**

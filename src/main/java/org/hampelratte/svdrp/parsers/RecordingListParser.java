@@ -1,10 +1,10 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  * 3. Neither the name of the project (Lazy Bones) nor the names of its
  *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -31,6 +31,7 @@ package org.hampelratte.svdrp.parsers;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -68,7 +69,7 @@ public class RecordingListParser {
             StringTokenizer st2 = new StringTokenizer(line);
             // parse recording number
             int number = Integer.parseInt(st2.nextToken());
-            recording.setNumber(number);
+            recording.setId(number);
 
             // parse start date and time
             String date = st2.nextToken() + " " + st2.nextToken();
@@ -99,6 +100,10 @@ public class RecordingListParser {
 
             try {
                 recording.setStartTime(df.parse(date));
+                Calendar endTime = Calendar.getInstance();
+                endTime.setTimeInMillis(recording.getStartTime().getTimeInMillis());
+                endTime.add(Calendar.MINUTE, recording.getDuration());
+                recording.setEndTime(endTime);
             } catch (ParseException e) {
                 e.printStackTrace();
             }

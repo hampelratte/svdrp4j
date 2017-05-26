@@ -252,7 +252,7 @@ public class VdrFacadeTest {
         rec.setGenres(Collections.<Genre> emptyList());
         rec.setLifetime(0);
         rec.setNew(true);
-        rec.setNumber(1);
+        rec.setId(1);
         rec.setPriority(0);
         rec.setShortText("");
         rec.setStartTime(0);
@@ -272,7 +272,7 @@ public class VdrFacadeTest {
         vdr = new VDR("localhost", 2001, 5000, conn);
 
         Recording fake = new Recording();
-        fake.setNumber(fakeRecordingNumber);
+        fake.setId(fakeRecordingNumber);
         vdr.getRecordingDetails(fake);
     }
 
@@ -284,7 +284,7 @@ public class VdrFacadeTest {
         vdr = new VDR("localhost", 2001, 5000, conn);
 
         Recording fake = new Recording();
-        fake.setNumber(fakeRecordingNumber);
+        fake.setId(fakeRecordingNumber);
         vdr.getRecordingDetails(fake);
     }
 

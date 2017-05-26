@@ -100,11 +100,11 @@ public class RecordingListParserTest {
 
     @Test
     public void testGetNumber() {
-        assertEquals(1, recordings.get(0).getNumber());
-        assertEquals(2, recordings.get(1).getNumber());
-        assertEquals(3, recordings.get(2).getNumber());
-        assertEquals(4, recordings.get(3).getNumber());
-        assertEquals(5, recordings.get(4).getNumber());
+        assertEquals(1, recordings.get(0).getId());
+        assertEquals(2, recordings.get(1).getId());
+        assertEquals(3, recordings.get(2).getId());
+        assertEquals(4, recordings.get(3).getId());
+        assertEquals(5, recordings.get(4).getId());
     }
 
     @Test

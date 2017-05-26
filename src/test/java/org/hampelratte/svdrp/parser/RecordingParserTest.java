@@ -79,7 +79,7 @@ public class RecordingParserTest {
         recordings = RecordingListParser.parse(conn.send(new LSTR()).getMessage());
         recording = recordings.get(2);
 
-        LSTR lstr2 = new LSTR(recording.getNumber());
+        LSTR lstr2 = new LSTR(recording.getId());
         //@formatter:off
         when(conn.send(lstr2)).thenReturn(
                 new R215("C S19.2E-1-1201-28306 WDR Bielefeld\n" +
@@ -123,7 +123,7 @@ public class RecordingParserTest {
 
     @Test
     public void testNumber() {
-        assertEquals(3, recording.getNumber());
+        assertEquals(3, recording.getId());
     }
 
     @Test
