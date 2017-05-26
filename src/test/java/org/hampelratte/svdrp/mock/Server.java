@@ -68,7 +68,7 @@ public class Server implements Runnable {
     private String welcome;
     // private String timers;
     private String channels = "";
-    private String recordings;
+    //private String recordings;
 
     private long responseDelay = 0;
     private boolean accessDenied = false;
@@ -76,6 +76,7 @@ public class Server implements Runnable {
 
     private List<RequestHandler> requestHandlers = new ArrayList<RequestHandler>();
     private TimerManager timerManager;
+    private RecordingManager recordingManager;
 
     public Server() {
         logger.info("Running in {}", System.getProperty("user.dir"));
@@ -83,6 +84,9 @@ public class Server implements Runnable {
         addRequestHandler(new NewtHandler(timerManager));
         addRequestHandler(new ModtHandler(timerManager));
         addRequestHandler(new DeltHandler(timerManager));
+
+        recordingManager = new RecordingManager();
+        addRequestHandler(new DelrHandler(recordingManager));
     }
 
     private void addRequestHandler(RequestHandler handler) {
@@ -104,7 +108,8 @@ public class Server implements Runnable {
     }
 
     public void loadRecordings(String recordingsFile) throws IOException {
-        recordings = IOUtil.readFile(recordingsFile);
+        String recordingsData = IOUtil.readFile(recordingsFile);
+        recordingManager.parseData(recordingsData);
     }
 
     public void loadChannelsConf(String channelsFile) throws IOException {
@@ -210,7 +215,7 @@ public class Server implements Runnable {
         } else if ("lstt".equalsIgnoreCase(request)) {
             sendResponse(timerManager.printTimersList());
         } else if ("lstr".equalsIgnoreCase(request)) {
-            printRecordingsList();
+            sendResponse(recordingManager.printRecordingsList());
         } else if ("pute".equalsIgnoreCase(request)) {
             inPUTEmode = true;
             sendResponse("354 Enter EPG data, end with \".\" on a line by itself");
@@ -287,10 +292,6 @@ public class Server implements Runnable {
         bw.flush();
     }
 
-    private void printRecordingsList() throws IOException {
-        sendResponse(recordings);
-    }
-
     private void printRecording(int i) throws IOException {
         String filename = "lstr_" + i + ".txt";
         String lstr = "";
@@ -333,10 +334,10 @@ public class Server implements Runnable {
     public static void main(String[] args) throws IOException {
         Server server = new Server();
         // server.responseDelay = 2000;
-        server.loadWelcome("welcome-1.7.25-utf_8.txt");
+        server.loadWelcome("welcome-2.3.4-utf_8.txt");
         server.setAccessDenied(false);
-        server.loadTimers("lstt_no_timers.txt");
-        server.loadRecordings("lstr_1.7.21.txt");
+        server.loadTimers("lstt.txt");
+        server.loadRecordings("lstr_data.txt");
         server.loadChannelsConf("channels-mixed.conf");
         new Thread(server).start();
     }
