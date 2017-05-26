@@ -29,8 +29,12 @@
 package org.hampelratte.svdrp.responses.highlevel;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
 
 /**
  * Represents a recording of VDR.
@@ -39,9 +43,9 @@ import java.util.Date;
  *
  */
 public class Recording extends EPGEntry implements Comparable<Recording>, TreeNode {
-    private static final long serialVersionUID = 2L;
+    private static final long serialVersionUID = 3L;
 
-    private int number;
+    private int id;
 
     private boolean isNew = false;
 
@@ -76,12 +80,30 @@ public class Recording extends EPGEntry implements Comparable<Recording>, TreeNo
         super.setVpsTime(entry.getVpsTime());
     }
 
-    public int getNumber() {
-        return number;
+    public int getId() {
+        return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * Deprecated use getId() instead
+     * @return
+     */
+    @Deprecated
+    public int getNumber() {
+        return id;
+    }
+
+    /**
+     * Deprecated use setId(int id) instead
+     * @return
+     */
+    @Deprecated
     public void setNumber(int number) {
-        this.number = number;
+        this.id = number;
     }
 
     public void setStartTime(Date date) {
@@ -92,7 +114,7 @@ public class Recording extends EPGEntry implements Comparable<Recording>, TreeNo
 
     @Override
     public String getDisplayTitle() {
-        if(display == null) {
+        if (display == null) {
             display = getTitle();
 
             if (display.contains("~")) {
@@ -176,14 +198,24 @@ public class Recording extends EPGEntry implements Comparable<Recording>, TreeNo
 
     @Override
     public String toString() {
-        return getNumber() + " "+
-                DateFormat.getDateTimeInstance().format(getStartTime().getTime()) +
-                (isNew() ? "*" : "") + " " +
-                super.toString();
+        return getId() + " " + DateFormat.getDateTimeInstance().format(getStartTime().getTime()) + (isNew() ? "*" : "") + " " + super.toString();
     }
 
     @Override
     public int compareTo(Recording other) {
         return this.getTitle().compareTo(other.getTitle());
+    }
+
+    public String toLSTR() {
+        SimpleDateFormat date = new SimpleDateFormat("dd:MM:yy");
+        SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+        NumberFormat nf = new DecimalFormat("00");
+        String duration = getDuration() / 60 + ":" + nf.format(getDuration() % 60);
+
+        return getId() + " "
+        + date.format(getStartTime().getTime()) + " "
+        + time.format(getStartTime().getTime()) + " "
+        + duration + (isNew() ? "*" : "") + " "
+        + super.toString();
     }
 }
