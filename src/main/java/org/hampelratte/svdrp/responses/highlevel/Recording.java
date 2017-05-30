@@ -205,7 +205,7 @@ public class Recording extends EPGEntry implements Comparable<Recording>, TreeNo
     }
 
     public String toLSTR() {
-        SimpleDateFormat date = new SimpleDateFormat("dd:MM:yy");
+        SimpleDateFormat date = new SimpleDateFormat("dd.MM.yy");
         SimpleDateFormat time = new SimpleDateFormat("HH:mm");
         NumberFormat nf = new DecimalFormat("00");
         String duration = getDuration() / 60 + ":" + nf.format(getDuration() % 60);
