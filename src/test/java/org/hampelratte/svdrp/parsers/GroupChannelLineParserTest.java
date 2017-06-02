@@ -1,4 +1,4 @@
-/*
+/* 
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
  * 
@@ -16,7 +16,7 @@
  * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * IMPLIED WARRANTIES OF MERDELTTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
  * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
  * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
  * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
@@ -26,46 +26,25 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.hampelratte.svdrp.parser.profiling;
+package org.hampelratte.svdrp.parsers;
 
-import java.io.IOException;
-import java.net.UnknownHostException;
-import java.util.List;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import org.hampelratte.svdrp.Connection;
-import org.hampelratte.svdrp.Response;
-import org.hampelratte.svdrp.commands.LSTE;
-import org.hampelratte.svdrp.parsers.EPGParser;
-import org.hampelratte.svdrp.responses.highlevel.EPGEntry;
+import org.hampelratte.svdrp.parsers.GroupChannelLineParser;
+import org.hampelratte.svdrp.responses.highlevel.Channel;
+import org.hampelratte.svdrp.responses.highlevel.ChannelGroup;
+import org.junit.Test;
 
+public class GroupChannelLineParserTest {
 
-public class ProfileEpgParser {
+    @Test
+    public void testChannelGroup() {
+        String line = "0 :Group";
 
-    public ProfileEpgParser() {
-        Connection conn = null;
-        try {
-            conn = new Connection("192.168.0.1", 2001, 500, "utf-8");
-            Response resp = conn.send(new LSTE());
-            long start = System.currentTimeMillis();
-            List<EPGEntry> entries = new EPGParser().parse(resp.getMessage());
-            long stop = System.currentTimeMillis();
-            System.out.println("Parsed " + entries.size() + " entries in " + (stop - start) + " ms");
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    public static void main(String[] args) {
-        new ProfileEpgParser();
+        Channel cg = new GroupChannelLineParser().parse(line);
+        assertTrue(cg instanceof ChannelGroup);
+        assertEquals("Group", cg.getName());
+        assertEquals(0, cg.getChannelNumber());
     }
 }

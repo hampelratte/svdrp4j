@@ -26,7 +26,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.hampelratte.svdrp.parser;
+package org.hampelratte.svdrp.parsers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

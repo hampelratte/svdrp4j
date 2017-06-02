@@ -26,7 +26,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.hampelratte.svdrp.parser;
+package org.hampelratte.svdrp.parsers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -48,7 +48,8 @@ public class ChannelParserTest {
         String channelData = "1 Das Erste:11836:hC34:S19.2E:27500:101:102=deu,103=2ch;106=deu:104:0:28106:1:1101:0\n"
                 + "2 Das Erste HD;ARD:11361:HC23M5O35S1:S19.2E:22000:6010=27:6020=deu@3,6021=mis@3;6022=deu@106:6030:0:11100:1:1011:0\n"
                 + "3 ZDF;ZDFvision:11953:hC34:S19.2E:27500:110:120=deu,121=2ch;125=deu:130:0:28006:1:1079:0\n"
-                + "4 WDR Bielefeld,WDR;ARD:12421:hC34:S19.2E:27500:101:102=deu,103=2ch:104:0:28306:1:1201:0";
+                + "4 WDR Bielefeld,WDR;ARD:12421:hC34:S19.2E:27500:101:102=deu,103=2ch:104:0:28306:1:1201:0\n"
+                + "5 S19.2E-1-1019-10301 Das Erste HD;ARD:11493:HC23M5O35P0S1:S19.2E:22000:5101=27:5102=deu@3,5103=mis@3;5106=deu@106:5104;5105=deu:0:10301:1:1019:0";
 
         List<Channel> channels = ChannelParser.parse(channelData, false);
 
@@ -58,6 +59,10 @@ public class ChannelParserTest {
         assertEquals("", ard.getServiceProviderName());
 
         Channel ardhd = channels.get(1);
+        assertEquals("Das Erste HD", ardhd.getName());
+        assertEquals("", ardhd.getShortName());
+        assertEquals("ARD", ardhd.getServiceProviderName());
+        ardhd = channels.get(4);
         assertEquals("Das Erste HD", ardhd.getName());
         assertEquals("", ardhd.getShortName());
         assertEquals("ARD", ardhd.getServiceProviderName());

@@ -10,7 +10,7 @@
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ * 3. Neither the name of the project nor the names of its
  *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
  *
@@ -26,31 +26,47 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.hampelratte.svdrp.parser;
+package org.hampelratte.svdrp.parsers;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
-import org.hampelratte.svdrp.parsers.DiskStatusParser;
-import org.hampelratte.svdrp.responses.highlevel.DiskStatus;
+import org.hampelratte.svdrp.parsers.IPTVChannelLineParser;
+import org.hampelratte.svdrp.responses.highlevel.IPTVChannel;
+import org.junit.Before;
 import org.junit.Test;
 
+public class IPTVChannelLineParserTest {
 
-public class DiskStatusParserTest {
+    private String channelData = "1 Das Erste HD;IPTV:1:S=0|P=0|F=UDP|U=239.35.10.1|A=10000:I:0:256=27:257=deu@4;258=AC3@106:2321:0:28106:0:0:0";
 
-    private final String statDisk = "1855618MB 393490MB 78%";
+    private IPTVChannelLineParser parser = new IPTVChannelLineParser();
+
+    private IPTVChannel chan;
+
+    @Before
+    public void parseLine() {
+        chan = (IPTVChannel) parser.parse(channelData);
+    }
 
     @Test
-    public void testParse() {
-        DiskStatus diskStatus = DiskStatusParser.parse(statDisk);
-
-        assertEquals(1945756499968l, diskStatus.getSpaceTotalInBytes());
-        assertEquals(412604170240l, diskStatus.getSpaceFreeInBytes());
-        assertEquals(78, diskStatus.getUsage());
+    public void testChannelNumber() {
+        assertEquals(1, chan.getChannelNumber());
     }
 
-    @Test(expected = RuntimeException.class)
-    public void testParseInvalidData() {
-        DiskStatusParser.parse("foo bar 10%");
+    @Test
+    public void testNameParsing() {
+        assertEquals("Das Erste HD", chan.getName());
+        assertEquals("", chan.getShortName());
+        assertEquals("IPTV", chan.getServiceProviderName());
+    }
+
+    @Test
+    public void testStreamParsing() {
+        assertEquals("239.35.10.1", chan.getStreamAddress());
+        assertEquals("10000", chan.getStreamParameters());
+        assertEquals("UDP", chan.getProtocol());
+        assertFalse(chan.isSectionIdScanner());
+        assertFalse(chan.isPidScanner());
     }
 }
-
