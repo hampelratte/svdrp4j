@@ -40,6 +40,10 @@ import org.hampelratte.svdrp.responses.highlevel.Recording;
 public class RecordingManager {
     private List<Recording> recordings;
 
+    public RecordingManager() {
+        super();
+    }
+
     public void parseData(String data) {
         if (!data.trim().isEmpty()) {
             Connection.setVersion(new Version("2.3.4"));
@@ -67,15 +71,6 @@ public class RecordingManager {
         }
     }
 
-    //    public int addTimer(Timer timer) {
-    //        recordings.add(timer);
-    //        int id = recordings.size();
-    //        timer.setID(id);
-    //        return id;
-    //    }
-    //
-
-
     public Recording getRecording(int id) {
         for (Iterator<Recording> iterator = recordings.iterator(); iterator.hasNext();) {
             Recording recording = iterator.next();
@@ -94,35 +89,8 @@ public class RecordingManager {
     public boolean removeRecording(Recording recording) {
         return recordings.remove(recording);
     }
-    // private boolean removeAndRenumber(Timer timer) {
-    //        boolean removed = recordings.remove(timer);
-    //        if (removed) {
-    //            renumberTimers();
-    //        }
-    //        return removed;
-    //    }
-    //
-    //    private void renumberTimers() {
-    //        for (int i = 0; i < recordings.size(); i++) {
-    //            Timer timer = recordings.get(i);
-    //            timer.setID(i + 1);
-    //        }
-    //    }
 
-    //
-    //    public void modifyTimer(Timer modifiedTimer) {
-    //        int index = -1;
-    //        for (int i = 0; i < recordings.size(); i++) {
-    //            Timer t = recordings.get(i);
-    //            if (t.getID() == modifiedTimer.getID()) {
-    //                index = i;
-    //            }
-    //        }
-    //
-    //        if (index >= 0) {
-    //            recordings.set(index, modifiedTimer);
-    //        } else {
-    //            throw new RuntimeException("Timer with ID " + modifiedTimer.getID() + " not found");
-    //        }
-    //    }
+    public void addRecording(RunningRecording runningRecording) {
+        recordings.add(runningRecording);
+    }
 }

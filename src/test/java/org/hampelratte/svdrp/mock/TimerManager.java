@@ -66,13 +66,18 @@ public class TimerManager {
 
     public int addTimer(Timer timer) {
         timers.add(timer);
-        int id = timers.size();
-        timer.setID(id);
-        return id;
+        if(timer.getID() == 0) {
+            int id = timers.size();
+            timer.setID(id);
+        }
+        return timer.getID();
     }
 
     public boolean removeTimer(int id) {
         Timer timer = getTimer(id);
+        if(timer.hasState(Timer.ACTIVE) && timer.hasState(Timer.RECORDING)) {
+            throw new IllegalStateException("Timer is recording");
+        }
         return removeTimer(timer);
     }
 

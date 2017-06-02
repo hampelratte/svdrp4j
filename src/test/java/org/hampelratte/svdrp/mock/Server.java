@@ -86,7 +86,8 @@ public class Server implements Runnable {
         addRequestHandler(new DeltHandler(timerManager));
 
         recordingManager = new RecordingManager();
-        addRequestHandler(new DelrHandler(recordingManager));
+        addRequestHandler(new DelrHandler(recordingManager, timerManager));
+        addRequestHandler(new MovrHandler(recordingManager));
     }
 
     private void addRequestHandler(RequestHandler handler) {
@@ -110,6 +111,16 @@ public class Server implements Runnable {
     public void loadRecordings(String recordingsFile) throws IOException {
         String recordingsData = IOUtil.readFile(recordingsFile);
         recordingManager.parseData(recordingsData);
+
+        Timer timer = timerManager.getTimer(1);
+        if(timer != null) {
+            Timer newTimer = (Timer) timer.clone();
+            newTimer.setID(999);
+            newTimer.setState(Timer.ACTIVE | Timer.RECORDING);
+            newTimer.setTitle("RunningRecordingTimer");
+            timerManager.addTimer(newTimer);
+            recordingManager.addRecording(new RunningRecording());
+        }
     }
 
     public void loadChannelsConf(String channelsFile) throws IOException {

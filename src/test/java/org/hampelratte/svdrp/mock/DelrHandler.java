@@ -31,13 +31,18 @@ package org.hampelratte.svdrp.mock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.hampelratte.svdrp.responses.highlevel.Recording;
+import org.hampelratte.svdrp.responses.highlevel.Timer;
+
 public class DelrHandler implements RequestHandler {
 
     private RecordingManager recordingManager;
+    private TimerManager timerManager;
 
-    public DelrHandler(RecordingManager recordingManager) {
+    public DelrHandler(RecordingManager recordingManager, TimerManager timerManager) {
         super();
         this.recordingManager = recordingManager;
+        this.timerManager = timerManager;
     }
 
     @Override
@@ -51,6 +56,14 @@ public class DelrHandler implements RequestHandler {
         if (m.matches()) {
             try {
                 int id = Integer.parseInt(m.group(1));
+                Recording rec = recordingManager.getRecording(id);
+                if(rec instanceof RunningRecording) {
+                    Timer timer = timerManager.getTimer(999);
+                    if(timer != null && timer.isActive()) {
+                        return "550 Recording \"999\" is in use by timer 999";
+                    }
+                }
+
                 boolean removed = recordingManager.removeRecording(id);
                 if (removed) {
                     return "250 Recording \"" + id + "\" deleted";

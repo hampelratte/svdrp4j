@@ -1,0 +1,4 @@
+1 12.11.11 03:00 0:45* Breaking Bad~%S03E11 - Offene Worte
+2 12.11.11 02:15 0:45  Breaking Bad~bla~foo~bar~%S03E10 - Die Fliege
+3 19.11.11 02:34 0:45* Breaking Bad~%S03E13 - Nägel mit Köpfen
+4 05.11.15 23:17 0:01  Foo Bar5
