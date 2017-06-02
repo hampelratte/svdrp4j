@@ -10,7 +10,7 @@
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ * 3. Neither the name of the project nor the names of its
  *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
  *
@@ -28,40 +28,28 @@
  */
 package org.hampelratte.svdrp.parsers;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import org.hampelratte.svdrp.responses.highlevel.Channel;
+import org.junit.Test;
 
-public abstract class ChannelLineParser {
+public class ChannelLineParserTest {
 
-    public abstract Channel parse(String chanConfLine);
-
-    static int parseNumberParam(String string, int startIndex) {
-        StringBuilder number = new StringBuilder();
-        for(int j=startIndex+1; j<string.length(); j++) {
-            char c = string.charAt(j);
-            if(Character.isDigit(c)) {
-                number.append(c);
-            } else {
-                break;
-            }
-        }
-
-        return Integer.parseInt(number.toString());
+    @Test
+    public void testHasId() {
+        String withId = "5 S19.2E-1-1019-10301 Das Erste HD;ARD:11493:HC23M5O35P0S1:S19.2E:22000:5101=27:5102=deu@3,5103=mis@3;5106=deu@106:5104;5105=deu:0:10301:1:1019:0";
+        String withoutId = "5 Das Erste HD;ARD:11493:HC23M5O35P0S1:S19.2E:22000:5101=27:5102=deu@3,5103=mis@3;5106=deu@106:5104;5105=deu:0:10301:1:1019:0";
+        assertTrue(ChannelLineParser.hasId(withId));
+        assertFalse(ChannelLineParser.hasId(withoutId));
     }
 
-    static boolean hasId(String normalizedChanConfLine) {
-        return normalizedChanConfLine.matches("\\d+\\s+.*?(?:-\\d+){3,4}\\s+.*");
-    }
+    @Test
+    public void testRemoveId() {
+        String withId = "5 S19.2E-1-1019-10301 Das Erste HD;ARD:11493:HC23M5O35P0S1:S19.2E:22000:5101=27:5102=deu@3,5103=mis@3;5106=deu@106:5104;5105=deu:0:10301:1:1019:0";
+        String withoutId = "5 Das Erste HD;ARD:11493:HC23M5O35P0S1:S19.2E:22000:5101=27:5102=deu@3,5103=mis@3;5106=deu@106:5104;5105=deu:0:10301:1:1019:0";
 
-    static String removeId(String chanConfLine) {
-        Pattern p = Pattern.compile("(\\d+\\s+).*?(?:-\\d+){3,4}\\s+(.*)");
-        Matcher m = p.matcher(chanConfLine);
-        if(m.matches()) {
-            return m.group(1) + m.group(2);
-        } else {
-            return chanConfLine;
-        }
+        assertEquals(withoutId, ChannelLineParser.removeId(withId));
+        assertEquals(withoutId, ChannelLineParser.removeId(withoutId));
     }
 }
