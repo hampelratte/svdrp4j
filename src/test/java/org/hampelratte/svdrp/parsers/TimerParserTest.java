@@ -38,7 +38,6 @@ import java.util.List;
 
 import org.hampelratte.svdrp.Connection;
 import org.hampelratte.svdrp.Version;
-import org.hampelratte.svdrp.parsers.TimerParser;
 import org.hampelratte.svdrp.responses.highlevel.Timer;
 import org.junit.Before;
 import org.junit.Test;
@@ -58,6 +57,9 @@ public class TimerParserTest {
                     "4 8:2:MTWTFSS@"+day.get(Calendar.DAY_OF_MONTH)+":2130:2227:50:50:heute-journal:\n" +
                     "5 0:2:M-----S@2010-12-31:2330:0030:50:50:Happy New Year:\n" +
                     "6 13:2:--W----@2010-11-02:2330:0011:50:50:Ganz spät:";
+
+    private final String timerDataWithChannelId = "1 1:S19.2E-1-1019-10301:2017-06-02:2010:2155:50:50:Eltern und andere Wahrheiten:Nina (38) liebt ihre kleine Familie...\n" +
+            "2 1:S19.2E-1-1011-11110:2017-06-02:2010:2125:50:50:Die Chefin:Raubmord im Münchner Nahverkehr - für Vera Lanz und ihre Kollegen scheint der Fall unkompliziert...";
 
     private List<Timer> timers;
 
@@ -91,7 +93,18 @@ public class TimerParserTest {
     @Test
     public void testChannel() {
         assertEquals(1, timers.get(0).getChannelNumber());
+        assertEquals("", timers.get(0).getChannelId());
         assertEquals(2, timers.get(5).getChannelNumber());
+        assertEquals("", timers.get(5).getChannelId());
+    }
+
+    @Test
+    public void testChannelId() {
+        List<Timer> timers = TimerParser.parse(timerDataWithChannelId);
+        assertEquals(0, timers.get(0).getChannelNumber());
+        assertEquals("S19.2E-1-1019-10301", timers.get(0).getChannelId());
+        assertEquals(0, timers.get(1).getChannelNumber());
+        assertEquals("S19.2E-1-1011-11110", timers.get(1).getChannelId());
     }
 
     @Test
