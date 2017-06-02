@@ -1,19 +1,19 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -41,17 +41,29 @@ public class LSTCTest {
     @Test
     public void testStringConstructor() {
         assertEquals("LSTC 1", new LSTC("1").getCommand());
+        assertEquals("LSTC 1", new LSTC("1", false).getCommand());
+        assertEquals("LSTC :ids 1", new LSTC("1", true).getCommand());
     }
 
     @Test
     public void testIntConstructor() {
         assertEquals("LSTC 1", new LSTC(1).getCommand());
+        assertEquals("LSTC 1", new LSTC(1, false).getCommand());
+        assertEquals("LSTC :ids 1", new LSTC(1, true).getCommand());
     }
 
     @Test
-    public void testBooleanConstructor() {
+    public void testWithGroups() {
         assertEquals("LSTC :groups", new LSTC(true).getCommand());
         assertEquals("LSTC", new LSTC(false).getCommand());
+    }
+
+    @Test
+    public void testWithGroupsAndIds() {
+        assertEquals("LSTC :ids :groups", new LSTC(true, true).getCommand());
+        assertEquals("LSTC :ids", new LSTC(true, false).getCommand());
+        assertEquals("LSTC :groups", new LSTC(false, true).getCommand());
+        assertEquals("LSTC", new LSTC(false, false).getCommand());
     }
 
     @Test
@@ -68,4 +80,23 @@ public class LSTCTest {
         assertEquals("LSTC", new LSTC("1").toString());
         assertEquals("LSTC", new LSTC(1).toString());
     }
+
+    //    @Test
+    //    public void testBuilder() {
+    //        assertEquals("LSTC", LSTC.Builder.of().build().getCommand());
+    //        assertEquals("LSTC :groups", LSTC.Builder.of().withGroups().build().getCommand());
+    //        assertEquals("LSTC :ids", LSTC.Builder.of().withIds().build().getCommand());
+    //        assertEquals("LSTC 1", LSTC.Builder.of(1).build().getCommand());
+    //        assertEquals("LSTC 1", LSTC.Builder.of("1").build().getCommand());
+    //        assertEquals("LSTC :ids 1", LSTC.Builder.of(1).withIds().build().getCommand());
+    //        assertEquals("LSTC :ids 1", LSTC.Builder.of("1").withIds().build().getCommand());
+    //    }
+    //
+    //    @Test(expected = IllegalStateException.class)
+    //    public void testBuilderException() {
+    //        LSTC lstc = LSTC.Builder.of(1).withGroups().build();
+    //        assertEquals("LSTC :groups 1", lstc.getCommand());
+    //        lstc = LSTC.Builder.of("1").withGroups().build();
+    //        assertEquals("LSTC :groups 1", lstc.getCommand());
+    //    }
 }
