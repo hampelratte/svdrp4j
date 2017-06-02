@@ -77,7 +77,8 @@ public class Folder implements TreeNode {
      *
      * @param subtree to merge
      */
-    public void merge(TreeNode subtree) {
+    public Folder merge(TreeNode subtree) {
+        Folder mergePoint = null;
         if (subtree instanceof Folder) {
 
             List<Object[]> treesToMerge = new ArrayList<Object[]>();
@@ -86,6 +87,7 @@ public class Folder implements TreeNode {
                 if (child instanceof Folder && child.getDisplayTitle().equals(subtree.getDisplayTitle())) {
                     treesToMerge.add(new Object[] { child, subtree });
                     matched = true;
+                    mergePoint = (Folder) child;
                 } else {
                     continue;
                 }
@@ -93,6 +95,7 @@ public class Folder implements TreeNode {
 
             if (!matched) {
                 getChildren().add(subtree);
+                mergePoint = this;
             }
 
             // merge trees, which have a matching name
@@ -106,7 +109,9 @@ public class Folder implements TreeNode {
             }
         } else {
             getChildren().add(subtree);
+            mergePoint = this;
         }
+        return mergePoint;
     }
 
     @Override
