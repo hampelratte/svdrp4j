@@ -34,8 +34,8 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
-import org.hampelratte.svdrp.parser.EpgParserTest;
 import org.hampelratte.svdrp.parsers.EPGParser;
+import org.hampelratte.svdrp.parsers.EpgParserTest;
 import org.junit.Test;
 
 /**
