@@ -1,19 +1,19 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -32,14 +32,16 @@ import org.hampelratte.svdrp.Command;
 
 /**
  * Command to list all recordings or details of a given recording
- * 
+ *
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
- * 
+ *
  */
 public class LSTR extends Command {
     private static final long serialVersionUID = 2L;
-    
+
     private int number;
+
+    private boolean path;
 
     /**
      * Command to get a list of all recordings
@@ -49,17 +51,17 @@ public class LSTR extends Command {
 
     /**
      * Command to get details of a given recording
-     * 
+     *
      * @param number
      *            The number of the recording
      */
     public LSTR(String number) {
         this.number = Integer.parseInt(number);
     }
-    
+
     /**
      * Command to get details of a given recording
-     * 
+     *
      * @param number
      *            The number of the recording
      */
@@ -67,11 +69,41 @@ public class LSTR extends Command {
         this.number = number;
     }
 
+    /**
+     * Command to get details of a given recording
+     *
+     * @param number
+     *            The number of the recording
+     * @param path
+     *            return only the path in the file system instead of the recording information
+     *
+     */
+    public LSTR(String number, boolean path) {
+        this.number = Integer.parseInt(number);
+        this.path = path;
+    }
+
+    /**
+     * Command to get details of a given recording
+     *
+     * @param number
+     *            The number of the recording
+     * @param path
+     *            return only the path in the file system instead of the recording information
+     */
+    public LSTR(int number, boolean path) {
+        this.number = number;
+        this.path = path;
+    }
+
     @Override
     public String getCommand() {
         String cmd = "LSTR";
-        if(number > 0) {
+        if (number > 0) {
             cmd += " " + number;
+        }
+        if(path) {
+            cmd += " path";
         }
         return cmd;
     }
@@ -83,7 +115,7 @@ public class LSTR extends Command {
 
     /**
      * Returns the number of the recording
-     * 
+     *
      * @return The number of the recording
      */
     public int getNumber() {
@@ -92,7 +124,7 @@ public class LSTR extends Command {
 
     /**
      * Sets the number of the recording
-     * 
+     *
      * @param number
      *            The number of the recording
      */
