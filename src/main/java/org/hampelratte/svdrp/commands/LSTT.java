@@ -1,19 +1,19 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -32,14 +32,16 @@ import org.hampelratte.svdrp.Command;
 
 /**
  * Command to list all timers or details of a given timer
- * 
+ *
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
- * 
+ *
  */
 public class LSTT extends Command {
     private static final long serialVersionUID = 2L;
-    
+
     private int number;
+
+    private boolean withIds;
 
     /**
      * Command to get a list of all timers
@@ -48,19 +50,45 @@ public class LSTT extends Command {
     }
 
     /**
+     * Command to get a list of all timers. The channel ID is returned instead of the channel number.
+     */
+    public LSTT(boolean withIds) {
+        this.withIds = withIds;
+    }
+
+    /**
      * Command to get details of a given timer
-     * 
-     * @param number - The number/id of this timer
+     *
+     * @param number
+     *            The number/id of this timer
+     * @param withId
+     *            return the channel ID instead of the channel number
      */
     public LSTT(int number) {
         this.number = number;
     }
 
+    /**
+     * Command to get details of a given timer. The channel ID is returned instead of the channel number.
+     *
+     * @param number
+     *            The number/id of this timer
+     * @param withId
+     *            return the channel ID instead of the channel number
+     */
+    public LSTT(int number, boolean withId) {
+        this.number = number;
+        withIds = withId;
+    }
+
     @Override
     public String getCommand() {
         String cmd = "LSTT";
-        if(number > 0) {
+        if (number > 0) {
             cmd += " " + number;
+        }
+        if(withIds) {
+            cmd += " id";
         }
         return cmd;
     }
@@ -72,7 +100,7 @@ public class LSTT extends Command {
 
     /**
      * Returns the number of the timer
-     * 
+     *
      * @return the number of the timer
      */
     public int getNumber() {
@@ -81,7 +109,7 @@ public class LSTT extends Command {
 
     /**
      * Sets the number of the timer
-     * 
+     *
      * @param number
      *            The number of the timer
      */
