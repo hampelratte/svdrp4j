@@ -56,7 +56,7 @@ public class Recording extends EPGEntry implements Comparable<Recording>, TreeNo
 
     private int lifetime = 0;
 
-    private int duration = 0;
+    private int duration = -1;
 
     public Recording() {
     }

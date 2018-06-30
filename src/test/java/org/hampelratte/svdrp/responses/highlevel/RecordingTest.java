@@ -109,4 +109,13 @@ public class RecordingTest {
         r.setTitle("~Testprogram");
         assertEquals("Testprogram", r.getDisplayTitle());
     }
+
+    @Test
+    public void testDefaults() {
+        Recording r = new Recording();
+        assertEquals(-1, r.getDuration());
+        assertEquals(0, r.getId());
+        assertEquals(0, r.getLifetime());
+        assertEquals(0, r.getPriority());
+    }
 }
