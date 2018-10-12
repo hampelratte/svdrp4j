@@ -88,6 +88,7 @@ public class Server implements Runnable {
         recordingManager = new RecordingManager();
         addRequestHandler(new DelrHandler(recordingManager, timerManager));
         addRequestHandler(new MovrHandler(recordingManager));
+        addRequestHandler(new VoluHandler());
     }
 
     private void addRequestHandler(RequestHandler handler) {
