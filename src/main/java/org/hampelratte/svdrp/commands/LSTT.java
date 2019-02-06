@@ -51,6 +51,9 @@ public class LSTT extends Command {
 
     /**
      * Command to get a list of all timers. The channel ID is returned instead of the channel number.
+     *
+     * @param withIds
+     *            return the channel ID instead of the channel number
      */
     public LSTT(boolean withIds) {
         this.withIds = withIds;
@@ -61,8 +64,6 @@ public class LSTT extends Command {
      *
      * @param number
      *            The number/id of this timer
-     * @param withId
-     *            return the channel ID instead of the channel number
      */
     public LSTT(int number) {
         this.number = number;

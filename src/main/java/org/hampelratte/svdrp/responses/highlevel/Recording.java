@@ -90,6 +90,7 @@ public class Recording extends EPGEntry implements Comparable<Recording>, TreeNo
 
     /**
      * @deprecated As of version 1.2.0, replaced by {@link #getId()}.
+     * @return the number of this recording
      */
     @Deprecated
     public int getNumber() {
@@ -98,6 +99,8 @@ public class Recording extends EPGEntry implements Comparable<Recording>, TreeNo
 
     /**
      * @deprecated As of version 1.2.0, replaced by {@link #setId(int)}.
+     * @param number
+     *            the number of this recording
      */
     @Deprecated
     public void setNumber(int number) {

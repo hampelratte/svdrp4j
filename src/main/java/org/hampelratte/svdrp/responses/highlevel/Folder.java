@@ -76,6 +76,7 @@ public class Folder implements TreeNode {
      * Merges the given subtree into this tree.
      *
      * @param subtree to merge
+     * @return the merge point as Folder
      */
     public Folder merge(TreeNode subtree) {
         Folder mergePoint = null;
