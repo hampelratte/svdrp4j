@@ -74,10 +74,10 @@ public class RecordingTest {
         rec.setNew(true);
         rec.setStartTime(1315761692053L);
         rec.setEndTime(rec.getStartTime().getTimeInMillis() + TimeUnit.MINUTES.toMillis(60));
-        assertEquals("1 11.09.2011, 17:21:32* Test starts: 17:21 ends: 18:21", rec.toString());
+        assertEquals("1 11.09.2011 17:21:32* Test starts: 17:21 ends: 18:21", rec.toString());
 
         rec.setNew(false);
-        assertEquals("1 11.09.2011, 17:21:32 Test starts: 17:21 ends: 18:21", rec.toString());
+        assertEquals("1 11.09.2011 17:21:32 Test starts: 17:21 ends: 18:21", rec.toString());
     }
 
     @Test
