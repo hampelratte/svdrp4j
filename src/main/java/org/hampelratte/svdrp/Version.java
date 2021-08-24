@@ -28,6 +28,7 @@
  */
 package org.hampelratte.svdrp;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -99,4 +100,23 @@ public class Version implements Comparable<Version> {
             return 0;
         }
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(major, minor, revision);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Version other = (Version) obj;
+		return major == other.major && minor == other.minor && revision == other.revision;
+	}
+    
+    
 }

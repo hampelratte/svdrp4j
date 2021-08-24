@@ -33,9 +33,9 @@ import java.util.regex.Pattern;
 
 import org.hampelratte.svdrp.responses.highlevel.Channel;
 
-public abstract class ChannelLineParser {
+public interface ChannelLineParser {
 
-    public abstract Channel parse(String chanConfLine);
+    Channel parse(String chanConfLine);
 
     static int parseNumberParam(String string, int startIndex) {
         StringBuilder number = new StringBuilder();

@@ -29,6 +29,7 @@
 package org.hampelratte.svdrp.responses.highlevel;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.Calendar;
 
@@ -114,8 +115,12 @@ public class EPGEntryTest {
 
     @Test
     public void testToString() {
-        // call toString to make sure, no NPE is fired
-        epg = new EPGEntry();
-        epg.toString();
+        try {
+			// call toString to make sure, no NPE is fired
+			epg = new EPGEntry();
+			epg.toString();
+		} catch (Exception e) {
+			fail();
+		}
     }
 }

@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import org.hampelratte.svdrp.responses.highlevel.DiskStatus;
 
 public class DiskStatusParser {
+	private DiskStatusParser() {}
 
     public static DiskStatus parse(String responseString) {
         Pattern p = Pattern.compile("(\\d+)MB (\\d+)MB (\\d+)%");

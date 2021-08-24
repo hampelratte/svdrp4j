@@ -39,7 +39,8 @@ import org.hampelratte.svdrp.responses.highlevel.Stream;
 
 
 public class EPGParser {
-    protected String currentChannelID, currentChannelName;
+    protected String currentChannelID;
+    protected String currentChannelName;
     protected EPGEntry epg;
     protected List<EPGEntry> list;
 
@@ -49,7 +50,7 @@ public class EPGParser {
         currentChannelID = null;
         currentChannelName = "";
         epg = null;
-        list = new ArrayList<EPGEntry>();
+        list = new ArrayList<>();
 
         StringTokenizer st = new StringTokenizer(epgData, "\n");
         while (st.hasMoreTokens()) {
@@ -122,12 +123,13 @@ public class EPGParser {
 
             // parse the description, if available
             desc = "N/A";
-            if(lt.hasMoreElements()) {
-                desc = lt.nextToken();
-                while(lt.hasMoreElements()) {
-                    desc += ' ' + lt.nextToken();
-                }
-            }
+			if (lt.hasMoreElements()) {
+				StringBuilder sb = new StringBuilder(lt.nextToken());
+				while (lt.hasMoreElements()) {
+					sb.append(' ').append(lt.nextToken());
+				}
+				desc = sb.toString();
+			}
 
             Stream stream = new Stream();
             switch(content) {

@@ -30,6 +30,7 @@ package org.hampelratte.svdrp.parsers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.text.ParseException;
 import java.util.List;
@@ -128,8 +129,12 @@ public class ChannelParserTest {
 
     @Test
     public void testIgnoreErrors() throws ParseException {
-        ChannelParser.parse("Invalid Data", true);
-        ChannelParser.parse("1 Das Erste:11836:hC12345:S19.2E:27500:101:102=deu,103=2ch;106=deu:104:0:28106:1:1101:0", true);
+    	try {
+	        ChannelParser.parse("Invalid Data", true);
+	        ChannelParser.parse("1 Das Erste:11836:hC12345:S19.2E:27500:101:102=deu,103=2ch;106=deu:104:0:28106:1:1101:0", true);
+    	} catch(Exception e) {
+    		fail();
+    	}
     }
 
     @Test

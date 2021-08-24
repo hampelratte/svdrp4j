@@ -45,7 +45,9 @@ import org.slf4j.LoggerFactory;
  * 
  */
 public class ChannelParser {
-    private static final transient Logger logger = LoggerFactory.getLogger(ChannelParser.class);
+    private static final Logger logger = LoggerFactory.getLogger(ChannelParser.class);
+    
+    private ChannelParser() {}
 
     /**
      * Parses a list of channels received from VDR by the LSTC command
@@ -61,7 +63,7 @@ public class ChannelParser {
      * @throws ParseException if parsing fails
      */
     public static List<Channel> parse(String channelData, boolean validate, boolean ignoreErrors) throws ParseException {
-        ArrayList<Channel> list = new ArrayList<Channel>();
+        ArrayList<Channel> list = new ArrayList<>();
         StringTokenizer st = new StringTokenizer(channelData, "\n");
         int lineNumber = 1;
         while (st.hasMoreTokens()) {

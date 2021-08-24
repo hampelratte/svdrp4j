@@ -32,7 +32,7 @@ import org.hampelratte.svdrp.responses.highlevel.Channel;
 import org.hampelratte.svdrp.responses.highlevel.IPTVChannel;
 
 // TODO make sure, this works with LSTC :ids
-public class IPTVChannelLineParser extends ChannelLineParser {
+public class IPTVChannelLineParser implements ChannelLineParser {
 
     @Override
     public Channel parse(String chanConfLine) {

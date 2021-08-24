@@ -52,13 +52,13 @@ public class RecordingParser extends EPGParser {
 
     private String addEpgEntryEnd(String epgData) {
         String[] lines = epgData.split("\n");
-        StringBuffer mesg = new StringBuffer();
+        StringBuilder mesg = new StringBuilder();
         for (int i = 0; i < lines.length; i++) {
             if (i == lines.length - 1) {
                 mesg.append("e\n");
             }
             mesg.append(lines[i] + "\n");
-        };
+        }
         return mesg.toString();
     }
 

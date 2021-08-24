@@ -59,13 +59,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class VDR {
-    private static transient Logger logger = LoggerFactory.getLogger(VDR.class);
+    private static Logger logger = LoggerFactory.getLogger(VDR.class);
 
     private final String host;
     private final int port;
     private final int connectTimeout;
     private Connection connection = null;
-    // private ConnectionTester tester = null;
     private boolean vdrAvailable = false;
 
     /**
@@ -86,8 +85,6 @@ public class VDR {
         this.host = host;
         this.port = port;
         this.connectTimeout = connectTimeout;
-        // tester = new ConnectionTester();
-        // tester.start();
     }
 
     public VDR(String host, int port, int connectTimeout, Connection conn) {
@@ -102,7 +99,7 @@ public class VDR {
      * @throws UnknownHostException if the target host is uknown
      * @throws IOException if an IO Error occurs
      */
-    public List<Timer> getTimers() throws UnknownHostException, IOException {
+    public List<Timer> getTimers() throws IOException {
         return getTimers(new LSTT());
     }
 
@@ -115,12 +112,12 @@ public class VDR {
      * @throws UnknownHostException if the target host is uknown
      * @throws IOException if an IO Error occurs
      */
-    public Timer getTimer(int number) throws UnknownHostException, IOException {
+    public Timer getTimer(int number) throws IOException {
         List<Timer> timers = getTimers(new LSTT(number));
-        if (timers.size() > 0) {
-            return timers.get(0);
-        } else {
+        if (timers.isEmpty()) {
             throw new RuntimeException("Timer " + number + " is not defined");
+        } else {
+        	return timers.get(0);
         }
     }
 
@@ -131,9 +128,9 @@ public class VDR {
         if (res != null) {
             if (res.getCode() == 250) {
                 timers = TimerParser.parse(res.getMessage());
-            } else if (res != null && (res.getCode() == 550 || res.getCode() == 501)) {
+            } else if (res.getCode() == 550 || res.getCode() == 501) {
                 // no timers defined, return an empty list
-                timers = new ArrayList<Timer>();
+                timers = new ArrayList<>();
             } else {
                 // something went wrong
                 throw new RuntimeException(res.getMessage());
@@ -157,7 +154,7 @@ public class VDR {
      * @throws UnknownHostException if the target host is uknown
      * @throws IOException if an IO Error occurs
      */
-    public Response modifyTimer(int number, Timer timer) throws UnknownHostException, IOException {
+    public Response modifyTimer(int number, Timer timer) throws IOException {
         return send(new MODT(number, timer));
     }
 
@@ -170,7 +167,7 @@ public class VDR {
      * @throws UnknownHostException if the target host is uknown
      * @throws IOException if an IO Error occurs
      */
-    public Response deleteTimer(int number) throws UnknownHostException, IOException {
+    public Response deleteTimer(int number) throws IOException {
         return send(new DELT(number));
     }
 
@@ -183,7 +180,7 @@ public class VDR {
      * @throws UnknownHostException if the target host is uknown
      * @throws IOException if an IO Error occurs
      */
-    public Response newTimer(Timer timer) throws UnknownHostException, IOException {
+    public Response newTimer(Timer timer) throws IOException {
         return send(new NEWT(timer));
     }
 
@@ -195,7 +192,7 @@ public class VDR {
      * @throws IOException if an IO Error occurs
      * @throws ParseException if a parsing error occurs
      */
-    public List<Channel> getChannels() throws UnknownHostException, IOException, ParseException {
+    public List<Channel> getChannels() throws IOException, ParseException {
         List<Channel> channels = null;
         Response res = send(new LSTC());
 
@@ -220,7 +217,7 @@ public class VDR {
      * @throws UnknownHostException if the target host is uknown
      * @throws IOException if an IO Error occurs
      */
-    public List<Recording> getRecordings() throws UnknownHostException, IOException {
+    public List<Recording> getRecordings() throws IOException {
         List<Recording> recordings = null;
         Response res = send(new LSTR());
 
@@ -229,7 +226,7 @@ public class VDR {
                 recordings = RecordingListParser.parse(res.getMessage());
             } else if (res.getCode() == 550) {
                 // no recordings, return an empty list
-                recordings = new ArrayList<Recording>();
+                recordings = new ArrayList<>();
             } else {
                 // something went wrong
                 throw new RuntimeException(res.getMessage());
@@ -252,7 +249,7 @@ public class VDR {
      * @throws IOException if an IO Error occurs
      * @throws ParseException if a parsing error occurs
      */
-    public Recording getRecordingDetails(Recording rec) throws UnknownHostException, IOException, ParseException {
+    public Recording getRecordingDetails(Recording rec) throws IOException, ParseException {
         Response res = send(new LSTR(rec.getId()));
         if (res != null) {
             if (res.getCode() == 215) {
@@ -277,7 +274,7 @@ public class VDR {
      * @throws UnknownHostException if the target host is uknown
      * @throws IOException if an IO Error occurs
      */
-    public Response deleteRecording(Recording rec) throws UnknownHostException, IOException {
+    public Response deleteRecording(Recording rec) throws IOException {
         return send(new DELR(rec.getId()));
     }
 
@@ -288,7 +285,7 @@ public class VDR {
      * @throws UnknownHostException if the target host is uknown
      * @throws IOException if an IO Error occurs
      */
-    public List<EPGEntry> getEpg() throws UnknownHostException, IOException {
+    public List<EPGEntry> getEpg() throws IOException {
         return getEpg(new LSTE());
     }
 
@@ -301,11 +298,11 @@ public class VDR {
      * @throws UnknownHostException if the target host is uknown
      * @throws IOException if an IO Error occurs
      */
-    public List<EPGEntry> getEpg(int channelNumber) throws UnknownHostException, IOException {
+    public List<EPGEntry> getEpg(int channelNumber) throws IOException {
         return getEpg(new LSTE(channelNumber));
     }
 
-    private List<EPGEntry> getEpg(LSTE lste) throws UnknownHostException, IOException {
+    private List<EPGEntry> getEpg(LSTE lste) throws IOException {
         List<EPGEntry> epg = null;
         Response res = send(lste);
 
@@ -323,7 +320,7 @@ public class VDR {
         return epg;
     }
 
-    private Response send(Command cmd) throws UnknownHostException, IOException {
+    private Response send(Command cmd) throws IOException {
         Response res = null;
 
         if (connection == null) {
@@ -390,18 +387,17 @@ public class VDR {
         public void run() {
             running = true;
             while (running) {
-                try {
-                    send(new STAT());
-                    vdrAvailable = true;
-                } catch (UnknownHostException e1) {
-                    vdrAvailable = false;
-                } catch (IOException e1) {
-                    vdrAvailable = false;
-                }
+				try {
+					send(new STAT());
+					vdrAvailable = true;
+				} catch (IOException e1) {
+					vdrAvailable = false;
+				}
 
                 try {
                     Thread.sleep(TimeUnit.SECONDS.toMillis(30));
                 } catch (InterruptedException e) {
+                	Thread.currentThread().interrupt();
                     logger.warn("ConnectionTester interrupted while sleeping. Will stop now!");
                     running = false;
                 }

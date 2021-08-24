@@ -34,7 +34,7 @@ public class Stream implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static enum CONTENT {
+    public enum CONTENT {
         MP2V, MP2A, SUBTITLE, AC3, H264, HEAAC, UNKNOWN
     }
 

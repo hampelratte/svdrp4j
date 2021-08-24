@@ -110,7 +110,7 @@ public class LSTE extends Command {
      *            without the milliseconds -&gt; unix time stamp / 1000, e.g.
      *            1115484780
      */
-    public LSTE(int number, long time_t) {
+    public LSTE(int number, long time_t) { // NOSONAR
         this(Integer.toString(number), "at " + time_t);
     }
 

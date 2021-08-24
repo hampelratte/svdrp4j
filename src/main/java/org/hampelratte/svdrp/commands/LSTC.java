@@ -155,49 +155,4 @@ public class LSTC extends Command {
     public void setChannel(String channel) {
         this.channel = channel;
     }
-
-    //    public static class Builder {
-    //        private LSTC lstc = new LSTC();
-    //
-    //        private Builder() {
-    //        }
-    //
-    //        private Builder(String channel) {
-    //            lstc.setChannel(channel);
-    //        }
-    //
-    //        private Builder(int channel) {
-    //            lstc.setChannel(Integer.toString(channel));
-    //        }
-    //
-    //        public static Builder of() {
-    //            return new Builder();
-    //        }
-    //
-    //        public static Builder of(String channel) {
-    //            return new Builder(channel);
-    //        }
-    //
-    //        public static Builder of(int channel) {
-    //            return new Builder(channel);
-    //        }
-    //
-    //        public Builder withIds() {
-    //            lstc.withIds = true;
-    //            return this;
-    //        }
-    //
-    //        public Builder withGroups() {
-    //            if(lstc.channel.isEmpty()) {
-    //                lstc.withGroups = true;
-    //                return this;
-    //            } else {
-    //                throw new IllegalStateException("Can't set a channel and :groups");
-    //            }
-    //        }
-    //
-    //        public LSTC build() {
-    //            return lstc;
-    //        }
-    //    }
 }

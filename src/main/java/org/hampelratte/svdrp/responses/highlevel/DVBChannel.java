@@ -64,7 +64,7 @@ public class DVBChannel extends BroadcastChannel {
      * @return The string representation of this channel in the channels.conf format
      */
     public String toChannelsConf() {
-        StringBuffer sb = new StringBuffer();
+    	StringBuilder sb = new StringBuilder();
         sb.append(getName().replace(":", "|"));
         if(getShortName().length() > 0) {
             sb.append(',');
@@ -91,7 +91,7 @@ public class DVBChannel extends BroadcastChannel {
     }
 
     private String getParameterString() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         if(getAlpha() > -1) {
             sb.append('A'); sb.append(getAlpha());
         }

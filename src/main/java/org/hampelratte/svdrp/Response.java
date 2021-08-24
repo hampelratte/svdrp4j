@@ -54,7 +54,7 @@ public abstract class Response extends Message {
      * @param message
      *            The message of the response
      */
-    public Response(int code, String message) {
+    protected Response(int code, String message) {
         this.code = code;
         this.message = message;
     }

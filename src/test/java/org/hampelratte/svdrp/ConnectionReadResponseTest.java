@@ -52,7 +52,7 @@ public class ConnectionReadResponseTest {
         new Thread(server).start();
 
         // wait for the server
-        Thread.sleep(1000);
+        Thread.sleep(1000); // NOSONAR
     }
 
     @Test

@@ -29,6 +29,8 @@
 package org.hampelratte.svdrp;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -319,24 +321,24 @@ public class VdrFacadeTest {
         assertEquals(18557, epg.size());
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testGetEpgForChannelException() throws IOException {
         Connection conn = mock(Connection.class);
         when(conn.send(isA(LSTE.class))).thenReturn(new R451("EPG file not found"));
         vdr = new VDR("localhost", 2001, 5000, conn);
 
-        List<EPGEntry> epg = vdr.getEpg(1);
-        assertEquals(18557, epg.size());
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> vdr.getEpg(1));
+        assertEquals("EPG file not found", exception.getMessage());
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testGetEpgForChannelError() throws IOException {
         Connection conn = mock(Connection.class);
         when(conn.send(isA(LSTE.class))).thenReturn(null);
         vdr = new VDR("localhost", 2001, 5000, conn);
 
-        List<EPGEntry> epg = vdr.getEpg(1);
-        assertEquals(18557, epg.size());
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> vdr.getEpg(1));
+        assertEquals("Response object is null", exception.getMessage());
     }
 
     @Test
@@ -367,18 +369,16 @@ public class VdrFacadeTest {
         vdr.getChannels();
     }
 
-    @Test
-    public void testClose() throws IOException {
-        Connection conn = mock(Connection.class);
-        when(conn.send(isA(QUIT.class))).thenReturn(new R221("vdr closing connection"));
-        vdr = new VDR("localhost", 2001, 5000, conn);
-        vdr.close();
-    }
-
-    // @Test(expected = ConnectException.class)
-    // public void testConnectionEstablishment() throws IOException {
-    // vdr = new VDR("localhost", 2001, 1, null);
-    // vdr.close();
-    // }
+	@Test
+	public void testClose() throws IOException {
+		try {
+			Connection conn = mock(Connection.class);
+			when(conn.send(isA(QUIT.class))).thenReturn(new R221("vdr closing connection"));
+			vdr = new VDR("localhost", 2001, 5000, conn);
+			vdr.close();
+		} catch (Exception e) {
+			fail();
+		}
+	}
 }
 

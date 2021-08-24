@@ -41,7 +41,7 @@ public class GRAB extends Command {
     
     private int quality = -1;
 
-    private Resolution resolution;
+    private transient Resolution resolution;
 
     private String filename;
 

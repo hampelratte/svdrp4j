@@ -289,7 +289,7 @@ public class Server implements Runnable {
     }
 
     private void sendResponse(String resp) throws IOException {
-        if(responseDelay > 0) { try { Thread.sleep(responseDelay); } catch (InterruptedException e) { /* fail silently */ } }
+        if(responseDelay > 0) { try { Thread.sleep(responseDelay); } catch (InterruptedException e) { /* fail silently */ } } // NOSONAR
         logger.debug("--> {}", resp);
         bw.write(resp);
         bw.write('\n');
@@ -297,7 +297,7 @@ public class Server implements Runnable {
     }
 
     private void sendResponse(Response resp) throws IOException {
-        if(responseDelay > 0) { try { Thread.sleep(responseDelay); } catch (InterruptedException e) { /* fail silently */ } }
+        if(responseDelay > 0) { try { Thread.sleep(responseDelay); } catch (InterruptedException e) { /* fail silently */ } } // NOSONAR
         logger.debug("--> {}", resp);
         bw.write(resp.getCode() + " " + resp.getMessage());
         bw.write('\n');

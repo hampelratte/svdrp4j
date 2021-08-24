@@ -35,14 +35,14 @@ import java.util.StringTokenizer;
 import org.hampelratte.svdrp.responses.highlevel.Channel;
 import org.hampelratte.svdrp.responses.highlevel.DVBChannel;
 
-public class DVBChannelLineParser extends ChannelLineParser {
+public class DVBChannelLineParser implements ChannelLineParser {
 
     private DVBChannel channel;
 
     @Override
     public Channel parse(String chanConfLine) {
-        if(hasId(chanConfLine)) {
-            chanConfLine = removeId(chanConfLine);
+        if(ChannelLineParser.hasId(chanConfLine)) {
+            chanConfLine = ChannelLineParser.removeId(chanConfLine);
         }
 
         channel = new DVBChannel();
@@ -71,7 +71,7 @@ public class DVBChannelLineParser extends ChannelLineParser {
     }
 
     protected List<Integer> parseConditionalAccess(String ca) {
-        List<Integer> caList = new ArrayList<Integer>();
+        List<Integer> caList = new ArrayList<>();
         StringTokenizer st = new StringTokenizer(ca, ",");
         while (st.hasMoreElements()) {
             String token = st.nextToken();
@@ -92,42 +92,42 @@ public class DVBChannelLineParser extends ChannelLineParser {
             char c = string.charAt(i);
             switch (c) {
             case 'B':
-                channel.setBandwidth(parseNumberParam(string, i));
+                channel.setBandwidth(ChannelLineParser.parseNumberParam(string, i));
                 break;
             case 'C':
-                channel.setCodeRateHP(parseNumberParam(string, i));
+                channel.setCodeRateHP(ChannelLineParser.parseNumberParam(string, i));
                 break;
             case 'D':
-                channel.setCodeRateLP(parseNumberParam(string, i));
+                channel.setCodeRateLP(ChannelLineParser.parseNumberParam(string, i));
                 break;
             case 'G':
-                channel.setGuardInterval(parseNumberParam(string, i));
+                channel.setGuardInterval(ChannelLineParser.parseNumberParam(string, i));
                 break;
             case 'H':
             case 'h':
                 channel.setHorizontalPolarization(true);
                 break;
             case 'I':
-                channel.setInversion(parseNumberParam(string, i));
+                channel.setInversion(ChannelLineParser.parseNumberParam(string, i));
                 break;
             case 'L':
                 channel.setLeftCircularPolarization(true);
                 break;
             case 'M':
-                channel.setModulation(parseNumberParam(string, i));
+                channel.setModulation(ChannelLineParser.parseNumberParam(string, i));
                 break;
             case 'R':
                 channel.setRightCircularPolarization(true);
                 break;
             case 'T':
-                channel.setTransmissionMode(parseNumberParam(string, i));
+                channel.setTransmissionMode(ChannelLineParser.parseNumberParam(string, i));
                 break;
             case 'V':
             case 'v':
                 channel.setVerticalPolarization(true);
                 break;
             case 'Y':
-                channel.setHierarchy(parseNumberParam(string, i));
+                channel.setHierarchy(ChannelLineParser.parseNumberParam(string, i));
                 break;
             default:
                 break;

@@ -31,7 +31,7 @@ package org.hampelratte.svdrp.parsers;
 import org.hampelratte.svdrp.responses.highlevel.Channel;
 import org.hampelratte.svdrp.responses.highlevel.ChannelGroup;
 
-public class GroupChannelLineParser extends ChannelLineParser {
+public class GroupChannelLineParser implements ChannelLineParser {
 
     @Override
     public Channel parse(String chanConfLine) {

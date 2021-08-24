@@ -69,12 +69,9 @@ public class EPGEntry implements Serializable {
     private long vpsTime;
     private Calendar vpsTimeCal;
 
-    private List<Stream> streams = new ArrayList<Stream>();
+    private List<Stream> streams = new ArrayList<>();
 
-    private List<Genre> genres = new ArrayList<Genre>();
-
-    public EPGEntry() {
-    }
+    private List<Genre> genres = new ArrayList<>();
 
     public String getChannelID() {
         return channelID;
@@ -227,7 +224,7 @@ public class EPGEntry implements Serializable {
      * @return A list of audio streams. Other streams are filtered.
      */
     public List<Stream> getAudioStreams() {
-        List<Stream> audioStreams = new ArrayList<Stream>(getStreams());
+        List<Stream> audioStreams = new ArrayList<>(getStreams());
         for (Iterator<Stream> iterator = audioStreams.iterator(); iterator.hasNext();) {
             Stream stream = iterator.next();
             if(stream.getContent() != Stream.CONTENT.MP2A && stream.getContent() != Stream.CONTENT.AC3 && stream.getContent() != Stream.CONTENT.HEAAC) {

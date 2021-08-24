@@ -29,6 +29,7 @@
 package org.hampelratte.svdrp;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
@@ -47,7 +48,7 @@ public class DetectEncodingTest {
         new Thread(server).start();
 
         // wait for the server
-        Thread.sleep(1000);
+        Thread.sleep(1000); // NOSONAR
     }
 
     @Test
@@ -111,6 +112,8 @@ public class DetectEncodingTest {
             server.loadWelcome("welcome-1.6.0_2-nocharset.txt");
             con = new Connection("localhost", 2001, 100);
             // no exception hsould occur
+        } catch (Exception e) {
+        	fail();
         } finally {
             if (con != null) {
                 try {

@@ -32,6 +32,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 import org.hampelratte.svdrp.Connection;
 import org.hampelratte.svdrp.Version;
@@ -69,7 +70,7 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
     private int channelNumber;
     private String channelId = "";
 
-    private int ID;
+    private int ID; // NOSONAR
 
     private int priority;
 
@@ -88,7 +89,7 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
     /**
      * Returns, if a timer has a specific state
      *
-     * @param STATE
+     * @param state
      *            One of INACTIVE, ACTIVE, INSTANT_TIMER, VPS, RECORDING
      * @return true, if the timer has the state
      * @see Timer#ACTIVE
@@ -97,11 +98,11 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
      * @see Timer#VPS
      * @see Timer#RECORDING
      */
-    public boolean hasState(int STATE) {
-        if (STATE == INACTIVE) {
+    public boolean hasState(int state) {
+        if (state == INACTIVE) {
             return !isActive();
         } else {
-            return (state & STATE) == STATE;
+            return (this.state & state) == state;
         }
     }
 
@@ -193,16 +194,14 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
             sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         }
 
-        String startTime = sdf.format(getStartTime().getTime());
-        String endTime = sdf.format(getEndTime().getTime());
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append(getChannelNumber());
         sb.append(':');
         sb.append(getDayString());
         sb.append(':');
-        sb.append(startTime);
+        sb.append(sdf.format(getStartTime().getTime()));
         sb.append(':');
-        sb.append(endTime);
+        sb.append(sdf.format(getEndTime().getTime()));
         return sb.toString();
     }
 
@@ -215,7 +214,7 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
         String start = createTimeString(getStartTime());
         String end = createTimeString(getEndTime());
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append(getState());
         sb.append(':');
         sb.append(channelNumber);
@@ -232,7 +231,7 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
         sb.append(':');
         sb.append(getFile());
         sb.append(':');
-        sb.append(description.replaceAll("\n", "\\|"));
+        sb.append(description.replace("\n", "|"));
 
         return sb.toString();
     }
@@ -242,14 +241,14 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
         String start = createTimeString(getStartTime());
         String end = createTimeString(getEndTime());
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append(getState());
         sb.append(':');
         sb.append(channelNumber);
         sb.append(':');
         sb.append(getDayString());
         if (isRepeating()) {
-            sb.append(" [instance:" + createDateString(startTime, false) + "]");
+            sb.append(" [instance:" + createDateString(startTime) + "]");
         }
         sb.append(':');
         sb.append(start);
@@ -263,7 +262,7 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
         sb.append(getFile());
         sb.append(':');
 
-        String desc = description.replaceAll("\n", "\\|");
+        String desc = description.replace("\n", "\\|");
         if (desc.length() > 15) {
             desc = desc.substring(0, 15) + "...";
         }
@@ -282,6 +281,11 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
             return false;
         }
     }
+    
+    @Override
+    public int hashCode() {
+    	return Objects.hashCode(toNEWT());
+    }
 
     @Override
     public int compareTo(Timer that) {
@@ -292,8 +296,8 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
         return repeatingDays;
     }
 
-    public void setRepeatingDays(boolean[] repeating_days) {
-        this.repeatingDays = repeating_days;
+    public void setRepeatingDays(boolean[] repeatingDays) {
+        this.repeatingDays = repeatingDays;
     }
 
     public boolean isRepeating() {
@@ -323,22 +327,22 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
     }
 
     public String getDayString() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         if (isRepeating()) {
             sb.append(createRepeatingString());
             if (hasFirstTime()) {
                 sb.append('@');
-                sb.append(createDateString(firstTime, true));
+                sb.append(createDateString(firstTime));
             }
         } else {
-            sb.append(createDateString(startTime, false));
+            sb.append(createDateString(startTime));
         }
 
         return sb.toString();
     }
 
-    private String createDateString(Calendar cal, boolean repeating) {
+    private String createDateString(Calendar cal) {
         // shall we use the new format?
         // if no connection is available, we have to use a dummy version
         Version v = Connection.getVersion();
@@ -350,7 +354,7 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
         int minor = v.getMinor();
         int rev = v.getRevision();
 
-        boolean newFormat = (major == 1 && (minor > 3 || minor == 3 && rev >= 23)) | isRepeating();
+        boolean newFormat = (major == 1 && (minor > 3 || minor == 3 && rev >= 23)) || isRepeating();
 
         String date = "";
         if (newFormat) {
@@ -373,7 +377,7 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
     }
 
     private String createRepeatingString() {
-        StringBuffer day = new StringBuffer();
+    	StringBuilder day = new StringBuilder();
         day.append(repeatingDays[0] ? 'M' : '-');
         day.append(repeatingDays[1] ? 'T' : '-');
         day.append(repeatingDays[2] ? 'W' : '-');
@@ -401,11 +405,11 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
     }
 
     public String getFile() {
-        String _path = this.path;
-        if (!_path.endsWith("~") && !_path.equals("")) {
-            _path += "~";
+        String tmpPath = this.path;
+        if (!tmpPath.endsWith("~") && !tmpPath.equals("")) {
+            tmpPath += "~";
         }
-        return (_path + title).replace(':', '|');
+        return (tmpPath + title).replace(':', '|');
     }
 
     public void setFile(String file) {
@@ -475,20 +479,20 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
     /**
      * Sets the given state to the given value. All other states are not touched.
      *
-     * @param STATE
+     * @param state
      *            the state to change
      * @param enabled
      *            the new value of the state
      */
-    public void changeStateTo(int STATE, boolean enabled) {
-        if (enabled && hasState(STATE) || !enabled && !hasState(STATE)) {
+    public void changeStateTo(int state, boolean enabled) {
+        if (enabled && hasState(state) || !enabled && !hasState(state)) {
             // we don't have to change anything, because the timer already
             // has the requested state
             return;
         }
 
         int sign = enabled ? 1 : -1;
-        state += sign * STATE;
+        this.state += sign * state;
     }
 
     public boolean isRecording() {

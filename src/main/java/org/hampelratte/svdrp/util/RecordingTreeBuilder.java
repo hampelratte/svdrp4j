@@ -37,6 +37,8 @@ import org.hampelratte.svdrp.responses.highlevel.TreeNode;
 import org.hampelratte.svdrp.sorting.RecordingSortStrategy;
 
 public class RecordingTreeBuilder {
+	
+	private RecordingTreeBuilder() {}
 
     public static Folder buildTree(List<Recording> recordings, RecordingSortStrategy sortStrategy) {
         sortStrategy.sort(recordings);
@@ -93,14 +95,12 @@ public class RecordingTreeBuilder {
                     mergeConsecutiveFolders(currentFolder);
                     if (iter.hasNext()) {
                         TreeNode next = iter.next();
-                        if (next instanceof Folder) {
-                            if (current.getDisplayTitle().equals(next.getDisplayTitle())) {
-                                merges++;
-                                Folder nextFolder = (Folder) next;
-                                currentFolder.getChildren().addAll(nextFolder.getChildren());
-                                iter.remove();
-                            }
-                        }
+                        if (next instanceof Folder && current.getDisplayTitle().equals(next.getDisplayTitle())) {
+						    merges++;
+						    Folder nextFolder = (Folder) next;
+						    currentFolder.getChildren().addAll(nextFolder.getChildren());
+						    iter.remove();
+						}
                     }
                 }
             }

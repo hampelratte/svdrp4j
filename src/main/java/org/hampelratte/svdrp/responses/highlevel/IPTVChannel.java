@@ -28,6 +28,7 @@
  */
 package org.hampelratte.svdrp.responses.highlevel;
 
+import java.util.Objects;
 
 public class IPTVChannel extends Channel {
 
@@ -92,6 +93,11 @@ public class IPTVChannel extends Channel {
     public void setStreamParameters(String streamParameters) {
         this.streamParameters = streamParameters;
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(protocol, streamAddress, streamParameters);
+	}
 
     @Override
     public boolean equals(Object obj) {

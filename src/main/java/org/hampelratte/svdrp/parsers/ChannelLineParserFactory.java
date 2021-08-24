@@ -39,8 +39,10 @@ public class ChannelLineParserFactory {
     private static IPTVChannelLineParser iptv;
 
     private static GroupChannelLineParser group;
+    
+    private ChannelLineParserFactory() {}
 
-    public static ChannelLineParser createChannelParser(String chanConfLine) throws Exception {
+    public static ChannelLineParser createChannelParser(String chanConfLine) throws ParseException {
         String normalizedChanConfLine = chanConfLine;
         if(ChannelLineParser.hasId(normalizedChanConfLine)) {
             normalizedChanConfLine = ChannelLineParser.removeId(chanConfLine);

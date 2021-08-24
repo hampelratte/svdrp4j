@@ -35,7 +35,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -69,7 +68,7 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  */
 public class Connection {
-    private static transient Logger logger = LoggerFactory.getLogger(Connection.class);
+    private static Logger logger = LoggerFactory.getLogger(Connection.class);
 
     /**
      * The socket used to talk to VDR
@@ -100,10 +99,9 @@ public class Connection {
      *            The port of the SVDRP-server. Default is 2001
      * @param connectTimeout
      *            The timeout for this connection
-     * @throws UnknownHostException if the target host is uknown
      * @throws IOException if an IO Error occurs
      */
-    public Connection(String host, int port, int connectTimeout) throws UnknownHostException, IOException {
+    public Connection(String host, int port, int connectTimeout) throws IOException {
         this(host, port, connectTimeout, "UTF-8");
     }
 
@@ -119,10 +117,9 @@ public class Connection {
      *            The timeout for this connection
      * @param encoding
      *            The charset encoding used to talk to VDR
-     * @throws UnknownHostException if the target host is uknown
      * @throws IOException if an IO Error occurs
      */
-    public Connection(String host, int port, int connectTimeout, String encoding) throws UnknownHostException, IOException {
+    public Connection(String host, int port, int connectTimeout, String encoding) throws IOException {
         this(host, port, connectTimeout, 0, encoding, true);
     }
 
@@ -142,11 +139,9 @@ public class Connection {
      *            The charset encoding used to talk to VDR
      * @param detectEncoding
      *            Enables the automatic detection of the charset encoding
-     * @throws UnknownHostException if the target host is uknown
      * @throws IOException if an IO Error occurs
      */
-    public Connection(String host, int port, int connectTimeout, int readTimeout, String encoding, boolean detectEncoding) throws UnknownHostException,
-    IOException {
+    public Connection(String host, int port, int connectTimeout, int readTimeout, String encoding, boolean detectEncoding) throws IOException {
         this.encoding = encoding;
         socket = new Socket();
         InetSocketAddress sa = new InetSocketAddress(host, port);
@@ -167,7 +162,8 @@ public class Connection {
             in.close();
             try {
                 socket.close();
-            } catch (Exception e) {
+            } catch (Exception e) { 
+            	// closing socket failed, but that's ok
             }
             throw (e1);
         }
@@ -180,12 +176,12 @@ public class Connection {
                 Pattern pattern = Pattern.compile(".*((?:\\d)+\\.(?:\\d)+\\.(?:\\d)+).*");
                 Matcher m = pattern.matcher(msg);
                 if (m.matches()) {
-                    version = new Version(m.group(1));
+                    setVersion(new Version(m.group(1)));
                 } else {
                     throw new Exception("No Version String found in welcome message");
                 }
             } catch (Exception e) {
-                version = new Version("1.0.0");
+            	setVersion(new Version("1.0.0"));
             }
 
             if (detectEncoding) {
@@ -221,10 +217,9 @@ public class Connection {
      *            The host name or IP-address of the VDR.
      * @param port
      *            The port of the SVDRP-server. Default is 2001.
-     * @throws UnknownHostException if the target host is uknown
      * @throws IOException if an IO Error occurs
      */
-    public Connection(String host, int port) throws UnknownHostException, IOException {
+    public Connection(String host, int port) throws IOException {
         this(host, port, 500);
     }
 
@@ -346,7 +341,6 @@ public class Connection {
                     break;
                 }
 
-                line = "";
                 msg = new StringBuilder();
             } else {
                 msg.append(line);

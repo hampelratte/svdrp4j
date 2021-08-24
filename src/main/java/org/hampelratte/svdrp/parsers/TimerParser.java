@@ -45,6 +45,8 @@ import org.hampelratte.svdrp.responses.highlevel.Timer;
  */
 // FIXME für repeating timer die start und endzeit richtig setzen
 public class TimerParser {
+	private TimerParser() {}
+	
     /**
      * Parses a list of timers received from VDR by the LSTT command
      *
@@ -53,7 +55,7 @@ public class TimerParser {
      * @return A list of Timer objects
      */
     public static List<Timer> parse(String timerData) {
-        ArrayList<Timer> list = new ArrayList<Timer>();
+        ArrayList<Timer> list = new ArrayList<>();
         StringTokenizer st1 = new StringTokenizer(timerData, "\n");
         while (st1.hasMoreTokens()) {
             Timer timer = new Timer();
@@ -71,14 +73,14 @@ public class TimerParser {
             String priority = st.nextToken();
             String lifetime = st.nextToken();
             String file = st.nextToken();
-            String desc = "";
+            StringBuilder sb = new StringBuilder();
             while (st.hasMoreTokens()) {
-                desc += st.nextToken();
+                sb.append(st.nextToken());
                 if (st.hasMoreTokens()) {
-                    desc += ":";
+                    sb.append(':');
                 }
             }
-            desc = desc.replaceAll("\\|", "\n");
+            String desc = sb.toString().replace("|", "\n");
             timer.setID(Integer.parseInt(id));
             timer.setState(Integer.parseInt(active));
             setChannel(timer, channel);

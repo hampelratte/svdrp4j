@@ -37,7 +37,7 @@ public class Folder implements TreeNode {
     private String title;
     private String displayTitle;
 
-    private List<TreeNode> children = new ArrayList<TreeNode>();
+    private List<TreeNode> children = new ArrayList<>();
 
     public Folder(String title) {
         super();
@@ -82,15 +82,13 @@ public class Folder implements TreeNode {
         Folder mergePoint = null;
         if (subtree instanceof Folder) {
 
-            List<Object[]> treesToMerge = new ArrayList<Object[]>();
+            List<Object[]> treesToMerge = new ArrayList<>();
             boolean matched = false;
             for (TreeNode child : getChildren()) {
                 if (child instanceof Folder && child.getDisplayTitle().equals(subtree.getDisplayTitle())) {
                     treesToMerge.add(new Object[] { child, subtree });
                     matched = true;
                     mergePoint = (Folder) child;
-                } else {
-                    continue;
                 }
             }
 
