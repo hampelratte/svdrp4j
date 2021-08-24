@@ -29,11 +29,11 @@
 package org.hampelratte.svdrp.responses;
 
 import java.io.IOException;
+import java.util.Base64;
 
 import javax.swing.ImageIcon;
 
 import org.hampelratte.svdrp.Response;
-import org.hampelratte.svdrp.util.Base64;
 
 /**
  * VDR Response: Image grab data (base 64)
@@ -64,12 +64,10 @@ public class R216 extends Response {
      * @throws IOException if an IO Error occurs
      */
     public ImageIcon getImage() throws IOException {
-        ImageIcon icon = new ImageIcon();
         String image = getMessage().substring(0, getMessage().lastIndexOf("\n"));
         image = image.substring(0, image.lastIndexOf("\n"));
-        image = image.replaceAll("\n", "");
-        byte[] bytes = Base64.decode(image);
-        icon = new ImageIcon(bytes);
-        return icon;
+        image = image.replace("\n", "");
+        byte[] bytes = Base64.getDecoder().decode(image);
+        return new ImageIcon(bytes);
     }
 }
