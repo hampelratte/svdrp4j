@@ -33,8 +33,6 @@ import static org.junit.Assert.assertFalse;
 
 import java.util.List;
 
-import org.hampelratte.svdrp.parsers.ChannelLineParser;
-import org.hampelratte.svdrp.parsers.DVBChannelLineParser;
 import org.hampelratte.svdrp.responses.highlevel.DVBChannel;
 import org.junit.Before;
 import org.junit.Test;

@@ -35,12 +35,6 @@ import java.util.Calendar;
 
 import org.hampelratte.svdrp.responses.highlevel.Recording;
 import org.hampelratte.svdrp.responses.highlevel.Timer;
-import org.hampelratte.svdrp.sorting.AlphabeticalTimerComparator;
-import org.hampelratte.svdrp.sorting.ChronologicalTimerComparator;
-import org.hampelratte.svdrp.sorting.RecordingAlphabeticalComparator;
-import org.hampelratte.svdrp.sorting.RecordingIsCutComparator;
-import org.hampelratte.svdrp.sorting.RecordingIsNewComparator;
-import org.hampelratte.svdrp.sorting.RecordingStarttimeComparator;
 import org.junit.Test;
 
 public class ComparatorTest {

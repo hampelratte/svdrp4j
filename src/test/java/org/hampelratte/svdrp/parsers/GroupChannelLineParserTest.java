@@ -31,7 +31,6 @@ package org.hampelratte.svdrp.parsers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.hampelratte.svdrp.parsers.GroupChannelLineParser;
 import org.hampelratte.svdrp.responses.highlevel.Channel;
 import org.hampelratte.svdrp.responses.highlevel.ChannelGroup;
 import org.junit.Test;

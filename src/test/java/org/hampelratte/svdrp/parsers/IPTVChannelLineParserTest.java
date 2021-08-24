@@ -31,7 +31,6 @@ package org.hampelratte.svdrp.parsers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import org.hampelratte.svdrp.parsers.IPTVChannelLineParser;
 import org.hampelratte.svdrp.responses.highlevel.IPTVChannel;
 import org.junit.Before;
 import org.junit.Test;

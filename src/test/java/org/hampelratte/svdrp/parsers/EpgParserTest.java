@@ -31,10 +31,8 @@ package org.hampelratte.svdrp.parsers;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.hampelratte.svdrp.parsers.EPGParser;
 import org.hampelratte.svdrp.responses.highlevel.EPGEntry;
 import org.hampelratte.svdrp.responses.highlevel.Genre;
 import org.hampelratte.svdrp.responses.highlevel.Stream;
@@ -87,7 +85,7 @@ public class EpgParserTest {
         EPGEntry first = entries.get(0);
 
         assertEquals(12667, first.getEventID());                    // event id
-        Calendar calStartTime = GregorianCalendar.getInstance();    // start time
+        Calendar calStartTime = Calendar.getInstance();    // start time
         calStartTime.setTimeInMillis(1274605200 * 1000L);
         assertEquals(calStartTime, first.getStartTime());
         Calendar calEndTime = (Calendar) calStartTime.clone();      // end time
@@ -119,7 +117,7 @@ public class EpgParserTest {
     public void testVpsTime() {
         List<EPGEntry> entries = new EPGParser().parse(epgData);
         EPGEntry first = entries.get(0);
-        Calendar vpsTime = GregorianCalendar.getInstance();
+        Calendar vpsTime = Calendar.getInstance();
         vpsTime.setTimeInMillis(1274605200 * 1000L);
         assertEquals(vpsTime, first.getVpsTime());
     }

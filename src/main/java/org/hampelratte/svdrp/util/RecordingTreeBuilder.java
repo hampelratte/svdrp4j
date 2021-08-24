@@ -106,16 +106,4 @@ public class RecordingTreeBuilder {
             }
         }
     }
-
-    // ############### for debugging ##################
-    // public static void printTree(TreeNode node, String indent) {
-    // System.err.println(indent + node.getDisplayTitle());
-    // if (node instanceof Folder) {
-    // Folder folder = (Folder) node;
-    // for (TreeNode child : folder.getChildren()) {
-    // printTree(child, indent + "  ");
-    // }
-    // }
-    //
-    // }
 }

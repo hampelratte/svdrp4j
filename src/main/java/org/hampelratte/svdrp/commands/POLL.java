@@ -4,7 +4,9 @@ import org.hampelratte.svdrp.Command;
 
 public class POLL extends Command {
 
-    public static final String TIMERS = "timers";
+	private static final long serialVersionUID = 607392886937631005L;
+
+	public static final String TIMERS = "timers";
 
     private String param;
 

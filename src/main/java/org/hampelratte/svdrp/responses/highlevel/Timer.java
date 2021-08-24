@@ -32,7 +32,6 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import org.hampelratte.svdrp.Connection;
 import org.hampelratte.svdrp.Version;
@@ -56,12 +55,12 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
 
     private int state = ACTIVE;
 
-    private Calendar startTime = GregorianCalendar.getInstance();
+    private Calendar startTime = Calendar.getInstance();
 
-    private Calendar endTime = GregorianCalendar.getInstance();
+    private Calendar endTime = Calendar.getInstance();
 
     // start date for repeating timers
-    private Calendar firstTime = GregorianCalendar.getInstance();
+    private Calendar firstTime = Calendar.getInstance();
 
     private boolean hasFirstTime;
 
@@ -81,9 +80,6 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
     private String path = "";
 
     private String description = "";
-
-    public Timer() {
-    }
 
     public boolean isActive() {
         return hasState(ACTIVE);

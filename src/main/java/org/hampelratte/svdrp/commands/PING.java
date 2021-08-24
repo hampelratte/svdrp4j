@@ -41,7 +41,9 @@ import org.hampelratte.svdrp.Command;
  */
 public class PING extends Command {
 
-    @Override
+	private static final long serialVersionUID = -3589801071822834762L;
+
+	@Override
     public String getCommand() {
         return "PING";
     }

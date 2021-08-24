@@ -30,7 +30,6 @@ package org.hampelratte.svdrp.parsers;
 
 import static org.junit.Assert.assertEquals;
 
-import org.hampelratte.svdrp.parsers.DiskStatusParser;
 import org.hampelratte.svdrp.responses.highlevel.DiskStatus;
 import org.junit.Test;
 

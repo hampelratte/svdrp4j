@@ -30,8 +30,6 @@ package org.hampelratte.svdrp.parsers;
 
 import static org.junit.Assert.assertEquals;
 
-import org.hampelratte.svdrp.parsers.ChannelLineParser;
-import org.hampelratte.svdrp.parsers.PvrInputChannelLineParser;
 import org.hampelratte.svdrp.responses.highlevel.PvrInputChannel;
 import org.junit.Before;
 import org.junit.Test;

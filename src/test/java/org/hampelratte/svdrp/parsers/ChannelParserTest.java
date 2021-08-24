@@ -34,7 +34,6 @@ import static org.junit.Assert.assertTrue;
 import java.text.ParseException;
 import java.util.List;
 
-import org.hampelratte.svdrp.parsers.ChannelParser;
 import org.hampelratte.svdrp.responses.highlevel.Channel;
 import org.hampelratte.svdrp.responses.highlevel.ChannelGroup;
 import org.hampelratte.svdrp.responses.highlevel.DVBChannel;

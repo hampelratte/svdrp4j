@@ -43,7 +43,6 @@ import org.hampelratte.svdrp.Connection;
 import org.hampelratte.svdrp.Version;
 import org.hampelratte.svdrp.commands.LSTR;
 import org.hampelratte.svdrp.mock.TestData;
-import org.hampelratte.svdrp.parsers.RecordingListParser;
 import org.hampelratte.svdrp.responses.R250;
 import org.hampelratte.svdrp.responses.highlevel.Recording;
 import org.junit.Before;

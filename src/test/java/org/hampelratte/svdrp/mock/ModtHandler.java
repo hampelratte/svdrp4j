@@ -54,10 +54,10 @@ public class ModtHandler implements RequestHandler {
 
     @Override
     public String process(String request) {
-        Matcher m = Pattern.compile("[Mm][Oo][Dd][Tt]\\s+(\\d+)\\s+(.*?)").matcher(request);
+        Matcher m = Pattern.compile("[Mm][Oo][Dd][Tt]\\s+((\\d+)\\s+(.*?))").matcher(request);
         if (m.matches()) {
-            int id = Integer.parseInt(m.group(1));
-            String settings = m.group(2);
+            int id = Integer.parseInt(m.group(2));
+            String settings = m.group(3);
 
             if(settings.equalsIgnoreCase("on")) {
                 Timer timer = timerManager.getTimer(id);

@@ -46,21 +46,21 @@ public class BroadcastChannel extends Channel {
 
     private int symbolRate = 0;
 
-    private String VPID = "";
+    private String VPID = ""; // NOSONAR
 
-    private String APID = "";
+    private String APID = ""; // NOSONAR
 
-    private String TPID = "";
+    private String TPID = ""; // NOSONAR
 
     private List<Integer> conditionalAccess = Collections.emptyList();
 
-    private int SID = 0;
+    private int SID = 0; // NOSONAR
 
-    private int NID = 0;
+    private int NID = 0; // NOSONAR
 
-    private int TID = 0;
+    private int TID = 0;// NOSONAR
 
-    private int RID = 0;
+    private int RID = 0; // NOSONAR
     
     public int getFrequency() {
         return frequency;

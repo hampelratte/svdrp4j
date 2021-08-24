@@ -28,7 +28,7 @@
  */
 package org.hampelratte.svdrp.commands;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.hampelratte.svdrp.commands.GRAB.Resolution;
 import org.junit.Test;
