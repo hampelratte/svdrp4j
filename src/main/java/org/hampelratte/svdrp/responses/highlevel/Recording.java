@@ -48,6 +48,7 @@ public class Recording extends EPGEntry implements Comparable<Recording>, TreeNo
     private int id;
 
     private boolean isNew = false;
+    private boolean hasError = false;
 
     private String display;
     private String folder;
@@ -141,8 +142,8 @@ public class Recording extends EPGEntry implements Comparable<Recording>, TreeNo
                     folder = folder.substring(1);
                 }
 
-                folder = folder.replaceAll("~%", "/");
-                folder = folder.replaceAll("~", "/");
+                folder = folder.replace("~%", "/");
+                folder = folder.replace("~", "/");
             } else {
                 folder = "";
             }
@@ -167,6 +168,14 @@ public class Recording extends EPGEntry implements Comparable<Recording>, TreeNo
 
     public void setNew(boolean isNew) {
         this.isNew = isNew;
+    }
+    
+    public boolean hasError() {
+    	return hasError;
+    }
+    
+    public void setHasError(boolean hasError) {
+    	this.hasError = hasError;
     }
 
     public boolean isCut() {
@@ -199,7 +208,11 @@ public class Recording extends EPGEntry implements Comparable<Recording>, TreeNo
 
     @Override
     public String toString() {
-        return getId() + " " + DateFormat.getDateTimeInstance().format(getStartTime().getTime()) + (isNew() ? "*" : "") + " " + super.toString();
+        return getId() + " " 
+        		+ DateFormat.getDateTimeInstance().format(getStartTime().getTime()) 
+        		+ (isNew() ? "*" : "")
+        		+ (hasError() ? "!" : "")
+        		+ " " + super.toString();
     }
 
     @Override
@@ -211,12 +224,14 @@ public class Recording extends EPGEntry implements Comparable<Recording>, TreeNo
         SimpleDateFormat date = new SimpleDateFormat("dd.MM.yy");
         SimpleDateFormat time = new SimpleDateFormat("HH:mm");
         NumberFormat nf = new DecimalFormat("00");
-        String duration = getDuration() / 60 + ":" + nf.format(getDuration() % 60);
+        String formattedDuration = getDuration() / 60 + ":" + nf.format(getDuration() % 60);
 
         return getId() + " "
         + date.format(getStartTime().getTime()) + " "
         + time.format(getStartTime().getTime()) + " "
-        + duration + (isNew() ? "*" : "") + " "
+        + formattedDuration + (isNew() ? "*" : "")
+        + (hasError() ? "!" : "")
+        + " "
         + super.toString();
     }
 }

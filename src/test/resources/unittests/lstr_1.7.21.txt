@@ -3,3 +3,5 @@
 3 10.11.11 22:01 0:45  %Breaking Bad~S04E01
 4 17.11.11 22:35 0:43 %Breaking Bad~Season 4~S04E04
 5 09.03.07 16:12 0:15* %%Zweimal geschnitten
+6 24.08.21 19:55 0:15! Tagesschau
+7 25.08.21 19:55 0:15*! Tagesschau

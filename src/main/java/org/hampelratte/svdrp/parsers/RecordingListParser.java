@@ -49,8 +49,9 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:androvdr@googlemail.com">androvdr</a>
  */
 public class RecordingListParser {
+	private RecordingListParser() {}
 
-    private static transient Logger logger = LoggerFactory.getLogger(RecordingListParser.class);
+    private static Logger logger = LoggerFactory.getLogger(RecordingListParser.class);
 
     /**
      * Parses a list of recordings and returns a List of Recordings
@@ -59,9 +60,9 @@ public class RecordingListParser {
      */
     // MAYBE Speed up by using String.indexOf and .substring
     public static List<Recording> parse(String response) {
-        ArrayList<Recording> list = new ArrayList<Recording>();
+        ArrayList<Recording> list = new ArrayList<>();
         SimpleDateFormat df = new SimpleDateFormat("dd.MM.yy HH:mm");
-        StringBuffer title = new StringBuffer();
+        StringBuilder title = new StringBuilder();
         StringTokenizer st = new StringTokenizer(response, "\n");
         while(st.hasMoreTokens()) {
             String line = st.nextToken();
@@ -77,8 +78,8 @@ public class RecordingListParser {
             // since VDR 1.7.21 the line also contains the duration of the recording. in this case, the new indicator is
             // included after the duration and not after the date.
             Version v = Connection.getVersion();
-            Version v1_7_21 = new Version("1.7.21");
-            if (v.compareTo(v1_7_21) < 0) {
+            Version version1721 = new Version("1.7.21");
+            if (v.compareTo(version1721) < 0) {
                 // old format without duration
                 if (isNew(date)) {
                     date = date.substring(0, date.length() - 1);
@@ -88,6 +89,10 @@ public class RecordingListParser {
                 // the vdr version is newer or equal to 1.7.21, we have to parse the new format
                 // parse the duration
                 String duration = st2.nextToken();
+                if (hasError(duration)) {
+                	duration = duration.substring(0, duration.length() - 1);
+                	recording.setHasError(true);
+                }
                 if (isNew(duration)) {
                     duration = duration.substring(0, duration.length() - 1);
                     recording.setNew(true);
@@ -122,10 +127,18 @@ public class RecordingListParser {
 
         return list;
     }
+    
+    private static boolean hasError(String token) {
+        char c = token.charAt(token.length() - 1);
+        return !Character.isDigit(c) && c == '!';
+    }
 
     private static boolean isNew(String token) {
         char c = token.charAt(token.length() - 1);
-        if (!Character.isDigit(c)) {
+        if (c == '!') {
+        	c = token.charAt(token.length() - 2);
+        }
+        if (!Character.isDigit(c)) {       	
             if (c == '*' || c == '') {
                 return true;
             } else {

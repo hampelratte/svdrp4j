@@ -78,6 +78,12 @@ public class RecordingTest {
 
         rec.setNew(false);
         assertEquals("1 11.09.2011 17:21:32 Test starts: 17:21 ends: 18:21", rec.toString());
+        
+        rec.setHasError(true);
+        assertEquals("1 11.09.2011 17:21:32! Test starts: 17:21 ends: 18:21", rec.toString());
+        
+        rec.setNew(true);
+        assertEquals("1 11.09.2011 17:21:32*! Test starts: 17:21 ends: 18:21", rec.toString());
     }
 
     @Test

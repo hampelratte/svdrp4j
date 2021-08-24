@@ -64,7 +64,7 @@ public class NewFormatRecordingListParserTest {
 
     @Test
     public void testListSize() {
-        assertEquals(5, recordings.size());
+        assertEquals(7, recordings.size());
     }
 
     @Test
@@ -101,6 +101,13 @@ public class NewFormatRecordingListParserTest {
         assertTrue(recordings.get(2).isCut());
         assertTrue(recordings.get(3).isCut());
         assertTrue(recordings.get(4).isCut());
+    }
+    
+    @Test
+    public void testHasError() {
+    	assertFalse(recordings.get(4).hasError());
+        assertTrue(recordings.get(5).hasError());
+        assertTrue(recordings.get(6).hasError());
     }
 
     @Test
