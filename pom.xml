@@ -8,7 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>svdrp4j</artifactId>
     <packaging>bundle</packaging>
-    <version>1.2.0-SNAPSHOT</version>
+    <version>1.2.0</version>
     <name>Simple Video Disk Recorder Protocol</name>
     <description>An implementation of the Simple VDR Protocol.</description>
     <url>https://github.com/hampelratte/svdrp4j</url>
