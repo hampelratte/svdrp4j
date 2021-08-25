@@ -158,6 +158,66 @@ public class ComparatorTest {
         assertEquals(1, comp.compare(r1, r2));
         assertEquals(-1, comp.compare(r2, r1));
     }
+       
+    @Test
+    public void testRecordingHasErrorComparator() {
+    	RecordingHasErrorComparator comp = new RecordingHasErrorComparator();
+    	Recording r1 = new Recording();
+    	r1.setTitle("B");
+    	Recording r2 = new Recording();
+    	r2.setTitle("A");
+    	
+    	// only r1 error
+        r1.setHasError(true);
+        r2.setHasError(false);
+        assertEquals(-1, comp.compare(r1, r2));
+        assertEquals(1, comp.compare(r2, r1));
+
+        // both error
+        r1.setHasError(true);
+        r2.setHasError(true);
+        assertEquals(1, comp.compare(r1, r2));
+        assertEquals(-1, comp.compare(r2, r1));
+
+        // only r2 error
+        r1.setHasError(false);
+        r2.setHasError(true);
+        assertEquals(1, comp.compare(r1, r2));
+        assertEquals(-1, comp.compare(r2, r1));
+
+        // both not error
+        r1.setHasError(false);
+        r2.setHasError(false);
+        assertEquals(1, comp.compare(r1, r2));
+        assertEquals(-1, comp.compare(r2, r1));
+    }
+    
+    @Test
+    public void testRecordingLengthComparator() {
+    	RecordingLengthComparator comp = new RecordingLengthComparator();
+    	Recording r1 = new Recording();
+    	r1.setTitle("B");
+    	Recording r2 = new Recording();
+    	r2.setTitle("A");
+    	
+    	// r1 < r2
+    	r1.setDuration(1);
+    	r2.setDuration(2);
+        assertEquals(-1, comp.compare(r1, r2));
+        assertEquals(1, comp.compare(r2, r1));
+
+        // r1 == r2
+        r1.setDuration(1);
+    	r2.setDuration(1);
+        assertEquals(0, comp.compare(r1, r2));
+        assertEquals(0, comp.compare(r2, r1));
+
+        // r1 > r2
+        r1.setDuration(2);
+    	r2.setDuration(1);
+        assertEquals(1, comp.compare(r1, r2));
+        assertEquals(-1, comp.compare(r2, r1));
+    }
 
     @Test
     public void testAlphabeticalTimerComparator() {
