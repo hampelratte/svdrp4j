@@ -262,7 +262,7 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
         sb.append(getFile());
         sb.append(':');
 
-        String desc = description.replace("\n", "\\|");
+        String desc = description.replace("\n", "|");
         if (desc.length() > 15) {
             desc = desc.substring(0, 15) + "...";
         }

@@ -214,6 +214,13 @@ public class TimerTest  {
     public void testToNEWT() {
         assertEquals("1:1:-----SS:1200:1300:0:0:TestTitle:Mehr-|zeilige Be-|schreibung", timer.toNEWT());
     }
+    
+    @Test
+    public void testToString() {
+    	assertEquals("1:1:-----SS [instance:2010-11-04]:1200:1300:0:0:TestTitle:Mehr-|zeilige B...", timer.toString());
+    	timer.setRepeatingDays(new boolean[7]);
+    	assertEquals("1:1:4:1200:1300:0:0:TestTitle:Mehr-|zeilige B...", timer.toString());
+    }
 
     @Test
     public void testTimerAtMidnight() {
