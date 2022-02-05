@@ -354,7 +354,7 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
         int minor = v.getMinor();
         int rev = v.getRevision();
 
-        boolean newFormat = (major == 1 && (minor > 3 || minor == 3 && rev >= 23)) || isRepeating();
+        boolean newFormat = (major >= 2 || major == 1 && (minor > 3 || minor == 3 && rev >= 23)) || isRepeating();
 
         String date = "";
         if (newFormat) {
