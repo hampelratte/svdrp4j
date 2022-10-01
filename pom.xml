@@ -49,7 +49,7 @@
     </issueManagement>
     <ciManagement>
         <system>Jenkins CI</system>
-        <url>http://hampelratte.org/ci/job/svdrp4j</url>
+        <url>https://hampelratte.org/ci/job/svdrp4j</url>
     </ciManagement>
     <scm>
         <connection>scm:git:git://github.com/hampelratte/svdrp4j.git</connection>
@@ -58,7 +58,7 @@
     </scm>
     <organization>
         <name>hampelratte.org</name>
-        <url>http://www.hampelratte.org</url>
+        <url>https://www.hampelratte.org</url>
     </organization>
     <build>
         <resources>
@@ -130,12 +130,12 @@
         <repository>
             <id>hampelratte-releases</id>
             <name>hampelratte.org releases</name>
-            <url>http://hampelratte.org/nexus/content/groups/releases</url>
+            <url>https://www.hampelratte.org/maven/releases</url>
         </repository>
         <repository>
             <id>hampelratte-snapshots</id>
             <name>hampelratte.org snapshots</name>
-            <url>http://hampelratte.org/nexus/content/groups/snapshots</url>
+            <url>https://www.hampelratte.org/maven/snapshots</url>
         </repository>
     </repositories>
 </project>
