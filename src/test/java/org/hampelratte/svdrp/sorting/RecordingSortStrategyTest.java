@@ -1,10 +1,10 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
@@ -13,10 +13,10 @@
  * 3. Neither the name of the project (Lazy Bones) nor the names of its
  *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERDELTTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
  * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
  * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
  * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
@@ -28,18 +28,18 @@
  */
 package org.hampelratte.svdrp.sorting;
 
-import static org.junit.Assert.assertEquals;
+import org.hampelratte.svdrp.responses.highlevel.Recording;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hampelratte.svdrp.responses.highlevel.Recording;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class RecordingSortStrategyTest {
+class RecordingSortStrategyTest {
 
     @Test
-    public void testTitleAscending() {
+    void testTitleAscending() {
         Recording r1 = new Recording();
         Recording r2 = new Recording();
         Recording r3 = new Recording();
@@ -47,7 +47,7 @@ public class RecordingSortStrategyTest {
         r2.setTitle("B");
         r3.setTitle("C");
 
-        List<Recording> recs = new ArrayList<Recording>(3);
+        List<Recording> recs = new ArrayList<>(3);
         recs.add(r2);
         recs.add(r3);
         recs.add(r1);
@@ -61,7 +61,7 @@ public class RecordingSortStrategyTest {
     }
 
     @Test
-    public void testTitleDescending() {
+    void testTitleDescending() {
         Recording r1 = new Recording();
         Recording r2 = new Recording();
         Recording r3 = new Recording();
@@ -69,7 +69,7 @@ public class RecordingSortStrategyTest {
         r2.setTitle("B");
         r3.setTitle("C");
 
-        List<Recording> recs = new ArrayList<Recording>(3);
+        List<Recording> recs = new ArrayList<>(3);
         recs.add(r2);
         recs.add(r3);
         recs.add(r1);

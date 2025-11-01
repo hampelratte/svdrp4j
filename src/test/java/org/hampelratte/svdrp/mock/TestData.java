@@ -28,20 +28,21 @@
  */
 package org.hampelratte.svdrp.mock;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Scanner;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TestData {
-    private static final transient Logger logger = LoggerFactory.getLogger(TestData.class);
+import java.io.InputStream;
+import java.util.Scanner;
 
-    public static String readFile(String textFile) throws IOException {
+import static java.nio.charset.StandardCharsets.UTF_8;
+
+public class TestData {
+    private static final Logger logger = LoggerFactory.getLogger(TestData.class);
+
+    public static String readFile(String textFile) {
         logger.debug("Trying to load file {}", textFile);
         InputStream in = TestData.class.getResourceAsStream("/" + textFile);
-        Scanner scanner = new Scanner(in, "UTF-8");
+        Scanner scanner = new Scanner(in, UTF_8);
         StringBuilder sb = new StringBuilder();
         while (scanner.hasNext()) {
             sb.append(scanner.nextLine());

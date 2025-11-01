@@ -30,6 +30,8 @@ package org.hampelratte.svdrp.commands;
 
 import org.hampelratte.svdrp.Command;
 
+import java.io.Serial;
+
 /**
  * Command to list all available devices
  *
@@ -37,6 +39,7 @@ import org.hampelratte.svdrp.Command;
  *
  */
 public class LSTD extends Command {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Override

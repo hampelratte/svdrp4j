@@ -28,23 +28,22 @@
  */
 package org.hampelratte.svdrp.parsers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
-
 import org.hampelratte.svdrp.responses.highlevel.EPGEntry;
 import org.hampelratte.svdrp.responses.highlevel.Genre;
 import org.hampelratte.svdrp.responses.highlevel.GenreTable;
 import org.hampelratte.svdrp.responses.highlevel.Stream;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
 
 public class EPGParser {
+    private final GenreTable genreTable = new GenreTable();
     protected String currentChannelID;
     protected String currentChannelName;
     protected EPGEntry epg;
     protected List<EPGEntry> list;
-
-    private final GenreTable genreTable = new GenreTable();
 
     public List<EPGEntry> parse(String epgData) {
         currentChannelID = null;
@@ -64,123 +63,125 @@ public class EPGParser {
     }
 
     protected void parseLine(String line, List<EPGEntry> list) {
+        String desc;
+        StringTokenizer lineTokenizer;
         switch (line.charAt(0)) {
-        case 'C':
-            /* Channel */
-            int start = line.indexOf(' ') + 1;
-            int stop = line.indexOf(' ', start + 1);
-            stop = stop > 0 ? stop : line.length();
-            currentChannelID = line.substring(start, stop);
-            if(stop < line.length()) {
-                start = stop + 1;
-                currentChannelName = line.substring(start, line.length());
-            }
-            break;
-        case 'E':
-            /* EPG start */
-            epg = createNewEpgEntry();
-            epg.setChannelID(currentChannelID);
-            epg.setChannelName(currentChannelName);
+            case 'C':
+                /* Channel */
+                int start = line.indexOf(' ') + 1;
+                int stop = line.indexOf(' ', start + 1);
+                stop = stop > 0 ? stop : line.length();
+                currentChannelID = line.substring(start, stop);
+                if (stop < line.length()) {
+                    start = stop + 1;
+                    currentChannelName = line.substring(start);
+                }
+                break;
+            case 'E':
+                /* EPG start */
+                epg = createNewEpgEntry();
+                epg.setChannelID(currentChannelID);
+                epg.setChannelName(currentChannelName);
 
-            StringTokenizer lt = new StringTokenizer(line, " ");
-            lt.nextToken(); // skip the e
-            epg.setEventID(Long.parseLong(lt.nextToken()));
-            int startTime = Integer.parseInt(lt.nextToken());
-            int duration = Integer.parseInt(lt.nextToken());
-            int endTime = startTime + duration;
-            epg.setStartTime(startTime * 1000L);
-            epg.setEndTime(endTime * 1000L);
-            epg.setTableID(Integer.parseInt(lt.nextToken(), 16));
-            if(lt.hasMoreElements()) {
-                epg.setVersion(Integer.parseInt(lt.nextToken(), 16));
-            }
-            break;
-        case 'T':
-            /* Title */
-            epg.setTitle(line.substring(2));
-            break;
-        case 'S':
-            /* Short text */
-            String shorttext = line.substring(2).replace('|', '\n');
-            epg.setShortText(shorttext);
-            break;
-        case 'D':
-            /* Description */
-            String desc = line.substring(2).replace('|', '\n');
-            epg.setDescription(desc);
-            break;
-        case 'V':
-            /* VPS */
-            int vps = Integer.parseInt(line.substring(2));
-            epg.setVpsTime(vps * 1000L);
-            break;
-        case 'X':
-            lt = new StringTokenizer(line, " ");
-            lt.nextToken(); // skip the X
-            int content = Integer.parseInt(lt.nextToken(), 16);
-            int type = Integer.parseInt(lt.nextToken(), 16);
-            String iso3code = lt.nextToken();
+                lineTokenizer = new StringTokenizer(line, " ");
+                lineTokenizer.nextToken(); // skip the e
+                epg.setEventID(Long.parseLong(lineTokenizer.nextToken()));
+                int startTime = Integer.parseInt(lineTokenizer.nextToken());
+                int duration = Integer.parseInt(lineTokenizer.nextToken());
+                int endTime = startTime + duration;
+                epg.setStartTime(startTime * 1000L);
+                epg.setEndTime(endTime * 1000L);
+                epg.setTableID(Integer.parseInt(lineTokenizer.nextToken(), 16));
+                if (lineTokenizer.hasMoreElements()) {
+                    epg.setVersion(Integer.parseInt(lineTokenizer.nextToken(), 16));
+                }
+                break;
+            case 'T':
+                /* Title */
+                epg.setTitle(line.substring(2));
+                break;
+            case 'S':
+                /* Short text */
+                String shortText = line.substring(2).replace('|', '\n');
+                epg.setShortText(shortText);
+                break;
+            case 'D':
+                /* Description */
+                desc = line.substring(2).replace('|', '\n');
+                epg.setDescription(desc);
+                break;
+            case 'V':
+                /* VPS */
+                int vps = Integer.parseInt(line.substring(2));
+                epg.setVpsTime(vps * 1000L);
+                break;
+            case 'X':
+                lineTokenizer = new StringTokenizer(line, " ");
+                lineTokenizer.nextToken(); // skip the X
+                int content = Integer.parseInt(lineTokenizer.nextToken(), 16);
+                int type = Integer.parseInt(lineTokenizer.nextToken(), 16);
+                String iso3code = lineTokenizer.nextToken();
 
-            // parse the description, if available
-            desc = "N/A";
-			if (lt.hasMoreElements()) {
-				StringBuilder sb = new StringBuilder(lt.nextToken());
-				while (lt.hasMoreElements()) {
-					sb.append(' ').append(lt.nextToken());
-				}
-				desc = sb.toString();
-			}
+                // parse the description, if available
+                desc = "N/A";
+                if (lineTokenizer.hasMoreElements()) {
+                    StringBuilder sb = new StringBuilder(lineTokenizer.nextToken());
+                    while (lineTokenizer.hasMoreElements()) {
+                        sb.append(' ').append(lineTokenizer.nextToken());
+                    }
+                    desc = sb.toString();
+                }
 
-            Stream stream = new Stream();
-            switch(content) {
-            case 1:
-                stream.setContent(Stream.CONTENT.MP2V);
+                Stream stream = new Stream();
+                switch (content) {
+                    case 1:
+                        stream.setContent(Stream.CONTENT.MP2V);
+                        break;
+                    case 2:
+                        stream.setContent(Stream.CONTENT.MP2A);
+                        break;
+                    case 3:
+                        stream.setContent(Stream.CONTENT.SUBTITLE);
+                        break;
+                    case 4:
+                        stream.setContent(Stream.CONTENT.AC3);
+                        break;
+                    case 5:
+                        stream.setContent(Stream.CONTENT.H264);
+                        break;
+                    case 6:
+                        stream.setContent(Stream.CONTENT.HEAAC);
+                        break;
+                    default:
+                        stream.setContent(Stream.CONTENT.UNKNOWN);
+                        break;
+                }
+                stream.setType(type);
+                stream.setLanguage(iso3code);
+                stream.setDescription(desc);
+                epg.getStreams().add(stream);
                 break;
-            case 2:
-                stream.setContent(Stream.CONTENT.MP2A);
+            case 'G':
+                lineTokenizer = new StringTokenizer(line, " ");
+                lineTokenizer.nextToken(); // skip the G
+                while (lineTokenizer.hasMoreElements()) {
+                    int genreCode = Integer.parseInt(lineTokenizer.nextToken(), 16);
+                    Genre genre = genreTable.get(genreCode);
+                    if (genre != null) {
+                        epg.getGenres().add(genre);
+                    }
+                }
                 break;
-            case 3:
-                stream.setContent(Stream.CONTENT.SUBTITLE);
+            case 'e':
+                /* end of Entry */
+                list.add(epg);
+                epg = null;
                 break;
-            case 4:
-                stream.setContent(Stream.CONTENT.AC3);
-                break;
-            case 5:
-                stream.setContent(Stream.CONTENT.H264);
-                break;
-            case 6:
-                stream.setContent(Stream.CONTENT.HEAAC);
+            case 'c':
+                /* end of Channel (multiple entries) */
                 break;
             default:
-                stream.setContent(Stream.CONTENT.UNKNOWN);
                 break;
-            }
-            stream.setType(type);
-            stream.setLanguage(iso3code);
-            stream.setDescription(desc);
-            epg.getStreams().add(stream);
-            break;
-        case 'G':
-            lt = new StringTokenizer(line, " ");
-            lt.nextToken(); // skip the G
-            while (lt.hasMoreElements()) {
-                int genreCode = Integer.parseInt(lt.nextToken(), 16);
-                Genre genre = genreTable.get(genreCode);
-                if (genre != null) {
-                    epg.getGenres().add(genre);
-                }
-            }
-            break;
-        case 'e':
-            /* end of Entry */
-            list.add(epg);
-            epg = null;
-            break;
-        case 'c':
-            /* end of Channel (multiple entries) */
-            break;
-        default:
-            break;
         }
     }
 

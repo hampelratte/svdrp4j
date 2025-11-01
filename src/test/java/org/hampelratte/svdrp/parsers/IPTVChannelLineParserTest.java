@@ -28,40 +28,39 @@
  */
 package org.hampelratte.svdrp.parsers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
 import org.hampelratte.svdrp.responses.highlevel.IPTVChannel;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class IPTVChannelLineParserTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
-    private String channelData = "1 Das Erste HD;IPTV:1:S=0|P=0|F=UDP|U=239.35.10.1|A=10000:I:0:256=27:257=deu@4;258=AC3@106:2321:0:28106:0:0:0";
+class IPTVChannelLineParserTest {
 
-    private IPTVChannelLineParser parser = new IPTVChannelLineParser();
+    private final IPTVChannelLineParser parser = new IPTVChannelLineParser();
 
     private IPTVChannel chan;
 
-    @Before
-    public void parseLine() {
+    @BeforeEach
+    void parseLine() {
+        String channelData = "1 Das Erste HD;IPTV:1:S=0|P=0|F=UDP|U=239.35.10.1|A=10000:I:0:256=27:257=deu@4;258=AC3@106:2321:0:28106:0:0:0";
         chan = (IPTVChannel) parser.parse(channelData);
     }
 
     @Test
-    public void testChannelNumber() {
+    void testChannelNumber() {
         assertEquals(1, chan.getChannelNumber());
     }
 
     @Test
-    public void testNameParsing() {
+    void testNameParsing() {
         assertEquals("Das Erste HD", chan.getName());
         assertEquals("", chan.getShortName());
         assertEquals("IPTV", chan.getServiceProviderName());
     }
 
     @Test
-    public void testStreamParsing() {
+    void testStreamParsing() {
         assertEquals("239.35.10.1", chan.getStreamAddress());
         assertEquals("10000", chan.getStreamParameters());
         assertEquals("UDP", chan.getProtocol());

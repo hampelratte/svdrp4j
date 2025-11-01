@@ -1,19 +1,19 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -28,31 +28,32 @@
  */
 package org.hampelratte.svdrp;
 
+import java.io.Serial;
+
 /**
  * Superclass for all responses from the VDR
- * 
+ *
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  */
 public abstract class Response extends Message {
+    @Serial
     private static final long serialVersionUID = 1L;
-    
+
     /**
      * The response code
      */
-    protected int code = 0;
+    protected int code;
 
     /**
      * The response message
      */
-    protected String message = "";
+    protected String message;
 
     /**
      * Creates a new Response with response code and message
-     * 
-     * @param code
-     *            The response code of the response
-     * @param message
-     *            The message of the response
+     *
+     * @param code    The response code of the response
+     * @param message The message of the response
      */
     protected Response(int code, String message) {
         this.code = code;
@@ -78,7 +79,7 @@ public abstract class Response extends Message {
      * <li>554 - Transaction failed</li>
      * </ul>
      * Have a look at the subclasses for details
-     * 
+     *
      * @return the response code of the response
      */
     public int getCode() {
@@ -87,7 +88,7 @@ public abstract class Response extends Message {
 
     /**
      * Gets the message of the response
-     * 
+     *
      * @return the message of the response
      */
     public String getMessage() {

@@ -30,6 +30,7 @@ package org.hampelratte.svdrp.commands;
 
 import org.hampelratte.svdrp.Command;
 
+import java.io.Serial;
 import java.text.MessageFormat;
 
 /**
@@ -40,6 +41,7 @@ import java.text.MessageFormat;
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  */
 public class CONN extends Command {
+    @Serial
     private static final long serialVersionUID = 1L;
     private static final String COMMAND_TEMPLATE = "CONN name:{0} port:{1,number,#} vdrversion:{2} apiversion:{3} timeout:{4,number,#}";
 

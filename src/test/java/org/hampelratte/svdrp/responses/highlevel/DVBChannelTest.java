@@ -1,10 +1,10 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  * 3. Neither the name of the project (Lazy Bones) nor the names of its
  *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -28,18 +28,18 @@
  */
 package org.hampelratte.svdrp.responses.highlevel;
 
-import static org.junit.Assert.assertEquals;
-
 import org.hampelratte.svdrp.parsers.DVBChannelLineParser;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class DVBChannelTest  {
+class DVBChannelTest {
 
-    private DVBChannelLineParser parser = new DVBChannelLineParser();
+    private final DVBChannelLineParser parser = new DVBChannelLineParser();
 
     @Test
-    public void testID() {
+    void testID() {
         DVBChannel channel = (DVBChannel) parser.parse("1 Das Erste:11836:B8C23D12M64T2G32Y0:S19.2E:27500:101:102=deu,103=2ch;106=deu:104:0:28106:1:1101:0");
         assertEquals("S19.2E-1-1101-28106", channel.getID());
 

@@ -1,19 +1,19 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -30,24 +30,26 @@ package org.hampelratte.svdrp.commands;
 
 import org.hampelratte.svdrp.Command;
 
+import java.io.Serial;
+
 /**
  * Command to put data into the EPG list of the VDR
- * 
+ *
  * @author <a href="mailto:henrik.niehaus@gmx.de">Henrik Niehaus </a>
- * 
+ *
  */
 public class PUTE extends Command {
+    @Serial
     private static final long serialVersionUID = 1L;
 
-    private String data = "";
+    private String data;
 
     /**
      * Command to put data into the EPG list of the VDR
-     * 
-     * @param data
-     *            The EPG data to enter. The data entered has to strictly follow
-     *            the format defined in the man page vdr(5) for the 'epg.data'
-     *            file.
+     *
+     * @param data The EPG data to enter. The data entered has to strictly follow
+     *             the format defined in the man page vdr(5) for the 'epg.data'
+     *             file.
      */
     public PUTE(String data) {
         this.data = data;
@@ -65,7 +67,7 @@ public class PUTE extends Command {
 
     /**
      * Returns the EPG data to send to the VDR
-     * 
+     *
      * @return The EPG data to send to the VDR
      */
     public String getData() {
@@ -74,11 +76,10 @@ public class PUTE extends Command {
 
     /**
      * Sets the EPG data to send to the VDR
-     * 
-     * @param data
-     *            The EPG data to enter. The data entered has to strictly follow
-     *            the format defined in the man page vdr(5) for the 'epg.data'
-     *            file.
+     *
+     * @param data The EPG data to enter. The data entered has to strictly follow
+     *             the format defined in the man page vdr(5) for the 'epg.data'
+     *             file.
      */
     public void setData(String data) {
         this.data = data;

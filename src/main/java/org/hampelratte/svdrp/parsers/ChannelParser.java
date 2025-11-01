@@ -1,10 +1,10 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  * 3. Neither the name of the project (Lazy Bones) nor the names of its
  *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -28,37 +28,35 @@
  */
 package org.hampelratte.svdrp.parsers;
 
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
-
 import org.hampelratte.svdrp.responses.highlevel.Channel;
 import org.hampelratte.svdrp.responses.highlevel.DVBChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
 /**
  * Parses a list of channels received from VDR by the LSTC command
- * 
+ *
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
- * 
+ *
  */
 public class ChannelParser {
     private static final Logger logger = LoggerFactory.getLogger(ChannelParser.class);
-    
-    private ChannelParser() {}
+
+    private ChannelParser() {
+    }
 
     /**
      * Parses a list of channels received from VDR by the LSTC command
-     * 
-     * @param channelData
-     *            A list of channels received from VDR by LSTC command
-     * @param validate
-     *            If set to true, the parameters of DVBChannels will be validated.
-     * @param ignoreErrors
-     *            If set to true, all exceptions, which occure during parsing will be ignored. The channels.conf line, which threw the exception will be lost.
-     *            If set to false, the parsing will stop immediately, if an exception occurs.
+     *
+     * @param channelData  A list of channels received from VDR by LSTC command
+     * @param validate     If set to true, the parameters of DVBChannels will be validated.
+     * @param ignoreErrors If set to true, all exceptions, which occur during parsing will be ignored. The channels.conf line, which threw the exception will be lost.
+     *                     If set to false, the parsing will stop immediately, if an exception occurs.
      * @return A list of Channel objects
      * @throws ParseException if parsing fails
      */
@@ -76,23 +74,13 @@ public class ChannelParser {
                 Channel channel = parser.parse(line);
 
                 // validate dvb channels to detect invalid channels.conf lines
-                if (validate && channel instanceof DVBChannel) {
-                    try {
-                        ((DVBChannel) channel).validate();
-                    } catch (Exception e) {
-                        ParseException pe = new ParseException("DVB channel with invalid values on line " + lineNumber + ": [" + line + "]", lineNumber);
-                        pe.initCause(e);
-                        if (!ignoreErrors) {
-                            throw pe;
-                        } else {
-                            logger.error(pe.getLocalizedMessage(), e);
-                        }
-                    }
+                if (validate && channel instanceof DVBChannel dvbChannel) {
+                    validateDvbChannel(dvbChannel, lineNumber, line, ignoreErrors);
                 }
                 list.add(channel);
             } catch (Exception e) {
                 ParseException pe = new ParseException("Unknown channels.conf line format on line " + lineNumber + ": [" + line + "]", lineNumber);
-                if (!(pe instanceof ParseException)) {
+                if (!(e instanceof ParseException)) {
                     pe.initCause(e);
                 }
                 if (!ignoreErrors) {
@@ -104,6 +92,20 @@ public class ChannelParser {
             lineNumber++;
         }
         return list;
+    }
+
+    private static void validateDvbChannel(DVBChannel dvbChannel, int lineNumber, String line, boolean ignoreErrors) throws ParseException {
+        try {
+            dvbChannel.validate();
+        } catch (Exception e) {
+            ParseException pe = new ParseException("DVB channel with invalid values on line " + lineNumber + ": [" + line + "]", lineNumber);
+            pe.initCause(e);
+            if (!ignoreErrors) {
+                throw pe;
+            } else {
+                logger.error(pe.getLocalizedMessage(), e);
+            }
+        }
     }
 
     public static List<Channel> parse(String channelData, boolean ignoreErrors) throws ParseException {

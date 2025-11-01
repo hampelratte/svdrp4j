@@ -30,6 +30,8 @@ package org.hampelratte.svdrp.commands;
 
 import org.hampelratte.svdrp.Command;
 
+import java.io.Serial;
+
 /**
  * Command to list all recordings or details of a given recording
  *
@@ -37,6 +39,7 @@ import org.hampelratte.svdrp.Command;
  *
  */
 public class LSTR extends Command {
+    @Serial
     private static final long serialVersionUID = 2L;
 
     private int number;
@@ -52,8 +55,7 @@ public class LSTR extends Command {
     /**
      * Command to get details of a given recording
      *
-     * @param number
-     *            The number of the recording
+     * @param number The number of the recording
      */
     public LSTR(String number) {
         this.number = Integer.parseInt(number);
@@ -62,8 +64,7 @@ public class LSTR extends Command {
     /**
      * Command to get details of a given recording
      *
-     * @param number
-     *            The number of the recording
+     * @param number The number of the recording
      */
     public LSTR(int number) {
         this.number = number;
@@ -72,10 +73,8 @@ public class LSTR extends Command {
     /**
      * Command to get details of a given recording
      *
-     * @param number
-     *            The number of the recording
-     * @param path
-     *            return only the path in the file system instead of the recording information
+     * @param number The number of the recording
+     * @param path   return only the path in the file system instead of the recording information
      *
      */
     public LSTR(String number, boolean path) {
@@ -86,10 +85,8 @@ public class LSTR extends Command {
     /**
      * Command to get details of a given recording
      *
-     * @param number
-     *            The number of the recording
-     * @param path
-     *            return only the path in the file system instead of the recording information
+     * @param number The number of the recording
+     * @param path   return only the path in the file system instead of the recording information
      */
     public LSTR(int number, boolean path) {
         this.number = number;
@@ -102,7 +99,7 @@ public class LSTR extends Command {
         if (number > 0) {
             cmd += " " + number;
         }
-        if(path) {
+        if (path) {
             cmd += " path";
         }
         return cmd;
@@ -125,8 +122,7 @@ public class LSTR extends Command {
     /**
      * Sets the number of the recording
      *
-     * @param number
-     *            The number of the recording
+     * @param number The number of the recording
      */
     public void setNumber(int number) {
         this.number = number;

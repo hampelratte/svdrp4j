@@ -28,14 +28,14 @@
  */
 package org.hampelratte.svdrp.mock;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.hampelratte.svdrp.Connection;
 import org.hampelratte.svdrp.Version;
 import org.hampelratte.svdrp.parsers.RecordingListParser;
 import org.hampelratte.svdrp.responses.highlevel.Recording;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class RecordingManager {
     private List<Recording> recordings;
@@ -49,14 +49,14 @@ public class RecordingManager {
             Connection.setVersion(new Version("2.3.4"));
             recordings = RecordingListParser.parse(data);
         } else {
-            recordings = new ArrayList<Recording>();
+            recordings = new ArrayList<>();
         }
     }
 
     public String printRecordingsList() {
-        if (recordings != null && recordings.size() > 0) {
+        if (recordings != null && !recordings.isEmpty()) {
             StringBuilder response = new StringBuilder();
-            for (Iterator<Recording> iterator = recordings.iterator(); iterator.hasNext();) {
+            for (Iterator<Recording> iterator = recordings.iterator(); iterator.hasNext(); ) {
                 Recording recording = iterator.next();
                 response.append("250");
                 response.append(iterator.hasNext() ? '-' : ' ');
@@ -72,8 +72,7 @@ public class RecordingManager {
     }
 
     public Recording getRecording(int id) {
-        for (Iterator<Recording> iterator = recordings.iterator(); iterator.hasNext();) {
-            Recording recording = iterator.next();
+        for (Recording recording : recordings) {
             if (recording.getId() == id) {
                 return recording;
             }

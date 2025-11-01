@@ -28,32 +28,31 @@
  */
 package org.hampelratte.svdrp.parsers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.text.ParseException;
-import java.util.List;
-
 import org.hampelratte.svdrp.responses.highlevel.Channel;
 import org.hampelratte.svdrp.responses.highlevel.ChannelGroup;
 import org.hampelratte.svdrp.responses.highlevel.DVBChannel;
 import org.hampelratte.svdrp.responses.highlevel.PvrInputChannel;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class ChannelParserTest {
+import java.text.ParseException;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class ChannelParserTest {
 
     @Test
-    public void testNameParsing() throws ParseException {
-        String channelData = "1 Das Erste:11836:hC34:S19.2E:27500:101:102=deu,103=2ch;106=deu:104:0:28106:1:1101:0\n"
-                + "2 Das Erste HD;ARD:11361:HC23M5O35S1:S19.2E:22000:6010=27:6020=deu@3,6021=mis@3;6022=deu@106:6030:0:11100:1:1011:0\n"
-                + "3 ZDF;ZDFvision:11953:hC34:S19.2E:27500:110:120=deu,121=2ch;125=deu:130:0:28006:1:1079:0\n"
-                + "4 WDR Bielefeld,WDR;ARD:12421:hC34:S19.2E:27500:101:102=deu,103=2ch:104:0:28306:1:1201:0\n"
-                + "5 S19.2E-1-1019-10301 Das Erste HD;ARD:11493:HC23M5O35P0S1:S19.2E:22000:5101=27:5102=deu@3,5103=mis@3;5106=deu@106:5104;5105=deu:0:10301:1:1019:0";
+    void testNameParsing() throws ParseException {
+        String channelData = """
+                1 Das Erste:11836:hC34:S19.2E:27500:101:102=deu,103=2ch;106=deu:104:0:28106:1:1101:0
+                2 Das Erste HD;ARD:11361:HC23M5O35S1:S19.2E:22000:6010=27:6020=deu@3,6021=mis@3;6022=deu@106:6030:0:11100:1:1011:0
+                3 ZDF;ZDFvision:11953:hC34:S19.2E:27500:110:120=deu,121=2ch;125=deu:130:0:28006:1:1079:0
+                4 WDR Bielefeld,WDR;ARD:12421:hC34:S19.2E:27500:101:102=deu,103=2ch:104:0:28306:1:1201:0
+                5 S19.2E-1-1019-10301 Das Erste HD;ARD:11493:HC23M5O35P0S1:S19.2E:22000:5101=27:5102=deu@3,5103=mis@3;5106=deu@106:5104;5105=deu:0:10301:1:1019:0""";
 
         List<Channel> channels = ChannelParser.parse(channelData, false);
 
-        Channel ard = channels.get(0);
+        Channel ard = channels.getFirst();
         assertEquals("Das Erste", ard.getName());
         assertEquals("", ard.getShortName());
         assertEquals("", ard.getServiceProviderName());
@@ -79,75 +78,76 @@ public class ChannelParserTest {
     }
 
     @Test
-    public void testDifferentInputDevices() throws ParseException {
+    void testDifferentInputDevices() throws ParseException {
         // @formatter:off
-        String channelData =
-                "1 NICK AUSTRIA;MTV Networks:362000:M64:C:6900:513=2:661=deu:577:0:28640:1:1091:0\n" +
-                        "2 DSF:783250:PVRINPUT|TV|PAL:P:0:301:300:305:0:1:0:3499:0\n" +
-                        "3 Composite 0;pvrinput:1:COMPOSITE0:V:0:301=2:300=@4:0:0:9000:0:0:0\n" +
-                        "4 S-Video 0;pvrinput:1:SVIDEO0:V:0:301=2:300=@4:0:0:9005:0:0:0\n" +
-                        "5 DMAX;w_pvrscan:343250:PVRINPUT|TV|PAL:P:0:301=2:300:305:0:5492:0:0:0\n" +
-                        "6 Sky Cinema,Cinema;SKY:11798:hC34:S19.2E:27500:511:512=deu:32:1702,1722,1833,1834,1836,9C4,9C7:10:133:2:0\n" +
-                        "7 ZDF;ZDFmobil:482000000:B8C23D12G4M16T8Y0:T:0:545=2:546=deu@3,547=mis@3:551:0:514:8468:514:0\n" +
-                        "8 Pro7;ProSiebenSat.1:280250:C0D45:V:0:301+101=2:300=@4:0:0:1:0:4484:0";
+        String channelData = """
+                1 NICK AUSTRIA;MTV Networks:362000:M64:C:6900:513=2:661=deu:577:0:28640:1:1091:0
+                2 DSF:783250:PVRINPUT|TV|PAL:P:0:301:300:305:0:1:0:3499:0
+                3 Composite 0;pvrinput:1:COMPOSITE0:V:0:301=2:300=@4:0:0:9000:0:0:0
+                4 S-Video 0;pvrinput:1:SVIDEO0:V:0:301=2:300=@4:0:0:9005:0:0:0
+                5 DMAX;w_pvrscan:343250:PVRINPUT|TV|PAL:P:0:301=2:300:305:0:5492:0:0:0
+                6 Sky Cinema,Cinema;SKY:11798:hC34:S19.2E:27500:511:512=deu:32:1702,1722,1833,1834,1836,9C4,9C7:10:133:2:0
+                7 ZDF;ZDFmobil:482000000:B8C23D12G4M16T8Y0:T:0:545=2:546=deu@3,547=mis@3:551:0:514:8468:514:0
+                8 Pro7;ProSiebenSat.1:280250:C0D45:V:0:301+101=2:300=@4:0:0:1:0:4484:0""";
         // @formatter:on
 
         List<Channel> channels = ChannelParser.parse(channelData, false);
-        assertTrue(channels.get(0) instanceof DVBChannel);
-        assertTrue(channels.get(1) instanceof PvrInputChannel);
-        assertTrue(channels.get(2) instanceof PvrInputChannel);
-        assertTrue(channels.get(3) instanceof PvrInputChannel);
-        assertTrue(channels.get(4) instanceof PvrInputChannel);
+        assertInstanceOf(DVBChannel.class, channels.get(0));
+        assertInstanceOf(PvrInputChannel.class, channels.get(1));
+        assertInstanceOf(PvrInputChannel.class, channels.get(2));
+        assertInstanceOf(PvrInputChannel.class, channels.get(3));
+        assertInstanceOf(PvrInputChannel.class, channels.get(4));
     }
 
     @Test
-    public void testConditionalAccess() throws ParseException {
+    void testConditionalAccess() throws ParseException {
         String channelData = "114 Sky Cinema,Cinema;SKY:11798:hC34:S19.2E:27500:511:512=deu:32:1702,1722,1833,1834,1836,9C4,9C7:10:133:2:0\n"
                 + "115 Sky Cinema +1,Cinema1;SKY:11798:hC34:S19.2E:27500:1791:1792=deu,1793=eng;1795=deu:32:1702:11:133:2:0";
 
         List<Channel> channels = ChannelParser.parse(channelData, false);
-        assertTrue(((DVBChannel) channels.get(0)).getConditionalAccess().contains(0x1702));
-        assertTrue(((DVBChannel) channels.get(0)).getConditionalAccess().contains(0x1722));
-        assertTrue(((DVBChannel) channels.get(0)).getConditionalAccess().contains(0x1833));
-        assertTrue(((DVBChannel) channels.get(0)).getConditionalAccess().contains(0x1834));
-        assertTrue(((DVBChannel) channels.get(0)).getConditionalAccess().contains(0x1836));
+        assertTrue(((DVBChannel) channels.getFirst()).getConditionalAccess().contains(0x1702));
+        assertTrue(((DVBChannel) channels.getFirst()).getConditionalAccess().contains(0x1722));
+        assertTrue(((DVBChannel) channels.getFirst()).getConditionalAccess().contains(0x1833));
+        assertTrue(((DVBChannel) channels.getFirst()).getConditionalAccess().contains(0x1834));
+        assertTrue(((DVBChannel) channels.getFirst()).getConditionalAccess().contains(0x1836));
         assertTrue(((DVBChannel) channels.get(0)).getConditionalAccess().contains(0x9c4));
         assertTrue(((DVBChannel) channels.get(0)).getConditionalAccess().contains(0x9c7));
 
         assertTrue(((DVBChannel) channels.get(1)).getConditionalAccess().contains(0x1702));
     }
 
-    @Test(expected = ParseException.class)
-    public void testInvalidFormat() throws ParseException {
-        ChannelParser.parse("Invalid Data", false);
-    }
-
-    @Test(expected = ParseException.class)
-    public void testInvalidvalues() throws ParseException {
-        ChannelParser.parse("1 Das Erste:11836:hC12345:S19.2E:27500:101:102=deu,103=2ch;106=deu:104:0:28106:1:1101:0", true, false);
+    @Test
+    void testInvalidFormat() {
+        assertThrows(ParseException.class, () -> ChannelParser.parse("Invalid Data", false));
     }
 
     @Test
-    public void testIgnoreErrors() throws ParseException {
-    	try {
-	        ChannelParser.parse("Invalid Data", true);
-	        ChannelParser.parse("1 Das Erste:11836:hC12345:S19.2E:27500:101:102=deu,103=2ch;106=deu:104:0:28106:1:1101:0", true);
-    	} catch(Exception e) {
-    		fail();
-    	}
+    void testInvalidValues() {
+        assertThrows(ParseException.class, () -> ChannelParser.parse("1 Das Erste:11836:hC12345:S19.2E:27500:101:102=deu,103=2ch;106=deu:104:0:28106:1:1101:0", true, false));
     }
 
     @Test
-    public void testGroupSeparators() throws ParseException {
-        String channelData = "1 Das Erste:11836:hC34:S19.2E:27500:101:102=deu,103=2ch;106=deu:104:0:28106:1:1101:0\n"
-                + "2 Das Erste HD;ARD:11361:HC23M5O35S1:S19.2E:22000:6010=27:6020=deu@3,6021=mis@3;6022=deu@106:6030:0:11100:1:1011:0\n"
-                + "0 :Group\n"
-                + "3 ZDF;ZDFvision:11953:hC34:S19.2E:27500:110:120=deu,121=2ch;125=deu:130:0:28006:1:1079:0\n"
-                + "4 WDR Bielefeld,WDR;ARD:12421:hC34:S19.2E:27500:101:102=deu,103=2ch:104:0:28306:1:1201:0";
+    void testIgnoreErrors() {
+        try {
+            ChannelParser.parse("Invalid Data", true);
+            ChannelParser.parse("1 Das Erste:11836:hC12345:S19.2E:27500:101:102=deu,103=2ch;106=deu:104:0:28106:1:1101:0", true);
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    void testGroupSeparators() throws ParseException {
+        String channelData = """
+                1 Das Erste:11836:hC34:S19.2E:27500:101:102=deu,103=2ch;106=deu:104:0:28106:1:1101:0
+                2 Das Erste HD;ARD:11361:HC23M5O35S1:S19.2E:22000:6010=27:6020=deu@3,6021=mis@3;6022=deu@106:6030:0:11100:1:1011:0
+                0 :Group
+                3 ZDF;ZDFvision:11953:hC34:S19.2E:27500:110:120=deu,121=2ch;125=deu:130:0:28006:1:1079:0
+                4 WDR Bielefeld,WDR;ARD:12421:hC34:S19.2E:27500:101:102=deu,103=2ch:104:0:28306:1:1201:0""";
 
         List<Channel> channels = ChannelParser.parse(channelData, false);
         assertEquals(5, channels.size());
-        assertTrue(channels.get(2) instanceof ChannelGroup);
+        assertInstanceOf(ChannelGroup.class, channels.get(2));
         assertEquals("Group", channels.get(2).getName());
     }
 }

@@ -46,22 +46,22 @@ public class VoluHandler implements RequestHandler {
         Matcher m = Pattern.compile("[Vv][Oo][Ll][Uu](?:\\s+(\\d+|[Mm][Uu][Tt][Ee]|\\+|-)\\s*)?").matcher(request);
         if (m.matches()) {
             String param = m.group(1);
-            if(param == null) {
+            if (param == null) {
                 // noop
-            } else if("+".equals(param)) {
+            } else if ("+".equals(param)) {
                 volume = Math.min(255, ++volume);
                 muted = false;
-            } else if("-".equals(param)) {
+            } else if ("-".equals(param)) {
                 volume = Math.max(0, --volume);
                 muted = false;
-            } else if("mute".equals(param.toLowerCase())) {
+            } else if ("mute".equalsIgnoreCase(param)) {
                 muted = !muted;
             } else {
                 volume = Integer.parseInt(param);
                 muted = false;
             }
 
-            if(muted) {
+            if (muted) {
                 return "Audio is mute";
             } else {
                 return "Audio volume is " + volume;

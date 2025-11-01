@@ -1,19 +1,19 @@
-/* 
+/*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -31,13 +31,16 @@ package org.hampelratte.svdrp.commands;
 import org.hampelratte.svdrp.Command;
 import org.hampelratte.svdrp.responses.highlevel.Timer;
 
+import java.io.Serial;
+
 /**
  * Command to delete a timer
- * 
+ *
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
- * 
+ *
  */
 public class DELT extends Command {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**
@@ -47,9 +50,8 @@ public class DELT extends Command {
 
     /**
      * Command to delete a timer
-     * 
-     * @param number
-     *            The number of the timer, which should be deleted
+     *
+     * @param number The number of the timer, which should be deleted
      */
     public DELT(int number) {
         this.number = number;
@@ -57,9 +59,8 @@ public class DELT extends Command {
 
     /**
      * Command to delete a timer
-     * 
-     * @param timer
-     *            The timer, which should be deleted
+     *
+     * @param timer The timer, which should be deleted
      */
     public DELT(Timer timer) {
         this(timer.getID());
@@ -77,7 +78,7 @@ public class DELT extends Command {
 
     /**
      * Returns the number of the timer, which should be deleted
-     * 
+     *
      * @return The number of the timer, which should be deleted
      */
     public int getNumber() {
@@ -86,9 +87,8 @@ public class DELT extends Command {
 
     /**
      * Sets the number of the timer, which should be deleted
-     * 
-     * @param parameter
-     *            The number of the timer, which should be deleted
+     *
+     * @param parameter The number of the timer, which should be deleted
      */
     public void setNumber(int parameter) {
         this.number = parameter;

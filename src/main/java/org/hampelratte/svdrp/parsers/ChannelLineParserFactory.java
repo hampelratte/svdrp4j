@@ -39,12 +39,13 @@ public class ChannelLineParserFactory {
     private static IPTVChannelLineParser iptv;
 
     private static GroupChannelLineParser group;
-    
-    private ChannelLineParserFactory() {}
+
+    private ChannelLineParserFactory() {
+    }
 
     public static ChannelLineParser createChannelParser(String chanConfLine) throws ParseException {
         String normalizedChanConfLine = chanConfLine;
-        if(ChannelLineParser.hasId(normalizedChanConfLine)) {
+        if (ChannelLineParser.hasId(normalizedChanConfLine)) {
             normalizedChanConfLine = ChannelLineParser.removeId(chanConfLine);
         }
 
@@ -101,9 +102,7 @@ public class ChannelLineParserFactory {
         // the source character may start at least at pos 7
         if (pos >= 7) {
             char first = chanConfLine.charAt(pos);
-            for (int i = 0; i < source.length; i++) {
-                char sourceCharacter = source[i];
-
+            for (char sourceCharacter : source) {
                 if (first == sourceCharacter) {
                     return true;
                 }

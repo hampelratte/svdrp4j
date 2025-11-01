@@ -1,4 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <artifactId>parent</artifactId>
@@ -8,7 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>svdrp4j</artifactId>
     <packaging>bundle</packaging>
-    <version>1.2.2-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
     <name>Simple Video Disk Recorder Protocol</name>
     <description>An implementation of the Simple VDR Protocol.</description>
     <url>https://github.com/hampelratte/svdrp4j</url>
@@ -17,28 +17,27 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.35</version>
+            <version>2.0.17</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-jdk14</artifactId>
-            <version>1.7.35</version>
+            <version>2.0.17</version>
             <type>jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
-            <type>jar</type>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>6.0.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.10.19</version>
+            <artifactId>mockito-core</artifactId>
+            <version>5.20.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -52,7 +51,7 @@
         <url>https://hampelratte.org/ci/job/svdrp4j</url>
     </ciManagement>
     <scm>
-        <connection>scm:git:git://github.com/hampelratte/svdrp4j.git</connection>
+        <connection>scm:git:git://github.com/hampelratte/svd1rp4j.git</connection>
         <developerConnection>scm:git:ssh://git@github.com:hampelratte/svdrp4j.git</developerConnection>
         <url>https://github.com/hampelratte/svdrp4j</url>
     </scm>
@@ -73,15 +72,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.14.1</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>21</source>
+                    <target>21</target>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.3.1</version>
+                <version>3.12.0</version>
                 <configuration>
                     <quiet>true</quiet>
                 </configuration>
@@ -98,7 +98,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.3.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -112,7 +112,7 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>4.2.1</version>
+                <version>6.0.0</version>
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>

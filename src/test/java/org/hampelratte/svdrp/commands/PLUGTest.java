@@ -16,7 +16,7 @@
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERDELTTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
  * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
  * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
  * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
@@ -28,40 +28,38 @@
  */
 package org.hampelratte.svdrp.commands;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class PLUGTest {
+class PLUGTest {
 
     @Test
-    public void testPLUG() {
+    void testPLUG() {
         PLUG p = new PLUG();
         assertEquals("PLUG", p.getCommand());
     }
 
     @Test
-    public void testWithPlugin() {
+    void testWithPlugin() {
         PLUG p = new PLUG("dummy", "");
         assertEquals("PLUG dummy", p.getCommand());
     }
 
     @Test
-    public void testWithPluginAndCommand() {
+    void testWithPluginAndCommand() {
         PLUG p = new PLUG("dummy", "hello");
         assertEquals("PLUG dummy hello", p.getCommand());
     }
 
     @Test
-    public void testWithPluginAndCommandAndOptions() {
+    void testWithPluginAndCommandAndOptions() {
         PLUG p = new PLUG("dummy", false, false, "hello", "funny world");
         assertEquals("PLUG dummy hello funny world", p.getCommand());
     }
 
     @Test
-    public void testHelpSwitch() {
+    void testHelpSwitch() {
         PLUG p = new PLUG("dummy", false, true, "hello", "funny world");
         assertEquals("PLUG dummy HELP hello", p.getCommand());
         assertTrue(p.isHelpSwitch());
@@ -76,7 +74,7 @@ public class PLUGTest {
     }
 
     @Test
-    public void testMainSwitch() {
+    void testMainSwitch() {
         PLUG p = new PLUG("dummy", true, true, "hello", "funny world");
         assertEquals("PLUG dummy MAIN", p.getCommand());
         assertTrue(p.isMainSwitch());
@@ -91,13 +89,13 @@ public class PLUGTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         PLUG p = new PLUG("dummy", true, true, "hello", "funny world");
         assertEquals("PLUG", p.toString());
     }
 
     @Test
-    public void testPluginName() {
+    void testPluginName() {
         PLUG p = new PLUG("dummy", false, false, "hello", "funny world");
         assertEquals("dummy", p.getPluginName());
         assertEquals("PLUG dummy hello funny world", p.getCommand());
@@ -111,7 +109,7 @@ public class PLUGTest {
     }
 
     @Test
-    public void testPluginCommand() {
+    void testPluginCommand() {
         PLUG p = new PLUG("dummy", false, false, "hello", "funny world");
         assertEquals("dummy", p.getPluginName());
         assertEquals("PLUG dummy hello funny world", p.getCommand());
@@ -122,7 +120,7 @@ public class PLUGTest {
     }
 
     @Test
-    public void testOptions() {
+    void testOptions() {
         PLUG p = new PLUG("dummy", false, false, "hello", "funny world");
         assertEquals("dummy", p.getPluginName());
         assertEquals("PLUG dummy hello funny world", p.getCommand());

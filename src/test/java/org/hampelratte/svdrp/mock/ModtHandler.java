@@ -28,19 +28,19 @@
  */
 package org.hampelratte.svdrp.mock;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.hampelratte.svdrp.parsers.TimerParser;
 import org.hampelratte.svdrp.responses.highlevel.Timer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class ModtHandler implements RequestHandler {
 
-    private static transient Logger logger = LoggerFactory.getLogger(ModtHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(ModtHandler.class);
 
-    private TimerManager timerManager;
+    private final TimerManager timerManager;
 
     public ModtHandler(TimerManager timerManager) {
         super();
@@ -59,16 +59,16 @@ public class ModtHandler implements RequestHandler {
             int id = Integer.parseInt(m.group(2));
             String settings = m.group(3);
 
-            if(settings.equalsIgnoreCase("on")) {
+            if (settings.equalsIgnoreCase("on")) {
                 Timer timer = timerManager.getTimer(id);
                 timer.changeStateTo(Timer.ACTIVE, true);
                 return "250 Timer modified";
-            } else if(settings.equalsIgnoreCase("off")) {
+            } else if (settings.equalsIgnoreCase("off")) {
                 Timer timer = timerManager.getTimer(id);
                 timer.changeStateTo(Timer.ACTIVE, false);
                 return "250 Timer modified";
             } else {
-                Timer timer = TimerParser.parse(m.group(1)).get(0);
+                Timer timer = TimerParser.parse(m.group(1)).getFirst();
                 logger.info("Modify timer with number {}", timer.getID());
                 try {
                     timerManager.modifyTimer(timer);

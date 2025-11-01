@@ -1,10 +1,10 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  * 3. Neither the name of the project (Lazy Bones) nor the names of its
  *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -30,18 +30,19 @@ package org.hampelratte.svdrp.commands;
 
 import org.hampelratte.svdrp.Command;
 
+import java.io.Serial;
+
 /**
  * Turns the remote control on or off. Without a parameter, the current
  * status of the remote control is reported.
- * 
+ *
  * @author <a href="hampelratte@users.berlios.de">hampelratte@users.berlios.de</a>
  */
 public class REMO extends Command {
-    private static final long serialVersionUID = 1L;
-
     public static final String ON = "on";
     public static final String OFF = "off";
-
+    @Serial
+    private static final long serialVersionUID = 1L;
     private String state = "";
 
     /**
@@ -53,10 +54,9 @@ public class REMO extends Command {
 
     /**
      * Turns the remote control on or off.
-     * 
-     * @param state
-     *            <code>true</code> to turn the RC on, <code>false</code> to turn the RC off
-     * 
+     *
+     * @param state <code>true</code> to turn the RC on, <code>false</code> to turn the RC off
+     *
      */
     public REMO(boolean state) {
         this.state = state ? ON : OFF;
@@ -64,9 +64,8 @@ public class REMO extends Command {
 
     /**
      * Turns the remote control on or off.
-     * 
-     * @param state
-     *            {@link REMO#ON REMO.ON}, {@link REMO#OFF REMO.OFF}
+     *
+     * @param state {@link REMO#ON REMO.ON}, {@link REMO#OFF REMO.OFF}
      * @see REMO#ON
      * @see REMO#OFF
      */
@@ -87,6 +86,7 @@ public class REMO extends Command {
 
     /**
      * Returns the state
+     *
      * @return the state
      */
     public String getState() {
@@ -95,10 +95,9 @@ public class REMO extends Command {
 
     /**
      * Sets the state to ON, OFF or resets the state.
-     * 
-     * @param state
-     *            {@link REMO#ON REMO.ON}, {@link REMO#OFF REMO.OFF} or an empty String to reset
-     *            the parameter
+     *
+     * @param state {@link REMO#ON REMO.ON}, {@link REMO#OFF REMO.OFF} or an empty String to reset
+     *              the parameter
      * @see REMO#ON
      * @see REMO#OFF
      */
@@ -111,9 +110,8 @@ public class REMO extends Command {
 
     /**
      * Sets the state to ON or OFF.
-     * 
-     * @param state
-     *            <code>true</code> to turn the RC on, <code>false</code> to turn the RC off
+     *
+     * @param state <code>true</code> to turn the RC on, <code>false</code> to turn the RC off
      */
     public void setState(boolean state) {
         this.state = state ? ON : OFF;

@@ -28,19 +28,19 @@
  */
 package org.hampelratte.svdrp.commands;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class UPDRTest {
+class UPDRTest {
 
     @Test
-    public void testCommand() {
+    void testCommand() {
         assertEquals("UPDR", new UPDR().getCommand());
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         assertEquals("UPDR", new UPDR().toString());
     }
 }

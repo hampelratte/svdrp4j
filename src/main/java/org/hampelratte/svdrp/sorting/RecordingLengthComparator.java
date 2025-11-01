@@ -28,9 +28,9 @@
  */
 package org.hampelratte.svdrp.sorting;
 
-import java.util.Comparator;
-
 import org.hampelratte.svdrp.responses.highlevel.Recording;
+
+import java.util.Comparator;
 
 /**
  * Sorts Recordings by their length.
@@ -41,6 +41,6 @@ public class RecordingLengthComparator implements Comparator<Recording> {
 
     @Override
     public int compare(Recording r1, Recording r2) {
-        return (int) Math.signum(r1.getDuration() - (float)r2.getDuration());
+        return (int) Math.signum(r1.getDuration() - (float) r2.getDuration());
     }
 }

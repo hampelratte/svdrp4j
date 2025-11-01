@@ -1,10 +1,10 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  * 3. Neither the name of the project (Lazy Bones) nor the names of its
  *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -34,19 +34,17 @@ import java.util.regex.Pattern;
 
 /**
  * @author <a href="hampelratte@users.sf.net">hampelratte@users.sf.net </a>
- * 
- *         Holds the version of the VDR, which we are talking to
+ * <p>
+ * Holds the version of the VDR, which we are talking to
  */
 public class Version implements Comparable<Version> {
 
-    int major = 0;
-
-    int minor = 0;
-
-    int revision = 0;
+    int major;
+    int minor;
+    int revision;
 
     public Version(String versionString) {
-        Pattern pattern = Pattern.compile("((?:\\d)+)\\.((?:\\d)+)\\.((?:\\d)+)");
+        Pattern pattern = Pattern.compile("(\\d+)\\.(\\d+)\\.(\\d+)");
         Matcher m = pattern.matcher(versionString);
 
         if (m.matches()) {
@@ -62,24 +60,24 @@ public class Version implements Comparable<Version> {
         return minor;
     }
 
-    public void setMinor(int major) {
-        this.minor = major;
+    public void setMinor(int minor) {
+        this.minor = minor;
     }
 
     public int getRevision() {
         return revision;
     }
 
-    public void setRevision(int minor) {
-        this.revision = minor;
+    public void setRevision(int revision) {
+        this.revision = revision;
     }
 
     public int getMajor() {
         return major;
     }
 
-    public void setMajor(int version) {
-        this.major = version;
+    public void setMajor(int major) {
+        this.major = major;
     }
 
     @Override
@@ -91,32 +89,25 @@ public class Version implements Comparable<Version> {
     public int compareTo(Version other) {
         int thisVersion = getMajor() * 10000 + getMinor() * 100 + getRevision();
         int otherVersion = other.getMajor() * 10000 + other.getMinor() * 100 + other.getRevision();
-
-        if (thisVersion > otherVersion) {
-            return 1;
-        } else if (thisVersion < otherVersion) {
-            return -1;
-        } else {
-            return 0;
-        }
+        return Integer.compare(thisVersion, otherVersion);
     }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(major, minor, revision);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(major, minor, revision);
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Version other = (Version) obj;
-		return major == other.major && minor == other.minor && revision == other.revision;
-	}
-    
-    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Version other = (Version) obj;
+        return major == other.major && minor == other.minor && revision == other.revision;
+    }
+
+
 }

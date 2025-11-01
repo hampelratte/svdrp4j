@@ -2,13 +2,14 @@ package org.hampelratte.svdrp.commands;
 
 import org.hampelratte.svdrp.Command;
 
+import java.io.Serial;
+
 public class POLL extends Command {
 
-	private static final long serialVersionUID = 607392886937631005L;
-
-	public static final String TIMERS = "timers";
-
-    private String param;
+    public static final String TIMERS = "timers";
+    @Serial
+    private static final long serialVersionUID = 607392886937631005L;
+    private final String param;
 
     public POLL(String param) {
         this.param = param;

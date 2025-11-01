@@ -1,19 +1,19 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -28,67 +28,67 @@
  */
 package org.hampelratte.svdrp.commands;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class PLAYTest {
+class PLAYTest {
 
     @Test
-    public void testSimple() {
+    void testSimple() {
         PLAY play = new PLAY(1);
         assertEquals("PLAY 1", play.getCommand());
     }
-    
+
     @Test
-    public void testWithFrame() {
+    void testWithFrame() {
         PLAY play = new PLAY(2, 50);
         assertEquals("PLAY 2 50", play.getCommand());
     }
-    
+
     @Test
-    public void testWithTime() {
+    void testWithTime() {
         PLAY play = new PLAY(23, "01:20:15");
         assertEquals("PLAY 23 01:20:15", play.getCommand());
     }
-    
+
     @Test
-    public void testWithTimePlusFrame() {
+    void testWithTimePlusFrame() {
         PLAY play = new PLAY(23, "00:01:02.10");
         assertEquals("PLAY 23 00:01:02.10", play.getCommand());
     }
 
     @Test
-    public void testSetTime() {
+    void testSetTime() {
         PLAY play = new PLAY(23);
         play.setStartTime("00:01:02.10");
         assertEquals("PLAY 23 00:01:02.10", play.getCommand());
-        
+
     }
-    
-    @Test(expected = IllegalArgumentException.class)
-    public void testSetTimeWithIllegalArgument() throws IllegalArgumentException {
-        PLAY play = new PLAY(23);
-        play.setStartTime("00:01");
-    }
-    
+
     @Test
-    public void testSetFrame() {
+    void testSetTimeWithIllegalArgument() {
+        PLAY play = new PLAY(23);
+        var ex = assertThrows(IllegalArgumentException.class, () -> play.setStartTime("00:01"));
+        assertEquals("Start time has to be in the format hh:mm:ss[.ff]", ex.getMessage());
+    }
+
+    @Test
+    void testSetFrame() {
         PLAY play = new PLAY(23);
         play.setStartFrame(345);
         assertEquals("PLAY 23 345", play.getCommand());
     }
-    
+
     @Test
-    public void testWithTimeBegin() {
+    void testWithTimeBegin() {
         PLAY play = new PLAY(23);
         play.setStartTime(PLAY.BEGIN);
         assertEquals("PLAY 23 begin", play.getCommand());
     }
-    
+
     @Test
-    public void testResetTime() {
+    void testResetTime() {
         PLAY play = new PLAY(23);
         play.setStartTime(PLAY.BEGIN);
         assertEquals("begin", play.getStartTime());
@@ -96,9 +96,9 @@ public class PLAYTest {
         assertEquals(653, play.getStartFrame());
         assertNull(play.getStartTime());
     }
-    
+
     @Test
-    public void testResetFrame() {
+    void testResetFrame() {
         PLAY play = new PLAY(23);
         play.setStartFrame(653);
         assertEquals(653, play.getStartFrame());
@@ -106,14 +106,14 @@ public class PLAYTest {
         assertEquals("begin", play.getStartTime());
         assertEquals(-1, play.getStartFrame());
     }
-    
+
     @Test
-    public void testToString() {
+    void testToString() {
         assertEquals("PLAY", new PLAY(1).toString());
     }
-    
+
     @Test
-    public void testSetRecordingNUmber() {
+    void testSetRecordingNUmber() {
         PLAY play = new PLAY(1);
         play.setRecordingNumber(2);
         assertEquals(2, play.getRecordingNumber());

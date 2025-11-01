@@ -28,19 +28,6 @@
  */
 package org.hampelratte.svdrp.parsers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.List;
-import java.util.TimeZone;
-
 import org.hampelratte.svdrp.Connection;
 import org.hampelratte.svdrp.Version;
 import org.hampelratte.svdrp.commands.LSTR;
@@ -48,50 +35,62 @@ import org.hampelratte.svdrp.responses.R215;
 import org.hampelratte.svdrp.responses.R250;
 import org.hampelratte.svdrp.responses.highlevel.Recording;
 import org.hampelratte.svdrp.responses.highlevel.Stream;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.List;
+import java.util.TimeZone;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
-public class RecordingParserTest {
+class RecordingParserTest {
 
-    private List<Recording> recordings;
     private Recording recording;
 
-    @Before
-    public void parseRecording() throws IOException, ParseException {
+    @BeforeEach
+    void parseRecording() throws IOException, ParseException {
         TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
         Connection.setVersion(new Version("1.0.0"));
         Connection conn = mock(Connection.class);
         //@formatter:off
         when(conn.send(isA(LSTR.class))).thenReturn(
-                new R250("1 29.08.10 19:55* Tagesschau\n" +
-                        "2 02.03.09 00:38  Der Teufel trägt Prada\n" +
-                        "3 08.09.10 18:45X %Aktuelle Stunde\n" +
-                        "4 09.03.07 16:12 %Tagesthemen\n" +
-                        "5 09.03.07 16:12* %%Zweimal geschnitten\n" +
-                        "6 09.03.07 16:12* %Folder~Title\n" +
-                        "7 09.03.07 16:12  Parent~Child~%Title")
+                new R250("""
+                        1 29.08.10 19:55* Tagesschau
+                        2 02.03.09 00:38  Der Teufel trägt Prada
+                        3 08.09.10 18:45X %Aktuelle Stunde
+                        4 09.03.07 16:12 %Tagesthemen
+                        5 09.03.07 16:12* %%Zweimal geschnitten
+                        6 09.03.07 16:12* %Folder~Title
+                        7 09.03.07 16:12  Parent~Child~%Title""")
                 );
         //@formatter:on
 
-        recordings = RecordingListParser.parse(conn.send(new LSTR()).getMessage());
+        List<Recording> recordings = RecordingListParser.parse(conn.send(new LSTR()).getMessage());
         recording = recordings.get(2);
 
         LSTR lstr2 = new LSTR(recording.getId());
         //@formatter:off
         when(conn.send(lstr2)).thenReturn(
-                new R215("C S19.2E-1-1201-28306 WDR Bielefeld\n" +
-                        "E 54090 1283964600 2400 4E FF\n" +
-                        "T Aktuelle Stunde\n" +
-                        "S Moderation: Catherine Vogel und Thomas Heyer\n" +
-                        "D Themen u.a.:|* Suche nach Mirco wird fortgesetzt|* Amerikanischer Pastor will Koran verbrennen|* Aus für staatliches Glücksspiel-Monopol|* Frau gewürgt und vergewaltigt|* Glückwunsch Mario Adorf|* Wetten, wir kriegen's entspannter?|* NRW kompakt\n" +
-                        "X 2 03 deu \n" +
-                        "X 2 03 2ch\n" +
-                        "P 50\n" +
-                        "L 99\n" +
-                        "V 1283964600\n" +
-                        "@ Themen u.a.:|* Suche nach Mirco wird fortgesetzt|* Amerikanischer Pastor will Koran verbrennen|* Aus für staatliches Glücksspiel-Monopol|* Frau gewürgt und vergewaltigt|* Glückwunsch Mario Adorf|* Wetten, wir kriegen's entspannter?|* NRW kompakt\n" +
-                        "End of recording information")
+                new R215("""
+                        C S19.2E-1-1201-28306 WDR Bielefeld
+                        E 54090 1283964600 2400 4E FF
+                        T Aktuelle Stunde
+                        S Moderation: Catherine Vogel und Thomas Heyer
+                        D Themen u.a.:|* Suche nach Mirco wird fortgesetzt|* Amerikanischer Pastor will Koran verbrennen|* Aus für staatliches Glücksspiel-Monopol|* Frau gewürgt und vergewaltigt|* Glückwunsch Mario Adorf|* Wetten, wir kriegen's entspannter?|* NRW kompakt
+                        X 2 03 deu
+                        X 2 03 2ch
+                        P 50
+                        L 99
+                        V 1283964600
+                        @ Themen u.a.:|* Suche nach Mirco wird fortgesetzt|* Amerikanischer Pastor will Koran verbrennen|* Aus für staatliches Glücksspiel-Monopol|* Frau gewürgt und vergewaltigt|* Glückwunsch Mario Adorf|* Wetten, wir kriegen's entspannter?|* NRW kompakt
+                        End of recording information""")
                 );
         //@formatter:on
 
@@ -100,46 +99,46 @@ public class RecordingParserTest {
     }
 
     @Test
-    public void testTitle() {
+    void testTitle() {
         assertEquals("%Aktuelle Stunde", recording.getTitle());
     }
 
     @Test
-    public void testDisplayTitle() {
+    void testDisplayTitle() {
         assertEquals("Aktuelle Stunde", recording.getDisplayTitle());
     }
 
     @Test
-    public void testIsNew() {
+    void testIsNew() {
         assertFalse(recording.isNew());
     }
 
     @Test
-    public void testIsCut() {
+    void testIsCut() {
         assertTrue(recording.isCut());
     }
 
     @Test
-    public void testNumber() {
+    void testNumber() {
         assertEquals(3, recording.getId());
     }
 
     @Test
-    public void testDescription() {
+    void testDescription() {
         assertEquals("Themen u.a.:\n* Suche nach Mirco wird fortgesetzt\n* Amerikanischer Pastor will Koran verbrennen\n* Aus für staatliches Glücksspiel-Monopol\n* Frau gewürgt und vergewaltigt\n* Glückwunsch Mario Adorf\n* Wetten, wir kriegen's entspannter?\n* NRW kompakt", recording.getDescription());
     }
 
     @Test
-    public void testShortText() {
+    void testShortText() {
         assertEquals("Moderation: Catherine Vogel und Thomas Heyer", recording.getShortText());
     }
 
     @Test
-    public void testStreams() {
+    void testStreams() {
         assertEquals(2, recording.getStreams().size());
         assertEquals(2, recording.getAudioStreams().size());
 
-        Stream deu = recording.getStreams().get(0);
+        Stream deu = recording.getStreams().getFirst();
         assertEquals("deu", deu.getLanguage());
         assertEquals(Stream.CONTENT.MP2A, deu.getContent());
         assertEquals(3, deu.getType());
@@ -153,12 +152,12 @@ public class RecordingParserTest {
     }
 
     @Test
-    public void testVps() {
-        assertEquals(1283964600000l, recording.getVpsTime().getTimeInMillis());
+    void testVps() {
+        assertEquals(1283964600000L, recording.getVpsTime().getTimeInMillis());
     }
 
     @Test
-    public void testStarttime() {
+    void testStarttime() {
         Calendar starttime = recording.getStartTime();
         assertEquals(8, starttime.get(Calendar.DAY_OF_MONTH));
         assertEquals(8, starttime.get(Calendar.MONTH));
@@ -168,17 +167,17 @@ public class RecordingParserTest {
     }
 
     @Test
-    public void testChannelId() {
+    void testChannelId() {
         assertEquals("S19.2E-1-1201-28306", recording.getChannelID());
     }
 
     @Test
-    public void testChannelName() {
+    void testChannelName() {
         assertEquals("WDR Bielefeld", recording.getChannelName());
     }
 
     @Test
-    public void testEndTime() {
+    void testEndTime() {
         Calendar end = recording.getEndTime();
         assertEquals(8, end.get(Calendar.DAY_OF_MONTH));
         assertEquals(8, end.get(Calendar.MONTH));
@@ -188,22 +187,22 @@ public class RecordingParserTest {
     }
 
     @Test
-    public void testTableId() {
+    void testTableId() {
         assertEquals(0x4E, recording.getTableID());
     }
 
     @Test
-    public void testVersion() {
+    void testVersion() {
         assertEquals(0xFF, recording.getVersion());
     }
 
     @Test
-    public void testPriority() {
+    void testPriority() {
         assertEquals(50, recording.getPriority());
     }
 
     @Test
-    public void testLifetime() {
+    void testLifetime() {
         assertEquals(99, recording.getLifetime());
     }
 }

@@ -28,16 +28,14 @@
  */
 package org.hampelratte.svdrp.parsers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class ChannelLineParserTest {
+class ChannelLineParserTest {
 
     @Test
-    public void testHasId() {
+    void testHasId() {
         String withId = "5 S19.2E-1-1019-10301 Das Erste HD;ARD:11493:HC23M5O35P0S1:S19.2E:22000:5101=27:5102=deu@3,5103=mis@3;5106=deu@106:5104;5105=deu:0:10301:1:1019:0";
         String withoutId = "5 Das Erste HD;ARD:11493:HC23M5O35P0S1:S19.2E:22000:5101=27:5102=deu@3,5103=mis@3;5106=deu@106:5104;5105=deu:0:10301:1:1019:0";
         assertTrue(ChannelLineParser.hasId(withId));
@@ -45,7 +43,7 @@ public class ChannelLineParserTest {
     }
 
     @Test
-    public void testRemoveId() {
+    void testRemoveId() {
         String withId = "5 S19.2E-1-1019-10301 Das Erste HD;ARD:11493:HC23M5O35P0S1:S19.2E:22000:5101=27:5102=deu@3,5103=mis@3;5106=deu@106:5104;5105=deu:0:10301:1:1019:0";
         String withoutId = "5 Das Erste HD;ARD:11493:HC23M5O35P0S1:S19.2E:22000:5101=27:5102=deu@3,5103=mis@3;5106=deu@106:5104;5105=deu:0:10301:1:1019:0";
 

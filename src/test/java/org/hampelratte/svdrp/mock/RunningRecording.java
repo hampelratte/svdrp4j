@@ -1,14 +1,16 @@
 package org.hampelratte.svdrp.mock;
 
-import java.util.Calendar;
-
 import org.hampelratte.svdrp.responses.highlevel.Recording;
+
+import java.io.Serial;
+import java.util.Calendar;
 
 public class RunningRecording extends Recording {
 
-	private static final long serialVersionUID = -2809310342205108862L;
+    @Serial
+    private static final long serialVersionUID = -2809310342205108862L;
 
-	public RunningRecording() {
+    public RunningRecording() {
         setId(999);
         setTitle("RunningRecording");
         setLifetime(99);

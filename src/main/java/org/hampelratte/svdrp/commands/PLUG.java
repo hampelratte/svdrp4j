@@ -1,19 +1,19 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -30,6 +30,8 @@ package org.hampelratte.svdrp.commands;
 
 import org.hampelratte.svdrp.Command;
 
+import java.io.Serial;
+
 /**
  * <pre>
  * help plug
@@ -44,24 +46,27 @@ import org.hampelratte.svdrp.Command;
  * 214-    given. The keyword 'main' initiates a call to the main menu function of the
  * 214-    given plugin.
  * </pre>
- * 
+ *
  * @author <a href="hampelratte@users.berlios.de">hampelratte@users.berlios.de</a>
  */
 public class PLUG extends Command {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private boolean mainSwitch = false;
     private boolean helpSwitch = false;
-    
+
     private String pluginName = "";
     private String pluginCommand = "";
     private String options = "";
-    
-    public PLUG() {}
-    
+
+    public PLUG() {
+    }
+
     /**
      * Send a command to a plugin.
-     * @param pluginName Name of the plugin to send the command to
+     *
+     * @param pluginName    Name of the plugin to send the command to
      * @param pluginCommand Name of the command to call
      */
     public PLUG(String pluginName, String pluginCommand) {
@@ -72,11 +77,12 @@ public class PLUG extends Command {
 
     /**
      * Send a command to a plugin.
-     * @param pluginName Name of the plugin to send the command to
-     * @param mainSwitch Inserts the keyword "MAIN" in the command
-     * @param helpSwitch Inserts the keyword "HELP" in the command
+     *
+     * @param pluginName    Name of the plugin to send the command to
+     * @param mainSwitch    Inserts the keyword "MAIN" in the command
+     * @param helpSwitch    Inserts the keyword "HELP" in the command
      * @param pluginCommand Name of the command to call
-     * @param options Options for the command
+     * @param options       Options for the command
      */
     public PLUG(String pluginName, boolean mainSwitch, boolean helpSwitch, String pluginCommand, String options) {
         super();
@@ -90,29 +96,31 @@ public class PLUG extends Command {
     @Override
     public String getCommand() {
         StringBuilder sb = new StringBuilder("PLUG ");
-        
+
         // append plugin name
-        if(pluginName != null && pluginName.length() > 0) {
+        if (pluginName != null && !pluginName.isEmpty()) {
             sb.append(pluginName);
 
             // append "main" or "help"
-            if(mainSwitch) {
+            if (mainSwitch) {
                 sb.append(" MAIN");
-            } else if(helpSwitch) {
+            } else if (helpSwitch) {
                 sb.append(" HELP");
             }
-            
+
             // append command if not empty
-            if(pluginCommand != null && pluginCommand.length() > 0 && !mainSwitch) {
-                sb.append(" "); sb.append(pluginCommand);
-                
+            if (pluginCommand != null && !pluginCommand.isEmpty() && !mainSwitch) {
+                sb.append(" ");
+                sb.append(pluginCommand);
+
                 // append options if not empty
-                if(options != null && options.length() > 0 && !helpSwitch && !mainSwitch) {
-                    sb.append(" "); sb.append(options);
+                if (options != null && !options.isEmpty() && !helpSwitch) {
+                    sb.append(" ");
+                    sb.append(options);
                 }
             }
         }
-        
+
         return sb.toString().trim();
     }
 
@@ -129,13 +137,12 @@ public class PLUG extends Command {
      * Inserts the keyword "MAIN" in the command. Either helpSwitch or
      * mainSwitch can be enabled. If helpSwitch is enabled and you enable
      * mainSwitch afterwards, helpSwitch will be disabled
-     * 
-     * @param mainSwitch
-     *            if set to true, the command will contain the keyword "MAIN"
+     *
+     * @param mainSwitch if set to true, the command will contain the keyword "MAIN"
      */
     public void setMainSwitch(boolean mainSwitch) {
         this.mainSwitch = mainSwitch;
-        if(mainSwitch && helpSwitch) {
+        if (mainSwitch && helpSwitch) {
             helpSwitch = false;
         }
     }
@@ -148,13 +155,12 @@ public class PLUG extends Command {
      * Inserts the keyword "HELP" in the command. Either helpSwitch or
      * mainSwitch can be enabled. If mainSwitch is enabled and you enable
      * helpSwitch afterwards, mainSwitch will be disabled
-     * 
-     * @param helpSwitch
-     *            if set to true, the command will contain the keyword "HELP"
+     *
+     * @param helpSwitch if set to true, the command will contain the keyword "HELP"
      */
     public void setHelpSwitch(boolean helpSwitch) {
         this.helpSwitch = helpSwitch;
-        if(helpSwitch && mainSwitch) {
+        if (helpSwitch && mainSwitch) {
             mainSwitch = false;
         }
     }

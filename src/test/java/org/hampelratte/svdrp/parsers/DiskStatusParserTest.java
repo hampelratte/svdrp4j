@@ -28,28 +28,28 @@
  */
 package org.hampelratte.svdrp.parsers;
 
-import static org.junit.Assert.assertEquals;
-
 import org.hampelratte.svdrp.responses.highlevel.DiskStatus;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
-public class DiskStatusParserTest {
-
-    private final String statDisk = "1855618MB 393490MB 78%";
+class DiskStatusParserTest {
 
     @Test
-    public void testParse() {
+    void testParse() {
+        String statDisk = "1855618MB 393490MB 78%";
         DiskStatus diskStatus = DiskStatusParser.parse(statDisk);
 
-        assertEquals(1945756499968l, diskStatus.getSpaceTotalInBytes());
-        assertEquals(412604170240l, diskStatus.getSpaceFreeInBytes());
+        assertEquals(1945756499968L, diskStatus.getSpaceTotalInBytes());
+        assertEquals(412604170240L, diskStatus.getSpaceFreeInBytes());
         assertEquals(78, diskStatus.getUsage());
     }
 
-    @Test(expected = RuntimeException.class)
-    public void testParseInvalidData() {
-        DiskStatusParser.parse("foo bar 10%");
+    @Test
+    void testParseInvalidData() {
+        assertThrows(IllegalArgumentException.class, () -> DiskStatusParser.parse("foo bar 10%"));
     }
 }
 

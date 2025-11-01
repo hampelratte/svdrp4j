@@ -28,10 +28,12 @@
  */
 package org.hampelratte.svdrp.responses.highlevel;
 
+import java.io.Serial;
 import java.util.Objects;
 
 public class IPTVChannel extends Channel {
 
+    @Serial
     private static final long serialVersionUID = 2L;
 
     private int uniqueEnum;
@@ -94,18 +96,16 @@ public class IPTVChannel extends Channel {
         this.streamParameters = streamParameters;
     }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(protocol, streamAddress, streamParameters);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(protocol, streamAddress, streamParameters);
+    }
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof IPTVChannel)) {
+        if (!(obj instanceof IPTVChannel other)) {
             return false;
         }
-
-        IPTVChannel other = (IPTVChannel) obj;
 
         return this.protocol.equals(other.protocol)
                 && this.streamAddress.equals(other.streamAddress)

@@ -1,19 +1,19 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -31,29 +31,30 @@ package org.hampelratte.svdrp.commands;
 import org.hampelratte.svdrp.Command;
 import org.hampelratte.svdrp.responses.highlevel.Timer;
 
+import java.io.Serial;
+
 /**
  * Command to modify a timer
- * 
+ *
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
- * 
+ *
  */
 public class MODT extends Command {
+    @Serial
     private static final long serialVersionUID = 2L;
 
     private int number;
 
-    private String settings = "";
+    private String settings;
 
     /**
      * Command to modify a timer
-     * 
-     * @param number
-     *            The number of the timer
-     * @param settings
-     *            1:7:8:0704:0938:50:50:Quarks &amp; Co:<br>
-     *            Status:Channel:Day:Start:Stop:Priority:Lifetime:File:Summary<br>
-     *            In the summary newline characters have to be replaced by |<br>
-     *            More details in the man page vdr(5)
+     *
+     * @param number   The number of the timer
+     * @param settings 1:7:8:0704:0938:50:50:Quarks &amp; Co:<br>
+     *                 Status:Channel:Day:Start:Stop:Priority:Lifetime:File:Summary<br>
+     *                 In the summary newline characters have to be replaced by |<br>
+     *                 More details in the man page vdr(5)
      */
     public MODT(int number, String settings) {
         this.settings = settings;
@@ -62,11 +63,9 @@ public class MODT extends Command {
 
     /**
      * Command to modify a timer
-     * 
-     * @param number
-     *            The number of the timer
-     * @param timer
-     *            The timer with the new settings
+     *
+     * @param number The number of the timer
+     * @param timer  The timer with the new settings
      */
     public MODT(int number, Timer timer) {
         this.settings = timer.toNEWT();
@@ -75,7 +74,7 @@ public class MODT extends Command {
 
     /**
      * Returns the number of the timer
-     * 
+     *
      * @return The number of the timer
      */
     public int getNumber() {
@@ -84,9 +83,8 @@ public class MODT extends Command {
 
     /**
      * Sets the number of the timer
-     * 
-     * @param number
-     *            The number of the timer
+     *
+     * @param number The number of the timer
      */
     public void setNumber(int number) {
         this.number = number;
@@ -94,7 +92,7 @@ public class MODT extends Command {
 
     /**
      * Returns the settings of the timer
-     * 
+     *
      * @return The settings of the timer
      */
     public String getSettings() {
@@ -103,12 +101,11 @@ public class MODT extends Command {
 
     /**
      * Sets the settings of the timer
-     * 
-     * @param setting
-     *            1:7:8:0704:0938:50:50:Quarks &amp; Co:<br>
-     *            Status:Channel:Day:Start:Stop:Priority:Lifetime:File:Summary<br>
-     *            In the summary newline characters have to be replaced by |<br>
-     *            More details in the man page vdr(5)
+     *
+     * @param setting 1:7:8:0704:0938:50:50:Quarks &amp; Co:<br>
+     *                Status:Channel:Day:Start:Stop:Priority:Lifetime:File:Summary<br>
+     *                In the summary newline characters have to be replaced by |<br>
+     *                More details in the man page vdr(5)
      */
     public void setSettings(String setting) {
         this.settings = setting;

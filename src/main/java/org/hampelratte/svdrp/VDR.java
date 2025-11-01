@@ -28,6 +28,15 @@
  */
 package org.hampelratte.svdrp;
 
+import org.hampelratte.svdrp.commands.*;
+import org.hampelratte.svdrp.parsers.*;
+import org.hampelratte.svdrp.responses.highlevel.Channel;
+import org.hampelratte.svdrp.responses.highlevel.EPGEntry;
+import org.hampelratte.svdrp.responses.highlevel.Recording;
+import org.hampelratte.svdrp.responses.highlevel.Timer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.text.ParseException;
@@ -36,50 +45,23 @@ import java.util.List;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
-import org.hampelratte.svdrp.commands.DELR;
-import org.hampelratte.svdrp.commands.DELT;
-import org.hampelratte.svdrp.commands.LSTC;
-import org.hampelratte.svdrp.commands.LSTE;
-import org.hampelratte.svdrp.commands.LSTR;
-import org.hampelratte.svdrp.commands.LSTT;
-import org.hampelratte.svdrp.commands.MODT;
-import org.hampelratte.svdrp.commands.NEWT;
-import org.hampelratte.svdrp.commands.QUIT;
-import org.hampelratte.svdrp.commands.STAT;
-import org.hampelratte.svdrp.parsers.ChannelParser;
-import org.hampelratte.svdrp.parsers.EPGParser;
-import org.hampelratte.svdrp.parsers.RecordingListParser;
-import org.hampelratte.svdrp.parsers.RecordingParser;
-import org.hampelratte.svdrp.parsers.TimerParser;
-import org.hampelratte.svdrp.responses.highlevel.Channel;
-import org.hampelratte.svdrp.responses.highlevel.EPGEntry;
-import org.hampelratte.svdrp.responses.highlevel.Recording;
-import org.hampelratte.svdrp.responses.highlevel.Timer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class VDR {
-    private static Logger logger = LoggerFactory.getLogger(VDR.class);
-
+    /**
+     * The time in ms, the connection will be kept alive after the last request. {@link #persistentConnection} has to be set to true.
+     */
+    private static final int CONNECTION_KEEP_ALIVE = 15000;
+    private static final Logger logger = LoggerFactory.getLogger(VDR.class);
+    /**
+     * If set, the connection will be kept open for some time, so that consecutive request will be much faster
+     */
+    public static boolean persistentConnection;
+    private static java.util.Timer timer;
+    private static long lastTransmissionTime = 0;
     private final String host;
     private final int port;
     private final int connectTimeout;
     private Connection connection = null;
     private boolean vdrAvailable = false;
-
-    /**
-     * If set, the connection will be kept open for some time, so that consecutive request will be much faster
-     */
-    public static boolean persistentConnection;
-
-    private static java.util.Timer timer;
-
-    private static long lastTransmissionTime = 0;
-
-    /**
-     * The time in ms, the connection will be kept alive after the last request. {@link #persistentConnection} has to be set to true.
-     */
-    private static final int CONNECTION_KEEP_ALIVE = 15000;
 
     public VDR(String host, int port, int connectTimeout) {
         this.host = host;
@@ -96,8 +78,8 @@ public class VDR {
      * Requests a list of all defined timers.
      *
      * @return A list of all defined timers.
-     * @throws UnknownHostException if the target host is uknown
-     * @throws IOException if an IO Error occurs
+     * @throws UnknownHostException if the target host is unknown
+     * @throws IOException          if an IO Error occurs
      */
     public List<Timer> getTimers() throws IOException {
         return getTimers(new LSTT());
@@ -106,23 +88,22 @@ public class VDR {
     /**
      * Request a single timer.
      *
-     * @param number
-     *            The number of the timer to erturn.
+     * @param number The number of the timer to return.
      * @return A Timer object, which represents the timer settings.
-     * @throws UnknownHostException if the target host is uknown
-     * @throws IOException if an IO Error occurs
+     * @throws UnknownHostException if the target host is unknown
+     * @throws IOException          if an IO Error occurs
      */
     public Timer getTimer(int number) throws IOException {
         List<Timer> timers = getTimers(new LSTT(number));
         if (timers.isEmpty()) {
             throw new RuntimeException("Timer " + number + " is not defined");
         } else {
-        	return timers.get(0);
+            return timers.getFirst();
         }
     }
 
-    private List<Timer> getTimers(LSTT lstt) throws UnknownHostException, IOException {
-        List<Timer> timers = null;
+    private List<Timer> getTimers(LSTT lstt) throws IOException {
+        List<Timer> timers;
         Response res = send(lstt);
 
         if (res != null) {
@@ -145,14 +126,11 @@ public class VDR {
     /**
      * Modifies an existing timer.
      *
-     * @param number
-     *            The number of the timer to modify.
-     * @param timer
-     *            A Timer, which represents the new timer settings.
+     * @param number The number of the timer to modify.
+     * @param timer  A Timer, which represents the new timer settings.
      * @return The response from VDR.
-     *
-     * @throws UnknownHostException if the target host is uknown
-     * @throws IOException if an IO Error occurs
+     * @throws UnknownHostException if the target host is unknown
+     * @throws IOException          if an IO Error occurs
      */
     public Response modifyTimer(int number, Timer timer) throws IOException {
         return send(new MODT(number, timer));
@@ -161,11 +139,10 @@ public class VDR {
     /**
      * Deletes an existing timer.
      *
-     * @param number
-     *            The number of the timer to delete.
+     * @param number The number of the timer to delete.
      * @return The response from VDR.
-     * @throws UnknownHostException if the target host is uknown
-     * @throws IOException if an IO Error occurs
+     * @throws UnknownHostException if the target host is unknown
+     * @throws IOException          if an IO Error occurs
      */
     public Response deleteTimer(int number) throws IOException {
         return send(new DELT(number));
@@ -174,11 +151,10 @@ public class VDR {
     /**
      * Creates a new timer.
      *
-     * @param timer
-     *            A {@link Timer}, which represents the timer settings.
+     * @param timer A {@link Timer}, which represents the timer settings.
      * @return The response from VDR.
-     * @throws UnknownHostException if the target host is uknown
-     * @throws IOException if an IO Error occurs
+     * @throws UnknownHostException if the target host is unknown
+     * @throws IOException          if an IO Error occurs
      */
     public Response newTimer(Timer timer) throws IOException {
         return send(new NEWT(timer));
@@ -188,12 +164,12 @@ public class VDR {
      * Requests the list of all channels.
      *
      * @return A list of all channels.
-     * @throws UnknownHostException if the target host is uknown
-     * @throws IOException if an IO Error occurs
-     * @throws ParseException if a parsing error occurs
+     * @throws UnknownHostException if the target host is unknown
+     * @throws IOException          if an IO Error occurs
+     * @throws ParseException       if a parsing error occurs
      */
     public List<Channel> getChannels() throws IOException, ParseException {
-        List<Channel> channels = null;
+        List<Channel> channels;
         Response res = send(new LSTC());
 
         if (res != null) {
@@ -214,11 +190,11 @@ public class VDR {
      * Requests a list of all recordings.
      *
      * @return A list of all recordings.
-     * @throws UnknownHostException if the target host is uknown
-     * @throws IOException if an IO Error occurs
+     * @throws UnknownHostException if the target host is unknown
+     * @throws IOException          if an IO Error occurs
      */
     public List<Recording> getRecordings() throws IOException {
-        List<Recording> recordings = null;
+        List<Recording> recordings;
         Response res = send(new LSTR());
 
         if (res != null) {
@@ -242,12 +218,11 @@ public class VDR {
      * This method returns the details of one recording. You first have to obtain a Recording by calling {@link #getRecordings()} and then pass this object as
      * parameter.
      *
-     * @param rec
-     *            The recording to load the details for.
+     * @param rec The recording to load the details for.
      * @return The same object with the details loaded.
-     * @throws UnknownHostException if the target host is uknown
-     * @throws IOException if an IO Error occurs
-     * @throws ParseException if a parsing error occurs
+     * @throws UnknownHostException if the target host is unknown
+     * @throws IOException          if an IO Error occurs
+     * @throws ParseException       if a parsing error occurs
      */
     public Recording getRecordingDetails(Recording rec) throws IOException, ParseException {
         Response res = send(new LSTR(rec.getId()));
@@ -268,11 +243,10 @@ public class VDR {
     /**
      * Deletes a recording. You first have to obtain a Recording by calling {@link #getRecordings()} and then pass this object as parameter.
      *
-     * @param rec
-     *            The recording to delete.
+     * @param rec The recording to delete.
      * @return The response from VDR.
-     * @throws UnknownHostException if the target host is uknown
-     * @throws IOException if an IO Error occurs
+     * @throws UnknownHostException if the target host is unknown
+     * @throws IOException          if an IO Error occurs
      */
     public Response deleteRecording(Recording rec) throws IOException {
         return send(new DELR(rec.getId()));
@@ -282,8 +256,8 @@ public class VDR {
      * Get the whole EPG. To get the epg of one channel, call {@link #getEpg(int)} or filter this list manually.
      *
      * @return A list of all epg entries of all channels.
-     * @throws UnknownHostException if the target host is uknown
-     * @throws IOException if an IO Error occurs
+     * @throws UnknownHostException if the target host is unknown
+     * @throws IOException          if an IO Error occurs
      */
     public List<EPGEntry> getEpg() throws IOException {
         return getEpg(new LSTE());
@@ -292,18 +266,17 @@ public class VDR {
     /**
      * Request the EPG of a single channel.
      *
-     * @param channelNumber
-     *            The channel number of the channel.
+     * @param channelNumber The channel number of the channel.
      * @return A list of all EPG entries available for the given channel.
-     * @throws UnknownHostException if the target host is uknown
-     * @throws IOException if an IO Error occurs
+     * @throws UnknownHostException if the target host is unknown
+     * @throws IOException          if an IO Error occurs
      */
     public List<EPGEntry> getEpg(int channelNumber) throws IOException {
         return getEpg(new LSTE(channelNumber));
     }
 
     private List<EPGEntry> getEpg(LSTE lste) throws IOException {
-        List<EPGEntry> epg = null;
+        List<EPGEntry> epg;
         Response res = send(lste);
 
         if (res != null) {
@@ -321,8 +294,6 @@ public class VDR {
     }
 
     private Response send(Command cmd) throws IOException {
-        Response res = null;
-
         if (connection == null) {
             logger.trace("New connection");
             connection = new Connection(host, port, connectTimeout);
@@ -330,6 +301,7 @@ public class VDR {
             logger.trace("old connection");
         }
 
+        Response res;
         try {
             res = connection.send(cmd);
         } finally {
@@ -351,11 +323,16 @@ public class VDR {
 
     /**
      * Close the connection to VDR.
+     *
      * @throws IOException if an IO Error occurs
      */
     public void close() throws IOException {
         send(new QUIT());
         connection = null;
+    }
+
+    public boolean isAvailable() {
+        return vdrAvailable;
     }
 
     class ConnectionCloser extends TimerTask {
@@ -375,10 +352,6 @@ public class VDR {
         }
     }
 
-    public boolean isAvailable() {
-        return vdrAvailable;
-    }
-
     public class ConnectionTester extends Thread {
 
         private boolean running = false;
@@ -387,17 +360,17 @@ public class VDR {
         public void run() {
             running = true;
             while (running) {
-				try {
-					send(new STAT());
-					vdrAvailable = true;
-				} catch (IOException e1) {
-					vdrAvailable = false;
-				}
+                try {
+                    send(new STAT());
+                    vdrAvailable = true;
+                } catch (IOException e1) {
+                    vdrAvailable = false;
+                }
 
                 try {
                     Thread.sleep(TimeUnit.SECONDS.toMillis(30));
                 } catch (InterruptedException e) {
-                	Thread.currentThread().interrupt();
+                    Thread.currentThread().interrupt();
                     logger.warn("ConnectionTester interrupted while sleeping. Will stop now!");
                     running = false;
                 }

@@ -28,16 +28,16 @@
  */
 package org.hampelratte.svdrp.responses.highlevel;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class FolderTest  {
+class FolderTest {
 
 
     @Test
-    public void testTitle() {
+    void testTitle() {
         Folder folder = new Folder("Title");
         assertEquals("Title", folder.toString());
         assertEquals("Title", folder.getDisplayTitle());

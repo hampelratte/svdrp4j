@@ -1,10 +1,10 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  * 3. Neither the name of the project (Lazy Bones) nor the names of its
  *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -28,14 +28,14 @@
  */
 package org.hampelratte.svdrp.sorting;
 
-import java.util.Comparator;
-
 import org.hampelratte.svdrp.responses.highlevel.Recording;
+
+import java.util.Comparator;
 
 /**
  * Sorts Recordings by their title. The folder structure is taken into account: Abc~Zyx comes before Bcd. For the title, the comparator uses the display title,
  * so the "cut" indicator % is ignored. If the display titles are equal, the short text is taken into account, because it sometimes contains the episode title.
- * 
+ *
  * @author <a href="mailto:hampelratte@users.berlios.de">hampelratte@users.berlios.de</a>
  */
 public class RecordingAlphabeticalComparator implements Comparator<Recording> {

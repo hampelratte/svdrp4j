@@ -28,92 +28,91 @@
  */
 package org.hampelratte.svdrp.parsers;
 
-import static org.junit.Assert.assertEquals;
-
 import org.hampelratte.svdrp.responses.highlevel.PvrInputChannel;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class PvrInputChannelLineParserTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-    private String channelData = "1 ARD;w_pvrscan:224250:TV|PAL|CARD0:V:0:301+101=2:300=@4:305:0:3588:0:0:0";
+class PvrInputChannelLineParserTest {
 
-    private ChannelLineParser parser = new PvrInputChannelLineParser();
+    private final ChannelLineParser parser = new PvrInputChannelLineParser();
 
     private PvrInputChannel chan;
 
-    @Before
-    public void parseLine() {
+    @BeforeEach
+    void parseLine() {
+        String channelData = "1 ARD;w_pvrscan:224250:TV|PAL|CARD0:V:0:301+101=2:300=@4:305:0:3588:0:0:0";
         chan = (PvrInputChannel) parser.parse(channelData);
     }
 
     @Test
-    public void testChannelNumber() {
+    void testChannelNumber() {
         assertEquals(1, chan.getChannelNumber());
     }
 
     @Test
-    public void testFrequency() {
+    void testFrequency() {
         assertEquals(224250, chan.getFrequency());
     }
 
     @Test
-    public void testSource() {
+    void testSource() {
         assertEquals("V", chan.getSource());
     }
 
     @Test
-    public void testVPID() {
+    void testVPID() {
         assertEquals("301+101=2", chan.getVPID());
     }
 
     @Test
-    public void testAPID() {
+    void testAPID() {
         assertEquals("300=@4", chan.getAPID());
     }
 
     @Test
-    public void testTPID() {
+    void testTPID() {
         assertEquals("305", chan.getTPID());
     }
 
     @Test
-    public void testConditionalAccess() {
-        assertEquals(Integer.valueOf(0), chan.getConditionalAccess().get(0));
+    void testConditionalAccess() {
+        assertEquals(Integer.valueOf(0), chan.getConditionalAccess().getFirst());
     }
 
     @Test
-    public void testSID() {
+    void testSID() {
         assertEquals(3588, chan.getSID());
     }
 
     @Test
-    public void testNID() {
+    void testNID() {
         assertEquals(0, chan.getNID());
     }
 
     @Test
-    public void testTID() {
+    void testTID() {
         assertEquals(0, chan.getTID());
     }
 
     @Test
-    public void testRID() {
+    void testRID() {
         assertEquals(0, chan.getRID());
     }
 
     @Test
-    public void testVideoNorm() {
+    void testVideoNorm() {
         assertEquals("PAL", chan.getVideoNorm());
     }
 
     @Test
-    public void testCard() {
+    void testCard() {
         assertEquals("CARD0", chan.getCard());
     }
 
     @Test
-    public void testType() {
+    void testType() {
         assertEquals("TV", chan.getType());
     }
 }

@@ -28,38 +28,38 @@
  */
 package org.hampelratte.svdrp.commands;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class LSTCTest {
+class LSTCTest {
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertEquals("LSTC", new LSTC().getCommand());
     }
 
     @Test
-    public void testStringConstructor() {
+    void testStringConstructor() {
         assertEquals("LSTC 1", new LSTC("1").getCommand());
         assertEquals("LSTC 1", new LSTC("1", false).getCommand());
         assertEquals("LSTC :ids 1", new LSTC("1", true).getCommand());
     }
 
     @Test
-    public void testIntConstructor() {
+    void testIntConstructor() {
         assertEquals("LSTC 1", new LSTC(1).getCommand());
         assertEquals("LSTC 1", new LSTC(1, false).getCommand());
         assertEquals("LSTC :ids 1", new LSTC(1, true).getCommand());
     }
 
     @Test
-    public void testWithGroups() {
+    void testWithGroups() {
         assertEquals("LSTC :groups", new LSTC(true).getCommand());
         assertEquals("LSTC", new LSTC(false).getCommand());
     }
 
     @Test
-    public void testWithGroupsAndIds() {
+    void testWithGroupsAndIds() {
         assertEquals("LSTC :ids :groups", new LSTC(true, true).getCommand());
         assertEquals("LSTC :ids", new LSTC(true, false).getCommand());
         assertEquals("LSTC :groups", new LSTC(false, true).getCommand());
@@ -67,7 +67,7 @@ public class LSTCTest {
     }
 
     @Test
-    public void testSetChannel() {
+    void testSetChannel() {
         LSTC lstc = new LSTC();
         lstc.setChannel("1");
         assertEquals("LSTC 1", lstc.getCommand());
@@ -75,7 +75,7 @@ public class LSTCTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         assertEquals("LSTC", new LSTC().toString());
         assertEquals("LSTC", new LSTC("1").toString());
         assertEquals("LSTC", new LSTC(1).toString());

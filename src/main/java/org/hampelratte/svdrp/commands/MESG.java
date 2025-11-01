@@ -1,19 +1,19 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -30,22 +30,24 @@ package org.hampelratte.svdrp.commands;
 
 import org.hampelratte.svdrp.Command;
 
+import java.io.Serial;
+
 /**
  * Command to show the given message on the osd of your VDR
- * 
+ *
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
- * 
+ *
  */
 public class MESG extends Command {
+    @Serial
     private static final long serialVersionUID = 1L;
-    
-    private String message = "";
+
+    private String message;
 
     /**
      * Command to show the given message on the osd of your VDR
-     * 
-     * @param message
-     *            The message, which should be shown on the osd
+     *
+     * @param message The message, which should be shown on the osd
      */
     public MESG(String message) {
         this.message = message;
@@ -64,7 +66,7 @@ public class MESG extends Command {
 
     /**
      * Returns the message, which should be shown on the osd
-     * 
+     *
      * @return The message, which should be shown on the osd
      */
     public String getMessage() {
@@ -73,9 +75,8 @@ public class MESG extends Command {
 
     /**
      * Sets the message, which should be shown on the osd
-     * 
-     * @param message
-     *            The message, which should be shown on the osd
+     *
+     * @param message The message, which should be shown on the osd
      */
     public void setMessage(String message) {
         this.message = message;

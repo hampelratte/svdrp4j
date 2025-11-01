@@ -28,32 +28,31 @@
  */
 package org.hampelratte.svdrp.responses.highlevel;
 
+import org.hampelratte.svdrp.Connection;
+import org.hampelratte.svdrp.Version;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
-import org.hampelratte.svdrp.Connection;
-import org.hampelratte.svdrp.Version;
-
 /**
  * Represents a timer of the VDR software
+ *
  * @author <a href="hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  */
 public class Timer implements Serializable, Comparable<Timer>, Cloneable {
-
-    private static final long serialVersionUID = 2L;
 
     public static final int INACTIVE = 0;
     public static final int ACTIVE = 1;
     public static final int INSTANT_TIMER = 2;
     public static final int VPS = 4;
     public static final int RECORDING = 8;
-
     public static final boolean ENABLED = true;
-    public static final boolean DISABLED = false;
-
+    @Serial
+    private static final long serialVersionUID = 2L;
     private int state = ACTIVE;
 
     private Calendar startTime = Calendar.getInstance();
@@ -89,8 +88,7 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
     /**
      * Returns, if a timer has a specific state
      *
-     * @param state
-     *            One of INACTIVE, ACTIVE, INSTANT_TIMER, VPS, RECORDING
+     * @param state One of INACTIVE, ACTIVE, INSTANT_TIMER, VPS, RECORDING
      * @return true, if the timer has the state
      * @see Timer#ACTIVE
      * @see Timer#INACTIVE
@@ -110,8 +108,7 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
      * Returns the channel number returned by a LSTC command. In some cases, this is not set by the parser, but instead the channelId is set.
      *
      * @return the channel number returned as in LSTC as integer. This defaults to 0, if the id keyword has been used in the LSTT command.Either channelNumber
-     *         or channelId is set or both.
-     *
+     * or channelId is set or both.
      * @see #getChannelId()
      */
     public int getChannelNumber() {
@@ -123,11 +120,11 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
     }
 
     /**
-     * Returns the channel id as described in man 5 vdr (tupel of Source, NID, TID, SID and RID). In some cases, this is not set by the parser, but instead the
+     * Returns the channel id as described in man 5 vdr (tuple of Source, NID, TID, SID and RID). In some cases, this is not set by the parser, but instead the
      * channelNumber is set.
      *
      * @return the channel id as described in man 5 vdr. This defaults to an empty string, if the id keyword has not been used in the LSTT command. Either
-     *         channelNumber or channelId is set or both.
+     * channelNumber or channelId is set or both.
      * @see #getChannelNumber()
      */
     public String getChannelId() {
@@ -182,7 +179,7 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
     }
 
     /**
-     * Returns a unique key, which consits of the channel, the day, the start time and the end time
+     * Returns a unique key, which consists of the channel, the day, the start time and the end time
      *
      * @return a String which identifies this Timer
      */
@@ -194,15 +191,13 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
             sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         }
 
-        StringBuilder sb = new StringBuilder();
-        sb.append(getChannelNumber());
-        sb.append(':');
-        sb.append(getDayString());
-        sb.append(':');
-        sb.append(sdf.format(getStartTime().getTime()));
-        sb.append(':');
-        sb.append(sdf.format(getEndTime().getTime()));
-        return sb.toString();
+        return String.valueOf(getChannelNumber()) +
+                ':' +
+                getDayString() +
+                ':' +
+                sdf.format(getStartTime().getTime()) +
+                ':' +
+                sdf.format(getEndTime().getTime());
     }
 
     /**
@@ -214,26 +209,23 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
         String start = createTimeString(getStartTime());
         String end = createTimeString(getEndTime());
 
-        StringBuilder sb = new StringBuilder();
-        sb.append(getState());
-        sb.append(':');
-        sb.append(channelNumber);
-        sb.append(':');
-        sb.append(getDayString());
-        sb.append(':');
-        sb.append(start);
-        sb.append(':');
-        sb.append(end);
-        sb.append(':');
-        sb.append(priority);
-        sb.append(':');
-        sb.append(lifetime);
-        sb.append(':');
-        sb.append(getFile());
-        sb.append(':');
-        sb.append(description.replace("\n", "|"));
-
-        return sb.toString();
+        return String.valueOf(getState()) +
+                ':' +
+                channelNumber +
+                ':' +
+                getDayString() +
+                ':' +
+                start +
+                ':' +
+                end +
+                ':' +
+                priority +
+                ':' +
+                lifetime +
+                ':' +
+                getFile() +
+                ':' +
+                description.replace("\n", "|");
     }
 
     @Override
@@ -248,7 +240,7 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
         sb.append(':');
         sb.append(getDayString());
         if (isRepeating()) {
-            sb.append(" [instance:" + createDateString(startTime) + "]");
+            sb.append(" [instance:").append(createDateString(startTime)).append("]");
         }
         sb.append(':');
         sb.append(start);
@@ -274,17 +266,16 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof Timer) {
-            Timer timer = (Timer) o;
+        if (o instanceof Timer timer) {
             return timer.toNEWT().equals(toNEWT());
         } else {
             return false;
         }
     }
-    
+
     @Override
     public int hashCode() {
-    	return Objects.hashCode(toNEWT());
+        return Objects.hashCode(toNEWT());
     }
 
     @Override
@@ -301,8 +292,8 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
     }
 
     public boolean isRepeating() {
-        for (int i = 0; i < repeatingDays.length; i++) {
-            if (repeatingDays[i]) {
+        for (boolean repeatingDay : repeatingDays) {
+            if (repeatingDay) {
                 return true;
             }
         }
@@ -356,7 +347,7 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
 
         boolean newFormat = (major >= 2 || major == 1 && (minor > 3 || minor == 3 && rev >= 23)) || isRepeating();
 
-        String date = "";
+        String date;
         if (newFormat) {
             int day = cal.get(Calendar.DAY_OF_MONTH);
             String dayString = day < 10 ? ("0" + day) : Integer.toString(day);
@@ -377,15 +368,13 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
     }
 
     private String createRepeatingString() {
-    	StringBuilder day = new StringBuilder();
-        day.append(repeatingDays[0] ? 'M' : '-');
-        day.append(repeatingDays[1] ? 'T' : '-');
-        day.append(repeatingDays[2] ? 'W' : '-');
-        day.append(repeatingDays[3] ? 'T' : '-');
-        day.append(repeatingDays[4] ? 'F' : '-');
-        day.append(repeatingDays[5] ? 'S' : '-');
-        day.append(repeatingDays[6] ? 'S' : '-');
-        return day.toString();
+        return String.valueOf(repeatingDays[0] ? 'M' : '-') +
+                (repeatingDays[1] ? 'T' : '-') +
+                (repeatingDays[2] ? 'W' : '-') +
+                (repeatingDays[3] ? 'T' : '-') +
+                (repeatingDays[4] ? 'F' : '-') +
+                (repeatingDays[5] ? 'S' : '-') +
+                (repeatingDays[6] ? 'S' : '-');
     }
 
     public String getDescription() {
@@ -406,14 +395,14 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
 
     public String getFile() {
         String tmpPath = this.path;
-        if (!tmpPath.endsWith("~") && !tmpPath.equals("")) {
+        if (!tmpPath.endsWith("~") && !tmpPath.isEmpty()) {
             tmpPath += "~";
         }
         return (tmpPath + title).replace(':', '|');
     }
 
     public void setFile(String file) {
-        if (file.indexOf("~") >= 0) {
+        if (file.contains("~")) {
             int pos = file.lastIndexOf("~");
             setPath(file.substring(0, pos));
             setTitle(file.substring(pos + 1));
@@ -469,8 +458,7 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
     /**
      * Sets the state of a timer. To change a single part of the state, e.g. VPS or ACTIVE, please use {@link Timer#changeStateTo(int, boolean)}
      *
-     * @param state
-     *            The new state for the timer. Bitwise OR of multiple states is possible. E.g. setState(ACTIVE | VPS) sets the timer to ACTIVE and enables VPS
+     * @param state The new state for the timer. Bitwise OR of multiple states is possible. E.g. setState(ACTIVE | VPS) sets the timer to ACTIVE and enables VPS
      */
     public void setState(int state) {
         this.state = state;
@@ -479,10 +467,8 @@ public class Timer implements Serializable, Comparable<Timer>, Cloneable {
     /**
      * Sets the given state to the given value. All other states are not touched.
      *
-     * @param state
-     *            the state to change
-     * @param enabled
-     *            the new value of the state
+     * @param state   the state to change
+     * @param enabled the new value of the state
      */
     public void changeStateTo(int state, boolean enabled) {
         if (enabled && hasState(state) || !enabled && !hasState(state)) {

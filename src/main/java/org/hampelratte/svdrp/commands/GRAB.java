@@ -1,19 +1,19 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -30,28 +30,31 @@ package org.hampelratte.svdrp.commands;
 
 import org.hampelratte.svdrp.Command;
 
+import java.io.Serial;
+
 /**
  * Command to grab a screenshot of the current channel
- * 
+ *
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
- * 
+ *
  */
 public class GRAB extends Command {
+    @Serial
     private static final long serialVersionUID = 2L;
-    
+
     private int quality = -1;
 
     private transient Resolution resolution;
 
     private String filename;
 
-    public GRAB() {}
-    
+    public GRAB() {
+    }
+
     /**
      * Command to grab a screenshot of the current channel
-     * 
-     * @param filename
-     *            The filename to save the screenshot to
+     *
+     * @param filename The filename to save the screenshot to
      */
     public GRAB(String filename) {
         this.filename = filename;
@@ -60,20 +63,20 @@ public class GRAB extends Command {
     @Override
     public String getCommand() {
         String cmd = "GRAB";
-        if(filename != null) {
+        if (filename != null) {
             cmd = cmd.concat(" ").concat(filename);
         } else {
             cmd = cmd.concat(" .jpg");
         }
-        
+
         // if quality or resolution is set, we have to add the quality and maybe the resolution, also.
-        if(quality > 0 || resolution != null) {
+        if (quality > 0 || resolution != null) {
             // if quality is set, use the defined value, else use 80 as default
             cmd = cmd.concat(" ").concat(quality > 0 ? Integer.toString(quality) : "80");
-            
+
             // if resolution is set, append it to the command
-            if(resolution != null) {
-                cmd += " " + Integer.toString(resolution.getWidth()) + " " + Integer.toString(resolution.getHeight()); 
+            if (resolution != null) {
+                cmd += " " + resolution.getWidth() + " " + resolution.getHeight();
             }
         }
         return cmd.trim();
@@ -87,7 +90,7 @@ public class GRAB extends Command {
     /**
      * Returns the quality of the screenshot. This parameter only applies to the
      * jpeg format
-     * 
+     *
      * @return The quality of the screenshot
      */
     public int getQuality() {
@@ -97,9 +100,8 @@ public class GRAB extends Command {
     /**
      * Sets the quality of the screenshot This parameter only applies to the
      * jpeg format
-     * 
-     * @param quality
-     *            The quality of the screenshot (1-100)
+     *
+     * @param quality The quality of the screenshot (1-100)
      */
     public void setQuality(int quality) {
         this.quality = quality;
@@ -107,7 +109,7 @@ public class GRAB extends Command {
 
     /**
      * Returns the resolution of the screenshot
-     * 
+     *
      * @return The resolution of the screenshot
      */
     public Resolution getResolution() {
@@ -116,9 +118,8 @@ public class GRAB extends Command {
 
     /**
      * Sets the resolution of the screenshot
-     * 
-     * @param resolution
-     *            The resolution of the screenshot.
+     *
+     * @param resolution The resolution of the screenshot.
      */
     public void setResolution(Resolution resolution) {
         this.resolution = resolution;
@@ -130,23 +131,24 @@ public class GRAB extends Command {
 
     /**
      * Determines, where the screenshot will be saved
-     * 
-     * @param filename
-     *            The name of the file the screenshot will be saved to. If the
-     *            file name is just an extension (.jpg, .jpeg or .pnm) the image
-     *            data will be sent to the SVDRP connection encoded in base64.
-     *            The same happens if '-' (a minus sign) is given as file name,
-     *            in which case the image format defaults to JPEG.
+     *
+     * @param filename The name of the file the screenshot will be saved to. If the
+     *                 file name is just an extension (.jpg, .jpeg or .pnm) the image
+     *                 data will be sent to the SVDRP connection encoded in base64.
+     *                 The same happens if '-' (a minus sign) is given as file name,
+     *                 in which case the image format defaults to JPEG.
      */
     public void setFilename(String filename) {
         this.filename = filename;
     }
-    
-    /** Container class to store the resolution of the requested screenshot. */
+
+    /**
+     * Container class to store the resolution of the requested screenshot.
+     */
     public static class Resolution {
         private int width;
         private int height;
-        
+
         public Resolution(int width, int height) {
             this.width = width;
             this.height = height;
@@ -167,7 +169,7 @@ public class GRAB extends Command {
         public void setHeight(int height) {
             this.height = height;
         }
-        
+
         @Override
         public String toString() {
             return width + " " + height;

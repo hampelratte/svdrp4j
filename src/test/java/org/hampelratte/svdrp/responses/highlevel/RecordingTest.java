@@ -28,26 +28,26 @@
  */
 package org.hampelratte.svdrp.responses.highlevel;
 
-import static org.junit.Assert.assertEquals;
+import org.hampelratte.svdrp.parsers.EPGParser;
+import org.hampelratte.svdrp.parsers.EpgParserTest;
+import org.junit.jupiter.api.Test;
 
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
-import org.hampelratte.svdrp.parsers.EPGParser;
-import org.hampelratte.svdrp.parsers.EpgParserTest;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Most of the methods are covered by RecordingParserTest, so we just test the rest
  *
  * @author <a href="mailto:hampelratte@users.berlios.de">hampelratte@users.berlios.de</a>
  */
-public class RecordingTest {
+class RecordingTest {
 
     @Test
-    public void testEpgConstructor() {
-        EPGEntry entry = new EPGParser().parse(EpgParserTest.epgData).get(0);
+    void testEpgConstructor() {
+        EPGEntry entry = new EPGParser().parse(EpgParserTest.EPG_DATA).getFirst();
         Recording rec = new Recording(entry);
 
         assertEquals("S19.2E-133-5-1793", rec.getChannelID());
@@ -65,7 +65,7 @@ public class RecordingTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         Locale.setDefault(Locale.GERMANY);
         TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
         Recording rec = new Recording();
@@ -78,16 +78,16 @@ public class RecordingTest {
 
         rec.setNew(false);
         assertEquals("1 11.09.2011 17:21:32 Test starts: 17:21 ends: 18:21", rec.toString());
-        
+
         rec.setHasError(true);
         assertEquals("1 11.09.2011 17:21:32! Test starts: 17:21 ends: 18:21", rec.toString());
-        
+
         rec.setNew(true);
         assertEquals("1 11.09.2011 17:21:32*! Test starts: 17:21 ends: 18:21", rec.toString());
     }
 
     @Test
-    public void testCompareTo() {
+    void testCompareTo() {
         Recording r1 = new Recording();
         r1.setTitle("A");
         Recording r2 = new Recording();
@@ -101,7 +101,7 @@ public class RecordingTest {
     }
 
     @Test
-    public void testDisplayTitle() {
+    void testDisplayTitle() {
         Recording r = new Recording();
         r.setTitle("Testprogram~Episode");
         assertEquals("Episode", r.getDisplayTitle());
@@ -117,7 +117,7 @@ public class RecordingTest {
     }
 
     @Test
-    public void testDefaults() {
+    void testDefaults() {
         Recording r = new Recording();
         assertEquals(-1, r.getDuration());
         assertEquals(0, r.getId());

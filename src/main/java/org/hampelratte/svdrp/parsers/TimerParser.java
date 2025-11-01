@@ -28,14 +28,14 @@
  */
 package org.hampelratte.svdrp.parsers;
 
+import org.hampelratte.svdrp.responses.highlevel.Timer;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.hampelratte.svdrp.responses.highlevel.Timer;
 
 /**
  * Parses a list of timers received from VDR by the LSTT command
@@ -45,13 +45,13 @@ import org.hampelratte.svdrp.responses.highlevel.Timer;
  */
 // FIXME für repeating timer die start und endzeit richtig setzen
 public class TimerParser {
-	private TimerParser() {}
-	
+    private TimerParser() {
+    }
+
     /**
      * Parses a list of timers received from VDR by the LSTT command
      *
-     * @param timerData
-     *            A list of timers received from VDR by LSTT command
+     * @param timerData A list of timers received from VDR by LSTT command
      * @return A list of Timer objects
      */
     public static List<Timer> parse(String timerData) {
@@ -67,9 +67,9 @@ public class TimerParser {
             String active = st.nextToken();
             String channel = st.nextToken();
             String day = st.nextToken();
-            String starttime = st.nextToken();
+            String startTime = st.nextToken();
             String endtime = st.nextToken();
-            parseDay(timer, day, starttime, endtime);
+            parseDay(timer, day, startTime, endtime);
             String priority = st.nextToken();
             String lifetime = st.nextToken();
             String file = st.nextToken();
@@ -94,7 +94,7 @@ public class TimerParser {
     }
 
     private static void setChannel(Timer timer, String channel) {
-        if(channel.matches("\\d+")) {
+        if (channel.matches("\\d+")) {
             timer.setChannelNumber(Integer.parseInt(channel));
         } else {
             timer.setChannelId(channel);
@@ -136,7 +136,7 @@ public class TimerParser {
 
         Matcher matcher;
         int dayOfMonth;
-        if ((matcher = dayPattern.matcher(day)).matches()) {
+        if (dayPattern.matcher(day).matches()) {
             dayOfMonth = Integer.parseInt(day);
             int today = startTime.get(Calendar.DAY_OF_MONTH);
             startTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -167,9 +167,8 @@ public class TimerParser {
             if (endTime.get(Calendar.HOUR_OF_DAY) < startTime.get(Calendar.HOUR_OF_DAY)) {
                 endTime.add(Calendar.DAY_OF_MONTH, 1);
             }
-        } else if ((matcher = simpleRepeating.matcher(day)).matches()) {
+        } else if (simpleRepeating.matcher(day).matches()) {
             timer.setRepeatingDays(TimerParser.determineDays(day));
-            dayOfMonth = -1;
             TimerParser.parseTime(startTime, startString);
             TimerParser.parseTime(endTime, endString);
             // if the endTime lasts into the next day, we have to add 1 to the DAY_OF_MONTH

@@ -28,28 +28,28 @@
  */
 package org.hampelratte.svdrp.util;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Scanner;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class IOUtil {
-    private static final transient Logger LOGGER = LoggerFactory.getLogger(IOUtil.class);
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
 
-	public static String readFile(String textFile) throws IOException {
-		LOGGER.debug("Trying to load file {}", textFile);
-		InputStream in = IOUtil.class.getResourceAsStream("/" + textFile);
-		try (Scanner scanner = new Scanner(in, "UTF-8")) {
-			StringBuilder sb = new StringBuilder();
-			while (scanner.hasNext()) {
-				sb.append(scanner.nextLine());
-				if (scanner.hasNext()) {
-					sb.append('\n');
-				}
-			}
-			return sb.toString();
-		}
-	}
+public class IOUtil {
+    private static final Logger LOGGER = LoggerFactory.getLogger(IOUtil.class);
+
+    public static String readFile(String textFile) {
+        LOGGER.debug("Trying to load file {}", textFile);
+        InputStream in = IOUtil.class.getResourceAsStream("/" + textFile);
+        try (Scanner scanner = new Scanner(in, StandardCharsets.UTF_8)) {
+            StringBuilder sb = new StringBuilder();
+            while (scanner.hasNext()) {
+                sb.append(scanner.nextLine());
+                if (scanner.hasNext()) {
+                    sb.append('\n');
+                }
+            }
+            return sb.toString();
+        }
+    }
 }

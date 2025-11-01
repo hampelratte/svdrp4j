@@ -29,7 +29,6 @@
 package org.hampelratte.svdrp.responses.highlevel;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -76,30 +75,25 @@ public class Folder implements TreeNode {
      * Merges the given subtree into this tree.
      *
      * @param subtree to merge
-     * @return the merge point as Folder
      */
-    public Folder merge(TreeNode subtree) {
-        Folder mergePoint = null;
+    public void merge(TreeNode subtree) {
         if (subtree instanceof Folder) {
 
             List<Object[]> treesToMerge = new ArrayList<>();
             boolean matched = false;
             for (TreeNode child : getChildren()) {
                 if (child instanceof Folder && child.getDisplayTitle().equals(subtree.getDisplayTitle())) {
-                    treesToMerge.add(new Object[] { child, subtree });
+                    treesToMerge.add(new Object[]{child, subtree});
                     matched = true;
-                    mergePoint = (Folder) child;
                 }
             }
 
             if (!matched) {
                 getChildren().add(subtree);
-                mergePoint = this;
             }
 
             // merge trees, which have a matching name
-            for (Iterator<Object[]> iterator = treesToMerge.iterator(); iterator.hasNext();) {
-                Object[] trees = iterator.next();
+            for (Object[] trees : treesToMerge) {
                 Folder childFolder = (Folder) trees[0];
                 Folder subtreeFolder = (Folder) trees[1];
                 for (TreeNode newChild : subtreeFolder.getChildren()) {
@@ -108,9 +102,7 @@ public class Folder implements TreeNode {
             }
         } else {
             getChildren().add(subtree);
-            mergePoint = this;
         }
-        return mergePoint;
     }
 
     @Override

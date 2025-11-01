@@ -16,7 +16,7 @@
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERDELTTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
  * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
  * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
  * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
@@ -28,20 +28,20 @@
  */
 package org.hampelratte.svdrp.commands;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MOVRTest {
+class MOVRTest {
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         MOVR movr = new MOVR(1, "Test");
         assertEquals("MOVR 1 Test", movr.getCommand());
     }
 
     @Test
-    public void testSetRecording() {
+    void testSetRecording() {
         MOVR movr = new MOVR(1, "Test");
         movr.setRecording(2);
         assertEquals(2, movr.getRecording());
@@ -49,7 +49,7 @@ public class MOVRTest {
     }
 
     @Test
-    public void testSetPosition() {
+    void testSetPosition() {
         MOVR movr = new MOVR(1, "Test");
         movr.setNewName("Foobar");
         assertEquals("Foobar", movr.getNewName());
@@ -57,7 +57,7 @@ public class MOVRTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         MOVR movr = new MOVR(1, "Test");
         assertEquals("MOVR", movr.toString());
     }

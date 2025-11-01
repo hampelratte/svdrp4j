@@ -58,7 +58,7 @@ public class IPTVChannelLineParser implements ChannelLineParser {
             String key = param[0];
             String value = param[1];
 
-            if("A".equalsIgnoreCase(key)) {
+            if ("A".equalsIgnoreCase(key)) {
                 channel.setStreamParameters(value);
             } else if ("S".equalsIgnoreCase(key)) {
                 channel.setSectionIdScanner("1".equals(value));

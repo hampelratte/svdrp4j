@@ -28,12 +28,12 @@
  */
 package org.hampelratte.svdrp.mock;
 
+import org.hampelratte.svdrp.parsers.TimerParser;
+import org.hampelratte.svdrp.responses.highlevel.Timer;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import org.hampelratte.svdrp.parsers.TimerParser;
-import org.hampelratte.svdrp.responses.highlevel.Timer;
 
 public class TimerManager {
     private List<Timer> timers;
@@ -42,14 +42,14 @@ public class TimerManager {
         if (!data.trim().isEmpty()) {
             timers = TimerParser.parse(data);
         } else {
-            timers = new ArrayList<Timer>();
+            timers = new ArrayList<>();
         }
     }
 
     public String printTimersList() {
-        if (timers != null && timers.size() > 0) {
+        if (timers != null && !timers.isEmpty()) {
             StringBuilder response = new StringBuilder();
-            for (Iterator<Timer> iterator = timers.iterator(); iterator.hasNext();) {
+            for (Iterator<Timer> iterator = timers.iterator(); iterator.hasNext(); ) {
                 Timer timer = iterator.next();
                 response.append("250");
                 response.append(iterator.hasNext() ? '-' : ' ');
@@ -66,7 +66,7 @@ public class TimerManager {
 
     public int addTimer(Timer timer) {
         timers.add(timer);
-        if(timer.getID() == 0) {
+        if (timer.getID() == 0) {
             int id = timers.size();
             timer.setID(id);
         }
@@ -75,7 +75,7 @@ public class TimerManager {
 
     public boolean removeTimer(int id) {
         Timer timer = getTimer(id);
-        if(timer.hasState(Timer.ACTIVE) && timer.hasState(Timer.RECORDING)) {
+        if (timer.hasState(Timer.ACTIVE) && timer.hasState(Timer.RECORDING)) {
             throw new IllegalStateException("Timer is recording");
         }
         return removeTimer(timer);
@@ -101,8 +101,7 @@ public class TimerManager {
     }
 
     public Timer getTimer(int id) {
-        for (Iterator<Timer> iterator = timers.iterator(); iterator.hasNext();) {
-            Timer timer = iterator.next();
+        for (Timer timer : timers) {
             if (timer.getID() == id) {
                 return timer;
             }

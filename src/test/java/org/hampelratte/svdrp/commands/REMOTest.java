@@ -1,10 +1,10 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  * 3. Neither the name of the project (Lazy Bones) nor the names of its
  *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -28,23 +28,24 @@
  */
 package org.hampelratte.svdrp.commands;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class REMOTest {
+class REMOTest {
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertEquals("REMO", new REMO().getCommand());
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testConstructorIllegalArgument() {
-        new REMO("foo");
+    @Test
+    void testConstructorIllegalArgument() {
+        assertThrows(IllegalArgumentException.class, () -> new REMO("foo"));
     }
 
     @Test
-    public void testStateConstructor() {
+    void testStateConstructor() {
         assertEquals("REMO on", new REMO(REMO.ON).getCommand());
         assertEquals("REMO off", new REMO(REMO.OFF).getCommand());
 
@@ -53,7 +54,7 @@ public class REMOTest {
     }
 
     @Test
-    public void testSetState() {
+    void testSetState() {
         REMO remo = new REMO();
         remo.setState(REMO.OFF);
         assertEquals("off", remo.getState());
@@ -76,14 +77,14 @@ public class REMOTest {
         assertEquals("REMO on", remo.getCommand());
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testSetStateIllegalArgument() {
+    @Test
+    void testSetStateIllegalArgument() {
         REMO remo = new REMO();
-        remo.setState("foo");
+        assertThrows(IllegalArgumentException.class, () -> remo.setState("foo"));
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         assertEquals("REMO", new REMO().toString());
         assertEquals("REMO", new REMO(REMO.ON).toString());
     }

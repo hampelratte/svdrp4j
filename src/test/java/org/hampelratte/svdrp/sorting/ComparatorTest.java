@@ -1,10 +1,10 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
@@ -13,10 +13,10 @@
  * 3. Neither the name of the project (Lazy Bones) nor the names of its
  *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERDELTTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
  * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
  * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
  * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
@@ -28,19 +28,19 @@
  */
 package org.hampelratte.svdrp.sorting;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.hampelratte.svdrp.responses.highlevel.Recording;
+import org.hampelratte.svdrp.responses.highlevel.Timer;
+import org.junit.jupiter.api.Test;
 
 import java.util.Calendar;
 
-import org.hampelratte.svdrp.responses.highlevel.Recording;
-import org.hampelratte.svdrp.responses.highlevel.Timer;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ComparatorTest {
+class ComparatorTest {
 
     @Test
-    public void testRecordingAlphabeticalComparator() {
+    void testRecordingAlphabeticalComparator() {
         RecordingAlphabeticalComparator comp = new RecordingAlphabeticalComparator();
         Recording r1 = new Recording();
         Recording r2 = new Recording();
@@ -67,8 +67,8 @@ public class ComparatorTest {
     }
 
     @Test
-    public void testRecordingStarttimeComparator() {
-        RecordingStarttimeComparator comp = new RecordingStarttimeComparator();
+    void testRecordingStartTimeComparator() {
+        RecordingStartTimeComparator comp = new RecordingStartTimeComparator();
 
         Calendar now = Calendar.getInstance();
         Calendar yesterday = (Calendar) now.clone();
@@ -89,7 +89,7 @@ public class ComparatorTest {
     }
 
     @Test
-    public void testRecordingIsCutComparator() {
+    void testRecordingIsCutComparator() {
         RecordingIsCutComparator comp = new RecordingIsCutComparator();
 
         Recording r1 = new Recording();
@@ -121,7 +121,7 @@ public class ComparatorTest {
     }
 
     @Test
-    public void testRecordingIsNewComparator() {
+    void testRecordingIsNewComparator() {
         RecordingIsNewComparator comp = new RecordingIsNewComparator();
 
         Calendar now = Calendar.getInstance();
@@ -158,16 +158,16 @@ public class ComparatorTest {
         assertEquals(1, comp.compare(r1, r2));
         assertEquals(-1, comp.compare(r2, r1));
     }
-       
+
     @Test
-    public void testRecordingHasErrorComparator() {
-    	RecordingHasErrorComparator comp = new RecordingHasErrorComparator();
-    	Recording r1 = new Recording();
-    	r1.setTitle("B");
-    	Recording r2 = new Recording();
-    	r2.setTitle("A");
-    	
-    	// only r1 error
+    void testRecordingHasErrorComparator() {
+        RecordingHasErrorComparator comp = new RecordingHasErrorComparator();
+        Recording r1 = new Recording();
+        r1.setTitle("B");
+        Recording r2 = new Recording();
+        r2.setTitle("A");
+
+        // only r1 error
         r1.setHasError(true);
         r2.setHasError(false);
         assertEquals(-1, comp.compare(r1, r2));
@@ -191,36 +191,36 @@ public class ComparatorTest {
         assertEquals(1, comp.compare(r1, r2));
         assertEquals(-1, comp.compare(r2, r1));
     }
-    
+
     @Test
-    public void testRecordingLengthComparator() {
-    	RecordingLengthComparator comp = new RecordingLengthComparator();
-    	Recording r1 = new Recording();
-    	r1.setTitle("B");
-    	Recording r2 = new Recording();
-    	r2.setTitle("A");
-    	
-    	// r1 < r2
-    	r1.setDuration(1);
-    	r2.setDuration(2);
+    void testRecordingLengthComparator() {
+        RecordingLengthComparator comp = new RecordingLengthComparator();
+        Recording r1 = new Recording();
+        r1.setTitle("B");
+        Recording r2 = new Recording();
+        r2.setTitle("A");
+
+        // r1 < r2
+        r1.setDuration(1);
+        r2.setDuration(2);
         assertEquals(-1, comp.compare(r1, r2));
         assertEquals(1, comp.compare(r2, r1));
 
         // r1 == r2
         r1.setDuration(1);
-    	r2.setDuration(1);
+        r2.setDuration(1);
         assertEquals(0, comp.compare(r1, r2));
         assertEquals(0, comp.compare(r2, r1));
 
         // r1 > r2
         r1.setDuration(2);
-    	r2.setDuration(1);
+        r2.setDuration(1);
         assertEquals(1, comp.compare(r1, r2));
         assertEquals(-1, comp.compare(r2, r1));
     }
 
     @Test
-    public void testAlphabeticalTimerComparator() {
+    void testAlphabeticalTimerComparator() {
         AlphabeticalTimerComparator comp = new AlphabeticalTimerComparator();
         Timer t1 = new Timer();
         Timer t2 = new Timer();
@@ -237,7 +237,7 @@ public class ComparatorTest {
     }
 
     @Test
-    public void testChronologicalTimerComparator() {
+    void testChronologicalTimerComparator() {
         ChronologicalTimerComparator comp = new ChronologicalTimerComparator();
         Timer t1 = new Timer();
         t1.getStartTime().add(Calendar.HOUR_OF_DAY, -1);

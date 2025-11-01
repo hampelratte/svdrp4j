@@ -1,19 +1,19 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -28,11 +28,11 @@
  */
 package org.hampelratte.svdrp.parsers;
 
-import java.util.StringTokenizer;
-
 import org.hampelratte.svdrp.responses.highlevel.Channel;
 import org.hampelratte.svdrp.responses.highlevel.DVBChannel;
 import org.hampelratte.svdrp.responses.highlevel.PvrInputChannel;
+
+import java.util.StringTokenizer;
 
 public class PvrInputChannelLineParser extends DVBChannelLineParser {
 
@@ -48,19 +48,19 @@ public class PvrInputChannelLineParser extends DVBChannelLineParser {
     protected void parseParameters(String string) {
         // override method from DVBChannelLineParser with no operation
     }
-    
+
     private void parseParameters(PvrInputChannel channel, String chanConfLine) {
         String[] parts = chanConfLine.split(":");
         String params = parts[2];
         StringTokenizer st = new StringTokenizer(params, "|");
-        if(params.startsWith("PVRINPUT|")) {
+        if (params.startsWith("PVRINPUT|")) {
             st.nextToken(); // skip PVRINPUT
         }
         channel.setType(st.nextToken()); // set type (TV, RADIO, COMPOSITE0..COMPOSITE4, SVIDEO0..SVIDEO3)
-        if(st.hasMoreElements()) {
+        if (st.hasMoreElements()) {
             channel.setVideoNorm(st.nextToken());
         }
-        if(st.hasMoreElements()) {
+        if (st.hasMoreElements()) {
             channel.setCard(st.nextToken());
         }
     }

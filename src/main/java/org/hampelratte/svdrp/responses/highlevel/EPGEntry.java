@@ -1,10 +1,10 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  * 3. Neither the name of the project (Lazy Bones) nor the names of its
  *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -28,20 +28,21 @@
  */
 package org.hampelratte.svdrp.responses.highlevel;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
 
 /**
  * Represents one entry of a LSTE response.
- * 
+ *
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  * @author <a href="mailto:androvdr@googlemail.com">androvdr</a>
  */
 public class EPGEntry implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 2L;
 
     private String channelID = "";
@@ -98,7 +99,7 @@ public class EPGEntry implements Serializable {
     }
 
     public Calendar getEndTime() {
-        if(endTimeCal == null) {
+        if (endTimeCal == null) {
             endTimeCal = Calendar.getInstance();
             endTimeCal.setTimeInMillis(endTime);
         }
@@ -106,7 +107,8 @@ public class EPGEntry implements Serializable {
     }
 
     /**
-     * Set the end time of the programm as unix timestamp
+     * Set the end time of the program as unix timestamp
+     *
      * @param endTime as unix timestamp
      */
     public void setEndTime(long endTime) {
@@ -128,7 +130,7 @@ public class EPGEntry implements Serializable {
     }
 
     public Calendar getStartTime() {
-        if(startTimeCal == null) {
+        if (startTimeCal == null) {
             startTimeCal = Calendar.getInstance();
             startTimeCal.setTimeInMillis(startTime);
         }
@@ -136,7 +138,8 @@ public class EPGEntry implements Serializable {
     }
 
     /**
-     * Set the start time of the programm as unix timestamp
+     * Set the start time of the program as unix timestamp
+     *
      * @param startTime as unix timestamp
      */
     public void setStartTime(long startTime) {
@@ -166,7 +169,7 @@ public class EPGEntry implements Serializable {
     }
 
     public Calendar getVpsTime() {
-        if(vpsTimeCal == null) {
+        if (vpsTimeCal == null) {
             vpsTimeCal = Calendar.getInstance();
             vpsTimeCal.setTimeInMillis(vpsTime);
         }
@@ -174,7 +177,8 @@ public class EPGEntry implements Serializable {
     }
 
     /**
-     * Set the end time of the programm as unix timestamp
+     * Set the end time of the program as unix timestamp
+     *
      * @param vpsTime as unix timestamp
      */
     public void setVpsTime(long vpsTime) {
@@ -221,16 +225,12 @@ public class EPGEntry implements Serializable {
 
     /**
      * Convenience method which returns only audio streams. Other streams are filtered.
+     *
      * @return A list of audio streams. Other streams are filtered.
      */
     public List<Stream> getAudioStreams() {
         List<Stream> audioStreams = new ArrayList<>(getStreams());
-        for (Iterator<Stream> iterator = audioStreams.iterator(); iterator.hasNext();) {
-            Stream stream = iterator.next();
-            if(stream.getContent() != Stream.CONTENT.MP2A && stream.getContent() != Stream.CONTENT.AC3 && stream.getContent() != Stream.CONTENT.HEAAC) {
-                iterator.remove();
-            }
-        }
+        audioStreams.removeIf(stream -> stream.getContent() != Stream.CONTENT.MP2A && stream.getContent() != Stream.CONTENT.AC3 && stream.getContent() != Stream.CONTENT.HEAAC);
         return audioStreams;
     }
 

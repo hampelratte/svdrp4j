@@ -30,28 +30,28 @@ package org.hampelratte.svdrp.responses.highlevel;
 
 import org.hampelratte.svdrp.Connection;
 import org.hampelratte.svdrp.Version;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Calendar;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class TimerTest {
 
     private Timer timer;
 
-    @Before
-    public void initTimer() {
+    @BeforeEach
+    void initTimer() {
         timer = createTimer();
     }
 
     public Timer createTimer() {
-        Timer timer = new Timer();
-        timer.setTitle("TestTitle");
-        timer.setChannelNumber(1);
-        timer.setDescription("Mehr-\nzeilige Be-\nschreibung");
+        Timer t = new Timer();
+        t.setTitle("TestTitle");
+        t.setChannelNumber(1);
+        t.setDescription("Mehr-\nzeilige Be-\nschreibung");
 
         Calendar startTime = Calendar.getInstance();
         startTime.set(Calendar.DAY_OF_MONTH, 4); // 04.11.2010 is a thursday
@@ -59,7 +59,7 @@ public class TimerTest {
         startTime.set(Calendar.YEAR, 2010);
         startTime.set(Calendar.HOUR_OF_DAY, 12);
         startTime.set(Calendar.MINUTE, 0);
-        timer.setStartTime(startTime);
+        t.setStartTime(startTime);
 
         Calendar endTime = Calendar.getInstance();
         endTime.set(Calendar.DAY_OF_MONTH, 4);
@@ -67,9 +67,9 @@ public class TimerTest {
         endTime.set(Calendar.YEAR, 2010);
         endTime.set(Calendar.HOUR_OF_DAY, 13);
         endTime.set(Calendar.MINUTE, 0);
-        timer.setEndTime(endTime);
+        t.setEndTime(endTime);
 
-        timer.setRepeatingDays(new boolean[]{false, // MO
+        t.setRepeatingDays(new boolean[]{false, // MO
                 false, // TUE
                 false, // WED
                 false, // THU
@@ -78,11 +78,11 @@ public class TimerTest {
                 true // SUN
         });
 
-        return timer;
+        return t;
     }
 
     @Test
-    public void testIsDaySet() {
+    void testIsDaySet() {
         Calendar test = Calendar.getInstance();
         test.set(Calendar.DAY_OF_MONTH, 31); // 31.10.2010 is a monday
         test.set(Calendar.MONTH, 9);         // Calendar begins counting of months with 0, so 9 is october
@@ -112,7 +112,7 @@ public class TimerTest {
     }
 
     @Test
-    public void testDayString() {
+    void testDayString() {
         assertEquals("-----SS", timer.getDayString());
         timer.setRepeatingDays(new boolean[]{true, false, true, false, true, false, true});
         assertEquals("M-W-F-S", timer.getDayString());
@@ -135,7 +135,7 @@ public class TimerTest {
     }
 
     @Test
-    public void testChangeState() {
+    void testChangeState() {
         timer.changeStateTo(Timer.ACTIVE, true);
         timer.changeStateTo(Timer.RECORDING, true);
         timer.changeStateTo(Timer.VPS, true);
@@ -161,7 +161,7 @@ public class TimerTest {
     }
 
     @Test
-    public void testSetState() {
+    void testSetState() {
         timer.setState(Timer.ACTIVE | Timer.VPS);
 
         assertTrue(timer.hasState(Timer.ACTIVE));
@@ -171,13 +171,13 @@ public class TimerTest {
     }
 
     @Test
-    public void testIsActive() {
+    void testIsActive() {
         timer.setState(Timer.ACTIVE);
         assertTrue(timer.isActive());
     }
 
     @Test
-    public void testIsRecording() {
+    void testIsRecording() {
         timer.setState(Timer.ACTIVE | Timer.RECORDING);
         assertTrue(timer.isRecording());
 
@@ -199,7 +199,7 @@ public class TimerTest {
     }
 
     @Test
-    public void testUniqueKey() {
+    void testUniqueKey() {
         Connection.setVersion(new Version("1.7.0"));
         assertEquals("1:-----SS:12:00:13:00", timer.getUniqueKey());
         timer.setRepeatingDays(new boolean[7]);
@@ -207,32 +207,32 @@ public class TimerTest {
     }
 
     @Test
-    public void testToNEWT() {
+    void testToNEWT() {
         assertEquals("1:1:-----SS:1200:1300:0:0:TestTitle:Mehr-|zeilige Be-|schreibung", timer.toNEWT());
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         Connection.setVersion(new Version("1.3.23"));
         assertEquals("1:1:-----SS [instance:2010-11-04]:1200:1300:0:0:TestTitle:Mehr-|zeilige B...", timer.toString());
         timer.setRepeatingDays(new boolean[7]);
         assertEquals("1:1:2010-11-04:1200:1300:0:0:TestTitle:Mehr-|zeilige B...", timer.toString());
 
         Connection.setVersion(new Version("1.0.0"));
-        timer.setRepeatingDays(new boolean[] {true, true, false, false, false, false, false});
+        timer.setRepeatingDays(new boolean[]{true, true, false, false, false, false, false});
         assertEquals("1:1:MT----- [instance:2010-11-04]:1200:1300:0:0:TestTitle:Mehr-|zeilige B...", timer.toString());
         timer.setRepeatingDays(new boolean[7]);
         assertEquals("1:1:4:1200:1300:0:0:TestTitle:Mehr-|zeilige B...", timer.toString());
     }
 
     @Test
-    public void testTimerAtMidnight() {
-        Timer timer = createTimer();
-        timer.getStartTime().set(Calendar.HOUR_OF_DAY, 23);
-        Calendar endTime = timer.getEndTime();
+    void testTimerAtMidnight() {
+        Timer t = createTimer();
+        t.getStartTime().set(Calendar.HOUR_OF_DAY, 23);
+        Calendar endTime = t.getEndTime();
         endTime.set(Calendar.HOUR_OF_DAY, 1);
-        timer.setEndTime(endTime);
+        t.setEndTime(endTime);
 
-        assertEquals(timer.getStartTime().get(Calendar.DAY_OF_MONTH) + 1, timer.getEndTime().get(Calendar.DAY_OF_MONTH));
+        assertEquals(t.getStartTime().get(Calendar.DAY_OF_MONTH) + 1, t.getEndTime().get(Calendar.DAY_OF_MONTH));
     }
 }

@@ -9,9 +9,10 @@ public class SizeFormatter {
     public static final long MiB = KiB * 1024;
     public static final long GiB = MiB * 1024;
 
-    private static NumberFormat nf = new DecimalFormat(".00");
-    
-    private SizeFormatter() {}
+    private static final NumberFormat nf = new DecimalFormat(".00");
+
+    private SizeFormatter() {
+    }
 
     public static String format(long size) {
         double decimal = size;

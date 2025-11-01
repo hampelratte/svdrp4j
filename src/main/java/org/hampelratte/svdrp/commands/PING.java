@@ -30,20 +30,23 @@ package org.hampelratte.svdrp.commands;
 
 import org.hampelratte.svdrp.Command;
 
+import java.io.Serial;
+
 /**
  *
  * PING
- *     Used by peer-to-peer connections between VDRs to keep the connection
- *     from timing out. May be used at any time and simply returns a line of
- *     the form '&lt;hostname&gt; is alive'.
+ * Used by peer-to-peer connections between VDRs to keep the connection
+ * from timing out. May be used at any time and simply returns a line of
+ * the form '&lt;hostname&gt; is alive'.
  *
  * @author <a href="mailto:henrik.niehaus@gmx.de">Henrik Niehaus</a>
  */
 public class PING extends Command {
 
-	private static final long serialVersionUID = -3589801071822834762L;
+    @Serial
+    private static final long serialVersionUID = -3589801071822834762L;
 
-	@Override
+    @Override
     public String getCommand() {
         return "PING";
     }

@@ -16,7 +16,7 @@
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERDELTTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
  * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
  * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
  * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
@@ -28,18 +28,19 @@
  */
 package org.hampelratte.svdrp.commands;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class POLLTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class POLLTest {
 
     @Test
-    public void testCommand() {
-        Assert.assertEquals("POLL timers", new POLL(POLL.TIMERS).getCommand());
+    void testCommand() {
+        assertEquals("POLL timers", new POLL(POLL.TIMERS).getCommand());
     }
 
     @Test
-    public void testToString() {
-        Assert.assertEquals("POLL", new POLL(POLL.TIMERS).toString());
+    void testToString() {
+        assertEquals("POLL", new POLL(POLL.TIMERS).toString());
     }
 }

@@ -1,10 +1,10 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  * 3. Neither the name of the project (Lazy Bones) nor the names of its
  *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -28,16 +28,19 @@
  */
 package org.hampelratte.svdrp.responses.highlevel;
 
+import java.io.Serial;
 import java.util.Arrays;
+import java.util.Objects;
 
 
 /**
  * Represents a DVB channel of vdr. See man 5 vdr for details
- * 
+ *
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  * @author <a href="mailto:androvdr@googlemail.com">androvdr</a>
  */
 public class DVBChannel extends BroadcastChannel {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public static final int QAM = 998;
@@ -64,27 +67,37 @@ public class DVBChannel extends BroadcastChannel {
      * @return The string representation of this channel in the channels.conf format
      */
     public String toChannelsConf() {
-    	StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append(getName().replace(":", "|"));
-        if(getShortName().length() > 0) {
+        if (!getShortName().isEmpty()) {
             sb.append(',');
             sb.append(getShortName());
         }
-        if(getServiceProviderName().length() > 0) {
+        if (!getServiceProviderName().isEmpty()) {
             sb.append(';');
             sb.append(getServiceProviderName());
         }
         sb.append(":");
-        sb.append(getFrequency()); sb.append(':');
-        sb.append(getParameterString()); sb.append(':');
-        sb.append(getSource()); sb.append(':');
-        sb.append(getSymbolRate()); sb.append(':');
-        sb.append(getVPID()); sb.append(':');
-        sb.append(getAPID()); sb.append(':');
-        sb.append(getTPID()); sb.append(':');
-        sb.append(getSID()); sb.append(':');
-        sb.append(getNID()); sb.append(':');
-        sb.append(getTID()); sb.append(':');
+        sb.append(getFrequency());
+        sb.append(':');
+        sb.append(getParameterString());
+        sb.append(':');
+        sb.append(getSource());
+        sb.append(':');
+        sb.append(getSymbolRate());
+        sb.append(':');
+        sb.append(getVPID());
+        sb.append(':');
+        sb.append(getAPID());
+        sb.append(':');
+        sb.append(getTPID());
+        sb.append(':');
+        sb.append(getSID());
+        sb.append(':');
+        sb.append(getNID());
+        sb.append(':');
+        sb.append(getTID());
+        sb.append(':');
         sb.append(getRID());
 
         return sb.toString();
@@ -92,50 +105,61 @@ public class DVBChannel extends BroadcastChannel {
 
     private String getParameterString() {
         StringBuilder sb = new StringBuilder();
-        if(getAlpha() > -1) {
-            sb.append('A'); sb.append(getAlpha());
+        if (getAlpha() > -1) {
+            sb.append('A');
+            sb.append(getAlpha());
         }
-        if(getBandwidth() > -1) {
-            sb.append('B'); sb.append(getBandwidth());
+        if (getBandwidth() > -1) {
+            sb.append('B');
+            sb.append(getBandwidth());
         }
-        if(getCodeRateHP() > -1) {
-            sb.append('C'); sb.append(getCodeRateHP());
+        if (getCodeRateHP() > -1) {
+            sb.append('C');
+            sb.append(getCodeRateHP());
         }
-        if(getCodeRateLP() > -1) {
-            sb.append('D'); sb.append(getCodeRateLP());
+        if (getCodeRateLP() > -1) {
+            sb.append('D');
+            sb.append(getCodeRateLP());
         }
-        if(getGuardInterval() > -1) {
-            sb.append('G'); sb.append(getGuardInterval());
+        if (getGuardInterval() > -1) {
+            sb.append('G');
+            sb.append(getGuardInterval());
         }
-        if(isHorizontalPolarization()) {
+        if (isHorizontalPolarization()) {
             sb.append('H');
         }
-        if(getInversion() > -1) {
-            sb.append('I'); sb.append(getInversion());
+        if (getInversion() > -1) {
+            sb.append('I');
+            sb.append(getInversion());
         }
-        if(isLeftCircularPolarization()) {
+        if (isLeftCircularPolarization()) {
             sb.append('L');
         }
-        if(getModulation() > -1) {
-            sb.append('M'); sb.append(getModulation());
+        if (getModulation() > -1) {
+            sb.append('M');
+            sb.append(getModulation());
         }
-        if(getRolloff() > -1) {
-            sb.append('O'); sb.append(getRolloff());
+        if (getRolloff() > -1) {
+            sb.append('O');
+            sb.append(getRolloff());
         }
-        if(getPriority() > -1) {
-            sb.append('P'); sb.append(getPriority());
+        if (getPriority() > -1) {
+            sb.append('P');
+            sb.append(getPriority());
         }
-        if(isRightCircularPolarization()) {
+        if (isRightCircularPolarization()) {
             sb.append('R');
         }
-        if(getTransmissionMode() > -1) {
-            sb.append('T'); sb.append(getTransmissionMode());
+        if (getTransmissionMode() > -1) {
+            sb.append('T');
+            sb.append(getTransmissionMode());
         }
-        if(isVerticalPolarization()) {
+        if (isVerticalPolarization()) {
             sb.append('V');
         }
-        if(getHierarchy() > -1) {
-            sb.append('Y'); sb.append(getHierarchy());
+        if (getHierarchy() > -1) {
+            sb.append('Y');
+            sb.append(getHierarchy());
         }
 
         return sb.toString();
@@ -147,8 +171,9 @@ public class DVBChannel extends BroadcastChannel {
 
     /**
      * Sets the bandwidth of this channel.
+     *
      * @param bandwidth Valid values are 6, 7, 8. To reset this parameter,
-     * call the method with -1 as parameter.
+     *                  call the method with -1 as parameter.
      */
     public void setBandwidth(int bandwidth) {
         this.bandwidth = bandwidth;
@@ -160,8 +185,9 @@ public class DVBChannel extends BroadcastChannel {
 
     /**
      * Sets the code rate high priority value of this channel.
+     *
      * @param codeRateHP Valid values are 0, 12, 23, 34, 45, 56, 67, 78, 89.
-     * To reset this parameter, call the method with -1 as parameter.
+     *                   To reset this parameter, call the method with -1 as parameter.
      */
     public void setCodeRateHP(int codeRateHP) {
         this.codeRateHP = codeRateHP;
@@ -173,8 +199,9 @@ public class DVBChannel extends BroadcastChannel {
 
     /**
      * Sets the code rate low priority value of this channel.
+     *
      * @param codeRateLP Valid values are 0, 12, 23, 34, 45, 56, 67, 78, 89.
-     * To reset this parameter, call the method with -1 as parameter.
+     *                   To reset this parameter, call the method with -1 as parameter.
      */
     public void setCodeRateLP(int codeRateLP) {
         this.codeRateLP = codeRateLP;
@@ -186,8 +213,9 @@ public class DVBChannel extends BroadcastChannel {
 
     /**
      * Sets the guard interval value of this channel.
+     *
      * @param guardInterval Valid values are 4, 8, 16, 32.
-     * To reset this parameter, call the method with -1 as parameter.
+     *                      To reset this parameter, call the method with -1 as parameter.
      */
     public void setGuardInterval(int guardInterval) {
         this.guardInterval = guardInterval;
@@ -199,8 +227,9 @@ public class DVBChannel extends BroadcastChannel {
 
     /**
      * Sets the hierarchy value of this channel.
+     *
      * @param hierarchy Valid values are 0, 1, 2, 4.
-     * To reset this parameter, call the method with -1 as parameter.
+     *                  To reset this parameter, call the method with -1 as parameter.
      */
     public void setHierarchy(int hierarchy) {
         this.hierarchy = hierarchy;
@@ -220,8 +249,9 @@ public class DVBChannel extends BroadcastChannel {
 
     /**
      * Sets the inversion value of this channel.
+     *
      * @param inversion Valid values are 0, 1.
-     * To reset this parameter, call the method with -1 as parameter.
+     *                  To reset this parameter, call the method with -1 as parameter.
      */
     public void setInversion(int inversion) {
         this.inversion = inversion;
@@ -241,8 +271,9 @@ public class DVBChannel extends BroadcastChannel {
 
     /**
      * Sets the modulation value of this channel.
+     *
      * @param modulation Valid values are 0, 12, 23, 34, 45, 56, 67, 78, 89.
-     * To reset this parameter, call the method with -1 as parameter.
+     *                   To reset this parameter, call the method with -1 as parameter.
      */
     public void setModulation(int modulation) {
         this.modulation = modulation;
@@ -262,10 +293,11 @@ public class DVBChannel extends BroadcastChannel {
 
     /**
      * Sets the transmission mode value of this channel.
+     *
      * @param transmissionMode Valid values are 2, 8.
-     * To reset this parameter, call the method with -1 as parameter.
+     *                         To reset this parameter, call the method with -1 as parameter.
      */
-    public void setTransmissionMode(int transmissionMode)  {
+    public void setTransmissionMode(int transmissionMode) {
         this.transmissionMode = transmissionMode;
     }
 
@@ -278,9 +310,13 @@ public class DVBChannel extends BroadcastChannel {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hashCode(getID());
+    }
+
+    @Override
     public boolean equals(Object o) {
-        if (o instanceof DVBChannel) {
-            DVBChannel c = (DVBChannel) o;
+        if (o instanceof DVBChannel c) {
             return c.getID().equals(getID());
         }
         return false;
@@ -293,8 +329,9 @@ public class DVBChannel extends BroadcastChannel {
 
     /**
      * Sets the alpha value of this channel.
+     *
      * @param alpha Valid values are 0, 1, 2, 4
-     * To reset this parameter, call the method with -1 as parameter.
+     *              To reset this parameter, call the method with -1 as parameter.
      */
     @Deprecated
     public void setAlpha(int alpha) {
@@ -308,8 +345,9 @@ public class DVBChannel extends BroadcastChannel {
 
     /**
      * Sets the rolloff value of this channel.
+     *
      * @param rolloff Valid values are 0, 20, 25, 35
-     * To reset this parameter, call the method with -1 as parameter.
+     *                To reset this parameter, call the method with -1 as parameter.
      */
     @Deprecated
     public void setRolloff(int rolloff) {
@@ -323,8 +361,9 @@ public class DVBChannel extends BroadcastChannel {
 
     /**
      * Sets the priority value of this channel.
+     *
      * @param priority Valid values are 0, 1
-     * To reset this parameter, call the method with -1 as parameter.
+     *                 To reset this parameter, call the method with -1 as parameter.
      */
     @Deprecated
     public void setPriority(int priority) {
@@ -333,102 +372,101 @@ public class DVBChannel extends BroadcastChannel {
 
     /**
      * Validates the parameters of this channel.
-     * 
-     * @throws IllegalArgumentException
-     *             If one of the parameters is invalid.
+     *
+     * @throws IllegalArgumentException If one of the parameters is invalid.
      */
     public void validate() throws IllegalArgumentException {
         // validate alpha
         int[] validValues = {-1, 0, 1, 2, 4, AUTOMATIC};
         boolean valid = validateArray(validValues, alpha);
-        if(!valid) {
+        if (!valid) {
             throwIllegalArgumentException("Alpha", alpha, validValues);
         }
 
         // validate bandwidth
-        validValues = new int[] { -1, 1712, 5, 6, 7, 8, 10, AUTOMATIC };
+        validValues = new int[]{-1, 1712, 5, 6, 7, 8, 10, AUTOMATIC};
         valid = validateArray(validValues, bandwidth);
-        if(!valid) {
+        if (!valid) {
             throwIllegalArgumentException("Bandwidth", bandwidth, validValues);
         }
 
         // validate codeRateHP
-        validValues = new int[] { -1, 0, 12, 23, 34, 35, 45, 56, 67, 78, 89, 910, AUTOMATIC };
+        validValues = new int[]{-1, 0, 12, 23, 34, 35, 45, 56, 67, 78, 89, 910, AUTOMATIC};
         valid = validateArray(validValues, codeRateHP);
-        if(!valid) {
+        if (!valid) {
             throwIllegalArgumentException("Code rate HP", codeRateHP, validValues);
         }
 
         // validate codeRateLP
-        validValues = new int[] { -1, 0, 12, 23, 34, 35, 45, 56, 67, 78, 89, 910, AUTOMATIC };
+        validValues = new int[]{-1, 0, 12, 23, 34, 35, 45, 56, 67, 78, 89, 910, AUTOMATIC};
         valid = validateArray(validValues, codeRateLP);
-        if(!valid) {
+        if (!valid) {
             throwIllegalArgumentException("Code rate LP", codeRateLP, validValues);
         }
 
         // validate guardInterval
-        validValues = new int[] { -1, 4, 8, 16, 32, 128, 19128, 19256, AUTOMATIC };
+        validValues = new int[]{-1, 4, 8, 16, 32, 128, 19128, 19256, AUTOMATIC};
         valid = validateArray(validValues, guardInterval);
-        if(!valid) {
+        if (!valid) {
             throwIllegalArgumentException("Guard interval", guardInterval, validValues);
         }
 
         // validate hierarchy
-        validValues = new int[] {-1, 0, 1, 2, 4, AUTOMATIC};
+        validValues = new int[]{-1, 0, 1, 2, 4, AUTOMATIC};
         valid = validateArray(validValues, hierarchy);
-        if(!valid) {
+        if (!valid) {
             throwIllegalArgumentException("Hierarchy", hierarchy, validValues);
         }
 
         // validate inversion
-        validValues = new int[] {-1, 0, 1, AUTOMATIC};
+        validValues = new int[]{-1, 0, 1, AUTOMATIC};
         valid = validateArray(validValues, inversion);
-        if(!valid) {
+        if (!valid) {
             throwIllegalArgumentException("Inversion", inversion, validValues);
         }
 
         // validate modulation
-        validValues = new int[] { -1, 0, 2, 5, 6, 7, 10, 11, 12, 16, 32, 64, 128, 256, QAM, AUTOMATIC };
+        validValues = new int[]{-1, 0, 2, 5, 6, 7, 10, 11, 12, 16, 32, 64, 128, 256, QAM, AUTOMATIC};
         valid = validateArray(validValues, modulation);
-        if(!valid) {
+        if (!valid) {
             throwIllegalArgumentException("Modulation", modulation, validValues);
         }
 
         // validate priority
-        validValues = new int[] {-1, 0, 1, AUTOMATIC};
+        validValues = new int[]{-1, 0, 1, AUTOMATIC};
         valid = validateArray(validValues, priority);
-        if(!valid) {
+        if (!valid) {
             throwIllegalArgumentException("Priority", priority, validValues);
         }
 
         // validate rolloff
-        validValues = new int[] {-1, 0, 20, 25, 35, AUTOMATIC};
+        validValues = new int[]{-1, 0, 20, 25, 35, AUTOMATIC};
         valid = validateArray(validValues, rolloff);
-        if(!valid) {
+        if (!valid) {
             throwIllegalArgumentException("Rolloff", rolloff, validValues);
         }
 
         // validate transmission mode
-        validValues = new int[] {-1, 2, 8, AUTOMATIC};
+        validValues = new int[]{-1, 2, 8, AUTOMATIC};
         valid = validateArray(validValues, transmissionMode);
-        if(!valid) {
+        if (!valid) {
             throwIllegalArgumentException("Transmission mode", transmissionMode, validValues);
         }
     }
 
-    private void throwIllegalArgumentException (String name, int value, int[] validValues) throws IllegalArgumentException {
+    private void throwIllegalArgumentException(String name, int value, int[] validValues) throws IllegalArgumentException {
         throw new IllegalArgumentException(name + " value [" + value + "] is invalid. Valid values are " + Arrays.toString(validValues));
     }
 
     /**
-     * 
+     *
      * @param validValues an array with valid values
-     * @param value the value to validate
+     * @param value       the value to validate
      * @return true, if the value is valid
      */
     private boolean validateArray(int[] validValues, int value) {
-        for (int i = 0; i < validValues.length; i++) {
-            if(value == validValues[i]) {
+        for (int validValue : validValues) {
+            if (value == validValue) {
                 return true;
             }
         }
@@ -438,22 +476,23 @@ public class DVBChannel extends BroadcastChannel {
 
     /**
      * Copied from "man 5 vdr"
-     * 
+     * <p>
      * A particular channel can be uniquely identified by its channel ID, which is a string that looks like this:
-     *
+     * <p>
      * S19.2E-1-1089-12003-0
-     *
+     * <p>
      * The components of this string are the Source (S19.2E), NID (1), TID (1089), SID (12003) and RID (0) as defined above.  The last part can be omitted if it is 0, so the above example could also be written  as
      * S19.2E-1-1089-12003).
      * The channel ID is used in the timers.conf and epg.data files to properly identify the channels.
-     *
+     * <p>
      * If a channel has both NID and TID set to 0, the channel ID will use the Frequency instead of the TID. For satellite channels an additional offset of 100000, 200000, 300000 or 400000 is added to that number,
      * depending on the Polarization (H, V, L or R, respectively). This is necessary because on some satellites the same frequency is used for two different transponders, with opposite polarization.
+     *
      * @return the channel ID as String
      */
     public String getID() {
         String id = getSource() + "-" + getNID() + "-";
-        if(getNID() == 0 && getTID() == 0) {
+        if (getNID() == 0 && getTID() == 0) {
             int part = getFrequency();
             part += isHorizontalPolarization() ? 100000 : 0;
             part += isVerticalPolarization() ? 200000 : 0;

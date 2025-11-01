@@ -1,13 +1,13 @@
 package org.hampelratte.svdrp.mock;
 
+import org.hampelratte.svdrp.responses.highlevel.Recording;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.hampelratte.svdrp.responses.highlevel.Recording;
-
 public class MovrHandler implements RequestHandler {
 
-    private RecordingManager recordingManager;
+    private final RecordingManager recordingManager;
 
     public MovrHandler(RecordingManager recordingManager) {
         this.recordingManager = recordingManager;
@@ -25,7 +25,7 @@ public class MovrHandler implements RequestHandler {
             try {
                 int id = Integer.parseInt(m.group(1));
                 Recording rec = recordingManager.getRecording(id);
-                if(rec == null) {
+                if (rec == null) {
                     return "550 Recording \"" + id + "\" not found";
                 } else {
                     String oldTitle = rec.getTitle();

@@ -28,11 +28,11 @@
  */
 package org.hampelratte.svdrp.sorting;
 
+import org.hampelratte.svdrp.responses.highlevel.Recording;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import org.hampelratte.svdrp.responses.highlevel.Recording;
 
 public class RecordingSortStrategy {
     private final Comparator<Recording> comparator;
@@ -44,11 +44,10 @@ public class RecordingSortStrategy {
         this.ascending = ascending;
     }
 
-    public List<Recording> sort(List<Recording> recordings) {
-        Collections.sort(recordings, comparator);
+    public void sort(List<Recording> recordings) {
+        recordings.sort(comparator);
         if (!ascending) {
             Collections.reverse(recordings);
         }
-        return recordings;
     }
 }

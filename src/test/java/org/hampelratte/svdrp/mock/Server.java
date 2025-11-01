@@ -28,11 +28,15 @@
  */
 package org.hampelratte.svdrp.mock;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import org.hampelratte.svdrp.Response;
+import org.hampelratte.svdrp.responses.R250;
+import org.hampelratte.svdrp.responses.R501;
+import org.hampelratte.svdrp.responses.highlevel.Timer;
+import org.hampelratte.svdrp.util.IOUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -44,19 +48,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.hampelratte.svdrp.Response;
-import org.hampelratte.svdrp.responses.R250;
-import org.hampelratte.svdrp.responses.R501;
-import org.hampelratte.svdrp.responses.highlevel.Timer;
-import org.hampelratte.svdrp.util.IOUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class Server implements Runnable {
 
-    private static transient Logger logger = LoggerFactory.getLogger(Server.class);
-
-    private final int port = 2001;
+    private static final Logger logger = LoggerFactory.getLogger(Server.class);
 
     private BufferedReader br;
 
@@ -74,9 +70,9 @@ public class Server implements Runnable {
     private boolean accessDenied = false;
     private boolean inPUTEmode = false;
 
-    private List<RequestHandler> requestHandlers = new ArrayList<RequestHandler>();
-    private TimerManager timerManager;
-    private RecordingManager recordingManager;
+    private final List<RequestHandler> requestHandlers = new ArrayList<>();
+    private final TimerManager timerManager;
+    private final RecordingManager recordingManager;
 
     public Server() {
         logger.info("Running in {}", System.getProperty("user.dir"));
@@ -91,6 +87,17 @@ public class Server implements Runnable {
         addRequestHandler(new VoluHandler());
     }
 
+    public static void main(String[] args) {
+        Server server = new Server();
+        // server.responseDelay = 2000;
+        server.loadWelcome("welcome-2.3.4-utf_8.txt");
+        server.setAccessDenied(false);
+        server.loadTimers("lstt.txt");
+        server.loadRecordings("lstr_data.txt");
+        server.loadChannelsConf("channels-mixed.conf");
+        new Thread(server).start();
+    }
+
     private void addRequestHandler(RequestHandler handler) {
         requestHandlers.add(handler);
     }
@@ -100,21 +107,21 @@ public class Server implements Runnable {
         serveClients();
     }
 
-    public void loadWelcome(String welcomeTextFile) throws IOException {
+    public void loadWelcome(String welcomeTextFile) {
         welcome = IOUtil.readFile(welcomeTextFile);
     }
 
-    public void loadTimers(String timersFile) throws IOException {
+    public void loadTimers(String timersFile) {
         String timerData = IOUtil.readFile(timersFile);
         timerManager.parseData(timerData);
     }
 
-    public void loadRecordings(String recordingsFile) throws IOException {
+    public void loadRecordings(String recordingsFile) {
         String recordingsData = IOUtil.readFile(recordingsFile);
         recordingManager.parseData(recordingsData);
 
         Timer timer = timerManager.getTimer(1);
-        if(timer != null) {
+        if (timer != null) {
             Timer newTimer = (Timer) timer.clone();
             newTimer.setID(999);
             newTimer.setState(Timer.ACTIVE | Timer.RECORDING);
@@ -124,12 +131,12 @@ public class Server implements Runnable {
         }
     }
 
-    public void loadChannelsConf(String channelsFile) throws IOException {
-        channels = "";
+    public void loadChannelsConf(String channelsFile) {
+        StringBuilder sb = new StringBuilder();
         String channelsConf = IOUtil.readFile(channelsFile);
         StringTokenizer st = new StringTokenizer(channelsConf, "\n");
         int channelNumber = 0;
-        while(st.hasMoreElements()) {
+        while (st.hasMoreElements()) {
             String line = st.nextToken();
 
             // ignore groups
@@ -137,33 +144,35 @@ public class Server implements Runnable {
                 continue;
             }
 
-            char delim = st.hasMoreElements() ? '-' : ' ';
-            channels += "250" + delim + Integer.toString(++channelNumber) + ' ' + line;
-            if(st.hasMoreElements()) {
-                channels += '\n';
+            char delimiter = st.hasMoreElements() ? '-' : ' ';
+            sb.append("250").append(delimiter).append(++channelNumber).append(' ').append(line);
+            if (st.hasMoreElements()) {
+                sb.append('\n');
             }
         }
 
-        if (channels.isEmpty()) {
-            channels = "550 No channels defined.";
+        if (sb.isEmpty()) {
+            sb.append("550 No channels defined.");
         }
+        this.channels = sb.toString();
     }
 
     private void serveClients() {
         try {
+            int port = 2001;
             serverSocket = new ServerSocket(port);
             logger.debug("Listening on port {}", port);
-            while (!serverSocket.isClosed()) {
+            while (serverSocket != null && !serverSocket.isClosed()) {
                 logger.info("Waiting for connection from client");
                 socket = serverSocket.accept();
                 socket.setSoTimeout((int) TimeUnit.MINUTES.toMillis(3));
                 logger.info("Connection from {}", socket.getRemoteSocketAddress());
 
-                br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
-                bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "UTF-8"));
+                br = new BufferedReader(new InputStreamReader(socket.getInputStream(), UTF_8));
+                bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), UTF_8));
 
                 logger.debug("Access denied: {}", accessDenied);
-                if(accessDenied) {
+                if (accessDenied) {
                     logger.debug("Access denied!");
                     sendResponse("Access denied!");
                     socket.close();
@@ -193,7 +202,7 @@ public class Server implements Runnable {
                 }
             }
         } catch (SocketException e) {
-            if(serverSocket != null && !serverSocket.isClosed()) {
+            if (serverSocket != null && !serverSocket.isClosed()) {
                 logger.error("Error while serving clients", e);
             }
         } catch (IOException e) {
@@ -202,12 +211,12 @@ public class Server implements Runnable {
     }
 
     private boolean readRequest() throws IOException {
-        if(socket.isClosed()) {
+        if (socket.isClosed()) {
             return false;
         }
 
         String request = br.readLine();
-        if(request == null) {
+        if (request == null) {
             logger.info("Connection closed by client");
             return false;
         }
@@ -215,11 +224,11 @@ public class Server implements Runnable {
         logger.debug("<-- {}", request);
         request = request.trim();
 
-        if(inPUTEmode) {
+        if (inPUTEmode) {
             sendResponse("451 Error while processing EPG data");
         }
 
-        if("quit".equalsIgnoreCase(request)) {
+        if ("quit".equalsIgnoreCase(request)) {
             sendResponse("221 vdr closing connection");
             socket.close();
         } else if ("lstc".equalsIgnoreCase(request)) {
@@ -233,7 +242,7 @@ public class Server implements Runnable {
             sendResponse("354 Enter EPG data, end with \".\" on a line by itself");
         } else if (request.toLowerCase().matches("lstr \\d+.*")) {
             Matcher m = Pattern.compile("lstr (\\d+).*").matcher(request.toLowerCase());
-            if(m.matches()) {
+            if (m.matches()) {
                 printRecording(Integer.parseInt(m.group(1)));
             }
         } else if (request.toLowerCase().matches("lste \\d+.*")) {
@@ -289,7 +298,11 @@ public class Server implements Runnable {
     }
 
     private void sendResponse(String resp) throws IOException {
-        if(responseDelay > 0) { try { Thread.sleep(responseDelay); } catch (InterruptedException e) { /* fail silently */ } } // NOSONAR
+        if (responseDelay > 0) {
+            try {
+                Thread.sleep(responseDelay);
+            } catch (InterruptedException e) { /* fail silently */ }
+        } // NOSONAR
         logger.debug("--> {}", resp);
         bw.write(resp);
         bw.write('\n');
@@ -297,7 +310,11 @@ public class Server implements Runnable {
     }
 
     private void sendResponse(Response resp) throws IOException {
-        if(responseDelay > 0) { try { Thread.sleep(responseDelay); } catch (InterruptedException e) { /* fail silently */ } } // NOSONAR
+        if (responseDelay > 0) {
+            try {
+                Thread.sleep(responseDelay);
+            } catch (InterruptedException e) { /* fail silently */ }
+        } // NOSONAR
         logger.debug("--> {}", resp);
         bw.write(resp.getCode() + " " + resp.getMessage());
         bw.write('\n');
@@ -306,7 +323,7 @@ public class Server implements Runnable {
 
     private void printRecording(int i) throws IOException {
         String filename = "lstr_" + i + ".txt";
-        String lstr = "";
+        String lstr;
         try {
             lstr = IOUtil.readFile(filename);
             sendResponse(lstr);
@@ -332,25 +349,14 @@ public class Server implements Runnable {
         this.accessDenied = accessDenied;
     }
 
-    public void shutdown() throws IOException, InterruptedException {
+    public void shutdown() throws IOException {
         logger.info("Shutting down server...");
-        if(serverSocket!= null) {
+        if (serverSocket != null) {
             serverSocket.close();
         }
-        if(socket != null) {
+        if (socket != null) {
             socket.close();
         }
         logger.info("Shutdown successful.");
-    }
-
-    public static void main(String[] args) throws IOException {
-        Server server = new Server();
-        // server.responseDelay = 2000;
-        server.loadWelcome("welcome-2.3.4-utf_8.txt");
-        server.setAccessDenied(false);
-        server.loadTimers("lstt.txt");
-        server.loadRecordings("lstr_data.txt");
-        server.loadChannelsConf("channels-mixed.conf");
-        new Thread(server).start();
     }
 }

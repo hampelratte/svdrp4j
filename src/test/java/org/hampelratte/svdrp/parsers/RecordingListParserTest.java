@@ -28,33 +28,31 @@
  */
 package org.hampelratte.svdrp.parsers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.List;
-
 import org.hampelratte.svdrp.Connection;
 import org.hampelratte.svdrp.Version;
 import org.hampelratte.svdrp.commands.LSTR;
 import org.hampelratte.svdrp.mock.TestData;
 import org.hampelratte.svdrp.responses.R250;
 import org.hampelratte.svdrp.responses.highlevel.Recording;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
-public class RecordingListParserTest {
+class RecordingListParserTest {
 
     private List<Recording> recordings;
 
-    @Before
-    public void parseRecordings() throws IOException {
+    @BeforeEach
+    void parseRecordings() throws IOException {
         Connection.setVersion(new Version("1.0.0"));
         Connection conn = mock(Connection.class);
         when(conn.send(isA(LSTR.class))).thenReturn(new R250(TestData.readFile("unittests/lstr.txt")));
@@ -63,24 +61,24 @@ public class RecordingListParserTest {
     }
 
     @Test
-    public void testListSize() {
+    void testListSize() {
         assertEquals(7, recordings.size());
     }
 
     @Test
-    public void testTitle() {
+    void testTitle() {
         assertEquals("%Tagesthemen", recordings.get(3).getTitle());
         assertEquals("%%Zweimal geschnitten", recordings.get(4).getTitle());
     }
 
     @Test
-    public void testDisplayTitle() {
+    void testDisplayTitle() {
         assertEquals("Tagesthemen", recordings.get(3).getDisplayTitle());
         assertEquals("Zweimal geschnitten", recordings.get(4).getDisplayTitle());
     }
 
     @Test
-    public void testIsNew() {
+    void testIsNew() {
         assertTrue(recordings.get(0).isNew());
         assertFalse(recordings.get(1).isNew());
         assertFalse(recordings.get(2).isNew());
@@ -89,7 +87,7 @@ public class RecordingListParserTest {
     }
 
     @Test
-    public void testIsCut() {
+    void testIsCut() {
         assertFalse(recordings.get(0).isCut());
         assertFalse(recordings.get(1).isCut());
         assertTrue(recordings.get(2).isCut());
@@ -98,7 +96,7 @@ public class RecordingListParserTest {
     }
 
     @Test
-    public void testGetNumber() {
+    void testGetNumber() {
         assertEquals(1, recordings.get(0).getId());
         assertEquals(2, recordings.get(1).getId());
         assertEquals(3, recordings.get(2).getId());
@@ -107,8 +105,8 @@ public class RecordingListParserTest {
     }
 
     @Test
-    public void testGetStarttime() {
-        Calendar starttime = recordings.get(0).getStartTime();
+    void testGetStarttime() {
+        Calendar starttime = recordings.getFirst().getStartTime();
         assertEquals(29, starttime.get(Calendar.DAY_OF_MONTH));
         assertEquals(7, starttime.get(Calendar.MONTH));
         assertEquals(2010, starttime.get(Calendar.YEAR));
@@ -117,7 +115,7 @@ public class RecordingListParserTest {
     }
 
     @Test
-    public void testGetFolder() {
+    void testGetFolder() {
         Recording rec6 = recordings.get(5);
         assertEquals("Folder", rec6.getFolder());
         assertTrue(rec6.isCut());

@@ -30,6 +30,8 @@ package org.hampelratte.svdrp.commands;
 
 import org.hampelratte.svdrp.Command;
 
+import java.io.Serial;
+
 /**
  * Command to list all channels or details of the a given channel
  *
@@ -37,6 +39,7 @@ import org.hampelratte.svdrp.Command;
  *
  */
 public class LSTC extends Command {
+    @Serial
     private static final long serialVersionUID = 2L;
 
     private String channel = "";
@@ -54,7 +57,7 @@ public class LSTC extends Command {
     /**
      * Command to list all channels including the group separators
      *
-     * @param withGroups  true if the groups should be included
+     * @param withGroups true if the groups should be included
      */
     public LSTC(boolean withGroups) {
         this.withGroups = withGroups;
@@ -63,8 +66,8 @@ public class LSTC extends Command {
     /**
      * Command to list all channels including the group separators and channel IDs
      *
-     * @param withIds  true if the channel ID should be included
-     * @param withGroups  true if the groups should be included
+     * @param withIds    true if the channel ID should be included
+     * @param withGroups true if the groups should be included
      */
     public LSTC(boolean withIds, boolean withGroups) {
         this.withIds = withIds;
@@ -74,8 +77,7 @@ public class LSTC extends Command {
     /**
      * Command to get details for a given channel
      *
-     * @param channel
-     *            The number, ID or the name of the channel
+     * @param channel The number, ID or the name of the channel
      */
     public LSTC(String channel) {
         this.channel = channel;
@@ -84,8 +86,7 @@ public class LSTC extends Command {
     /**
      * Command to get details for a given channel
      *
-     * @param channel
-     *            The number of the channel
+     * @param channel The number of the channel
      */
     public LSTC(int channel) {
         this.channel = Integer.toString(channel);
@@ -94,10 +95,8 @@ public class LSTC extends Command {
     /**
      * Command to get details for a given channel including the channel ID
      *
-     * @param channel
-     *            The number, ID or the name of the channel
-     * @param withId
-     *            true if the channel ID should be included
+     * @param channel The number, ID or the name of the channel
+     * @param withId  true if the channel ID should be included
      *
      */
     public LSTC(String channel, boolean withId) {
@@ -108,10 +107,8 @@ public class LSTC extends Command {
     /**
      * Command to get details for a given channel
      *
-     * @param channel
-     *            The number of the channel
-     * @param withId
-     *            true if the channel ID should be included
+     * @param channel The number of the channel
+     * @param withId  true if the channel ID should be included
      */
     public LSTC(int channel, boolean withId) {
         this.channel = Integer.toString(channel);
@@ -121,7 +118,7 @@ public class LSTC extends Command {
     @Override
     public String getCommand() {
         String cmd = "LSTC ";
-        if(withIds) {
+        if (withIds) {
             cmd += ":ids ";
         }
         if (withGroups) {
@@ -149,8 +146,7 @@ public class LSTC extends Command {
     /**
      * Sets the channel, which should be listed
      *
-     * @param channel
-     *            The number, ID or the name of the channel
+     * @param channel The number, ID or the name of the channel
      */
     public void setChannel(String channel) {
         this.channel = channel;

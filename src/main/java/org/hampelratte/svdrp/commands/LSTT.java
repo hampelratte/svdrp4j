@@ -30,6 +30,8 @@ package org.hampelratte.svdrp.commands;
 
 import org.hampelratte.svdrp.Command;
 
+import java.io.Serial;
+
 /**
  * Command to list all timers or details of a given timer
  *
@@ -37,6 +39,7 @@ import org.hampelratte.svdrp.Command;
  *
  */
 public class LSTT extends Command {
+    @Serial
     private static final long serialVersionUID = 2L;
 
     private int number;
@@ -52,8 +55,7 @@ public class LSTT extends Command {
     /**
      * Command to get a list of all timers. The channel ID is returned instead of the channel number.
      *
-     * @param withIds
-     *            return the channel ID instead of the channel number
+     * @param withIds return the channel ID instead of the channel number
      */
     public LSTT(boolean withIds) {
         this.withIds = withIds;
@@ -62,8 +64,7 @@ public class LSTT extends Command {
     /**
      * Command to get details of a given timer
      *
-     * @param number
-     *            The number/id of this timer
+     * @param number The number/id of this timer
      */
     public LSTT(int number) {
         this.number = number;
@@ -72,10 +73,8 @@ public class LSTT extends Command {
     /**
      * Command to get details of a given timer. The channel ID is returned instead of the channel number.
      *
-     * @param number
-     *            The number/id of this timer
-     * @param withId
-     *            return the channel ID instead of the channel number
+     * @param number The number/id of this timer
+     * @param withId return the channel ID instead of the channel number
      */
     public LSTT(int number, boolean withId) {
         this.number = number;
@@ -88,7 +87,7 @@ public class LSTT extends Command {
         if (number > 0) {
             cmd += " " + number;
         }
-        if(withIds) {
+        if (withIds) {
             cmd += " id";
         }
         return cmd;
@@ -111,8 +110,7 @@ public class LSTT extends Command {
     /**
      * Sets the number of the timer
      *
-     * @param number
-     *            The number of the timer
+     * @param number The number of the timer
      */
     public void setNumber(int number) {
         this.number = number;

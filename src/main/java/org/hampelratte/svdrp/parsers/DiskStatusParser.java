@@ -1,12 +1,13 @@
 package org.hampelratte.svdrp.parsers;
 
+import org.hampelratte.svdrp.responses.highlevel.DiskStatus;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.hampelratte.svdrp.responses.highlevel.DiskStatus;
-
 public class DiskStatusParser {
-	private DiskStatusParser() {}
+    private DiskStatusParser() {
+    }
 
     public static DiskStatus parse(String responseString) {
         Pattern p = Pattern.compile("(\\d+)MB (\\d+)MB (\\d+)%");
@@ -21,7 +22,7 @@ public class DiskStatusParser {
             diskStatus.setUsage(usage);
             return diskStatus;
         } else {
-            throw new RuntimeException("stat disk response has an unknown format: [" + responseString + "]");
+            throw new IllegalArgumentException("stat disk response has an unknown format: [" + responseString + "]");
         }
     }
 }

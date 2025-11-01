@@ -28,33 +28,31 @@
  */
 package org.hampelratte.svdrp.parsers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.List;
-
 import org.hampelratte.svdrp.Connection;
 import org.hampelratte.svdrp.Version;
 import org.hampelratte.svdrp.commands.LSTR;
 import org.hampelratte.svdrp.mock.TestData;
 import org.hampelratte.svdrp.responses.R250;
 import org.hampelratte.svdrp.responses.highlevel.Recording;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
-public class NewFormatRecordingListParserTest {
+class NewFormatRecordingListParserTest {
 
     private List<Recording> recordings;
 
-    @Before
-    public void parseRecordings() throws IOException {
+    @BeforeEach
+    void parseRecordings() throws IOException {
         Connection.setVersion(new Version("1.7.22"));
         Connection conn = mock(Connection.class);
         when(conn.send(isA(LSTR.class))).thenReturn(new R250(TestData.readFile("unittests/lstr_1.7.21.txt")));
@@ -63,30 +61,30 @@ public class NewFormatRecordingListParserTest {
     }
 
     @Test
-    public void testListSize() {
+    void testListSize() {
         assertEquals(7, recordings.size());
     }
 
     @Test
-    public void testTitle() {
+    void testTitle() {
         assertEquals("%Breaking Bad~Season 4~S04E04", recordings.get(3).getTitle());
         assertEquals("%%Zweimal geschnitten", recordings.get(4).getTitle());
     }
 
     @Test
-    public void testDisplayTitle() {
+    void testDisplayTitle() {
         assertEquals("S04E04", recordings.get(3).getDisplayTitle());
         assertEquals("Zweimal geschnitten", recordings.get(4).getDisplayTitle());
     }
 
     @Test
-    public void testFolder() {
+    void testFolder() {
         assertEquals("Breaking Bad", recordings.get(2).getFolder());
         assertEquals("Breaking Bad/Season 4", recordings.get(3).getFolder());
     }
 
     @Test
-    public void testIsNew() {
+    void testIsNew() {
         assertFalse(recordings.get(0).isNew());
         assertTrue(recordings.get(1).isNew());
         assertFalse(recordings.get(2).isNew());
@@ -95,23 +93,23 @@ public class NewFormatRecordingListParserTest {
     }
 
     @Test
-    public void testIsCut() {
+    void testIsCut() {
         assertFalse(recordings.get(0).isCut());
         assertTrue(recordings.get(1).isCut());
         assertTrue(recordings.get(2).isCut());
         assertTrue(recordings.get(3).isCut());
         assertTrue(recordings.get(4).isCut());
     }
-    
+
     @Test
-    public void testHasError() {
-    	assertFalse(recordings.get(4).hasError());
+    void testHasError() {
+        assertFalse(recordings.get(4).hasError());
         assertTrue(recordings.get(5).hasError());
         assertTrue(recordings.get(6).hasError());
     }
 
     @Test
-    public void testGetNumber() {
+    void testGetNumber() {
         assertEquals(1, recordings.get(0).getId());
         assertEquals(2, recordings.get(1).getId());
         assertEquals(3, recordings.get(2).getId());
@@ -120,8 +118,8 @@ public class NewFormatRecordingListParserTest {
     }
 
     @Test
-    public void testGetStarttime() {
-        Calendar starttime = recordings.get(0).getStartTime();
+    void testGetStarttime() {
+        Calendar starttime = recordings.getFirst().getStartTime();
         assertEquals(29, starttime.get(Calendar.DAY_OF_MONTH));
         assertEquals(11, starttime.get(Calendar.MONTH));
         assertEquals(2010, starttime.get(Calendar.YEAR));
@@ -130,7 +128,7 @@ public class NewFormatRecordingListParserTest {
     }
 
     @Test
-    public void testDuration() {
+    void testDuration() {
         assertEquals(115, recordings.get(0).getDuration());
         assertEquals(45, recordings.get(1).getDuration());
         assertEquals(45, recordings.get(2).getDuration());

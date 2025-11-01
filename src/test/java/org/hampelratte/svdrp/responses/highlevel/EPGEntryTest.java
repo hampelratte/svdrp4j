@@ -28,17 +28,17 @@
  */
 package org.hampelratte.svdrp.responses.highlevel;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import org.junit.jupiter.api.Test;
 
 import java.util.Calendar;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
-public class EPGEntryTest {
+class EPGEntryTest {
     private EPGEntry epg;
-    private Calendar now;
-    private Calendar then;
+    private final Calendar now;
+    private final Calendar then;
 
     public EPGEntryTest() {
         epg = new EPGEntry();
@@ -48,7 +48,7 @@ public class EPGEntryTest {
     }
 
     @Test
-    public void testResetStartTimeCalendar() {
+    void testResetStartTimeCalendar() {
         // ensure that the initial calendar is set correctly
         epg.setStartTime(now);
         assertEquals(now.getTimeInMillis(), epg.getStartTime().getTimeInMillis());
@@ -59,7 +59,7 @@ public class EPGEntryTest {
     }
 
     @Test
-    public void testResetStartTimeLong() {
+    void testResetStartTimeLong() {
         // ensure that the initial calendar is set correctly
         epg.setStartTime(now);
         assertEquals(now.getTimeInMillis(), epg.getStartTime().getTimeInMillis());
@@ -70,7 +70,7 @@ public class EPGEntryTest {
     }
 
     @Test
-    public void testResetEndTimeCalendar() {
+    void testResetEndTimeCalendar() {
         // ensure that the initial calendar is set correctly
         epg.setEndTime(now);
         assertEquals(now.getTimeInMillis(), epg.getEndTime().getTimeInMillis());
@@ -81,7 +81,7 @@ public class EPGEntryTest {
     }
 
     @Test
-    public void testResetEndTimeLong() {
+    void testResetEndTimeLong() {
         // ensure that the initial calendar is set correctly
         epg.setEndTime(now);
         assertEquals(now.getTimeInMillis(), epg.getEndTime().getTimeInMillis());
@@ -92,7 +92,7 @@ public class EPGEntryTest {
     }
 
     @Test
-    public void testResetVpsTimeCalendar() {
+    void testResetVpsTimeCalendar() {
         // ensure that the initial calendar is set correctly
         epg.setVpsTime(now);
         assertEquals(now.getTimeInMillis(), epg.getVpsTime().getTimeInMillis());
@@ -103,7 +103,7 @@ public class EPGEntryTest {
     }
 
     @Test
-    public void testResetVpsTimeLong() {
+    void testResetVpsTimeLong() {
         // ensure that the initial calendar is set correctly
         epg.setVpsTime(now);
         assertEquals(now.getTimeInMillis(), epg.getVpsTime().getTimeInMillis());
@@ -114,13 +114,13 @@ public class EPGEntryTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         try {
-			// call toString to make sure, no NPE is fired
-			epg = new EPGEntry();
-			epg.toString();
-		} catch (Exception e) {
-			fail();
-		}
+            // call toString to make sure, no NPE is fired
+            epg = new EPGEntry();
+            epg.toString();
+        } catch (Exception e) {
+            fail();
+        }
     }
 }

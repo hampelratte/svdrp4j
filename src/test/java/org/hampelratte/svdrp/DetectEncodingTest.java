@@ -1,19 +1,19 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -28,22 +28,22 @@
  */
 package org.hampelratte.svdrp;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import org.hampelratte.svdrp.mock.Server;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import org.hampelratte.svdrp.mock.Server;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
-public class DetectEncodingTest {
+class DetectEncodingTest {
 
     private static Server server;
 
-    @BeforeClass
-    public static void startMockServer() throws IOException, InterruptedException {
+    @BeforeAll
+    static void startMockServer() throws InterruptedException {
         server = new Server();
         new Thread(server).start();
 
@@ -51,8 +51,13 @@ public class DetectEncodingTest {
         Thread.sleep(1000); // NOSONAR
     }
 
+    @AfterAll
+    static void shutdownServer() throws IOException {
+        server.shutdown();
+    }
+
     @Test
-    public void testCharsetDetectionUtf8() throws IOException {
+    void testCharsetDetectionUtf8() throws IOException {
         Connection con = null;
         try {
             server.loadWelcome("welcome-1.6.0_2-utf_8.txt");
@@ -70,7 +75,7 @@ public class DetectEncodingTest {
     }
 
     @Test
-    public void testCharsetDetectionLatin1() throws IOException {
+    void testCharsetDetectionLatin1() throws IOException {
         Connection con = null;
         try {
             server.loadWelcome("welcome-1.6.0_2-iso_8859_1.txt");
@@ -88,7 +93,7 @@ public class DetectEncodingTest {
     }
 
     @Test
-    public void testCharsetDetectionUnknownCharset() throws IOException {
+    void testCharsetDetectionUnknownCharset() throws IOException {
         Connection con = null;
         try {
             server.loadWelcome("welcome-1.6.0_2-fantasy.txt");
@@ -106,14 +111,14 @@ public class DetectEncodingTest {
     }
 
     @Test
-    public void testNoCharsetDefined() throws IOException {
+    void testNoCharsetDefined() {
         Connection con = null;
         try {
             server.loadWelcome("welcome-1.6.0_2-nocharset.txt");
             con = new Connection("localhost", 2001, 100);
-            // no exception hsould occur
+            // no exception should occur
         } catch (Exception e) {
-        	fail();
+            fail();
         } finally {
             if (con != null) {
                 try {
@@ -126,12 +131,11 @@ public class DetectEncodingTest {
     }
 
     @Test
-    public void testCharsetSwitch() throws IOException {
+    void testCharsetSwitch() throws IOException {
         Connection con = null;
         try {
             server.loadWelcome("welcome-1.6.0_2-utf_8.txt");
             con = new Connection("localhost", 2001, 100, "ISO-8859-1");
-            @SuppressWarnings("serial")
             Response resp = con.send(new Command() {
                 @Override
                 public String toString() {
@@ -153,10 +157,5 @@ public class DetectEncodingTest {
                 }
             }
         }
-    }
-
-    @AfterClass
-    public static void shutdownServer() throws IOException, InterruptedException {
-        server.shutdown();
     }
 }

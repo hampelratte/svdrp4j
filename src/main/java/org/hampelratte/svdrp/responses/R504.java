@@ -30,6 +30,8 @@ package org.hampelratte.svdrp.responses;
 
 import org.hampelratte.svdrp.Response;
 
+import java.io.Serial;
+
 /**
  * VDR Response: Command parameter not implemented
  *
@@ -38,11 +40,12 @@ import org.hampelratte.svdrp.Response;
  */
 public class R504 extends Response {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**
-    * @param message message to show
-    */
+     * @param message message to show
+     */
     public R504(String message) {
         super(504, message);
     }

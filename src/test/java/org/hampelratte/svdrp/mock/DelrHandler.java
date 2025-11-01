@@ -28,16 +28,16 @@
  */
 package org.hampelratte.svdrp.mock;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.hampelratte.svdrp.responses.highlevel.Recording;
 import org.hampelratte.svdrp.responses.highlevel.Timer;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class DelrHandler implements RequestHandler {
 
-    private RecordingManager recordingManager;
-    private TimerManager timerManager;
+    private final RecordingManager recordingManager;
+    private final TimerManager timerManager;
 
     public DelrHandler(RecordingManager recordingManager, TimerManager timerManager) {
         super();
@@ -57,9 +57,9 @@ public class DelrHandler implements RequestHandler {
             try {
                 int id = Integer.parseInt(m.group(1));
                 Recording rec = recordingManager.getRecording(id);
-                if(rec instanceof RunningRecording) {
+                if (rec instanceof RunningRecording) {
                     Timer timer = timerManager.getTimer(999);
-                    if(timer != null && timer.isActive()) {
+                    if (timer != null && timer.isActive()) {
                         return "550 Recording \"999\" is in use by timer 999";
                     }
                 }
@@ -71,7 +71,7 @@ public class DelrHandler implements RequestHandler {
                     return "550 Recording \"" + id + "\" not defined";
                 }
             } catch (NumberFormatException e) {
-                return "501 Error in recording id \""+m.group(1)+"\"";
+                return "501 Error in recording id \"" + m.group(1) + "\"";
             }
         } else {
             return "501 Missing recording id";

@@ -1,10 +1,10 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  * 3. Neither the name of the project (Lazy Bones) nor the names of its
  *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -28,24 +28,22 @@
  */
 package org.hampelratte.svdrp.sorting;
 
-import java.util.Comparator;
-
 import org.hampelratte.svdrp.responses.highlevel.Recording;
+
+import java.util.Comparator;
 
 /**
  * Sorts Recordings by their start time. If both have the same start time, they are compared with the RecordingAlphabeticalComparator
- * 
+ *
  * @author <a href="mailto:hampelratte@users.berlios.de">hampelratte@users.berlios.de</a>
  */
-public class RecordingStarttimeComparator implements Comparator<Recording> {
+public class RecordingStartTimeComparator implements Comparator<Recording> {
 
     private final RecordingAlphabeticalComparator alphabet = new RecordingAlphabeticalComparator();
 
     @Override
     public int compare(Recording r1, Recording r2) {
-        Recording rec1 = r1;
-        Recording rec2 = r2;
-        int result = rec1.getStartTime().compareTo(rec2.getStartTime());
+        int result = r1.getStartTime().compareTo(r2.getStartTime());
         if (result == 0) {
             return alphabet.compare(r1, r2);
         } else {

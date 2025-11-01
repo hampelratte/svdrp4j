@@ -30,6 +30,8 @@ package org.hampelratte.svdrp.commands;
 
 import org.hampelratte.svdrp.Command;
 
+import java.io.Serial;
+
 /**
  * Command to rename a recording
  *
@@ -37,6 +39,7 @@ import org.hampelratte.svdrp.Command;
  *
  */
 public class MOVR extends Command {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private int recording;
@@ -46,10 +49,8 @@ public class MOVR extends Command {
     /**
      * Command to move a recording to a new position
      *
-     * @param recording
-     *            The recording number
-     * @param newName
-     *            The new name of the recording
+     * @param recording The recording number
+     * @param newName   The new name of the recording
      */
     public MOVR(int recording, String newName) {
         this.recording = recording;
@@ -68,8 +69,7 @@ public class MOVR extends Command {
     /**
      * Sets the recording number
      *
-     * @param number
-     *            The recording number
+     * @param number The recording number
      */
     public void setRecording(int number) {
         this.recording = number;
@@ -87,8 +87,7 @@ public class MOVR extends Command {
     /**
      * Sets the new name of the recording
      *
-     * @param newName
-     *            The new name of the recording
+     * @param newName The new name of the recording
      */
     public void setNewName(String newName) {
         this.newName = newName;

@@ -1,10 +1,10 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  * 3. Neither the name of the project (Lazy Bones) nor the names of its
  *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -28,22 +28,22 @@
  */
 package org.hampelratte.svdrp.parsers;
 
-import java.text.ParseException;
-import java.util.List;
-
 import org.hampelratte.svdrp.responses.highlevel.EPGEntry;
 import org.hampelratte.svdrp.responses.highlevel.Recording;
 
+import java.text.ParseException;
+import java.util.List;
+
 public class RecordingParser extends EPGParser {
 
-    public void parseRecording (Recording recording, String epgData) throws ParseException {
+    public void parseRecording(Recording recording, String epgData) throws ParseException {
         String epg = addEpgEntryEnd(epgData);
         List<EPGEntry> list = parse(epg);
-        if(!list.isEmpty()) {
-            EPGEntry entry = list.get(0);
+        if (!list.isEmpty()) {
+            EPGEntry entry = list.getFirst();
             recording.copyFrom(entry);
-            recording.setPriority( ((Recording)entry).getPriority() );
-            recording.setLifetime( ((Recording)entry).getLifetime() );
+            recording.setPriority(((Recording) entry).getPriority());
+            recording.setLifetime(((Recording) entry).getLifetime());
             recording.setDisplayTitle(entry.getTitle());
         } else {
             throw new ParseException("Couldn't parse recording. EPGParser returned an empty list.", -1);
@@ -52,27 +52,27 @@ public class RecordingParser extends EPGParser {
 
     private String addEpgEntryEnd(String epgData) {
         String[] lines = epgData.split("\n");
-        StringBuilder mesg = new StringBuilder();
+        StringBuilder message = new StringBuilder();
         for (int i = 0; i < lines.length; i++) {
             if (i == lines.length - 1) {
-                mesg.append("e\n");
+                message.append("e\n");
             }
-            mesg.append(lines[i] + "\n");
+            message.append(lines[i]).append("\n");
         }
-        return mesg.toString();
+        return message.toString();
     }
 
     @Override
     protected void parseLine(String line, List<EPGEntry> list) {
         switch (line.charAt(0)) {
-        case 'P':
-            ((Recording)epg).setPriority(Integer.parseInt(line.substring(2)));
-            break;
-        case 'L':
-            ((Recording)epg).setLifetime(Integer.parseInt(line.substring(2)));
-            break;
-        default:
-            super.parseLine(line, list);
+            case 'P':
+                ((Recording) epg).setPriority(Integer.parseInt(line.substring(2)));
+                break;
+            case 'L':
+                ((Recording) epg).setLifetime(Integer.parseInt(line.substring(2)));
+                break;
+            default:
+                super.parseLine(line, list);
         }
     }
 

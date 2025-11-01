@@ -28,77 +28,50 @@
  */
 package org.hampelratte.svdrp;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import org.hampelratte.svdrp.commands.PUTE;
+import org.hampelratte.svdrp.commands.QUIT;
+import org.hampelratte.svdrp.responses.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.charset.Charset;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.hampelratte.svdrp.commands.PUTE;
-import org.hampelratte.svdrp.commands.QUIT;
-import org.hampelratte.svdrp.responses.AccessDenied;
-import org.hampelratte.svdrp.responses.NotImplementedBySVDRP4J;
-import org.hampelratte.svdrp.responses.PluginResponse;
-import org.hampelratte.svdrp.responses.R214;
-import org.hampelratte.svdrp.responses.R215;
-import org.hampelratte.svdrp.responses.R216;
-import org.hampelratte.svdrp.responses.R220;
-import org.hampelratte.svdrp.responses.R221;
-import org.hampelratte.svdrp.responses.R250;
-import org.hampelratte.svdrp.responses.R354;
-import org.hampelratte.svdrp.responses.R451;
-import org.hampelratte.svdrp.responses.R500;
-import org.hampelratte.svdrp.responses.R501;
-import org.hampelratte.svdrp.responses.R502;
-import org.hampelratte.svdrp.responses.R550;
-import org.hampelratte.svdrp.responses.R554;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * The connection to VDR. I recommend to use only one connection at a time, since VDR just accepts one client.
- *
+ * <p>
  * You may set Connection.DEBUG to true to get debug output on System.out
  *
  * @author <a href="mailto:hampelratte@users.sf.net">hampelratte@users.sf.net</a>
  */
 public class Connection {
-    private static Logger logger = LoggerFactory.getLogger(Connection.class);
-
+    private static final Logger logger = LoggerFactory.getLogger(Connection.class);
+    private static Version version = new Version("1.0.0");
     /**
      * The socket used to talk to VDR
      */
     private final Socket socket;
-
     /**
      * The BufferedWriter to send commands to VDR
      */
     private BufferedWriter out;
-
     /**
      * The BufferedReader to read responses from VDR
      */
     private BufferedReader in;
-
-    private static Version version = new Version("1.0.0");
-
     private String encoding;
 
     /**
      * Creates a new connection to host:port with timeout and default charset encoding UTF-8. Lazy Bones will try to detect the encoding of the VDR and override
      * the default encoding, if a valid value is found.
      *
-     * @param host
-     *            The host name or IP-address of the VDR
-     * @param port
-     *            The port of the SVDRP-server. Default is 2001
-     * @param connectTimeout
-     *            The timeout for this connection
+     * @param host           The host name or IP-address of the VDR
+     * @param port           The port of the SVDRP-server. Default is 2001
+     * @param connectTimeout The timeout for this connection
      * @throws IOException if an IO Error occurs
      */
     public Connection(String host, int port, int connectTimeout) throws IOException {
@@ -109,14 +82,10 @@ public class Connection {
      * Creates a new connection to host:port with timeout and encoding. Lazy Bones will try to detect the encoding of the VDR and overrides the passed encoding,
      * if a valid value is found. To disable this behaviour use {@link #Connection(String, int, int, int, String, boolean)} and set detectEncoding to false.
      *
-     * @param host
-     *            The host name or IP-address of the VDR
-     * @param port
-     *            The port of the SVDRP-server. Default is 2001
-     * @param connectTimeout
-     *            The timeout for this connection
-     * @param encoding
-     *            The charset encoding used to talk to VDR
+     * @param host           The host name or IP-address of the VDR
+     * @param port           The port of the SVDRP-server. Default is 2001
+     * @param connectTimeout The timeout for this connection
+     * @param encoding       The charset encoding used to talk to VDR
      * @throws IOException if an IO Error occurs
      */
     public Connection(String host, int port, int connectTimeout, String encoding) throws IOException {
@@ -127,18 +96,12 @@ public class Connection {
      * Creates a new connection to host:port with timeout and encoding. If detectEncoding is set to true, Lazy Bones tries to detect the encoding of the VDR and
      * overrides the passed encoding.
      *
-     * @param host
-     *            The host name or IP-address of the VDR
-     * @param port
-     *            The port of the SVDRP-server. Default is 2001
-     * @param connectTimeout
-     *            The connect timeout for this connection
-     * @param readTimeout
-     *            The {@link Socket#setSoTimeout(int)} for this connection. Set to zero to disable.
-     * @param encoding
-     *            The charset encoding used to talk to VDR
-     * @param detectEncoding
-     *            Enables the automatic detection of the charset encoding
+     * @param host           The host name or IP-address of the VDR
+     * @param port           The port of the SVDRP-server. Default is 2001
+     * @param connectTimeout The connect timeout for this connection
+     * @param readTimeout    The {@link Socket#setSoTimeout(int)} for this connection. Set to zero to disable.
+     * @param encoding       The charset encoding used to talk to VDR
+     * @param detectEncoding Enables the automatic detection of the charset encoding
      * @throws IOException if an IO Error occurs
      */
     public Connection(String host, int port, int connectTimeout, int readTimeout, String encoding, boolean detectEncoding) throws IOException {
@@ -153,7 +116,7 @@ public class Connection {
         in = new BufferedReader(new InputStreamReader(socket.getInputStream(), encoding), 8192);
 
         // read the welcome message
-        Response res = null;
+        Response res;
         try {
             res = readResponse();
         } catch (IOException e1) {
@@ -162,8 +125,8 @@ public class Connection {
             in.close();
             try {
                 socket.close();
-            } catch (Exception e) { 
-            	// closing socket failed, but that's ok
+            } catch (Exception e) {
+                // closing socket failed, but that's ok
             }
             throw (e1);
         }
@@ -173,7 +136,7 @@ public class Connection {
 
             // try to parse the version
             try {
-                Pattern pattern = Pattern.compile(".*((?:\\d)+\\.(?:\\d)+\\.(?:\\d)+).*");
+                Pattern pattern = Pattern.compile(".*(\\d+\\.\\d+\\.\\d+).*");
                 Matcher m = pattern.matcher(msg);
                 if (m.matches()) {
                     setVersion(new Version(m.group(1)));
@@ -181,7 +144,7 @@ public class Connection {
                     throw new Exception("No Version String found in welcome message");
                 }
             } catch (Exception e) {
-            	setVersion(new Version("1.0.0"));
+                setVersion(new Version("1.0.0"));
             }
 
             if (detectEncoding) {
@@ -213,10 +176,8 @@ public class Connection {
      * Creates a new connection to host:port with a timeout of 500ms and default charset encoding UTF-8. Lazy Bones will try to detect the encoding of the VDR
      * and overrides the default encoding, if a valid value is found.
      *
-     * @param host
-     *            The host name or IP-address of the VDR.
-     * @param port
-     *            The port of the SVDRP-server. Default is 2001.
+     * @param host The host name or IP-address of the VDR.
+     * @param port The port of the SVDRP-server. Default is 2001.
      * @throws IOException if an IO Error occurs
      */
     public Connection(String host, int port) throws IOException {
@@ -224,10 +185,27 @@ public class Connection {
     }
 
     /**
+     * Returns the version of the VDR we are talking to.
+     *
+     * @return The version of the VDR we are talking to.
+     */
+    public static Version getVersion() {
+        return version;
+    }
+
+    /**
+     * For testing purposes only. Don't call this method!!!
+     *
+     * @param version Version
+     */
+    public static void setVersion(Version version) {
+        Connection.version = version;
+    }
+
+    /**
      * Sends a command to VDR and returns the response from VDR.
      *
-     * @param cmd
-     *            The {@link Command}, which should be sent to VDR
+     * @param cmd The {@link Command}, which should be sent to VDR
      * @return A {@link Response} object
      * @throws IOException if an IO Error occurs
      * @see Command
@@ -266,17 +244,17 @@ public class Connection {
      */
     private Response readResponse() throws IOException {
         Response response = null;
-        String line = "";
+        String line;
         StringBuilder msg = new StringBuilder();
         boolean running = true;
         while (running && (line = in.readLine()) != null) {
-            // the svdrposd-Plugin sends an empty line after each "real" line. This is a workaround for that missbehaviour.
+            // the svdrposd-Plugin sends an empty line after each "real" line. This is a workaround for that misbehaviour.
             if (line.length() < 4) {
                 continue;
             }
 
             char fourthChar = line.charAt(3);
-            int code = -1;
+            int code;
             try {
                 code = Integer.parseInt(line.substring(0, 3));
                 line = line.substring(4);
@@ -289,56 +267,56 @@ public class Connection {
                 msg.append(line);
                 msg.append('\n');
                 switch (code) {
-                case -1:
-                    response = new AccessDenied(line);
-                    break;
-                case 214:
-                    response = new R214(msg.toString());
-                    break;
-                case 215:
-                    response = new R215(msg.toString());
-                    break;
-                case 216:
-                    response = new R216(msg.toString());
-                    break;
-                case 220:
-                    response = new R220(msg.toString());
-                    break;
-                case 221:
-                    response = new R221(msg.toString());
-                    break;
-                case 250:
-                    response = new R250(msg.toString());
-                    break;
-                case 354:
-                    response = new R354(msg.toString());
-                    break;
-                case 451:
-                    response = new R451(msg.toString());
-                    break;
-                case 500:
-                    response = new R500(msg.toString());
-                    break;
-                case 501:
-                    response = new R501(msg.toString());
-                    break;
-                case 502:
-                    response = new R502(msg.toString());
-                    break;
-                case 550:
-                    response = new R550(msg.toString());
-                    break;
-                case 554:
-                    response = new R554(msg.toString());
-                    break;
-                default:
-                    // special case: plugin responses in the range between 900 and 999
-                    if (code >= 900 && code <= 999) {
-                        response = new PluginResponse(code, msg.toString());
-                    } else {
-                        response = new NotImplementedBySVDRP4J(code, msg.toString());
-                    }
-                    break;
+                    case -1:
+                        response = new AccessDenied(line);
+                        break;
+                    case 214:
+                        response = new R214(msg.toString());
+                        break;
+                    case 215:
+                        response = new R215(msg.toString());
+                        break;
+                    case 216:
+                        response = new R216(msg.toString());
+                        break;
+                    case 220:
+                        response = new R220(msg.toString());
+                        break;
+                    case 221:
+                        response = new R221(msg.toString());
+                        break;
+                    case 250:
+                        response = new R250(msg.toString());
+                        break;
+                    case 354:
+                        response = new R354(msg.toString());
+                        break;
+                    case 451:
+                        response = new R451(msg.toString());
+                        break;
+                    case 500:
+                        response = new R500(msg.toString());
+                        break;
+                    case 501:
+                        response = new R501(msg.toString());
+                        break;
+                    case 502:
+                        response = new R502(msg.toString());
+                        break;
+                    case 550:
+                        response = new R550(msg.toString());
+                        break;
+                    case 554:
+                        response = new R554(msg.toString());
+                        break;
+                    default:
+                        // special case: plugin responses in the range between 900 and 999
+                        if (code >= 900 && code <= 999) {
+                            response = new PluginResponse(code, msg.toString());
+                        } else {
+                            response = new NotImplementedBySVDRP4J(code, msg.toString());
+                        }
+                        break;
                 }
 
                 msg = new StringBuilder();
@@ -369,24 +347,6 @@ public class Connection {
         if (socket != null) {
             socket.close();
         }
-    }
-
-    /**
-     * Returns the version of the VDR we are talking to.
-     *
-     * @return The version of the VDR we are talking to.
-     */
-    public static Version getVersion() {
-        return version;
-    }
-
-    /**
-     * For testing purposes only. Don't call this method!!!
-     * 
-     * @param version Version
-     */
-    public static void setVersion(Version version) {
-        Connection.version = version;
     }
 
     public String getEncoding() {

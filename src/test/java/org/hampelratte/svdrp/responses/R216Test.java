@@ -28,27 +28,26 @@
  */
 package org.hampelratte.svdrp.responses;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
 
+import javax.swing.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
-import javax.swing.ImageIcon;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
-
-public class R216Test {
+class R216Test {
 
     /**
      * This is a base64 representation of /src/test/resources/testscreen.png
      */
-    private static final String base64Png = "iVBORw0KGgoAAAANSUhEUgAAAAMAAAABCAIAAACUgoPjAAAAAXNSR0IArs4c6QAAAAlwSFlzAAAL\n"
-            + "EwAACxMBAJqcGAAAAAd0SU1FB9wBEhACIHsmIWoAAAAdaVRYdENvbW1lbnQAAAAAAENyZWF0ZWQg\n"
-            + "d2l0aCBHSU1QZC5lBwAAAA5JREFUCNdj+M/AwADGAA77Av65N4t5AAAAAElFTkSuQmCC";
+    private static final String BASE_64_PNG = """
+            iVBORw0KGgoAAAANSUhEUgAAAAMAAAABCAIAAACUgoPjAAAAAXNSR0IArs4c6QAAAAlwSFlzAAAL
+            EwAACxMBAJqcGAAAAAd0SU1FB9wBEhACIHsmIWoAAAAdaVRYdENvbW1lbnQAAAAAAENyZWF0ZWQg
+            d2l0aCBHSU1QZC5lBwAAAA5JREFUCNdj+M/AwADGAA77Av65N4t5AAAAAElFTkSuQmCC""";
 
     @Test
-    public void testGetImage() throws IOException {
-        R216 response = new R216(base64Png + "\nimage/png\nbla bla");
+    void testGetImage() {
+        R216 response = new R216(BASE_64_PNG + "\nimage/png\nbla bla");
         ImageIcon icon = response.getImage();
 
         // convert the image icon to a BufferedImage, so that we can check the image contents
@@ -79,7 +78,7 @@ public class R216Test {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         assertEquals("216 - Image grab data (base 64)", new R216("").toString());
     }
 }

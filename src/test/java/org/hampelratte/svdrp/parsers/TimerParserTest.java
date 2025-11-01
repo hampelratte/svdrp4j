@@ -28,48 +28,44 @@
  */
 package org.hampelratte.svdrp.parsers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.hampelratte.svdrp.Connection;
+import org.hampelratte.svdrp.Version;
+import org.hampelratte.svdrp.responses.highlevel.Timer;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-import org.hampelratte.svdrp.Connection;
-import org.hampelratte.svdrp.Version;
-import org.hampelratte.svdrp.responses.highlevel.Timer;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 
-public class TimerParserTest {
+class TimerParserTest {
 
-    private static Calendar day = Calendar.getInstance();
+    private static final Calendar day = Calendar.getInstance();
+
     static {
         day.add(Calendar.DAY_OF_MONTH, 1);
     }
 
     private final String timerData =
-            "1 1:1:"+day.get(Calendar.DAY_OF_MONTH)+":1945:2030:43:67:Doppel|Punkt:Mehrzeilige|nichtssagende|Beschreibung der Sendung mit Doppel:Punkt.\n" +
+            "1 1:1:" + day.get(Calendar.DAY_OF_MONTH) + ":1945:2030:43:67:Doppel|Punkt:Mehrzeilige|nichtssagende|Beschreibung der Sendung mit Doppel:Punkt.\n" +
                     "2 2:1:2010-11-02:1945:2030:50:50:Tagesschau~Tagesschau am 2.11.2010:\n" +
                     "3 4:1:MTWTF--:2225:2310:50:50:Tagesthemen:\n" +
-                    "4 8:2:MTWTFSS@"+day.get(Calendar.DAY_OF_MONTH)+":2130:2227:50:50:heute-journal:\n" +
+                    "4 8:2:MTWTFSS@" + day.get(Calendar.DAY_OF_MONTH) + ":2130:2227:50:50:heute-journal:\n" +
                     "5 0:2:M-----S@2010-12-31:2330:0030:50:50:Happy New Year:\n" +
                     "6 13:2:--W----@2010-11-02:2330:0011:50:50:Ganz spät:";
 
-    private final String timerDataWithChannelId = "1 1:S19.2E-1-1019-10301:2017-06-02:2010:2155:50:50:Eltern und andere Wahrheiten:Nina (38) liebt ihre kleine Familie...\n" +
-            "2 1:S19.2E-1-1011-11110:2017-06-02:2010:2125:50:50:Die Chefin:Raubmord im Münchner Nahverkehr - für Vera Lanz und ihre Kollegen scheint der Fall unkompliziert...";
-
     private List<Timer> timers;
 
-    @Before
-    public void parseTimers() {
+    @BeforeEach
+    void parseTimers() {
         timers = TimerParser.parse(timerData);
     }
 
     @Test
-    public void testState() {
+    void testState() {
         assertTrue(timers.get(0).hasState(Timer.ACTIVE));
         assertTrue(timers.get(1).hasState(Timer.INSTANT_TIMER));
         assertTrue(timers.get(2).hasState(Timer.VPS));
@@ -84,14 +80,14 @@ public class TimerParserTest {
     }
 
     @Test
-    public void testNumber() {
+    void testNumber() {
         for (int i = 0; i < timers.size(); i++) {
-            assertEquals(i+1, timers.get(i).getID());
+            assertEquals(i + 1, timers.get(i).getID());
         }
     }
 
     @Test
-    public void testChannel() {
+    void testChannel() {
         assertEquals(1, timers.get(0).getChannelNumber());
         assertEquals("", timers.get(0).getChannelId());
         assertEquals(2, timers.get(5).getChannelNumber());
@@ -99,22 +95,24 @@ public class TimerParserTest {
     }
 
     @Test
-    public void testChannelId() {
-        List<Timer> timers = TimerParser.parse(timerDataWithChannelId);
-        assertEquals(0, timers.get(0).getChannelNumber());
-        assertEquals("S19.2E-1-1019-10301", timers.get(0).getChannelId());
-        assertEquals(0, timers.get(1).getChannelNumber());
-        assertEquals("S19.2E-1-1011-11110", timers.get(1).getChannelId());
+    void testChannelId() {
+        String timerDataWithChannelId = "1 1:S19.2E-1-1019-10301:2017-06-02:2010:2155:50:50:Eltern und andere Wahrheiten:Nina (38) liebt ihre kleine Familie...\n" +
+                "2 1:S19.2E-1-1011-11110:2017-06-02:2010:2125:50:50:Die Chefin:Raubmord im Münchner Nahverkehr - für Vera Lanz und ihre Kollegen scheint der Fall unkompliziert...";
+        List<Timer> parsed = TimerParser.parse(timerDataWithChannelId);
+        assertEquals(0, parsed.get(0).getChannelNumber());
+        assertEquals("S19.2E-1-1019-10301", parsed.get(0).getChannelId());
+        assertEquals(0, parsed.get(1).getChannelNumber());
+        assertEquals("S19.2E-1-1011-11110", parsed.get(1).getChannelId());
     }
 
     @Test
-    public void testDayParsing() {
-        Timer timer = timers.get(0);
+    void testDayParsing() {
+        Timer timer = timers.getFirst();
         assertEquals(day.get(Calendar.DAY_OF_MONTH), timer.getStartTime().get(Calendar.DAY_OF_MONTH));
     }
 
     @Test
-    public void testDateParsing() {
+    void testDateParsing() {
         Timer timer = timers.get(1);
         assertEquals(2, timer.getStartTime().get(Calendar.DAY_OF_MONTH));
         assertEquals(10, timer.getStartTime().get(Calendar.MONTH)); // 10 because Calendar begins counting with 0 for months
@@ -122,7 +120,7 @@ public class TimerParserTest {
     }
 
     @Test
-    public void testRepeatingDays() {
+    void testRepeatingDays() {
         Timer timer = timers.get(2);
         assertTrue(timer.isRepeating());
         assertEquals("MTWTF--", timer.getDayString());
@@ -136,7 +134,7 @@ public class TimerParserTest {
     }
 
     @Test
-    public void testRepeatingTimerStartingOnDay() {
+    void testRepeatingTimerStartingOnDay() {
         Timer timer = timers.get(3);
         assertTrue(timer.isRepeating());
         assertEquals(day.get(Calendar.DAY_OF_MONTH), timer.getStartTime().get(Calendar.DAY_OF_MONTH));
@@ -150,7 +148,7 @@ public class TimerParserTest {
     }
 
     @Test
-    public void testRepeatingTimerStartingOnDate() {
+    void testRepeatingTimerStartingOnDate() {
         Timer timer = timers.get(4);
         assertTrue(timer.isRepeating());
         assertEquals(31, timer.getStartTime().get(Calendar.DAY_OF_MONTH));
@@ -166,7 +164,7 @@ public class TimerParserTest {
     }
 
     @Test
-    public void testLastToNextDay() {
+    void testLastToNextDay() {
         Timer timer = timers.get(5);
         assertEquals(2, timer.getStartTime().get(Calendar.DAY_OF_MONTH));
         assertEquals(10, timer.getStartTime().get(Calendar.MONTH)); // 10 because Calendar begins counting with 0 for months
@@ -182,7 +180,7 @@ public class TimerParserTest {
     }
 
     @Test
-    public void testLastToNextYear() {
+    void testLastToNextYear() {
         Timer timer = timers.get(4);
         assertEquals(31, timer.getStartTime().get(Calendar.DAY_OF_MONTH));
         assertEquals(11, timer.getStartTime().get(Calendar.MONTH)); // 11 because Calendar begins counting with 0 for months
@@ -198,43 +196,43 @@ public class TimerParserTest {
     }
 
     @Test
-    public void testPrio() {
-        assertEquals(43, timers.get(0).getPriority());
+    void testPrio() {
+        assertEquals(43, timers.getFirst().getPriority());
     }
 
     @Test
-    public void testLifetime() {
-        assertEquals(67, timers.get(0).getLifetime());
+    void testLifetime() {
+        assertEquals(67, timers.getFirst().getLifetime());
     }
 
     @Test
-    public void testTitle() {
+    void testTitle() {
         assertEquals("Doppel:Punkt", timers.get(0).getTitle());
         assertEquals("Tagesschau am 2.11.2010", timers.get(1).getTitle());
     }
 
     @Test
-    public void testPath() {
-        assertEquals("", timers.get(0).getPath());
+    void testPath() {
+        assertEquals("", timers.getFirst().getPath());
         assertEquals("Tagesschau", timers.get(1).getPath());
     }
 
     @Test
-    public void testFile() {
-        assertEquals("Doppel|Punkt", timers.get(0).getFile());
+    void testFile() {
+        assertEquals("Doppel|Punkt", timers.getFirst().getFile());
         assertEquals("Tagesschau~Tagesschau am 2.11.2010", timers.get(1).getFile());
     }
 
     @Test
-    public void testDescription() {
-        assertEquals("Mehrzeilige\nnichtssagende\nBeschreibung der Sendung mit Doppel:Punkt.", timers.get(0).getDescription());
+    void testDescription() {
+        assertEquals("Mehrzeilige\nnichtssagende\nBeschreibung der Sendung mit Doppel:Punkt.", timers.getFirst().getDescription());
     }
 
     @Test
-    public void testToNEWT() {
+    void testToNEWT() {
         Connection.setVersion(new Version("1.7.22"));
         String dayString = new SimpleDateFormat("yyyy-MM-dd").format(day.getTime());
-        assertEquals("1:1:"+dayString+":1945:2030:43:67:Doppel|Punkt:Mehrzeilige|nichtssagende|Beschreibung der Sendung mit Doppel:Punkt.", timers.get(0).toNEWT());
+        assertEquals("1:1:" + dayString + ":1945:2030:43:67:Doppel|Punkt:Mehrzeilige|nichtssagende|Beschreibung der Sendung mit Doppel:Punkt.", timers.getFirst().toNEWT());
     }
 }
 

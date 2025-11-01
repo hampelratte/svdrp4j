@@ -16,7 +16,7 @@
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERDELTTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
  * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
  * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
  * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
@@ -28,20 +28,20 @@
  */
 package org.hampelratte.svdrp.commands;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class LSTTTest {
+class LSTTTest {
 
     @Test
-    public void testDefaultConstructor() {
+    void testDefaultConstructor() {
         LSTT lstt = new LSTT();
         assertEquals("LSTT", lstt.getCommand());
     }
 
     @Test
-    public void testWithIdConstructor() {
+    void testWithIdConstructor() {
         LSTT lstt = new LSTT(true);
         assertEquals("LSTT id", lstt.getCommand());
         lstt = new LSTT(false);
@@ -49,13 +49,13 @@ public class LSTTTest {
     }
 
     @Test
-    public void testIntConstructors() {
+    void testIntConstructors() {
         LSTT lstt = new LSTT(1);
         assertEquals("LSTT 1", lstt.getCommand());
     }
 
     @Test
-    public void testIntWithIdConstructors() {
+    void testIntWithIdConstructors() {
         LSTT lstt = new LSTT(1, true);
         assertEquals("LSTT 1 id", lstt.getCommand());
         lstt = new LSTT(1, false);
@@ -63,7 +63,7 @@ public class LSTTTest {
     }
 
     @Test
-    public void testSetNumber() {
+    void testSetNumber() {
         LSTT lstt = new LSTT();
         lstt.setNumber(1);
 
@@ -78,7 +78,7 @@ public class LSTTTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         LSTT lstt = new LSTT();
         assertEquals("LSTT", lstt.toString());
     }

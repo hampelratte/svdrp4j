@@ -28,20 +28,18 @@
  */
 package org.hampelratte.svdrp.parsers;
 
+import org.hampelratte.svdrp.responses.highlevel.Channel;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.hampelratte.svdrp.responses.highlevel.Channel;
-
 public interface ChannelLineParser {
-
-    Channel parse(String chanConfLine);
 
     static int parseNumberParam(String string, int startIndex) {
         StringBuilder number = new StringBuilder();
-        for(int j=startIndex+1; j<string.length(); j++) {
+        for (int j = startIndex + 1; j < string.length(); j++) {
             char c = string.charAt(j);
-            if(Character.isDigit(c)) {
+            if (Character.isDigit(c)) {
                 number.append(c);
             } else {
                 break;
@@ -58,10 +56,12 @@ public interface ChannelLineParser {
     static String removeId(String chanConfLine) {
         Pattern p = Pattern.compile("(\\d+\\s+).*?(?:-\\d+){3,4}\\s+(.*)");
         Matcher m = p.matcher(chanConfLine);
-        if(m.matches()) {
+        if (m.matches()) {
             return m.group(1) + m.group(2);
         } else {
             return chanConfLine;
         }
     }
+
+    Channel parse(String chanConfLine);
 }

@@ -16,7 +16,7 @@
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERDELTTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
  * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
  * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
  * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
@@ -28,31 +28,31 @@
  */
 package org.hampelratte.svdrp.commands;
 
-import static org.junit.Assert.assertEquals;
-
 import org.hampelratte.svdrp.responses.highlevel.Timer;
 import org.hampelratte.svdrp.responses.highlevel.TimerTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class MODTTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-    String settings = "1:7:8:0704:0938:50:50:Quarks & Co:";
+class MODTTest {
+
+    final String settings = "1:7:8:0704:0938:50:50:Quarks & Co:";
 
     @Test
-    public void testStringConstructor() {
+    void testStringConstructor() {
         MODT modt = new MODT(1, settings);
         assertEquals("MODT 1 " + settings, modt.getCommand());
     }
 
     @Test
-    public void testTimerConstructor() {
+    void testTimerConstructor() {
         Timer timer = new TimerTest().createTimer();
         MODT modt = new MODT(1, timer);
         assertEquals("MODT 1 " + timer.toNEWT(), modt.getCommand());
     }
 
     @Test
-    public void testSetNumber() {
+    void testSetNumber() {
         MODT modt = new MODT(1, settings);
         modt.setNumber(2);
         assertEquals(2, modt.getNumber());
@@ -60,7 +60,7 @@ public class MODTTest {
     }
 
     @Test
-    public void testSetSettings() {
+    void testSetSettings() {
         MODT modt = new MODT(1, settings);
         String newSettings = "1:3:9:0704:0938:50:50:Quarks & Co:";
         modt.setSettings(newSettings);
@@ -69,7 +69,7 @@ public class MODTTest {
     }
 
     @Test
-    public void testActivateDeactivate() {
+    void testActivateDeactivate() {
         MODT modt = new MODT(1, "off");
         assertEquals("off", modt.getSettings());
         assertEquals("MODT 1 off", modt.getCommand());
@@ -80,7 +80,7 @@ public class MODTTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         MODT modt = new MODT(1, settings);
         assertEquals("MODT", modt.toString());
     }

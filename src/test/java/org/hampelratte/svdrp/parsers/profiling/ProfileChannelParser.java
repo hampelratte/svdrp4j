@@ -1,19 +1,19 @@
 /*
  * Copyright (c) Henrik Niehaus
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- *    this list of conditions and the following disclaimer in the documentation 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. Neither the name of the project (Lazy Bones) nor the names of its 
- *    contributors may be used to endorse or promote products derived from this 
+ * 3. Neither the name of the project (Lazy Bones) nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
  *    software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -28,20 +28,19 @@
  */
 package org.hampelratte.svdrp.parsers.profiling;
 
-import java.io.IOException;
-import java.net.UnknownHostException;
-import java.text.ParseException;
-import java.util.List;
-
 import org.hampelratte.svdrp.Connection;
 import org.hampelratte.svdrp.Response;
 import org.hampelratte.svdrp.commands.LSTC;
 import org.hampelratte.svdrp.parsers.ChannelParser;
 import org.hampelratte.svdrp.responses.highlevel.Channel;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.List;
+
 
 public class ProfileChannelParser {
-    
+
     public ProfileChannelParser() {
         Connection conn = null;
         try {
@@ -49,19 +48,15 @@ public class ProfileChannelParser {
             for (int i = 0; i < 10; i++) {
                 Response resp = conn.send(new LSTC());
                 long start = System.currentTimeMillis();
-                List<Channel> chans = ChannelParser.parse(resp.getMessage(), false);
+                List<Channel> channels = ChannelParser.parse(resp.getMessage(), false);
                 long stop = System.currentTimeMillis();
-                System.out.println("Parsed " + chans.size() + " channels in " + (stop - start) + " ms");
+                System.out.println("Parsed " + channels.size() + " channels in " + (stop - start) + " ms");
 
             }
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         } finally {
-            if(conn != null) {
+            if (conn != null) {
                 try {
                     conn.close();
                 } catch (IOException e) {
@@ -69,9 +64,9 @@ public class ProfileChannelParser {
                 }
             }
         }
-        
+
     }
-    
+
     public static void main(String[] args) {
         new ProfileChannelParser();
     }

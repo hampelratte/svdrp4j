@@ -28,18 +28,18 @@
  */
 package org.hampelratte.svdrp.parsers;
 
+import org.hampelratte.svdrp.Connection;
+import org.hampelratte.svdrp.Version;
+import org.hampelratte.svdrp.responses.highlevel.Recording;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.StringTokenizer;
-
-import org.hampelratte.svdrp.Connection;
-import org.hampelratte.svdrp.Version;
-import org.hampelratte.svdrp.responses.highlevel.Recording;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Parses a list of recordings. That means the response String of an LSTR without parameters.
@@ -49,12 +49,14 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:androvdr@googlemail.com">androvdr</a>
  */
 public class RecordingListParser {
-	private RecordingListParser() {}
+    private static final Logger logger = LoggerFactory.getLogger(RecordingListParser.class);
 
-    private static Logger logger = LoggerFactory.getLogger(RecordingListParser.class);
+    private RecordingListParser() {
+    }
 
     /**
      * Parses a list of recordings and returns a List of Recordings
+     *
      * @param response the response String of a LSTR
      * @return a List of Recordings
      */
@@ -64,7 +66,7 @@ public class RecordingListParser {
         SimpleDateFormat df = new SimpleDateFormat("dd.MM.yy HH:mm");
         StringBuilder title = new StringBuilder();
         StringTokenizer st = new StringTokenizer(response, "\n");
-        while(st.hasMoreTokens()) {
+        while (st.hasMoreTokens()) {
             String line = st.nextToken();
             Recording recording = new Recording();
             StringTokenizer st2 = new StringTokenizer(line);
@@ -90,8 +92,8 @@ public class RecordingListParser {
                 // parse the duration
                 String duration = st2.nextToken();
                 if (hasError(duration)) {
-                	duration = duration.substring(0, duration.length() - 1);
-                	recording.setHasError(true);
+                    duration = duration.substring(0, duration.length() - 1);
+                    recording.setHasError(true);
                 }
                 if (isNew(duration)) {
                     duration = duration.substring(0, duration.length() - 1);
@@ -115,7 +117,7 @@ public class RecordingListParser {
 
             // parse title
             title.setLength(0);
-            while(st2.hasMoreTokens()) {
+            while (st2.hasMoreTokens()) {
                 title.append(st2.nextToken());
                 title.append(' ');
             }
@@ -127,7 +129,7 @@ public class RecordingListParser {
 
         return list;
     }
-    
+
     private static boolean hasError(String token) {
         char c = token.charAt(token.length() - 1);
         return !Character.isDigit(c) && c == '!';
@@ -136,9 +138,9 @@ public class RecordingListParser {
     private static boolean isNew(String token) {
         char c = token.charAt(token.length() - 1);
         if (c == '!') {
-        	c = token.charAt(token.length() - 2);
+            c = token.charAt(token.length() - 2);
         }
-        if (!Character.isDigit(c)) {       	
+        if (!Character.isDigit(c)) {
             if (c == '*' || c == '') {
                 return true;
             } else {

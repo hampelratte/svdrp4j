@@ -28,12 +28,13 @@
  */
 package org.hampelratte.svdrp.responses.highlevel;
 
-import java.text.DateFormat;
+import java.io.Serial;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 
 /**
@@ -43,6 +44,7 @@ import java.util.Date;
  *
  */
 public class Recording extends EPGEntry implements Comparable<Recording>, TreeNode {
+    @Serial
     private static final long serialVersionUID = 3L;
 
     private int id;
@@ -89,25 +91,6 @@ public class Recording extends EPGEntry implements Comparable<Recording>, TreeNo
         this.id = id;
     }
 
-    /**
-     * @deprecated As of version 1.2.0, replaced by {@link #getId()}.
-     * @return the number of this recording
-     */
-    @Deprecated
-    public int getNumber() {
-        return id;
-    }
-
-    /**
-     * @deprecated As of version 1.2.0, replaced by {@link #setId(int)}.
-     * @param number
-     *            the number of this recording
-     */
-    @Deprecated
-    public void setNumber(int number) {
-        this.id = number;
-    }
-
     public void setStartTime(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(date.getTime());
@@ -134,6 +117,10 @@ public class Recording extends EPGEntry implements Comparable<Recording>, TreeNo
         return display;
     }
 
+    public void setDisplayTitle(String display) {
+        this.display = display;
+    }
+
     public String getFolder() {
         if (folder == null) {
             if (getTitle().contains("~")) {
@@ -151,10 +138,6 @@ public class Recording extends EPGEntry implements Comparable<Recording>, TreeNo
         return folder;
     }
 
-    public void setDisplayTitle(String display) {
-        this.display = display;
-    }
-
     @Override
     public void setTitle(String title) {
         super.setTitle(title);
@@ -169,13 +152,13 @@ public class Recording extends EPGEntry implements Comparable<Recording>, TreeNo
     public void setNew(boolean isNew) {
         this.isNew = isNew;
     }
-    
+
     public boolean hasError() {
-    	return hasError;
+        return hasError;
     }
-    
+
     public void setHasError(boolean hasError) {
-    	this.hasError = hasError;
+        this.hasError = hasError;
     }
 
     public boolean isCut() {
@@ -208,16 +191,31 @@ public class Recording extends EPGEntry implements Comparable<Recording>, TreeNo
 
     @Override
     public String toString() {
-        return getId() + " " 
-        		+ DateFormat.getDateTimeInstance().format(getStartTime().getTime()) 
-        		+ (isNew() ? "*" : "")
-        		+ (hasError() ? "!" : "")
-        		+ " " + super.toString();
+        SimpleDateFormat date = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
+        return getId() + " "
+                + date.format(getStartTime().getTime()) + " "
+                + time.format(getStartTime().getTime())
+                + (isNew() ? "*" : "")
+                + (hasError() ? "!" : "")
+                + " " + super.toString();
     }
 
     @Override
     public int compareTo(Recording other) {
         return this.getTitle().compareTo(other.getTitle());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Recording recording = (Recording) o;
+        return Objects.equals(getTitle(), recording.getTitle());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getTitle());
     }
 
     public String toLSTR() {
@@ -227,11 +225,11 @@ public class Recording extends EPGEntry implements Comparable<Recording>, TreeNo
         String formattedDuration = getDuration() / 60 + ":" + nf.format(getDuration() % 60);
 
         return getId() + " "
-        + date.format(getStartTime().getTime()) + " "
-        + time.format(getStartTime().getTime()) + " "
-        + formattedDuration + (isNew() ? "*" : "")
-        + (hasError() ? "!" : "")
-        + " "
-        + super.toString();
+                + date.format(getStartTime().getTime()) + " "
+                + time.format(getStartTime().getTime()) + " "
+                + formattedDuration + (isNew() ? "*" : "")
+                + (hasError() ? "!" : "")
+                + " "
+                + super.toString();
     }
 }

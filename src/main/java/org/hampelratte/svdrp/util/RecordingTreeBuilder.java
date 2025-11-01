@@ -28,17 +28,18 @@
  */
 package org.hampelratte.svdrp.util;
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.hampelratte.svdrp.responses.highlevel.Folder;
 import org.hampelratte.svdrp.responses.highlevel.Recording;
 import org.hampelratte.svdrp.responses.highlevel.TreeNode;
 import org.hampelratte.svdrp.sorting.RecordingSortStrategy;
 
+import java.util.Iterator;
+import java.util.List;
+
 public class RecordingTreeBuilder {
-	
-	private RecordingTreeBuilder() {}
+
+    private RecordingTreeBuilder() {
+    }
 
     public static Folder buildTree(List<Recording> recordings, RecordingSortStrategy sortStrategy) {
         sortStrategy.sort(recordings);
@@ -87,20 +88,18 @@ public class RecordingTreeBuilder {
         int merges = 1;
         while (merges > 0) {
             merges = 0;
-            Iterator<TreeNode> iter = folder.getChildren().iterator();
-            while (iter.hasNext()) {
-                TreeNode current = iter.next();
-                if (current instanceof Folder) {
-                    Folder currentFolder = (Folder) current;
+            Iterator<TreeNode> iterator = folder.getChildren().iterator();
+            while (iterator.hasNext()) {
+                TreeNode current = iterator.next();
+                if (current instanceof Folder currentFolder) {
                     mergeConsecutiveFolders(currentFolder);
-                    if (iter.hasNext()) {
-                        TreeNode next = iter.next();
-                        if (next instanceof Folder && current.getDisplayTitle().equals(next.getDisplayTitle())) {
-						    merges++;
-						    Folder nextFolder = (Folder) next;
-						    currentFolder.getChildren().addAll(nextFolder.getChildren());
-						    iter.remove();
-						}
+                    if (iterator.hasNext()) {
+                        TreeNode next = iterator.next();
+                        if (next instanceof Folder nextFolder && current.getDisplayTitle().equals(next.getDisplayTitle())) {
+                            merges++;
+                            currentFolder.getChildren().addAll(nextFolder.getChildren());
+                            iterator.remove();
+                        }
                     }
                 }
             }

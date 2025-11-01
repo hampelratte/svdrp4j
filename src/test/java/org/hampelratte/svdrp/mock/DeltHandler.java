@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
 
 public class DeltHandler implements RequestHandler {
 
-    private TimerManager timerManager;
+    private final TimerManager timerManager;
 
     public DeltHandler(TimerManager timerManager) {
         super();
@@ -60,7 +60,7 @@ public class DeltHandler implements RequestHandler {
             } catch (NumberFormatException e) {
                 return "501 Timer ID [" + m.group(1) + "] is not a number";
             } catch (IllegalStateException e) {
-                return "550 Timer \""+m.group(1)+"\" is recording";
+                return "550 Timer \"" + m.group(1) + "\" is recording";
             }
         } else {
             return "451 Cannot handle request with DELT handler";
