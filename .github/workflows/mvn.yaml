@@ -1,4 +1,4 @@
-name: Maven Verify
+name: Maven Build
 
 on:
   push:
@@ -9,7 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
         with:
@@ -21,6 +20,13 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
           cache: maven
+          server-id: hampelratte-snapshots
+          server-username: 'MAVEN_REPO_USERNAME'
+          server-password: 'MAVEN_REPO_PASSWORD'
 
       - name: Build with Maven
-        run: mvn -B verify
+        run: mvn -B deploy
+        env:
+          MAVEN_REPO_USERNAME: ${{ secrets.MAVEN_REPO_USERNAME }}
+          MAVEN_REPO_PASSWORD: ${{ secrets.MAVEN_REPO_PASSWORD }}
+

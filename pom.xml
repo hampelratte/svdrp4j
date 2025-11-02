@@ -138,4 +138,17 @@
             <url>https://www.hampelratte.org/maven/snapshots</url>
         </repository>
     </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>hampelratte-releases</id>
+            <name>hampelratte.org releases</name>
+            <url>https://www.hampelratte.org/maven/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>hampelratte-snapshots</id>
+            <name>hampelratte.org snapshots</name>
+            <url>https://www.hampelratte.org/maven/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
